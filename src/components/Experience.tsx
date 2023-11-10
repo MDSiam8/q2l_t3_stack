@@ -1,7 +1,7 @@
 import { OrbitControls, PivotControls } from "@react-three/drei";
 import * as THREE from "three";
 import { Suspense, useRef, useState } from "react";
-import Table from "./Table.tsx";
+import Table from "./Table";
 import { Html } from "@react-three/drei";
 import { Float, Text } from "@react-three/drei";
 import { Spatula } from "./Spatula";
@@ -10,12 +10,12 @@ import { Beaker } from "./Beaker";
 // import BalanceWithAnimations from "./BalanceWithAnimation.tsx";
 import InventorySystem from "./InventorySystem";
 import AnswerBox from "./AnswerBox";
-import StepSevenComponent from "./StepSevenComponent";
+// import StepSevenComponent from "./StepSevenComponent";
 import { ReactThreeFiber, Overwrite } from "@react-three/fiber";
-import BalanceWithAnimations from "./BalanceWithAnimations.tsx";
-import WeighingPaper from "./WeighingPaper.tsx";
-import { Bottle } from "./Bottle.tsx";
-import { BottleCap } from "./BottleCap.tsx";
+import BalanceWithAnimations from "./BalanceWithAnimations";
+import WeighingPaper from "./WeighingPaper";
+import { Bottle } from "./Bottle";
+import { BottleCap } from "./BottleCap";
 
 type OrbitControlsProps = ReactThreeFiber.Overwrite<
   ReactThreeFiber.Object3DNode<THREE.OrbitControls, typeof THREE.OrbitControls>,
