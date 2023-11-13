@@ -8,6 +8,9 @@ import Table from "./Table";
 
 import state from "./state.json";
 import InventorySystem from "./InventorySystem";
+import ThirdStepComponent from "./steps/ThirdStepComponent";
+import FifthStepComponent from "./steps/FifthStepComponent";
+import SixthStepComponent from "./steps/SixthStepComponent";
 
 export default function Experience() {
   const [currentStep, setCurrentStep] = useState(1);
@@ -51,13 +54,22 @@ export default function Experience() {
       
       {/* Conditional Rendering of Step Components */}
       {currentStep === 1 && (
-        <FirstStepComponent ref={(el) => (stepRefs.current[1] = el)} />
+        <FirstStepComponent />
       )}
       {currentStep === 2 && (
         <SecondStepComponent ref={(el) => (stepRefs.current[2] = el)} />
       )}
+      {currentStep === 3 && (
+      <ThirdStepComponent />
+      )}
       {currentStep === 4 && (
         <FourthStepComponent ref={(el) => (stepRefs.current[4] = el)} />
+      )}
+      {currentStep === 5 && (
+        <FifthStepComponent ref={(el) => (stepRefs.current[5] = el)} />
+      )}
+      {currentStep === 6 && (
+        <SixthStepComponent ref={(el) => (stepRefs.current[6] = el)} />
       )}
       {/* ...add more steps as needed... */}
 

@@ -1,7 +1,8 @@
+// BalanceReading.tsx
+import React, { useState, useEffect, forwardRef, useImperativeHandle } from 'react';
 import { Html } from '@react-three/drei';
-import React, { useState, useEffect } from 'react';
 
-const BalanceReading = () => {
+const BalanceReading = forwardRef((props, ref) => {
   const [displayedWeight, setDisplayedWeight] = useState(0);
   const [targetWeight, setTargetWeight] = useState(0);
 
@@ -17,15 +18,21 @@ const BalanceReading = () => {
     return () => clearInterval(interval);
   }, [targetWeight]);
 
-  const addWeight = (weight : number) => {
+  const addWeight = (weight) => {
     setTargetWeight(prevWeight => prevWeight + weight);
   };
+  const setWeight = (weight) => {
+    setTargetWeight(weight);
+  };
+  useImperativeHandle(ref, () => ({
+    addWeight, setWeight
+  }));
 
   return (
-    <Html occlude position={[1.9, .86, 0]} transform rotation-y={Math.PI / 180 * 90} rotation-x={Math.PI / 180 * 0} scale={0.2} >
+    <Html occlude position={[1.9, .86, 0]} transform rotation-y={Math.PI / 180 * 90} rotation-x={Math.PI / 180 * 0} scale={0.2} zIndexRange={[10,1]}>
       <div className="bg-blue-300 bg-opacity-40 w-60 text-white p-4 rounded-3xl">
-        <h2 className="text-xl mb-2 whitespace-pre-wrap">{displayedWeight.toFixed(2)} g</h2>
-        <button 
+        <h2 className="text-xl mb-2 whitespace-pre-wrap text-center">{displayedWeight.toFixed(2)} g</h2>
+        {/* <button 
           className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mr-2"
           onClick={() => addWeight(10)}
         >
@@ -36,10 +43,10 @@ const BalanceReading = () => {
           onClick={() => addWeight(20)}
         >
           Add 20g
-        </button>
+        </button> */}
       </div>
     </Html>
   );
-};
+});
 
 export default BalanceReading;

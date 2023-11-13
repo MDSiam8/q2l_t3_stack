@@ -12,8 +12,8 @@ const BalanceWithAnimations = forwardRef((props, ref) => {
   const { isOpen } = props;
   const balance = useGLTF("./balanceUpdated.gltf");
   const animations = useAnimations(balance.animations, balance.scene);
-  console.log(animations);
   const animationAction = useRef(null);
+  const balanceReadingRef = useRef();
 
   useEffect(() => {
     // Choose animation based on isOpen
@@ -51,14 +51,21 @@ const BalanceWithAnimations = forwardRef((props, ref) => {
     }
   };
 
+  const updateBalanceReading = (weight) => {
+    if (balanceReadingRef.current) {
+      balanceReadingRef.current.setWeight(weight);
+    }
+  };
+
   useImperativeHandle(ref, () => ({
     replayAnimation: handleReplayAnimation,
+    updateBalanceReading,
   }));
 
   return (
     <group {...props}>
       <primitive object={balance.scene} scale={0.6} />
-      <BalanceReading />
+      <BalanceReading ref={balanceReadingRef} />
     </group>
   );
 });
