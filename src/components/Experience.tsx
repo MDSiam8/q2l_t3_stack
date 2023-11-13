@@ -1,131 +1,89 @@
-import { OrbitControls, PivotControls } from "@react-three/drei";
-import * as THREE from "three";
-import { Suspense, useRef, useState } from "react";
+import React, { useRef, useState } from "react";
+import { Html, OrbitControls } from "@react-three/drei";
+import FirstStepComponent from "./steps/FirstStepComponent";
+import SecondStepComponent from "./steps/SecondStepComponent";
+import FourthStepComponent from "./steps/FourthStepComponent";
 import Table from "./Table";
-import { Html } from "@react-three/drei";
-import { Float, Text } from "@react-three/drei";
-import { Spatula } from "./Spatula";
-import { Beaker } from "./Beaker";
-// import '../styles/globals.css'
-// import BalanceWithAnimations from "./BalanceWithAnimation.tsx";
-import InventorySystem from "./InventorySystem";
-import AnswerBox from "./AnswerBox";
-// import StepSevenComponent from "./StepSevenComponent";
-import { ReactThreeFiber, Overwrite } from "@react-three/fiber";
-import BalanceWithAnimations from "./BalanceWithAnimations";
-import WeighingPaper from "./WeighingPaper";
-import { Bottle } from "./Bottle";
-import { BottleCap } from "./BottleCap";
+// ...other necessary imports...
 
-type OrbitControlsProps = ReactThreeFiber.Overwrite<
-  ReactThreeFiber.Object3DNode<THREE.OrbitControls, typeof THREE.OrbitControls>,
-  {
-    target?: ReactThreeFiber.Vector3;
-    enableDamping?: boolean;
-    dampingFactor?: number;
-    rotateSpeed?: number;
-    maxPolarAngle?: number;
-    minPolarAngle?: number;
-    minDistance?: number;
-    maxDistance?: number;
-    panSpeed?: number;
-    autoRotate?: boolean;
-    autoRotateSpeed?: number;
-    zoomSpeed?: number;
-    enablePan?: boolean;
-    enableZoom?: boolean;
-    enableRotate?: boolean;
-    enabled?: boolean;
-  }
->;
+import state from "./state.json";
+import InventorySystem from "./InventorySystem";
 
 export default function Experience() {
-  const [htmlText, setHtmlText] = useState<string>(
-    "Welcome to our very first lab using React3Fiber! To begin, click on any of the objects...",
-  );
-  const controls = useRef<OrbitControlsProps>();
+  const [currentStep, setCurrentStep] = useState(1);
+  const stepData = state[currentStep.toString()];
+  const stepRefs = useRef({}); // Store refs for each step
 
-  const handleChemistryClick = () => {
-    setHtmlText(
-      "Wow look at all these lab items! I wonder what they could be used for... How about you try and talk with the friendly fox over there? It might be able to help.",
-    );
+  const handleNextStep = () => {
+    if (currentStep < Object.keys(state).length) {
+      setCurrentStep(currentStep + 1);
+    }
   };
 
-  const handleFoxClick = () => {
-    setHtmlText(
-      "Greetings fellow student... I am the wise all-knowing fox -- And using my wisdom, I am pleased to inform you that... this is a short demo meant to show CUHK a preview of the future!",
-    );
+  const handleReplayAnimation = () => {
+    const currentStepRef = stepRefs.current[currentStep];
+    if (currentStepRef && currentStepRef.replayAnimation) {
+      currentStepRef.replayAnimation();
+    }
   };
 
-  const [showInventory, setShowInventory] = useState<boolean>(false);
+  // Check if the current step has a replay animation
+  let hasReplayAnimation : boolean = true; // This will later be refined for better UX
 
-  const toggleInventory = () => {
-    setShowInventory(!showInventory);
-  };
-
-  const [showAnswerBox, setShowAnswerBox] = useState<boolean>(true);
-
-  const handleCorrectAnswer = () => {
-    // This function will be triggered when the countdown finishes in the AnswerBox
-    setShowAnswerBox(false);
-  };
   return (
     <>
-      {/* <InventorySystem key={1} /> */}
-      {showAnswerBox && (
-        <AnswerBox
-          question={"What is the reading on the analytical balance?"}
-          correctAnswer={"10.00 g"}
-          onCorrectAnswer={handleCorrectAnswer}
-        />
-      )}
-      <OrbitControls ref={controls} makeDefault />
-
+      <OrbitControls />
+      <ambientLight intensity={1.6} />
       <directionalLight
         castShadow
         position={[1, 2, 3]}
         intensity={1.5}
         shadow-normalBias={0.04}
       />
-      <ambientLight intensity={1.6} />
-      {/* <StepSevenComponent /> */}
-      <mesh
-        receiveShadow
-        position-y={-1}
-        rotation-x={-Math.PI * 0.5}
-        scale={15}
-      >
-        <WeighingPaper position={[0,.15, .4]} rotation-x={3.14/180 * 90}  />
+
+      {/* Common elements like Table */}
+      <Table scale={13} position-y={-1} />
+      {/* Green-yellow plane */}
+      <mesh receiveShadow position-y={-1} rotation-x={-Math.PI * 0.5} scale={15}>
         <planeGeometry />
         <meshStandardMaterial color="greenyellow" />
       </mesh>
-      <Table scale={13} position-y={-1} />
-      <mesh position={[0, 4.55, 0]} scale={1} onClick={handleChemistryClick}>
-        {/* <BalanceWithAnimations />
-         */}
-        <BalanceWithAnimations />
-      </mesh>
-      <Html
-        wrapperClass="label"
-        position={[0, 8, 0]}
-        center
-        distanceFactor={15}
-        occlude
-      >
-        <link href="./dist/output.css" rel="stylesheet" />
-        <p>{htmlText}</p>
-      </Html>
+      
+      {/* Conditional Rendering of Step Components */}
+      {currentStep === 1 && (
+        <FirstStepComponent ref={(el) => (stepRefs.current[1] = el)} />
+      )}
+      {currentStep === 2 && (
+        <SecondStepComponent ref={(el) => (stepRefs.current[2] = el)} />
+      )}
+      {currentStep === 4 && (
+        <FourthStepComponent ref={(el) => (stepRefs.current[4] = el)} />
+      )}
+      {/* ...add more steps as needed... */}
 
-      <Spatula
-        position={[2.4, 4.967, 0]}
-        scale={.7}
-        rotation-y={(90 * 3.1415) / 180}
-      />
-        <mesh position={[1.7, 4.9, -2.4]}>
-            <Beaker />
-        </mesh> 
-        <BottleCap position={[1,5.9,2]} />
-        <Bottle position={[1,4.9,2]}/>
+      <Html className="" wrapperClass="w-10/12 p-4" center transform position={[0, 10, 0]} rotation-y={(3.14 / 180) * 90} zIndexRange={[101, 0]}>
+        <div className="flex items-stretch justify-center">
+          <div className="w-lg rounded-lg bg-gray-700 bg-opacity-80 p-6 text-center backdrop-blur-sm">
+            <h1 className="mb-2 text-lg text-white">{stepData.stepTitle}</h1>
+            <p className="text-white">{stepData.directions}</p>
+          </div>
+          <div className="ml-4 flex flex-col justify-between self-stretch">
+            <button
+              onClick={handleNextStep}
+              className="mb-2 flex-grow transform rounded-lg bg-gradient-to-r from-blue-400 to-purple-500 px-4 py-2 font-bold text-white transition duration-300 hover:scale-105"
+            >
+              Next Step
+            </button>
+            <button
+              onClick={handleReplayAnimation}
+              disabled={!hasReplayAnimation}
+              className={`flex-grow transform rounded-lg px-4 py-2 font-bold text-white transition duration-300 hover:scale-105 ${!hasReplayAnimation ? "bg-gray-400" : "bg-gradient-to-r from-green-400 to-blue-500"}`}
+            >
+              Replay Animation
+            </button>
+          </div>
+        </div>
+      </Html>
     </>
   );
 }

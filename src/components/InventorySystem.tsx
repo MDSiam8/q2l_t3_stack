@@ -4,7 +4,7 @@ import { Html } from '@react-three/drei';
 import ApparatusTab from './ApparatusTab';
 import ChemicalsTab from './ChemicalsTab';
 
-const InventorySystem = () => {
+const InventorySystem = (props : any) => {
     const [activeTab, setActiveTab] = useState('apparatus');
     const [isInventoryVisible, setIsInventoryVisible] = useState(false);
 
@@ -19,7 +19,13 @@ const InventorySystem = () => {
     return (
         <>
             {/* Button to toggle the inventory visibility */}
-            <Html zIndexRange={[100, 0]} className='fixed bottom-full left-1/2 transform -translate-x-1/2'>
+            <Html zIndexRange={[10, 0]} 
+            className='fixed bottom-full left-1/2 transform -translate-x-1/2' 
+            transform
+            rotation-y={3.14/180 * 90}
+            position={[0,6,0]}
+            {...props}
+            >
                 <button
                     onClick={toggleInventory}
                     className="m-4 p-2 bg-blue-500 text-white rounded-md shadow-lg hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-300 focus:ring-opacity-50 z-50"
@@ -31,7 +37,7 @@ const InventorySystem = () => {
 
             {/* Inventory panel */}
             {isInventoryVisible && (
-                <Html zIndexRange={[100, 0]} center style={{ width: '100vw', height: '100vh' }}>
+                <Html zIndexRange={[110, 105]} center style={{ width: '100vw', height: '100vh' }} >
                     <div className="inventory" style={{ width: '100%', height: '100%', background: 'rgba(0, 0, 0, 0.5)', backdropFilter: 'blur(5px)' }}>
                         <div className="inventory-header" style={{ display: 'flex', justifyContent: 'space-evenly', padding: '1rem' }}>
                             <button onClick={() => handleTabChange('apparatus')} style={buttonStyle(activeTab === 'apparatus')}>
