@@ -8,10 +8,10 @@ const BalanceReading = forwardRef((props, ref) => {
 
   useEffect(() => {
     const interval = setInterval(() => {
-      const randomVariation = Math.random() * 0.1 - 0.05;
+      const randomVariation = Math.random() * 0.01 - 0.005;
       setDisplayedWeight(prevWeight => prevWeight + randomVariation);
 
-      const convergenceRate = 0.87;
+      const convergenceRate = 0.98800;
       setDisplayedWeight(prevWeight => prevWeight + (targetWeight - prevWeight) * convergenceRate);
     }, 200);
 
@@ -31,7 +31,7 @@ const BalanceReading = forwardRef((props, ref) => {
   return (
     <Html occlude position={[1.9, .86, 0]} transform rotation-y={Math.PI / 180 * 90} rotation-x={Math.PI / 180 * 0} scale={0.2} zIndexRange={[10,1]}>
       <div className="bg-blue-300 bg-opacity-40 w-60 text-white p-4 rounded-3xl">
-        <h2 className="text-xl mb-2 whitespace-pre-wrap text-center">{displayedWeight.toFixed(2)} g</h2>
+        <h2 className="text-xl mb-2 whitespace-pre-wrap text-center">{displayedWeight.toFixed(4)} g</h2>
         {/* <button 
           className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mr-2"
           onClick={() => addWeight(10)}

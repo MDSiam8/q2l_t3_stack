@@ -14,7 +14,7 @@ import { Html, Sphere } from "@react-three/drei";
 import * as THREE from "three";
 import * as TWEEN from "@tweenjs/tween.js";
 
-const SeventhStepComponent = forwardRef((props, ref) => {
+const SeventhStepComponent = forwardRef(({ setIsAnimating }, ref) => {
   const balanceWithAnimationsRef = useRef();
   const weighingPaperRef = useRef();
   const bottleCapGroup = useRef(new THREE.Group());
@@ -26,10 +26,17 @@ const SeventhStepComponent = forwardRef((props, ref) => {
   const [powderVisible, setPowderVisible] = useState(false);
   const [sphereScale, setSphereScale] = useState(0.0); // Initial scale of the sphere
   const [balanceReading, updateBalanceReading] = useState(0.17);
+  const [animationsCompleted, setAnimationsCompleted] = useState(false);
+  const [buttonDisabled, setButtonDisabled] = useState({
+    add: false,
+    remove: false,
+  });
+  const [activeButton, setActiveButton] = useState(null);
 
   useEffect(() => {
-    updateBalanceReadingAfterPaperDown(balanceReading);
+    updateBalanceReadingAfterAddingPowder(balanceReading);
     setPowderVisible(false);
+    setIsAnimating(true);
     const animate = () => {
       requestAnimationFrame(animate);
       TWEEN.update();
@@ -37,12 +44,14 @@ const SeventhStepComponent = forwardRef((props, ref) => {
     requestAnimationFrame(animate);
 
     handleReplayAnimation(); // Start the initial animation sequence
+    setIsAnimating(false);
   }, []);
 
-  const updateBalanceReadingAfterPaperDown = (num) => {
-    // if (balanceWithAnimationsRef.current) {
+  const updateBalanceReadingAfterAddingPowder = (num: number) => {
+    if (balanceWithAnimationsRef.current) {
       balanceWithAnimationsRef.current.updateBalanceReading(num);
-    // }
+    }
+    setButtonDisabled({ add: false, remove: num <= 0.17 });
   };
 
   const moveBottleCap = () => {
@@ -85,6 +94,7 @@ const SeventhStepComponent = forwardRef((props, ref) => {
   };
 
   const animateSpatula = () => {
+    setIsAnimating(true);
     return new Promise((resolve) => {
       // Spatula animation logic
       // Move spatula up
@@ -117,6 +127,7 @@ const SeventhStepComponent = forwardRef((props, ref) => {
                 setPowderVisible(true);
                 setEndSpatulaPosition(spatulaGroup.current.position.clone());
                 setEndSpatulaRotation(spatulaGroup.current.rotation.clone());
+                setIsAnimating(false);
                 resolve();
               })
               .start();
@@ -127,6 +138,11 @@ const SeventhStepComponent = forwardRef((props, ref) => {
   };
 
   const handleReplayAnimation = async () => {
+    setAnimationsCompleted(false);
+    setIsAnimating(true);
+    setSphereScale(0);
+    updateBalanceReading(0.17);
+    updateBalanceReadingAfterAddingPowder(0.17);
     bottleCapGroup.current.position.copy(initialBottleCapPosition); // Reset bottle cap position
     spatulaGroup.current.position.copy(initialSpatulaPosition); // Reset spatula position
     spatulaGroup.current.rotation.set(0, (3.14 / 180) * 0, 0); // Reset spatula rotation
@@ -134,6 +150,8 @@ const SeventhStepComponent = forwardRef((props, ref) => {
 
     await moveBottleCap(); // Wait for bottle cap animation to complete
     await animateSpatula(); // Then start spatula animation
+    setAnimationsCompleted(true);
+    setIsAnimating(false);
   };
 
   useImperativeHandle(ref, () => ({
@@ -141,6 +159,9 @@ const SeventhStepComponent = forwardRef((props, ref) => {
   }));
 
   const animateSpatulaForAdd = () => {
+    setActiveButton("add");
+    setButtonDisabled({ add: true, remove: true });
+    setIsAnimating(true);
     spatulaGroup.current.position.copy(endSpatulaPosition);
     spatulaGroup.current.rotation.copy(endSpatulaRotation);
     setPowderVisible(true);
@@ -173,10 +194,15 @@ const SeventhStepComponent = forwardRef((props, ref) => {
           setSphereScale(sphereScale + 0.03);
           const newReading = balanceReading + 0.1;
           updateBalanceReading(newReading);
-          updateBalanceReadingAfterPaperDown(newReading);
+          updateBalanceReadingAfterAddingPowder(newReading);
+          setIsAnimating(false);
         }) // Hide powder at the end
         .start();
     }, 2000);
+    setTimeout(() => {
+      setButtonDisabled({ add: false, remove: false });
+      setActiveButton(null);
+    }, 4000);
   };
 
   const handleAddWeight = () => {
@@ -184,19 +210,23 @@ const SeventhStepComponent = forwardRef((props, ref) => {
     console.log("Adding 0.1g");
     animateSpatulaForAdd();
   };
+
   const handleRemoveWeight = () => {
     console.log("Removing 0.1g");
+    // Disable the add button and enable it after the animation
+    setButtonDisabled({ add: true, remove: true });
+    setActiveButton("remove");
 
     // Reset spatula position to where the add weight animation ended
     spatulaGroup.current.position.copy(new THREE.Vector3(0.2, 5.8, 0));
-    
+
     // This Euler thing is likely the most important key
     // to fixing the animations. DO NOT DELETE!
     // spatulaGroup.current.rotation.copy(new THREE.Euler(0, 0, 0)); //
     const newReading = balanceReading > 0.17 ? balanceReading - 0.1 : 0.17;
-    
+
     updateBalanceReading(newReading);
-    updateBalanceReadingAfterPaperDown(newReading);
+    updateBalanceReadingAfterAddingPowder(newReading);
     // Make the powder visible again
     setSphereScale((prevScale) => (prevScale > 0 ? prevScale - 0.03 : 0));
     setPowderVisible(true);
@@ -229,6 +259,21 @@ const SeventhStepComponent = forwardRef((props, ref) => {
         })
         .start();
     }, 1000);
+    setTimeout(() => {
+      setButtonDisabled({ add: false, remove: false });
+      setActiveButton(null);
+    }, 3000);
+  };
+
+  const buttonClass = (type) => {
+    let classes =
+      "rounded-md p-3 text-sm font-bold text-white shadow-lg transition-transform duration-300 focus:outline-none focus:ring ";
+    classes += buttonDisabled[type] ? "opacity-50 " : "hover:scale-110 ";
+    classes +=
+      activeButton === type
+        ? "ring-2 ring-offset-2 ring-gradient-to-br from-blue-500 to-purple-600 "
+        : "";
+    return classes;
   };
 
   return (
@@ -256,25 +301,40 @@ const SeventhStepComponent = forwardRef((props, ref) => {
         <Spatula rotation-y={(3.14 / 180) * 90} scale={0.5} />
         {powderVisible && <Sphere scale={0.05} position={[0, 0.05, 0.68]} />}
       </group>
-      <Html
-        position={[2.8, 5.5, 0]}
-        transform
-        rotation-y={(3.14 / 180) * 90}
-        scale={0.4}
-      >
-        <button
-          className="rounded-full bg-gradient-to-br from-green-200 via-green-300 to-green-400 p-3 text-sm font-bold text-white shadow-lg transition-transform duration-300 hover:scale-110 hover:bg-gradient-to-bl focus:outline-none focus:ring"
-          onClick={handleAddWeight}
+      {animationsCompleted && (
+        <Html
+          position={[1, 8, 0]}
+          transform
+          rotation-y={(3.14 / 180) * 90}
+          scale={0.4}
         >
-          Add 0.1g
-        </button>
-        <button
-          className="ml-4 rounded-full bg-gradient-to-br from-pink-200 via-red-300 to-red-400 p-3 text-sm font-bold text-white shadow-lg transition-transform duration-300 hover:scale-110 hover:bg-gradient-to-bl focus:outline-none focus:ring"
-          onClick={handleRemoveWeight}
-        >
-          Remove 0.1g
-        </button>
-      </Html>
+          {/* Add Weight Button */}
+          <button
+            className={`rounded-full p-3 text-sm font-bold text-white shadow-lg transition-transform duration-300 focus:outline-none focus:ring ${
+              buttonDisabled.add
+                ? "cursor-not-allowed bg-gray-300 opacity-50"
+                : "bg-gradient-to-br from-green-300 to-green-500 hover:scale-110 hover:from-green-200 hover:to-green-400"
+            }`}
+            onClick={handleAddWeight}
+            disabled={buttonDisabled.add}
+          >
+            Add 0.1g
+          </button>
+
+          {/* Remove Weight Button */}
+          <button
+            className={`ml-4 rounded-full p-3 text-sm font-bold text-white shadow-lg transition-transform duration-300 focus:outline-none focus:ring ${
+              buttonDisabled.remove
+                ? "cursor-not-allowed bg-gray-300 opacity-50"
+                : "bg-gradient-to-br from-red-300 to-red-500 hover:scale-110 hover:from-pink-200 hover:to-red-400"
+            }`}
+            onClick={handleRemoveWeight}
+            disabled={buttonDisabled.remove}
+          >
+            Remove 0.1g
+          </button>
+        </Html>
+      )}
     </group>
   );
 });

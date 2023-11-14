@@ -44,9 +44,9 @@ const BalanceWithAnimations = forwardRef((props, ref) => {
     };
   }, [isOpen, balance.animations, animations.actions]);
 
-  const handleReplayAnimation = () => {
+  const handleReplayAnimation = async () => {
     if (animationAction.current) {
-      animationAction.current.reset().fadeIn(0.5).play();
+      await animationAction.current.reset().fadeIn(0.5).play();
       animationAction.current.clampWhenFinished = true;
     }
   };

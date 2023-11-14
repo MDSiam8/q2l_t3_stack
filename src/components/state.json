@@ -103,7 +103,7 @@
   "9": {
     "stepTitle": "Reading Weight of Powder Sample and Weighing Paper",
     "description": "User anwers the stabilized reading onto the number pad.",
-    "directions": "What is the reading of the powder sample with weighing paper?",
+    "directions": "What is the reading of the powder sample with weighing paper? Put your answer in the box below.",
     "objectsInFocus": [
       "analytical_balance",
       "weighing_paper",
@@ -123,7 +123,7 @@
   "10": {
     "stepTitle": "Transfer Sample Powder Into Clean Beaker",
     "description": "Animation showing us adding the sample powder from a diagonally folded filter paper into a beaker.",
-    "directions": "Transfer the sample powder into a clean beaker.",
+    "directions": "Transfer the sample powder into a clean beaker and place the paper back into the balance.",
     "objectsInFocus": [
       "analytical_balance",
       "beaker",
@@ -131,15 +131,6 @@
     ]
   },
   "11": {
-    "stepTitle": "Place Used Weighing Paper Back Onto Balance",
-    "description": "Animation showing us placing the weighing paper onto the balance and then closing the side window of the analytical balance.",
-    "directions": "Place the used weighing paper back onto the balance.",
-    "objectsInFocus": [
-      "analytical_balance",
-      "weighing_paper"
-    ]
-  },
-  "12": {
     "stepTitle": "Reading Weight of Weighing Paper",
     "description": "User anwers the stabilized reading onto the number pad.",
     "directions": "What is the reading of the weighing paper?",
@@ -159,7 +150,7 @@
       }
     ]
   },
-  "13": {
+  "12": {
     "stepTitle": "Calculating Net Weight of Sample Powder",
     "description": "User anwers the net weight of the sample powder obtained onto the number pad.",
     "directions": "What is the net weight of the sample powder obtained?",

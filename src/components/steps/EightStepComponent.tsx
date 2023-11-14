@@ -1,0 +1,74 @@
+import React, {
+    useRef,
+    useEffect,
+    useImperativeHandle,
+    forwardRef,
+  } from "react";
+  import BalanceWithAnimations from "../BalanceWithAnimations";
+  import WeighingPaper from "../WeighingPaper";
+  import { Bottle } from "../Bottle";
+  import { BottleCap } from "../BottleCap";
+  import { Spatula } from "../Spatula";
+  import { Html, Sphere } from "@react-three/drei";
+  
+  const EightStepComponent = forwardRef(({ setIsAnimating }, ref) => {
+    const balanceWithAnimationsRef = useRef();
+    const weighingPaperRef = useRef();
+
+    useEffect(() => {
+      updateBalanceReadingAfterAddingPowder(0.67);
+      setIsAnimating(true);  
+      handleReplayAnimation(); // Start the initial animation sequence
+      setIsAnimating(false);
+    }, []);
+  
+    const updateBalanceReadingAfterAddingPowder = (num: number) => {
+      if (balanceWithAnimationsRef.current) {
+        balanceWithAnimationsRef.current.updateBalanceReading(num);
+      }
+    };
+    
+    const handleReplayAnimation = async () => {
+      setIsAnimating(true);
+      if (balanceWithAnimationsRef.current) {
+        await balanceWithAnimationsRef.current.replayAnimation();
+      }
+      setIsAnimating(false);
+    };
+  
+    useImperativeHandle(ref, () => ({
+      replayAnimation: handleReplayAnimation,
+    }));
+
+  
+    return (
+      <group>
+        <BalanceWithAnimations
+          isOpen={false}
+          position={[0, 4.55, 0]}
+          ref={balanceWithAnimationsRef}
+        />
+        <group position={[0.6, 5.6, -0.02]}>
+          <WeighingPaper
+            folded={true}
+            ref={weighingPaperRef}
+            rotation-y={(3.14 / 180) * 180}
+          />
+          <Sphere scale={0.10} position={[0.01,.1,0]}/>
+        </group>
+        <group>
+          <BottleCap position={[2, 5.1, -2]} />
+        </group>
+        <group position={[2, 5, -2]}>
+          <Bottle />
+        </group>
+        <group>
+          <Spatula rotation-y={(3.14 / 180) * 90} scale={0.5} position={[2.5, 5, 0]} />
+          {<Sphere scale={0.05} position={[0, 0.05, 0.68]} />}
+        </group>
+      </group>
+    );
+  });
+  
+  export default EightStepComponent;
+  

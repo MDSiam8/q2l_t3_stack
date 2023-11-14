@@ -12,11 +12,16 @@ import ThirdStepComponent from "./steps/ThirdStepComponent";
 import FifthStepComponent from "./steps/FifthStepComponent";
 import SixthStepComponent from "./steps/SixthStepComponent";
 import SeventhStepComponent from "./steps/SeventhStepComponent";
+import EightStepComponent from "./steps/EightStepComponent";
+import NinthStepComponent from "./steps/NinthStepComponent";
+import TenthStepComponent from "./steps/TenthStepComponent";
 
 export default function Experience() {
   const [currentStep, setCurrentStep] = useState(1);
   const stepData = state[currentStep.toString()];
   const stepRefs = useRef({}); // Store refs for each step
+  const [isAnimating, setIsAnimating] = useState(false);
+  const nextButtonRef = useRef(null);
 
   const handleNextStep = () => {
     if (currentStep < Object.keys(state).length) {
@@ -32,7 +37,7 @@ export default function Experience() {
   };
 
   // Check if the current step has a replay animation
-  let hasReplayAnimation : boolean = true; // This will later be refined for better UX
+  let hasReplayAnimation: boolean = true; // This will later be refined for better UX
 
   return (
     <>
@@ -48,21 +53,22 @@ export default function Experience() {
       {/* Common elements like Table */}
       <Table scale={13} position-y={-1} />
       {/* Green-yellow plane */}
-      <mesh receiveShadow position-y={-1} rotation-x={-Math.PI * 0.5} scale={15}>
+      <mesh
+        receiveShadow
+        position-y={-1}
+        rotation-x={-Math.PI * 0.5}
+        scale={15}
+      >
         <planeGeometry />
         <meshStandardMaterial color="greenyellow" />
       </mesh>
-      
+
       {/* Conditional Rendering of Step Components */}
-      {currentStep === 1 && (
-        <FirstStepComponent />
-      )}
+      {/* {currentStep === 1 && <FirstStepComponent />}
       {currentStep === 2 && (
         <SecondStepComponent ref={(el) => (stepRefs.current[2] = el)} />
       )}
-      {currentStep === 3 && (
-      <ThirdStepComponent />
-      )}
+      {currentStep === 3 && <ThirdStepComponent />}
       {currentStep === 4 && (
         <FourthStepComponent ref={(el) => (stepRefs.current[4] = el)} />
       )}
@@ -73,11 +79,41 @@ export default function Experience() {
         <SixthStepComponent ref={(el) => (stepRefs.current[6] = el)} />
       )}
       {currentStep === 7 && (
-        <SeventhStepComponent ref={(el) => (stepRefs.current[7] = el)} />
+        <SeventhStepComponent
+          ref={(el) => (stepRefs.current[7] = el)}
+          setIsAnimating={setIsAnimating}
+        />
+      )}
+      {currentStep === 8 && (
+        <EightStepComponent
+          ref={(el) => (stepRefs.current[8] = el)}
+          setIsAnimating={setIsAnimating}
+        />
+      )} */}
+      {/* {currentStep === 9 && (
+        <NinthStepComponent
+          ref={(el) => (stepRefs.current[9] = el)}
+          nextButtonRef={nextButtonRef}
+        />
+      )} */}
+      {currentStep === 10 && (
+        <TenthStepComponent
+          ref={(el) => (stepRefs.current[10] = el)}
+          nextButtonRef={nextButtonRef}
+        />
       )}
       {/* ...add more steps as needed... */}
 
-      <Html scale={0.5} className="" wrapperClass="w-10/12 p-4" center transform position={[0, 10, 0]} rotation-y={(3.14 / 180) * 90} zIndexRange={[101, 0]}>
+      <Html
+        scale={0.5}
+        className=""
+        wrapperClass="w-10/12 p-4"
+        center
+        transform
+        position={[0, 10, 0]}
+        rotation-y={(3.14 / 180) * 90}
+        zIndexRange={[101, 0]}
+      >
         <div className="flex items-stretch justify-center">
           <div className="w-lg rounded-lg bg-gray-700 bg-opacity-80 p-6 text-center backdrop-blur-sm">
             <h1 className="mb-2 text-lg text-white">{stepData.stepTitle}</h1>
@@ -86,14 +122,22 @@ export default function Experience() {
           <div className="ml-4 flex flex-col justify-between self-stretch">
             <button
               onClick={handleNextStep}
-              className="mb-2 flex-grow transform rounded-lg bg-gradient-to-r from-blue-400 to-purple-500 px-4 py-2 font-bold text-white transition duration-300 hover:scale-105"
+              disabled={isAnimating}
+              className={`mb-2 flex-grow transform rounded-lg bg-gradient-to-r from-blue-400 to-purple-500 px-4 py-2 font-bold text-white transition duration-300 hover:scale-105 ${
+                isAnimating ? "cursor-not-allowed bg-gray-400 opacity-50" : ""
+              }`}
+              ref={nextButtonRef}
             >
               Next Step
             </button>
             <button
               onClick={handleReplayAnimation}
-              disabled={!hasReplayAnimation}
-              className={`flex-grow transform rounded-lg px-4 py-2 font-bold text-white transition duration-300 hover:scale-105 ${!hasReplayAnimation ? "bg-gray-400" : "bg-gradient-to-r from-green-400 to-blue-500"}`}
+              disabled={isAnimating || !hasReplayAnimation}
+              className={`flex-grow transform rounded-lg px-4 py-2 font-bold text-white transition duration-300 hover:scale-105 ${
+                isAnimating || !hasReplayAnimation
+                  ? "cursor-not-allowed bg-gray-400 opacity-50"
+                  : "bg-gradient-to-r from-green-400 to-blue-500"
+              }`}
             >
               Replay Animation
             </button>

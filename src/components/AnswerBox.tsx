@@ -1,21 +1,24 @@
 import React, { useState, useEffect } from "react";
 import { Html } from "@react-three/drei";
 
-const AnswerBox = ({
-  question,
-  correctAnswer,
-  onCorrectAnswer,
-}: {
-  question: string;
-  correctAnswer: string;
-  onCorrectAnswer: Function;
-}) => {
+const AnswerBox = (
+  {
+    question,
+    correctAnswer,
+    onCorrectAnswer,
+  }: {
+    question: string;
+    correctAnswer: string;
+    onCorrectAnswer: Function;
+  },
+  props : any
+) => {
   const [userAnswer, setUserAnswer] = useState("");
   const [answerFeedback, setAnswerFeedback] = useState("");
   const [countdown, setCountdown] = useState(3); // Countdown state
 
   useEffect(() => {
-    let timer: NodeJS.Timeout;
+    let timer;
     if (answerFeedback === "Correct!") {
       timer = setInterval(() => {
         setCountdown((prevCountdown) => {
@@ -44,89 +47,44 @@ const AnswerBox = ({
   };
 
   return (
-    <Html zIndexRange={[100, 0]} center>
-      <div
-        className="answer-box-container"
-        style={{
-          display: "flex",
-          justifyContent: "center",
-          alignItems: "center",
-          width: "100%",
-          height: "100%",
-        }}
+    <group>
+      <Html
+      occlude={100}
+        zIndexRange={[10, 0]}
+        center
+        transform
+        rotation-y={(3.14 / 180) * 90}
+        {...props}
       >
-        <div
-          className="answer-box"
-          style={{
-            position: "relative", // Added to position the countdown absolutely
-            display: "flex",
-            width: "300px",
-            flexDirection: "column",
-            alignItems: "center",
-            padding: "20px",
-            background: "rgba(0, 0, 0, 0.4)",
-            backdropFilter: "blur(10px)",
-            borderRadius: "10px",
-            boxShadow: "0 4px 10px rgba(0, 0, 0, 0.2)",
-            border: "1px solid rgba(255, 255, 255, 0.2)",
-            userSelect: "none",
-            color: "#fff",
-          }}
-        >
-          <p style={{ margin: "0 0 20px 0", fontWeight: "bold" }}>{question}</p>
-          <input
-            type="text"
-            value={userAnswer}
-            onChange={(e) => setUserAnswer(e.target.value)}
-            style={{
-              padding: "10px",
-              marginBottom: "10px",
-              borderRadius: "5px",
-              border: "1px solid #ddd",
-              width: "100%",
-              color: "#000",
-            }}
-          />
-          <button
-            onClick={checkAnswer}
-            style={{
-              padding: "10px 20px",
-              border: "none",
-              borderRadius: "5px",
-              background: "linear-gradient(to right, #6dd5ed, #2193b0)",
-              color: "white",
-              cursor: "pointer",
-              width: "100%",
-            }}
-          >
-            Check Answer
-          </button>
-          <div
-            style={{
-              marginTop: "10px",
-              fontWeight: "bold",
-              color: answerFeedback === "Correct!" ? "greenyellow" : "#FF3385",
-            }}
-          >
-            {answerFeedback}
-          </div>
-          {answerFeedback === "Correct!" && (
-            <div
-              style={{
-                position: "absolute",
-                bottom: "10px",
-                right: "10px",
-                color: "white",
-                fontWeight: "lighter",
-                fontSize: "0.8rem",
-              }}
+        <div className="flex justify-center items-center w-full h-full">
+          <div className="relative flex flex-col items-center p-5 bg-black bg-opacity-40 backdrop-blur-md rounded-lg shadow-lg border border-white border-opacity-20 text-white user-select-none">
+            <p className="mb-5 font-bold">{question}</p>
+            <input
+              type="text"
+              value={userAnswer}
+              onChange={(e) => setUserAnswer(e.target.value)}
+              className="p-2.5 mb-2.5 rounded border border-gray-300 w-full text-black"
+            />
+            <button
+              onClick={checkAnswer}
+              className="w-full py-2.5 px-5 border-none rounded bg-gradient-to-r from-cyan-400 to-blue-500 text-white cursor-pointer transition-transform duration-300 hover:scale-105"
             >
-              Closing in {countdown}...
+              Check Answer
+            </button>
+            <div
+              className={`mt-2.5 font-bold ${answerFeedback === "Correct!" ? "text-green-300" : "text-red-400"}`}
+            >
+              {answerFeedback}
             </div>
-          )}
+            {answerFeedback === "Correct!" && (
+              <div className="absolute bottom-2.5 right-2.5 text-white text-sm font-light">
+                Closing in {countdown}...
+              </div>
+            )}
+          </div>
         </div>
-      </div>
-    </Html>
+      </Html>
+    </group>
   );
 };
 
