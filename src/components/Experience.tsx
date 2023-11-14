@@ -11,6 +11,7 @@ import InventorySystem from "./InventorySystem";
 import ThirdStepComponent from "./steps/ThirdStepComponent";
 import FifthStepComponent from "./steps/FifthStepComponent";
 import SixthStepComponent from "./steps/SixthStepComponent";
+import SeventhStepComponent from "./steps/SeventhStepComponent";
 
 export default function Experience() {
   const [currentStep, setCurrentStep] = useState(1);
@@ -71,9 +72,12 @@ export default function Experience() {
       {currentStep === 6 && (
         <SixthStepComponent ref={(el) => (stepRefs.current[6] = el)} />
       )}
+      {currentStep === 7 && (
+        <SeventhStepComponent ref={(el) => (stepRefs.current[7] = el)} />
+      )}
       {/* ...add more steps as needed... */}
 
-      <Html className="" wrapperClass="w-10/12 p-4" center transform position={[0, 10, 0]} rotation-y={(3.14 / 180) * 90} zIndexRange={[101, 0]}>
+      <Html scale={0.5} className="" wrapperClass="w-10/12 p-4" center transform position={[0, 10, 0]} rotation-y={(3.14 / 180) * 90} zIndexRange={[101, 0]}>
         <div className="flex items-stretch justify-center">
           <div className="w-lg rounded-lg bg-gray-700 bg-opacity-80 p-6 text-center backdrop-blur-sm">
             <h1 className="mb-2 text-lg text-white">{stepData.stepTitle}</h1>
