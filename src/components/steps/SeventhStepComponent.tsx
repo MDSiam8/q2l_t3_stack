@@ -25,7 +25,7 @@ const SeventhStepComponent = forwardRef(({ setIsAnimating }, ref) => {
   const [endSpatulaRotation, setEndSpatulaRotation] = useState();
   const [powderVisible, setPowderVisible] = useState(false);
   const [sphereScale, setSphereScale] = useState(0.0); // Initial scale of the sphere
-  const [balanceReading, updateBalanceReading] = useState(0.17);
+  const [balanceReading, updateBalanceReading] = useState(0.0012);
   const [animationsCompleted, setAnimationsCompleted] = useState(false);
   const [buttonDisabled, setButtonDisabled] = useState({
     add: false,
@@ -51,7 +51,7 @@ const SeventhStepComponent = forwardRef(({ setIsAnimating }, ref) => {
     if (balanceWithAnimationsRef.current) {
       balanceWithAnimationsRef.current.updateBalanceReading(num);
     }
-    setButtonDisabled({ add: false, remove: num <= 0.17 });
+    setButtonDisabled({ add: false, remove: num <= 0.0012 });
   };
 
   const moveBottleCap = () => {
@@ -141,8 +141,8 @@ const SeventhStepComponent = forwardRef(({ setIsAnimating }, ref) => {
     setAnimationsCompleted(false);
     setIsAnimating(true);
     setSphereScale(0);
-    updateBalanceReading(0.17);
-    updateBalanceReadingAfterAddingPowder(0.17);
+    updateBalanceReading(0.0012);
+    updateBalanceReadingAfterAddingPowder(0.0012);
     bottleCapGroup.current.position.copy(initialBottleCapPosition); // Reset bottle cap position
     spatulaGroup.current.position.copy(initialSpatulaPosition); // Reset spatula position
     spatulaGroup.current.rotation.set(0, (3.14 / 180) * 0, 0); // Reset spatula rotation
@@ -192,7 +192,7 @@ const SeventhStepComponent = forwardRef(({ setIsAnimating }, ref) => {
         .onComplete(() => {
           setPowderVisible(false);
           setSphereScale(sphereScale + 0.03);
-          const newReading = balanceReading + 0.1;
+          const newReading = balanceReading + 0.1001;
           updateBalanceReading(newReading);
           updateBalanceReadingAfterAddingPowder(newReading);
           setIsAnimating(false);
@@ -207,12 +207,10 @@ const SeventhStepComponent = forwardRef(({ setIsAnimating }, ref) => {
 
   const handleAddWeight = () => {
     // Logic for adding weight
-    console.log("Adding 0.1g");
     animateSpatulaForAdd();
   };
 
   const handleRemoveWeight = () => {
-    console.log("Removing 0.1g");
     // Disable the add button and enable it after the animation
     setButtonDisabled({ add: true, remove: true });
     setActiveButton("remove");
@@ -223,7 +221,7 @@ const SeventhStepComponent = forwardRef(({ setIsAnimating }, ref) => {
     // This Euler thing is likely the most important key
     // to fixing the animations. DO NOT DELETE!
     // spatulaGroup.current.rotation.copy(new THREE.Euler(0, 0, 0)); //
-    const newReading = balanceReading > 0.17 ? balanceReading - 0.1 : 0.17;
+    const newReading = balanceReading > 0.0012 ? balanceReading - 0.1001 : 0.0012;
 
     updateBalanceReading(newReading);
     updateBalanceReadingAfterAddingPowder(newReading);
@@ -318,7 +316,7 @@ const SeventhStepComponent = forwardRef(({ setIsAnimating }, ref) => {
             onClick={handleAddWeight}
             disabled={buttonDisabled.add}
           >
-            Add 0.1g
+            Add
           </button>
 
           {/* Remove Weight Button */}
@@ -331,7 +329,7 @@ const SeventhStepComponent = forwardRef(({ setIsAnimating }, ref) => {
             onClick={handleRemoveWeight}
             disabled={buttonDisabled.remove}
           >
-            Remove 0.1g
+            Remove
           </button>
         </Html>
       )}

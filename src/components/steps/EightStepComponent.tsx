@@ -16,7 +16,7 @@ import React, {
     const weighingPaperRef = useRef();
 
     useEffect(() => {
-      updateBalanceReadingAfterAddingPowder(0.67);
+      updateBalanceReadingAfterAddingPowder(0.5017);
       setIsAnimating(true);  
       handleReplayAnimation(); // Start the initial animation sequence
       setIsAnimating(false);

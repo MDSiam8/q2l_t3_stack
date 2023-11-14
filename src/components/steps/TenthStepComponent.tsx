@@ -30,12 +30,12 @@ const TenthStepComponent = forwardRef(({ nextButtonRef }, ref) => {
   useEffect(() => {
     resetAnimationObjects();
     updateBalanceReadingAfterAddingPowder(0.5017);
+    handleReplayAnimation();
     const animate = () => {
       requestAnimationFrame(animate);
       TWEEN.update();
     };
     requestAnimationFrame(animate);
-    handleReplayAnimation();
   }, []);
 
   const updateBalanceReadingAfterAddingPowder = (num: number) => {
@@ -97,7 +97,9 @@ const TenthStepComponent = forwardRef(({ nextButtonRef }, ref) => {
               )
               .easing(TWEEN.Easing.Quadratic.Out)
               .onComplete(() => {
-                sphereRef.current.visible = false; // Hide the sphere after animation
+                if(sphereRef.current.visible) {
+                    sphereRef.current.visible = false; // Hide the sphere after animation
+                }
                 setSphereScale(0.15);
 
                 // Return the weighing paper to its original position and rotation
@@ -109,7 +111,7 @@ const TenthStepComponent = forwardRef(({ nextButtonRef }, ref) => {
                     .to(initialWeighingPaperPosition, 2000)
                     .easing(TWEEN.Easing.Quadratic.Out)
                     .onComplete(() => {
-                        updateBalanceReadingAfterAddingPowder(0.0017);
+                        updateBalanceReadingAfterAddingPowder(0.0012);
                     })
                     .start();
                   new TWEEN.Tween(weighingPaperRef.current.rotation)

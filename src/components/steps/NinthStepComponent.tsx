@@ -32,7 +32,7 @@ const NinthStepComponent = forwardRef(({ nextButtonRef }, ref) => {
 
   const handleReplayAnimation = async () => {
     if (balanceWithAnimationsRef.current) {
-    //   await balanceWithAnimationsRef.current.replayAnimation();
+      //   await balanceWithAnimationsRef.current.replayAnimation();
     }
   };
 
@@ -75,9 +75,9 @@ const NinthStepComponent = forwardRef(({ nextButtonRef }, ref) => {
           correctAnswer="0.5017 g"
           onCorrectAnswer={() => {
             if (nextButtonRef && nextButtonRef.current) {
-      nextButtonRef.current.style.opacity = 1;
-      nextButtonRef.current.disabled = false; // Enable the button when the correct answer is given
-              }
+              nextButtonRef.current.style.opacity = 1;
+              nextButtonRef.current.disabled = false; // Enable the button when the correct answer is given
+            }
           }}
         />
       </group>

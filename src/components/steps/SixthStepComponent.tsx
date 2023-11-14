@@ -68,7 +68,7 @@ const SixthStepComponent = forwardRef((props, ref) => {
     paperGroup.current.position.copy(startPos); // Reset to start position
     await movePaperLeft(); // Move left
     await movePaperDown(); // Then move down
-    updateBalanceReadingAfterPaperDown(0.17);
+    updateBalanceReadingAfterPaperDown(0.0012);
   };
 
   useImperativeHandle(ref, () => ({

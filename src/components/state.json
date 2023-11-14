@@ -133,7 +133,7 @@
   "11": {
     "stepTitle": "Reading Weight of Weighing Paper",
     "description": "User anwers the stabilized reading onto the number pad.",
-    "directions": "What is the reading of the weighing paper?",
+    "directions": "What is the reading of the weighing paper? Please input your answer in the box.",
     "objectsInFocus": [
       "analytical_balance",
       "weighing_paper",

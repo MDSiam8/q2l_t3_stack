@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { Html } from "@react-three/drei";
 
 const AnswerBox = (
@@ -6,41 +6,22 @@ const AnswerBox = (
     question,
     correctAnswer,
     onCorrectAnswer,
+    imageUrl, // Optional image URL prop
   }: {
     question: string;
     correctAnswer: string;
     onCorrectAnswer: Function;
+    imageUrl?: string; // This is optional
   },
-  props : any
+  props: any
 ) => {
   const [userAnswer, setUserAnswer] = useState("");
   const [answerFeedback, setAnswerFeedback] = useState("");
-  const [countdown, setCountdown] = useState(3); // Countdown state
-
-  useEffect(() => {
-    let timer;
-    if (answerFeedback === "Correct!") {
-      timer = setInterval(() => {
-        setCountdown((prevCountdown) => {
-          if (prevCountdown === 1) {
-            clearInterval(timer);
-            onCorrectAnswer(); // Call the parent function to handle the AnswerBox visibility
-            return 0;
-          }
-          return prevCountdown - 1;
-        });
-      }, 1000);
-    }
-
-    // Clean up the interval on unmount
-    return () => {
-      if (timer) clearInterval(timer);
-    };
-  }, [answerFeedback, onCorrectAnswer]);
 
   const checkAnswer = () => {
     if (userAnswer.trim().toLowerCase() === correctAnswer.toLowerCase()) {
       setAnswerFeedback("Correct!");
+      onCorrectAnswer(); // Directly call onCorrectAnswer here
     } else {
       setAnswerFeedback("Incorrect, try again.");
     }
@@ -49,16 +30,22 @@ const AnswerBox = (
   return (
     <group>
       <Html
-      occlude={100}
+        occlude={100}
         zIndexRange={[10, 0]}
         center
         transform
         rotation-y={(3.14 / 180) * 90}
         {...props}
       >
-        <div className="flex justify-center items-center w-full h-full">
+        <div className="flex justify-center items-center max-w-xs h-full">
           <div className="relative flex flex-col items-center p-5 bg-black bg-opacity-40 backdrop-blur-md rounded-lg shadow-lg border border-white border-opacity-20 text-white user-select-none">
             <p className="mb-5 font-bold">{question}</p>
+
+            {/* Render the image if imageUrl is provided */}
+            {imageUrl && (
+              <img src={imageUrl} alt="Answer Illustration" className="mb-5 max-w-xs" />
+            )}
+
             <input
               type="text"
               value={userAnswer}
@@ -76,11 +63,6 @@ const AnswerBox = (
             >
               {answerFeedback}
             </div>
-            {answerFeedback === "Correct!" && (
-              <div className="absolute bottom-2.5 right-2.5 text-white text-sm font-light">
-                Closing in {countdown}...
-              </div>
-            )}
           </div>
         </div>
       </Html>

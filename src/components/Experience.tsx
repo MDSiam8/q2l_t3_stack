@@ -15,6 +15,8 @@ import SeventhStepComponent from "./steps/SeventhStepComponent";
 import EightStepComponent from "./steps/EightStepComponent";
 import NinthStepComponent from "./steps/NinthStepComponent";
 import TenthStepComponent from "./steps/TenthStepComponent";
+import EleventhStepComponent from "./steps/EleventhStepComponent";
+import TwelvthStepComponent from "./steps/TwelvthStepComponent";
 
 export default function Experience() {
   const [currentStep, setCurrentStep] = useState(1);
@@ -64,7 +66,7 @@ export default function Experience() {
       </mesh>
 
       {/* Conditional Rendering of Step Components */}
-      {/* {currentStep === 1 && <FirstStepComponent />}
+      {currentStep === 1 && <FirstStepComponent />}
       {currentStep === 2 && (
         <SecondStepComponent ref={(el) => (stepRefs.current[2] = el)} />
       )}
@@ -89,16 +91,28 @@ export default function Experience() {
           ref={(el) => (stepRefs.current[8] = el)}
           setIsAnimating={setIsAnimating}
         />
-      )} */}
-      {/* {currentStep === 9 && (
+      )} 
+      {currentStep === 9 && (
         <NinthStepComponent
           ref={(el) => (stepRefs.current[9] = el)}
           nextButtonRef={nextButtonRef}
         />
-      )} */}
+      )}
       {currentStep === 10 && (
         <TenthStepComponent
           ref={(el) => (stepRefs.current[10] = el)}
+          nextButtonRef={nextButtonRef}
+        />
+      )}
+       {currentStep === 11 && (
+        <EleventhStepComponent
+          ref={(el) => (stepRefs.current[11] = el)}
+          nextButtonRef={nextButtonRef}
+        />
+      )}
+      {currentStep === 12 && (
+        <TwelvthStepComponent
+          ref={(el) => (stepRefs.current[12] = el)}
           nextButtonRef={nextButtonRef}
         />
       )}
