@@ -1,27 +1,30 @@
 import React, { useState } from 'react';
 
-const ApparatusTab = () => {
+const ApparatusTab =  ({ onItemSelect }) => {
   const [selectedItems, setSelectedItems] = useState({});
 
   const apparatusItems = [
-    { name: 'Scientists', image: 'OIG.jpg', isCorrect: true },
-    { name: 'Analytical Balance', image: 'balanceImg.jpg', isCorrect: true },
-    { name: 'Beaker', image: 'beakerAnimeArt.png', isCorrect: false },
+    { name: 'Analytical Balance', image: "balanceImg.jpg", isCorrect: true },
+    { name: 'Weighing Paper', image: 'balance.png', isCorrect: true },
+    { name: 'Chinat', image: 'https://media.licdn.com/dms/image/D4E03AQE1jXqsDrb6MQ/profile-displayphoto-shrink_400_400/0/1677389871984?e=1705536000&v=beta&t=X3FtVJHOOA6gw6R00K0aigVN2HArylWl7l6-RSghgao', isCorrect: false },
+    { name: 'Eye Dropper', image: 'https://media.discordapp.net/attachments/901998109150834728/954019183279104010/IMG_20220317_093613.jpg?ex=655f5d9a&is=654ce89a&hm=10dc66ed01730eef74cc3279a0c2c2bb7f16c135cc606d039fb5604582244612&=&width=425&height=566', isCorrect: false },
+    { name: 'Beaker', image: 'beakerAnimeArt.png', isCorrect: true },
+    { name: 'Spatula', image: 'beakerAnimeArt.png', isCorrect: true },
+    { name: 'Siam', image: 'https://media.discordapp.net/attachments/1073485673375481937/1174145955658997821/20230727_090949.jpg?ex=656687a2&is=655412a2&hm=815545f561c09c37b922ce59f01f2ef954007d939f1ebcb8ce3e6eda6f086649&=&width=425&height=566', isCorrect: false },
     // ... more items
   ];
 
-  const handleItemClick = (item : any) => {
-    // Update the state with the selected item and its correctness
+
+  const handleItemClick = (item) => {
     setSelectedItems((prev) => ({
-      ...prev,
-      [item.name]: item.isCorrect,
+        ...prev,
+        [item.name]: item.isCorrect,
     }));
 
-    // If the item is correct, call a function to display it in the main experience
-    if (item.isCorrect) {
-      displayItemInMainExperience(item.name);
+    if (onItemSelect && typeof onItemSelect === 'function') {
+        onItemSelect(item.name, item.isCorrect);
     }
-  };
+};
 
   // This function will retrieve the appropriate border color based on the item's selection status
   const getBorderColor = (itemName) => {

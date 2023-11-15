@@ -161,6 +161,7 @@ const TenthStepComponent = forwardRef(({ nextButtonRef }, ref) => {
         <Beaker rotation-y={(-3.14 / 180) * 90} />
         <Sphere position={[-0.6, 0, -0.2]} scale={sphereScale} />
       </group>
+      
     </group>
   );
 });

@@ -1,21 +1,50 @@
-import React from 'react';
+import React, { useState } from 'react';
 
-const ChemicalsTab = () => {
+const ChemicalsTab = ({ onItemSelect }) => {
+  const [selectedChemicals, setSelectedChemicals] = useState({});
+
   const chemicalItems = [
-    { name: 'Powder Sample', image: 'powder.jpg' },
-    { name: 'Chemical B', image: 'chemicalB.jpg' },
-    { name: 'Chemical C', image: 'chemicalC.jpg' },
-    // Add more items as needed
+    { name: 'Powder Sample', image: 'powder.jpg', isCorrect: true },
+    { name: 'Uranium', image: 'https://th.bing.com/th/id/OIG.wd9J9FeutqTemxNdKJW7?pid=ImgGn&w=1024&h=1024&rs=1', isCorrect: false },
+    { name: 'Jason', image: 'https://media.licdn.com/dms/image/D4D03AQGkBsDtj7HvSw/profile-displayphoto-shrink_400_400/0/1692380975651?e=1705536000&v=beta&t=lEbtRpoZUZU3AB5clx-R49G-2ssNasmu7-hjnFPR71M', isCorrect: false },
+    // Add more items ass needed
   ];
+
+  const handleChemicalClick = (chemical) => {
+    if (selectedChemicals[chemical.name] === undefined) { // Only allow clicking if not already selected
+      setSelectedChemicals((prev) => ({
+          ...prev,
+          [chemical.name]: chemical.isCorrect,
+      }));
+
+      if (onItemSelect && typeof onItemSelect === 'function') {
+          onItemSelect(chemical.name, chemical.isCorrect);
+      }
+    }
+  };
+
+  const getItemClasses = (chemicalName) => {
+    let classes = "bg-white p-2 rounded-lg shadow-md cursor-pointer border-2 ";
+    if (selectedChemicals[chemicalName] !== undefined) {
+      classes += selectedChemicals[chemicalName] ? 'border-green-500 opacity-50 cursor-not-allowed ' : 'border-rose-400 bg-red-200 opacity-50 cursor-not-allowed ';
+    } else {
+      classes += 'border-transparent ';
+    }
+    return classes;
+  };
 
   return (
     <div className="grid grid-cols-6 gap-4 mt-4 p-4">
-      {chemicalItems.map((item, index) => (
-        <div key={index} className="bg-white p-2 rounded-lg shadow-md select-none">
-          <img src={item.image} alt={item.name} className="w-full h-32 object-cover mb-2 rounded-md" />
-          <p className="text-center">{item.name}</p>
-        </div>
-      ))}
+        {chemicalItems.map((item, index) => (
+          <div 
+            key={index} 
+            className={getItemClasses(item.name)}
+            onClick={() => handleChemicalClick(item)}
+          >
+            <img src={item.image} alt={item.name} className="w-full h-32 object-cover mb-2 rounded-md" />
+            <p className="text-center">{item.name}</p>
+          </div>
+        ))}
     </div>
   );
 };

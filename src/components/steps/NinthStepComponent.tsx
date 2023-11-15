@@ -11,6 +11,7 @@ import { BottleCap } from "../BottleCap";
 import { Spatula } from "../Spatula";
 import { Html, Sphere } from "@react-three/drei";
 import AnswerBox from "../AnswerBox";
+import { Beaker } from "../Beaker";
 
 const NinthStepComponent = forwardRef(({ nextButtonRef }, ref) => {
   const balanceWithAnimationsRef = useRef();
@@ -81,6 +82,7 @@ const NinthStepComponent = forwardRef(({ nextButtonRef }, ref) => {
           }}
         />
       </group>
+      <Beaker rotation-y={(-3.14 / 180) * 90} position={[2.6, 4.9, -3]} />
     </group>
   );
 });

@@ -4,7 +4,7 @@ import { Html } from '@react-three/drei';
 import ApparatusTab from './ApparatusTab';
 import ChemicalsTab from './ChemicalsTab';
 
-const InventorySystem = (props : any) => {
+const InventorySystem = ({ onItemSelect, ...props }) => {
     const [activeTab, setActiveTab] = useState('apparatus');
     const [isInventoryVisible, setIsInventoryVisible] = useState(false);
 
@@ -51,7 +51,7 @@ const InventorySystem = (props : any) => {
                             </button>
                         </div>
                         <div className="inventory-content" style={{ overflowY: 'auto', height: 'calc(100% - 40px)' }}>
-                            {activeTab === 'apparatus' ? <ApparatusTab /> : <ChemicalsTab />}
+                            {activeTab === 'apparatus' ? <ApparatusTab onItemSelect={onItemSelect} /> : <ChemicalsTab onItemSelect={onItemSelect} />}
                         </div>
                     </div>
                 </Html>

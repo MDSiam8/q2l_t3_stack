@@ -3,6 +3,10 @@ import BalanceWithAnimations from "../BalanceWithAnimations";
 import WeighingPaper from "../WeighingPaper";
 import * as THREE from "three";
 import * as TWEEN from '@tweenjs/tween.js';
+import { Bottle } from "../Bottle";
+import { BottleCap } from "../BottleCap";
+import { Spatula } from "../Spatula";
+import { Beaker } from "../Beaker";
 
 const FifthStepComponent = forwardRef((props, ref) => {
   const weighingPaperRef = useRef();
@@ -60,6 +64,15 @@ const FifthStepComponent = forwardRef((props, ref) => {
       <group ref={paperGroup}>
         <WeighingPaper folded={false} ref={weighingPaperRef} rotation-y={3.14/180 * 180} />
       </group>
+      <Spatula
+        rotation-y={(3.14 / 180) * 90}
+        scale={0.5}
+        position={[2.5, 5, 0]}
+      />
+      <BottleCap position={[2, 5.1, -2]} />
+      <Bottle position={[2, 5, -2]} />
+      <Beaker rotation-y={(-3.14 / 180) * 90} position={[2.6, 4.9, -3]} />
+
     </group>
   );
 });
