@@ -5,7 +5,6 @@ import React, {
   forwardRef,
   useState,
 } from "react";
-import * as TWEEN from "@tweenjs/tween.js";
 import * as THREE from "three";
 import BalanceWithAnimations, { BalanceWithAnimationsHandles } from "../BalanceWithAnimations";
 import WeighingPaper, { WeighingPaperRef } from "../WeighingPaper";
