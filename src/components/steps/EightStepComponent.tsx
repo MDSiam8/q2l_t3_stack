@@ -4,17 +4,33 @@ import React, {
   useImperativeHandle,
   forwardRef,
 } from "react";
-import BalanceWithAnimations from "../BalanceWithAnimations";
-import WeighingPaper from "../WeighingPaper";
+import { Group } from "three";
+import BalanceWithAnimations, {
+  BalanceWithAnimationsHandles,
+} from "../BalanceWithAnimations";
+import WeighingPaper, { WeighingPaperRef } from "../WeighingPaper";
 import { Bottle } from "../Bottle";
 import { BottleCap } from "../BottleCap";
 import { Spatula } from "../Spatula";
 import { Html, Sphere } from "@react-three/drei";
 import { Beaker } from "../Beaker";
 
-const EightStepComponent = forwardRef(({ setIsAnimating }, ref) => {
-  const balanceWithAnimationsRef = useRef();
-  const weighingPaperRef = useRef();
+interface EighthStepComponentProps {
+  setIsAnimating: React.Dispatch<React.SetStateAction<boolean>>;
+}
+
+interface EighthStepComponentMethods {
+  replayAnimation: () => Promise<void>;
+}
+
+const EighthStepComponent = forwardRef<
+  EighthStepComponentMethods,
+  EighthStepComponentProps
+>(({ setIsAnimating }, ref) => {
+  
+  const balanceWithAnimationsRef = useRef<BalanceWithAnimationsHandles>(null);
+  const weighingPaperRef = useRef<WeighingPaperRef>(null);
+  const groupRef = useRef<Group>(null); // Internal ref for the Group
 
   useEffect(() => {
     updateBalanceReadingAfterAddingPowder(0.5017);
@@ -25,6 +41,7 @@ const EightStepComponent = forwardRef(({ setIsAnimating }, ref) => {
 
   const updateBalanceReadingAfterAddingPowder = (num: number) => {
     if (balanceWithAnimationsRef.current) {
+      // Assuming updateBalanceReading is a method of BalanceWithAnimations
       balanceWithAnimationsRef.current.updateBalanceReading(num);
     }
   };
@@ -32,17 +49,20 @@ const EightStepComponent = forwardRef(({ setIsAnimating }, ref) => {
   const handleReplayAnimation = async () => {
     setIsAnimating(true);
     if (balanceWithAnimationsRef.current) {
+      // Assuming replayAnimation is a method of BalanceWithAnimations
       await balanceWithAnimationsRef.current.replayAnimation();
     }
     setIsAnimating(false);
   };
 
   useImperativeHandle(ref, () => ({
-    replayAnimation: handleReplayAnimation,
+    replayAnimation: async () => {
+      handleReplayAnimation();
+    }
   }));
 
   return (
-    <group>
+    <group ref={groupRef}>
       <BalanceWithAnimations
         isOpen={false}
         position={[0, 4.55, 0]}
@@ -68,11 +88,11 @@ const EightStepComponent = forwardRef(({ setIsAnimating }, ref) => {
           scale={0.5}
           position={[2.5, 5, 0]}
         />
-        {<Sphere scale={0.05} position={[0, 0.05, 0.68]} />}
+        <Sphere scale={0.05} position={[0, 0.05, 0.68]} />
       </group>
       <Beaker rotation-y={(-3.14 / 180) * 90} position={[2.6, 4.9, -3]} />
     </group>
   );
 });
 
-export default EightStepComponent;
+export default EighthStepComponent;

@@ -7,7 +7,7 @@ import React, {
   } from "react";
   import * as TWEEN from "@tweenjs/tween.js";
   import * as THREE from "three";
-  import BalanceWithAnimations from "../BalanceWithAnimations";
+  import BalanceWithAnimations, { BalanceWithAnimationsHandles } from "../BalanceWithAnimations";
   import WeighingPaper from "../WeighingPaper";
   import { Bottle } from "../Bottle";
   import { BottleCap } from "../BottleCap";
@@ -16,23 +16,26 @@ import React, {
   import AnswerBox from "../AnswerBox";
   import { Beaker } from "../Beaker";
 import chartImg from './chart.jpg';
+import { BalanceReadingRef } from "../BalanceReading";
   
-  const TwelvthStepComponent = forwardRef(({ nextButtonRef }, ref) => {
-    const balanceWithAnimationsRef = useRef();
-    const weighingPaperRef = useRef();
-    const sphereRef = useRef();
-    const [initialWeighingPaperPosition, setInitialWeighingPaperPosition] =
-      useState();
-    const [initialWeighingPaperRotation, setInitialWeighingPaperRotation] =
-      useState();
-    const [initialSpherePos, setInitialSpherePos] = useState();
+interface TwelvthStepComponentProps {
+  nextButtonRef: React.RefObject<HTMLButtonElement>;
+}
+
+const TwelvthStepComponent = forwardRef<THREE.Group, TwelvthStepComponentProps>(
+  ({ nextButtonRef }, ref) => {
+    const balanceWithAnimationsRef = useRef<BalanceWithAnimationsHandles>(null);
+    const weighingPaperRef = useRef<THREE.Group>(null);
+    const sphereRef = useRef<THREE.Mesh>(null);
+    const [initialWeighingPaperPosition] = useState(new THREE.Vector3(0.6, 5.6, -0.02));
+    const [initialWeighingPaperRotation] = useState(new THREE.Euler(0, 3.14 / 180 * 180, 0));
+    const [initialSpherePos] = useState(new THREE.Vector3(0.01, 0.1, 0));
     const [sphereScale, setSphereScale] = useState(0);
-  
     useEffect(() => {
       updateBalanceReadingAfterAddingPowder(0.0012);
       if (nextButtonRef && nextButtonRef.current) {
         nextButtonRef.current.disabled = true; // Disable the button initially
-        nextButtonRef.current.style.opacity = 0.5;
+        nextButtonRef.current.style.opacity = "0.5";
       }
     }, []);
   
@@ -82,7 +85,7 @@ import chartImg from './chart.jpg';
           correctAnswer="0.5005 g"
           onCorrectAnswer={() => {
             if (nextButtonRef && nextButtonRef.current) {
-              nextButtonRef.current.style.opacity = 1;
+              nextButtonRef.current.style.opacity = "1";
               nextButtonRef.current.disabled = false; // Enable the button when the correct answer is given
             }
           }}

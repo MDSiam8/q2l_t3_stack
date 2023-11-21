@@ -6,23 +6,24 @@ import { Beaker } from "../Beaker";
 import { Spatula } from "../Spatula";
 import { BottleCap } from "../BottleCap";
 import { Bottle } from "../Bottle";
+interface SelectedItems {
+  [itemName: string]: boolean;
+}
 
-const ThirdStepComponent = forwardRef((props, ref) => {
-  const [selectedItems, setSelectedItems] = useState({});
+const ThirdStepComponent = forwardRef<HTMLDivElement, {}>((props, ref) => {
+  const [selectedItems, setSelectedItems] = useState<SelectedItems>({});
 
-  const handleItemSelection = (itemName, isSelected) => {
+  const handleItemSelection = (itemName: string) => {
     setSelectedItems((prev) => ({
       ...prev,
-      [itemName]: isSelected,
+      [itemName]: !prev[itemName],
     }));
   };
-
   return (
     <group>
       <InventorySystem
         onItemSelect={handleItemSelection}
         position={[0, 7.7, 0]}
-        transform
         scale={0.6}
       />
       {selectedItems["Analytical Balance"] && (

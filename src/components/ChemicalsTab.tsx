@@ -1,29 +1,42 @@
 import React, { useState } from 'react';
 
-const ChemicalsTab = ({ onItemSelect }) => {
-  const [selectedChemicals, setSelectedChemicals] = useState({});
+// Define a type for the chemical item structure
+type ChemicalItem = {
+  name: string;
+  image: string;
+  isCorrect: boolean;
+};
 
-  const chemicalItems = [
+// Define a type for the props
+type ChemicalsTabProps = {
+  onItemSelect: (itemName: string, isCorrect: boolean) => void;
+};
+
+const ChemicalsTab: React.FC<ChemicalsTabProps> = ({ onItemSelect }) => {
+  // Use a Record type for managing the selected state of chemical items
+  const [selectedChemicals, setSelectedChemicals] = useState<Record<string, boolean>>({});
+
+  const chemicalItems: ChemicalItem[] = [
     { name: 'Powder Sample', image: 'powder.jpg', isCorrect: true },
     { name: 'Uranium', image: 'https://th.bing.com/th/id/OIG.wd9J9FeutqTemxNdKJW7?pid=ImgGn&w=1024&h=1024&rs=1', isCorrect: false },
     { name: 'Jason', image: 'https://media.licdn.com/dms/image/D4D03AQGkBsDtj7HvSw/profile-displayphoto-shrink_400_400/0/1692380975651?e=1705536000&v=beta&t=lEbtRpoZUZU3AB5clx-R49G-2ssNasmu7-hjnFPR71M', isCorrect: false },
-    // Add more items ass needed
+    // Add more items as needed
   ];
 
-  const handleChemicalClick = (chemical) => {
+  const handleChemicalClick = (chemical: ChemicalItem) => {
     if (selectedChemicals[chemical.name] === undefined) { // Only allow clicking if not already selected
       setSelectedChemicals((prev) => ({
           ...prev,
           [chemical.name]: chemical.isCorrect,
       }));
 
-      if (onItemSelect && typeof onItemSelect === 'function') {
+      if (onItemSelect) {
           onItemSelect(chemical.name, chemical.isCorrect);
       }
     }
   };
 
-  const getItemClasses = (chemicalName) => {
+  const getItemClasses = (chemicalName: string): string => {
     let classes = "bg-white p-2 rounded-lg shadow-md cursor-pointer border-2 ";
     if (selectedChemicals[chemicalName] !== undefined) {
       classes += selectedChemicals[chemicalName] ? 'border-green-500 opacity-50 cursor-not-allowed ' : 'border-rose-400 bg-red-200 opacity-50 cursor-not-allowed ';

@@ -1,9 +1,18 @@
 import React, { forwardRef, useImperativeHandle, useRef, useEffect } from "react";
 import { useGLTF, useAnimations, Html } from "@react-three/drei";
 import * as THREE from "three";
+import { GroupProps } from "@react-three/fiber";
 
-const WeighingPaper = forwardRef(({ folded, ...props }, ref) => {
-  const paper = useGLTF('/weighing paper folding animation.gltf');
+// Define the prop types
+interface WeighingPaperProps extends GroupProps {
+  folded: boolean;
+  // Include other props as needed
+}
+export interface WeighingPaperRef {
+  replayAnimation: () => void;
+}
+const WeighingPaper = forwardRef<WeighingPaperRef, WeighingPaperProps>(
+  ({ folded, ...props }, ref) => {  const paper = useGLTF('/weighing paper folding animation.gltf');
   const animations = useAnimations(paper.animations, paper.scene);
   const animationAction = useRef<THREE.AnimationAction | null>(null);
 

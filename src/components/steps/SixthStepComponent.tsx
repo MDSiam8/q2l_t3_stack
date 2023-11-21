@@ -13,12 +13,21 @@ import { Bottle } from "../Bottle";
 import { BottleCap } from "../BottleCap";
 import { Spatula } from "../Spatula";
 
-const SixthStepComponent = forwardRef((props, ref) => {
-  const weighingPaperRef = useRef();
-  const paperGroup = useRef(new THREE.Group());
+interface BalanceWithAnimationsRef {
+  replayAnimation: () => Promise<void>;
+  updateBalanceReading: (weight: number) => void; // Assuming it's a function that takes a number
+}
+
+interface WeighingPaperRef {
+  replayAnimation: () => void;
+}
+
+const SixthStepComponent = forwardRef<{}>((props, ref) => {
+  const balanceWithAnimationsRef = useRef<BalanceWithAnimationsRef>(null);
+  const weighingPaperRef = useRef<WeighingPaperRef>(null);
+    const paperGroup = useRef(new THREE.Group());
   const startPos = new THREE.Vector3(0, 1, 0); // Starting position from the end of FifthStepComponent
 
-  const balanceWithAnimationsRef = useRef();
 
   const updateBalanceReadingAfterPaperDown = (num: number) => {
     // Update the balance reading when a certain event occurs
@@ -47,7 +56,7 @@ const SixthStepComponent = forwardRef((props, ref) => {
         .onUpdate(() => {
           paperGroup.current.position.copy(paperGroup.current.position);
         })
-        .onComplete(() => resolve())
+        .onComplete(() => resolve(0))
         .start();
     });
   };
@@ -62,7 +71,7 @@ const SixthStepComponent = forwardRef((props, ref) => {
         .onUpdate(() => {
           paperGroup.current.position.copy(paperGroup.current.position);
         })
-        .onComplete(() => resolve())
+        .onComplete(() => resolve(0))
         .start();
     });
   };

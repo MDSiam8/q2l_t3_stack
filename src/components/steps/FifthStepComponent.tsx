@@ -8,8 +8,12 @@ import { BottleCap } from "../BottleCap";
 import { Spatula } from "../Spatula";
 import { Beaker } from "../Beaker";
 
-const FifthStepComponent = forwardRef((props, ref) => {
-  const weighingPaperRef = useRef();
+interface WeighingPaperRef {
+  replayAnimation: () => void;
+}
+
+const FifthStepComponent = forwardRef<{}>((props, ref) => {
+  const weighingPaperRef = useRef<WeighingPaperRef>(null);
   const paperGroup = useRef(new THREE.Group());
   const originalStartPos = new THREE.Vector3(0, 5, -3); // Initial position
 
@@ -41,7 +45,7 @@ const FifthStepComponent = forwardRef((props, ref) => {
         .onUpdate(() => {
           paperGroup.current.position.copy(paperGroup.current.position);
         })
-        .onComplete(() => resolve())
+        .onComplete(() => resolve(0))
         .start();
     });
   };

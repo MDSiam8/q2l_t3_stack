@@ -7,8 +7,10 @@ import React, {
 } from "react";
 import * as TWEEN from "@tweenjs/tween.js";
 import * as THREE from "three";
-import BalanceWithAnimations from "../BalanceWithAnimations";
-import WeighingPaper from "../WeighingPaper";
+import BalanceWithAnimations, {
+  BalanceWithAnimationsHandles,
+} from "../BalanceWithAnimations";
+import WeighingPaper, { WeighingPaperRef } from "../WeighingPaper";
 import { Bottle } from "../Bottle";
 import { BottleCap } from "../BottleCap";
 import { Spatula } from "../Spatula";
@@ -16,10 +18,21 @@ import { Sphere } from "@react-three/drei";
 import AnswerBox from "../AnswerBox";
 import { Beaker } from "../Beaker";
 
-const TenthStepComponent = forwardRef(({ nextButtonRef }, ref) => {
-  const balanceWithAnimationsRef = useRef();
-  const weighingPaperRef = useRef();
-  const sphereRef = useRef();
+interface TenthStepComponentProps {
+  nextButtonRef: React.RefObject<HTMLButtonElement>;
+}
+
+export interface TenthStepComponentRef {
+  replayAnimation: () => Promise<void>;
+}
+
+const TenthStepComponent = forwardRef<
+  TenthStepComponentRef,
+  TenthStepComponentProps
+>(({ nextButtonRef }, ref) => {
+  const balanceWithAnimationsRef = useRef<BalanceWithAnimationsHandles>(null);
+  const weighingPaperRef = useRef<THREE.Group>(null);
+  const sphereRef = useRef<THREE.Mesh>(null);
   const [initialWeighingPaperPosition, setInitialWeighingPaperPosition] =
     useState();
   const [initialWeighingPaperRotation, setInitialWeighingPaperRotation] =
@@ -62,7 +75,7 @@ const TenthStepComponent = forwardRef(({ nextButtonRef }, ref) => {
 
   const handleReplayAnimation = async () => {
     resetAnimationObjects();
-    if (balanceWithAnimationsRef.current) {
+    if (balanceWithAnimationsRef.current!) {
       await balanceWithAnimationsRef.current.replayAnimation();
     }
     await animateWeighingPaperAndSphere();
@@ -76,29 +89,29 @@ const TenthStepComponent = forwardRef(({ nextButtonRef }, ref) => {
     // Animate the weighing paper to the beaker's position
     const targetPosition = new THREE.Vector3(2, 6.4, -2.7);
     updateBalanceReadingAfterAddingPowder(0);
-    new TWEEN.Tween(weighingPaperRef.current.position)
+    new TWEEN.Tween(weighingPaperRef.current!.position)
       .to(targetPosition, 2000)
       .easing(TWEEN.Easing.Quadratic.Out)
       .onComplete(() => {
         // Rotate the weighing paper by 45 degrees on the z-axis
-        new TWEEN.Tween(weighingPaperRef.current.rotation)
+        new TWEEN.Tween(weighingPaperRef.current!.rotation)
           .to({ x: -Math.PI / 4 }, 2000) // 45 degrees in radians
           .easing(TWEEN.Easing.Quadratic.Out)
           .onComplete(() => {
-            sphereRef.current.visible = true;
+            sphereRef.current!.visible = true;
             // Animate the sphere downward by 1 unit and then hide it
-            new TWEEN.Tween(sphereRef.current.position)
+            new TWEEN.Tween(sphereRef.current!.position)
               .to(
                 {
-                  y: sphereRef.current.position.y - 0.9,
-                  z: sphereRef.current.position.z - 1.5,
+                  y: sphereRef.current!.position.y - 0.9,
+                  z: sphereRef.current!.position.z - 1.5,
                 },
                 2000,
               )
               .easing(TWEEN.Easing.Quadratic.Out)
               .onComplete(() => {
-                if(sphereRef.current.visible) {
-                    sphereRef.current.visible = false; // Hide the sphere after animation
+                if (sphereRef.current) {
+                  sphereRef.current.visible = false; // Hide the sphere after animation
                 }
                 setSphereScale(0.15);
 
@@ -107,15 +120,15 @@ const TenthStepComponent = forwardRef(({ nextButtonRef }, ref) => {
                   initialWeighingPaperPosition &&
                   initialWeighingPaperRotation
                 ) {
-                  new TWEEN.Tween(weighingPaperRef.current.position)
+                  new TWEEN.Tween(weighingPaperRef.current!.position)
                     .to(initialWeighingPaperPosition, 2000)
                     .easing(TWEEN.Easing.Quadratic.Out)
                     .onComplete(() => {
-                        updateBalanceReadingAfterAddingPowder(0.0012);
+                      updateBalanceReadingAfterAddingPowder(0.0012);
                     })
                     .start();
-                  new TWEEN.Tween(weighingPaperRef.current.rotation)
-                    .to({x: 0}, 2000)
+                  new TWEEN.Tween(weighingPaperRef.current!.rotation)
+                    .to({ x: 0 }, 2000)
                     .easing(TWEEN.Easing.Quadratic.Out)
                     .start();
                 }
@@ -161,7 +174,6 @@ const TenthStepComponent = forwardRef(({ nextButtonRef }, ref) => {
         <Beaker rotation-y={(-3.14 / 180) * 90} />
         <Sphere position={[-0.6, 0, -0.2]} scale={sphereScale} />
       </group>
-      
     </group>
   );
 });

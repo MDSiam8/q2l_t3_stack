@@ -6,8 +6,13 @@ import { BottleCap } from "../BottleCap";
 import { Spatula } from "../Spatula";
 import WeighingPaper from "../WeighingPaper";
 
-const FourthStepComponent = forwardRef((props, ref) => {
-  const balanceWithAnimationsRef = useRef();
+interface BalanceWithAnimationsRef {
+  replayAnimation: () => Promise<void>;
+  updateBalanceReading: (weight: number) => void; // Assuming it's a function that takes a number
+}
+
+const FourthStepComponent = forwardRef<{}>((props, ref) => {
+  const balanceWithAnimationsRef = useRef<BalanceWithAnimationsRef>(null);
 
   useEffect(() => {
     // Trigger the animation as soon as the component mounts

@@ -168,32 +168,5 @@
         "userAnswers": []
       }
     ]
-  },
-  "SAMPLE": {
-    "stepTitle": "ENTER A GOOD TITLE THAT REPRESENTS WHAT THIS STEP IS ABOUT",
-    "description": "DESCRIPTION FOR WHATS HAPPENING IN THIS STEP",
-    "objectsInFocus": [
-      "LIST OF ALL THE OBJECTS THAT WE ARE FOCUSED ON RIGHT NOW"
-    ],
-    "mistakes": [
-      {
-        "mistakeDescription": "THIS PART IS INCLUDED IN ONLY SOME JSON OBJECTS. ONLY INCLUDE IF ITS A USER INTERACTION THAT WILL BE CHECKED FOR CORRECTNESS, I.E. READING THE ANALYTICAL BALANCE AND ENTERING CORRECT VALUE, SELECTING CORRECT EQUIPMENT, TRANSFERRING OVER CORRECT AMOUNT OF POWDER SAMPLE. THIS IS MEANT TO REPRESENT MISTAKES THAT COULD HAPPEN, AND TALLY THEM WHEN NECESSARY.",
-        "context": "A CONTEXT FOR THE MISTAKE, i.e. Analytical Balance Usage, or Setting up Equipment, or Transferring Samples",
-        "correctAnswer": [],
-        "category": "WHAT KIND OF MISTAKE IS IT? E.g. Selection Mistake (for when they select wrong items) or Input Mistake (for when they input wrong value)",
-        "count": 0,
-        "userAnswers": [
-          "[Dont worry about this field, we will dynamically update this with code.] Look at the object below for an example on what a mistake object could potentially look like."
-        ]
-      },
-      {
-        "mistakeDescription": "Incorrect reading on the analytical balance",
-        "context": "Analytical balance usage",
-        "correctAnswer": "25.6 grams",
-        "category": "input_mistake",
-        "count": 0,
-        "userAnswers": []
-      }
-    ]
   }
 }

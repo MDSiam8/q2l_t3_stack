@@ -18,12 +18,52 @@ import TenthStepComponent from "./steps/TenthStepComponent";
 import EleventhStepComponent from "./steps/EleventhStepComponent";
 import TwelvthStepComponent from "./steps/TwelvthStepComponent";
 
+// Interface for the structure of each step in state.json
+interface Step {
+  stepTitle: string;
+  description: string;
+  directions: string;
+  objectsInFocus: string[];
+  mistakes?: {
+    mistakeDescription: string;
+    context: string;
+    correctAnswer: string[];
+    category: string;
+    count: number;
+    userAnswers: string[]; // Adjust as needed for dynamic content
+  }[];
+}
+
+interface State {
+  "1": Step;
+  "2": Step;
+  "3": Step;
+  "4": Step;
+  "5": Step;
+  "6": Step;
+  "7": Step;
+  "8": Step;
+  "9": Step;
+  "10": Step;
+  "11": Step;
+  "12": Step;
+}
+
+type StateKey = keyof State;
+
+// Correctly type your step component refs if they have specific methods or properties
+interface StepComponentRef {
+  replayAnimation?: () => void;
+  // other methods or properties
+}
+
 export default function Experience() {
-  const [currentStep, setCurrentStep] = useState(1);
-  const stepData = state[currentStep.toString()];
-  const stepRefs = useRef({}); // Store refs for each step
-  const [isAnimating, setIsAnimating] = useState(false);
-  const nextButtonRef = useRef(null);
+  const [currentStep, setCurrentStep] = useState<number>(1);
+  const key = currentStep.toString() as StateKey;
+  const stepData = state[key]; // Safe indexing
+  const stepRefs = useRef<Record<number, StepComponentRef>>({});
+  const [isAnimating, setIsAnimating] = useState<boolean>(false);
+  const nextButtonRef = useRef<HTMLButtonElement>(null);
 
   const handleNextStep = () => {
     if (currentStep < Object.keys(state).length) {
@@ -67,52 +107,52 @@ export default function Experience() {
 
       {/* Conditional Rendering of Step Components */}
       {currentStep === 1 && <FirstStepComponent />}
-      {currentStep === 2 && (
-        <SecondStepComponent ref={(el) => (stepRefs.current[2] = el)} />
-      )}
+      {currentStep === 2 && <SecondStepComponent />}
       {currentStep === 3 && <ThirdStepComponent />}
       {currentStep === 4 && (
-        <FourthStepComponent ref={(el) => (stepRefs.current[4] = el)} />
+        <FourthStepComponent
+          ref={(el) => (stepRefs.current[4] = el as StepComponentRef)}
+        />
       )}
       {currentStep === 5 && (
-        <FifthStepComponent ref={(el) => (stepRefs.current[5] = el)} />
+        <FifthStepComponent ref={(el) => (stepRefs.current[5] = el as StepComponentRef)} />
       )}
       {currentStep === 6 && (
-        <SixthStepComponent ref={(el) => (stepRefs.current[6] = el)} />
+        <SixthStepComponent ref={(el) => (stepRefs.current[6] = el as StepComponentRef)} />
       )}
       {currentStep === 7 && (
         <SeventhStepComponent
-          ref={(el) => (stepRefs.current[7] = el)}
+          ref={(el) => (stepRefs.current[7] = el as StepComponentRef)}
           setIsAnimating={setIsAnimating}
         />
       )}
       {currentStep === 8 && (
         <EightStepComponent
-          ref={(el) => (stepRefs.current[8] = el)}
+          ref={(el) => (stepRefs.current[8] = el as StepComponentRef)}
           setIsAnimating={setIsAnimating}
         />
-      )} 
+      )}
       {currentStep === 9 && (
         <NinthStepComponent
-          ref={(el) => (stepRefs.current[9] = el)}
+          ref={(el) => (stepRefs.current[9] = el as StepComponentRef)}
           nextButtonRef={nextButtonRef}
         />
       )}
       {currentStep === 10 && (
         <TenthStepComponent
-          ref={(el) => (stepRefs.current[10] = el)}
+          ref={(el) => (stepRefs.current[10] = el as StepComponentRef)}
           nextButtonRef={nextButtonRef}
         />
       )}
-       {currentStep === 11 && (
+      {currentStep === 11 && (
         <EleventhStepComponent
-          ref={(el) => (stepRefs.current[11] = el)}
+          ref={(el) => (stepRefs.current[11] = el as StepComponentRef)}
           nextButtonRef={nextButtonRef}
         />
       )}
       {currentStep === 12 && (
         <TwelvthStepComponent
-          ref={(el) => (stepRefs.current[12] = el)}
+          ref={(el) => (stepRefs.current[12] = el as StepComponentRef)}
           nextButtonRef={nextButtonRef}
         />
       )}
