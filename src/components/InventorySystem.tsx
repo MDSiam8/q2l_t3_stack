@@ -30,7 +30,7 @@ const InventorySystem: React.FC<InventorySystemProps> = ({ onItemSelect, positio
       {/* Button to toggle the inventory visibility */}
       <Html
         zIndexRange={[10, 0]}
-        className="fixed bottom-full left-1/2 -translate-x-1/2 transform"
+        className="fixed bottom-full left-1/2 -translate-x-1/2 transform select-none"
         transform
         rotation-y={(3.14 / 180) * 90}
         position={position}

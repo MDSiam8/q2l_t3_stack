@@ -82,7 +82,7 @@ const TwelvthStepComponent = forwardRef<THREE.Group, TwelvthStepComponentProps>(
         <group position={[0, 7, 3]} scale={0.5}>
         <AnswerBox
           question="Using the following information you gathered, what was the net weight of the sample powder only?"
-          correctAnswer="0.5005 g"
+          correctAnswers={["0.5005 g", ".5005 g", "0.5005", ".5005", "0.5005g", ".5005g"]}
           onCorrectAnswer={() => {
             if (nextButtonRef && nextButtonRef.current) {
               nextButtonRef.current.style.opacity = "1";

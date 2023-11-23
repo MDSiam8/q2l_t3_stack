@@ -47,7 +47,7 @@ const ChemicalsTab: React.FC<ChemicalsTabProps> = ({ onItemSelect }) => {
   };
 
   return (
-    <div className="grid grid-cols-6 gap-4 mt-4 p-4">
+    <div className="grid grid-cols-6 gap-4 mt-4 p-4 select-none">
         {chemicalItems.map((item, index) => (
           <div 
             key={index} 

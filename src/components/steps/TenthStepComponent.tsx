@@ -170,7 +170,7 @@ const TenthStepComponent = forwardRef<
         />
         <Sphere scale={0.05} position={[0, 0.05, 0.68]} />
       </group>
-      <group position={[2.6, 4.9, -3]}>
+      <group position={[2.6, 4.90, -3]}>
         <Beaker rotation-y={(-3.14 / 180) * 90} />
         <Sphere position={[-0.6, 0, -0.2]} scale={sphereScale} />
       </group>

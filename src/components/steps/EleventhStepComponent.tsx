@@ -81,14 +81,13 @@ const EleventhStepComponent = forwardRef<
       <group position={[0, 7, 3]} scale={0.5}>
         <AnswerBox
           question="What is the reading on the balance?"
-          correctAnswer="0.0012 g"
+          correctAnswers={["0.0012 g", ".0012 g", "0.0012", ".0012", "0.0012g", ".0012g"]}
           onCorrectAnswer={() => {
             if (nextButtonRef && nextButtonRef.current) {
               nextButtonRef.current.style.opacity = "1";
               nextButtonRef.current.disabled = false; // Enable the button when the correct answer is given
             }
           }}
-          imageUrl=".src\components\steps\chart.png"
         />
       </group>
     </group>

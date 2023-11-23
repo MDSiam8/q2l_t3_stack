@@ -52,11 +52,11 @@ const ApparatusTab: React.FC<ApparatusTabProps> = ({ onItemSelect }) => {
       {apparatusItems.map((item, index) => (
         <div
           key={index}
-          className={`bg-white p-2 rounded-lg shadow-md cursor-pointer border-2 ${getBorderColor(item.name)}`}
+          className={`bg-white p-2 rounded-lg shadow-md cursor-pointer border-2 ${getBorderColor(item.name)}  select-none`}
           onClick={() => handleItemClick(item)}
         >
           <Image src={chart} width={30} height={30} alt=""></Image>
-          <img src={item.image} alt={item.name} className="w-full h-32 object-cover mb-2 rounded-md" />
+          <img src={item.image} alt={item.name} className="w-full h-32 object-cover mb-2 rounded-md select-none" />
           <p className="text-center">{item.name}</p>
         </div>
       ))}

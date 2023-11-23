@@ -25,9 +25,8 @@ interface WeighingPaperRef {
 const SixthStepComponent = forwardRef<{}>((props, ref) => {
   const balanceWithAnimationsRef = useRef<BalanceWithAnimationsRef>(null);
   const weighingPaperRef = useRef<WeighingPaperRef>(null);
-    const paperGroup = useRef(new THREE.Group());
+  const paperGroup = useRef(new THREE.Group());
   const startPos = new THREE.Vector3(0, 1, 0); // Starting position from the end of FifthStepComponent
-
 
   const updateBalanceReadingAfterPaperDown = (num: number) => {
     // Update the balance reading when a certain event occurs
@@ -111,7 +110,6 @@ const SixthStepComponent = forwardRef<{}>((props, ref) => {
       <BottleCap position={[2, 5.1, -2]} />
       <Bottle position={[2, 5, -2]} />
       <Beaker rotation-y={(-3.14 / 180) * 90} position={[2.6, 4.9, -3]} />
-
     </group>
   );
 });

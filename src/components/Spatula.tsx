@@ -3,5 +3,6 @@ import { useFBX, useGLTF } from "@react-three/drei";
 
 export function Spatula(props: any) {
   const spatula = useGLTF("./spatula.gltf");
-  return <primitive {...props} object={spatula.scene} />;
+  const clonedScene = spatula.scene.clone(); // Clone the scene for isolated use
+  return <primitive {...props} object={clonedScene} />;
 }

@@ -7,7 +7,7 @@ import React, {
 } from "react";
 import BalanceWithAnimations from "../BalanceWithAnimations";
 import WeighingPaper from "../WeighingPaper";
-import { Bottle } from "../Bottle";
+import {Bottle} from "../Bottle";
 import { BottleCap } from "../BottleCap";
 import { Spatula } from "../Spatula";
 import { Html, Sphere } from "@react-three/drei";
@@ -33,8 +33,8 @@ const SeventhStepComponent = forwardRef<unknown, SeventhStepComponentProps>(
     const weighingPaperRef = useRef<WeighingPaperRef>(null);
     const bottleCapGroup = useRef(new THREE.Group());
     const spatulaGroup = useRef(new THREE.Group());
-    const initialBottleCapPosition = new THREE.Vector3(2, 5.1, -2);
-    const initialSpatulaPosition = new THREE.Vector3(2.5, 5, 0);
+    const initialBottleCapPosition = new THREE.Vector3(0, 0, 0);
+    const initialSpatulaPosition = new THREE.Vector3(2.5, 5.0, 0);
     const [endSpatulaPosition, setEndSpatulaPosition] = useState(
       new THREE.Vector3(),
     );
@@ -49,9 +49,14 @@ const SeventhStepComponent = forwardRef<unknown, SeventhStepComponentProps>(
       add: false,
       remove: false,
     });
-    const [activeButton, setActiveButton] = useState<'remove' | 'add' | null>(null);
+    const [activeButton, setActiveButton] = useState<"remove" | "add" | null>(
+      null,
+    );
 
     useEffect(() => {
+      if (bottleCapGroup.current) {
+
+      }
       updateBalanceReadingAfterAddingPowder(balanceReading);
       setPowderVisible(false);
       setIsAnimating(true);
@@ -133,7 +138,8 @@ const SeventhStepComponent = forwardRef<unknown, SeventhStepComponentProps>(
 
         // Move spatula right and then down (executes after rotation)
         setTimeout(() => {
-          const targetXZPosition = initialBottleCapPosition.clone();
+          // const targetXZPosition = initialBottleCapPosition.clone();
+          const targetXZPosition = new THREE.Vector3(2, 5.1, -2);
           targetXZPosition.y = spatulaGroup.current.position.y;
 
           new TWEEN.Tween(spatulaGroup.current.position)
@@ -165,6 +171,9 @@ const SeventhStepComponent = forwardRef<unknown, SeventhStepComponentProps>(
       updateBalanceReadingAfterAddingPowder(0.0012);
       bottleCapGroup.current.position.copy(initialBottleCapPosition); // Reset bottle cap position
       spatulaGroup.current.position.copy(initialSpatulaPosition); // Reset spatula position
+      spatulaGroup.current.children
+        .at(0)!
+        .rotation.set(0, (3.14 / 180) * 90, 0); // Reset spatula rotation
       spatulaGroup.current.rotation.set(0, (3.14 / 180) * 0, 0); // Reset spatula rotation
       setPowderVisible(false); // Hide the powder initially
 
@@ -188,7 +197,7 @@ const SeventhStepComponent = forwardRef<unknown, SeventhStepComponentProps>(
 
       // Move spatula up
       new TWEEN.Tween(spatulaGroup.current.position)
-        .to({ y: spatulaGroup.current.position.y + 1 }, 1000)
+        .to({ y: spatulaGroup.current.position.y + 1.5 }, 1000)
         .easing(TWEEN.Easing.Quadratic.Out)
         .start();
 
@@ -310,15 +319,15 @@ const SeventhStepComponent = forwardRef<unknown, SeventhStepComponentProps>(
           />
           <Sphere scale={sphereScale} />
         </group>
-        <group ref={bottleCapGroup}>
-          <BottleCap />
-        </group>
-        <group position={[2, 5, -2]}>
+        <group position={[2, 4.95, -2]}>
+          <group ref={bottleCapGroup}>
+            <BottleCap />
+          </group>
           <Bottle />
         </group>
-        <group ref={spatulaGroup}>
-          <Spatula rotation-y={(3.14 / 180) * 90} scale={0.5} />
-          {powderVisible && <Sphere scale={0.05} position={[0, 0.05, 0.68]} />}
+        <group ref={spatulaGroup} position={[0, 0, 0]}>
+          <Spatula rotation-y={(3.14159 / 180) * 90} scale={0.5} />
+          {powderVisible && <Sphere scale={0.05} position={[0, 0.05, 0.7]} />}
         </group>
         {animationsCompleted && (
           <Html

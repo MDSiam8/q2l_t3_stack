@@ -39,6 +39,7 @@ const WeighingPaper = forwardRef<WeighingPaperRef, WeighingPaperProps>(
 
   const handleReplayAnimation = () => {
     const action = animationAction.current;
+    
     if (action) {
       action.timeScale = 1; // Play forward
       action.reset().play();

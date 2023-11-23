@@ -1,15 +1,15 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Html } from "@react-three/drei";
 
 const AnswerBox = (
   {
     question,
-    correctAnswer,
+    correctAnswers = [], // Now an array of strings
     onCorrectAnswer,
     imageUrl, // Optional image URL prop
   }: {
     question: string;
-    correctAnswer: string;
+    correctAnswers: string[]; // This is an array
     onCorrectAnswer: Function;
     imageUrl?: string; // This is optional
   },
@@ -17,15 +17,36 @@ const AnswerBox = (
 ) => {
   const [userAnswer, setUserAnswer] = useState("");
   const [answerFeedback, setAnswerFeedback] = useState("");
+  const [isVisible, setIsVisible] = useState(true); // State for visibility
+  const [shouldRender, setShouldRender] = useState(true); // State for actual rendering
+
+  useEffect(() => {
+    if (!isVisible) {
+      // Wait for the fade-out transition before removing the component
+      const timeoutId = setTimeout(() => setShouldRender(false), 1500);
+      return () => clearTimeout(timeoutId);
+    }
+  }, [isVisible]);
 
   const checkAnswer = () => {
-    if (userAnswer.trim().toLowerCase() === correctAnswer.toLowerCase()) {
+    const normalizedUserAnswer = userAnswer.trim().toLowerCase();
+    const isAnswerCorrect = correctAnswers.some(
+      answer => normalizedUserAnswer === answer.toLowerCase()
+    );
+
+    if (isAnswerCorrect) {
       setAnswerFeedback("Correct!");
       onCorrectAnswer(); // Directly call onCorrectAnswer here
+
+      // Start fade-out transition
+      setIsVisible(false);
     } else {
       setAnswerFeedback("Incorrect, try again.");
     }
   };
+
+  // Conditional rendering based on shouldRender
+  if (!shouldRender) return null;
 
   return (
     <group>
@@ -36,6 +57,10 @@ const AnswerBox = (
         transform
         rotation-y={(3.14 / 180) * 90}
         {...props}
+        style={{
+          opacity: isVisible ? 1 : 0, // Control opacity
+          transition: 'opacity 1.5s ease' // Smooth transition for opacity
+        }}
       >
         <div className="flex justify-center items-center max-w-xs h-full">
           <div className="relative flex flex-col items-center p-5 bg-black bg-opacity-40 backdrop-blur-md rounded-lg shadow-lg border border-white border-opacity-20 text-white user-select-none">

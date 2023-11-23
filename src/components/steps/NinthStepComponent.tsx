@@ -69,12 +69,11 @@ const NinthStepComponent = forwardRef<NinthStepComponentRef, NinthStepComponentP
             scale={0.5}
             position={[2.5, 5, 0]}
           />
-          {<Sphere scale={0.05} position={[0, 0.05, 0.68]} />}
         </group>
         <group position={[0, 7, 3]} scale={0.5}>
           <AnswerBox
             question="What is the reading on the balance?"
-            correctAnswer="0.5017 g"
+            correctAnswers={["0.5017 g", ".5017 g", ".5017", "0.5017", ".5017g", "0.5017g"]}
             onCorrectAnswer={() => {
               if (nextButtonRef && nextButtonRef.current) {
                 nextButtonRef.current.style.opacity = "1";
@@ -83,7 +82,7 @@ const NinthStepComponent = forwardRef<NinthStepComponentRef, NinthStepComponentP
             }}
           />
         </group>
-        <Beaker rotation-y={(-3.14 / 180) * 90} position={[2.6, 4.9, -3]} />
+        <Beaker rotation-y={(-3.14 / 180) * 90} position={[2.6, 4.90, -3]} />
       </group>
     );
   },
