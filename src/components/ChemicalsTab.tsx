@@ -1,9 +1,12 @@
 import React, { useState } from 'react';
+import Image, { StaticImageData } from 'next/image';
+import uraniumImg from "../images/uranium.jpg"
+import sampleImg from "../images/powder.png"
 
 // Define a type for the chemical item structure
 type ChemicalItem = {
   name: string;
-  image: string;
+  image: StaticImageData;
   isCorrect: boolean;
 };
 
@@ -17,9 +20,9 @@ const ChemicalsTab: React.FC<ChemicalsTabProps> = ({ onItemSelect }) => {
   const [selectedChemicals, setSelectedChemicals] = useState<Record<string, boolean>>({});
 
   const chemicalItems: ChemicalItem[] = [
-    { name: 'Powder Sample', image: 'powder.jpg', isCorrect: true },
-    { name: 'Uranium', image: 'https://th.bing.com/th/id/OIG.wd9J9FeutqTemxNdKJW7?pid=ImgGn&w=1024&h=1024&rs=1', isCorrect: false },
-    { name: 'Jason', image: 'https://media.licdn.com/dms/image/D4D03AQGkBsDtj7HvSw/profile-displayphoto-shrink_400_400/0/1692380975651?e=1705536000&v=beta&t=lEbtRpoZUZU3AB5clx-R49G-2ssNasmu7-hjnFPR71M', isCorrect: false },
+    { name: 'Powder Sample', image: sampleImg, isCorrect: true },
+    { name: 'Uranium', image: uraniumImg, isCorrect: false },
+    // { name: 'Jason', image: 'https://media.licdn.com/dms/image/D4D03AQGkBsDtj7HvSw/profile-displayphoto-shrink_400_400/0/1692380975651?e=1705536000&v=beta&t=lEbtRpoZUZU3AB5clx-R49G-2ssNasmu7-hjnFPR71M', isCorrect: false },
     // Add more items as needed
   ];
 
@@ -47,14 +50,14 @@ const ChemicalsTab: React.FC<ChemicalsTabProps> = ({ onItemSelect }) => {
   };
 
   return (
-    <div className="grid grid-cols-6 gap-4 mt-4 p-4 select-none">
+    <div className="grid grid-cols-6 gap-4 p-4 select-none">
         {chemicalItems.map((item, index) => (
           <div 
             key={index} 
             className={getItemClasses(item.name)}
             onClick={() => handleChemicalClick(item)}
           >
-            <img src={item.image} alt={item.name} className="w-full h-32 object-cover mb-2 rounded-md" />
+            <Image src={item.image} alt={item.name} className="w-full h-32 object-cover mb-2 rounded-md" />
             <p className="text-center">{item.name}</p>
           </div>
         ))}

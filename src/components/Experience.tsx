@@ -78,8 +78,10 @@ export default function Experience() {
     }
   };
 
+  const stepsWithRefs = new Set([4, 5, 6, 7, 8, 10]); // Add other steps as needed
+
   // Check if the current step has a replay animation
-  let hasReplayAnimation: boolean = true; // This will later be refined for better UX
+  const hasReplayAnimation : boolean = stepsWithRefs.has(currentStep);
 
   return (
     <>
@@ -134,7 +136,6 @@ export default function Experience() {
       )}
       {currentStep === 9 && (
         <NinthStepComponent
-          ref={(el) => (stepRefs.current[9] = el as StepComponentRef)}
           nextButtonRef={nextButtonRef}
         />
       )}
@@ -146,13 +147,11 @@ export default function Experience() {
       )}
       {currentStep === 11 && (
         <EleventhStepComponent
-          ref={(el) => (stepRefs.current[11] = el as StepComponentRef)}
           nextButtonRef={nextButtonRef}
         />
       )}
       {currentStep === 12 && (
         <TwelvthStepComponent
-          ref={(el) => (stepRefs.current[12] = el as StepComponentRef)}
           nextButtonRef={nextButtonRef}
         />
       )}
