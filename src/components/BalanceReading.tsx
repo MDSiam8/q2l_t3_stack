@@ -40,7 +40,7 @@ const BalanceReading = forwardRef<BalanceReadingRef, BalanceReadingProps>((props
 
   return (
     <Html occlude position={[1.9, .86, 0]} transform rotation-y={Math.PI / 180 * 90} rotation-x={Math.PI / 180 * 0} scale={0.2} zIndexRange={[10,1]}>
-      <div className="bg-blue-300 bg-opacity-40 w-60 text-white p-4 rounded-3xl">
+      <div className="bg-blue-300 bg-opacity-40 w-60 text-white p-4 rounded-3xl select-none">
         <h2 className="text-xl mb-2 whitespace-pre-wrap text-center">{displayedWeight.toFixed(4)} g</h2>
         {/* Commented buttons */}
       </div>

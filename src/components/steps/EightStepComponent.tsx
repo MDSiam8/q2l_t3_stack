@@ -27,16 +27,15 @@ const EighthStepComponent = forwardRef<
   EighthStepComponentMethods,
   EighthStepComponentProps
 >(({ setIsAnimating }, ref) => {
-  
   const balanceWithAnimationsRef = useRef<BalanceWithAnimationsHandles>(null);
   const weighingPaperRef = useRef<WeighingPaperRef>(null);
   const groupRef = useRef<Group>(null); // Internal ref for the Group
 
   useEffect(() => {
-    updateBalanceReadingAfterAddingPowder(0.5017);
-    setIsAnimating(true);
-    handleReplayAnimation(); // Start the initial animation sequence
-    setIsAnimating(false);
+    // updateBalanceReadingAfterAddingPowder(0.5017);
+    // setIsAnimating(true);
+    // handleReplayAnimation(); // Start the initial animation sequence
+    // setIsAnimating(false);
   }, []);
 
   const updateBalanceReadingAfterAddingPowder = (num: number) => {
@@ -58,7 +57,7 @@ const EighthStepComponent = forwardRef<
   useImperativeHandle(ref, () => ({
     replayAnimation: async () => {
       handleReplayAnimation();
-    }
+    },
   }));
 
   return (
@@ -67,6 +66,12 @@ const EighthStepComponent = forwardRef<
         isOpen={false}
         position={[0, 4.55, 0]}
         ref={balanceWithAnimationsRef}
+        onClick={() => {
+          updateBalanceReadingAfterAddingPowder(0.5017);
+          setIsAnimating(true);
+          handleReplayAnimation(); // Start the initial animation sequence
+          setIsAnimating(false);
+        }}
       />
       <group position={[0.6, 5.6, -0.02]}>
         <WeighingPaper

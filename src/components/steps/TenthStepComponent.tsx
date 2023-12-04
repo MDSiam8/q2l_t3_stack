@@ -76,9 +76,9 @@ const TenthStepComponent = forwardRef<
   const handleReplayAnimation = async () => {
     resetAnimationObjects();
     if (balanceWithAnimationsRef.current!) {
-      await balanceWithAnimationsRef.current.replayAnimation();
+      balanceWithAnimationsRef.current.replayAnimation();
     }
-    await animateWeighingPaperAndSphere();
+    animateWeighingPaperAndSphere();
   };
 
   useImperativeHandle(ref, () => ({

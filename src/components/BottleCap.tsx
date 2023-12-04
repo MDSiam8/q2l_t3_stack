@@ -15,3 +15,5 @@ export function BottleCap(props: any) {
     />
   );
 }
+
+useGLTF.preload("./sample bottle cap.gltf")

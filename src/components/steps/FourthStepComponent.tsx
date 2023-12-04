@@ -1,4 +1,9 @@
-import React, { useRef, useEffect, useImperativeHandle, forwardRef } from "react";
+import React, {
+  useRef,
+  useEffect,
+  useImperativeHandle,
+  forwardRef,
+} from "react";
 import BalanceWithAnimations from "../BalanceWithAnimations";
 import { Beaker } from "../Beaker";
 import { Bottle } from "../Bottle";
@@ -14,24 +19,33 @@ interface BalanceWithAnimationsRef {
 const FourthStepComponent = forwardRef<{}>((props, ref) => {
   const balanceWithAnimationsRef = useRef<BalanceWithAnimationsRef>(null);
 
-  useEffect(() => {
-    // Trigger the animation as soon as the component mounts
-    if (balanceWithAnimationsRef.current) {
-      balanceWithAnimationsRef.current.replayAnimation();
-    }
-  }, []);
+  // useEffect(() => {
+  //   // Trigger the animation as soon as the component mounts
+  //   if (balanceWithAnimationsRef.current) {
+  //     balanceWithAnimationsRef.current.replayAnimation();
+  //   }
+  // }, []);
 
   useImperativeHandle(ref, () => ({
     replayAnimation: () => {
       if (balanceWithAnimationsRef.current) {
         balanceWithAnimationsRef.current.replayAnimation();
       }
-    }
+    },
   }));
 
   return (
     <group>
-      <BalanceWithAnimations ref={balanceWithAnimationsRef} isOpen={true} position={[0, 4.55, 0]} />
+      <BalanceWithAnimations
+        ref={balanceWithAnimationsRef}
+        isOpen={true}
+        position={[0, 4.55, 0]}
+        onClick={() => {
+          if (balanceWithAnimationsRef.current) {
+            balanceWithAnimationsRef.current.replayAnimation();
+          }
+        }}
+      />
       {/* Additional elements specific to the fourth step can be added here */}
       <Beaker rotation-y={(-3.14 / 180) * 90} position={[2.6, 4.9, -3]} />
       <WeighingPaper

@@ -53,6 +53,10 @@ const SeventhStepComponent = forwardRef<unknown, SeventhStepComponentProps>(
       null,
     );
 
+    const setButtonsDisabled = (disabled : boolean) => {
+      setButtonDisabled({ add: disabled, remove: disabled });
+    };
+
     useEffect(() => {
       if (bottleCapGroup.current) {
 
@@ -189,7 +193,6 @@ const SeventhStepComponent = forwardRef<unknown, SeventhStepComponentProps>(
 
     const animateSpatulaForAdd = () => {
       setActiveButton("add");
-      setButtonDisabled({ add: true, remove: true });
       setIsAnimating(true);
       spatulaGroup.current.position.copy(endSpatulaPosition);
       spatulaGroup.current.rotation.copy(endSpatulaRotation);
@@ -236,13 +239,64 @@ const SeventhStepComponent = forwardRef<unknown, SeventhStepComponentProps>(
 
     const handleAddWeight = () => {
       // Logic for adding weight
+      setButtonsDisabled(true);
       animateSpatulaForAdd();
+      setTimeout(() => {
+        setButtonsDisabled(false);
+      }, 4000);
     };
+    const handleAddExtraWeight = () => {
+      setActiveButton("add");
+      setButtonsDisabled(true);
+      setIsAnimating(true);
+      spatulaGroup.current.position.copy(endSpatulaPosition);
+      spatulaGroup.current.rotation.copy(endSpatulaRotation);
+      setPowderVisible(true);
 
+      // Move spatula up
+      new TWEEN.Tween(spatulaGroup.current.position)
+        .to({ y: spatulaGroup.current.position.y + 1.5 }, 1000)
+        .easing(TWEEN.Easing.Quadratic.Out)
+        .start();
+
+      // Rotate spatula on x axis (executes after moving up)
+      setTimeout(() => {
+        new TWEEN.Tween(spatulaGroup.current.rotation)
+          .to({ y: Math.PI / 2 }, 1000) // 90 degrees
+          .easing(TWEEN.Easing.Quadratic.Out)
+          .start();
+      }, 1000);
+
+      setTimeout(() => {
+        new TWEEN.Tween(spatulaGroup.current.position)
+          .to({ x: 0.2, y: 5.8, z: 0 }, 1000) // Adjust distance as needed
+          .easing(TWEEN.Easing.Quadratic.Out)
+          .start();
+
+        new TWEEN.Tween(spatulaGroup.current.rotation)
+          .to({ z: Math.PI / 2 }, 1000) // 90 degrees
+          .easing(TWEEN.Easing.Quadratic.Out)
+          .onComplete(() => {
+            setPowderVisible(false);
+            setSphereScale(sphereScale + 0.06);
+            const newReading = balanceReading + 0.2002;
+            updateBalanceReading(newReading);
+            updateBalanceReadingAfterAddingPowder(newReading);
+            setIsAnimating(false);
+          }) // Hide powder at the end
+          .start();
+      }, 2000);
+      setTimeout(() => {
+        // setButtonDisabled({ add: false, remove: false });
+        setButtonsDisabled(false);
+        setActiveButton(null);
+      }, 4000);
+
+    }
     const handleRemoveWeight = () => {
       // Disable the add button and enable it after the animation
-      setButtonDisabled({ add: true, remove: true });
       setActiveButton("remove");
+      setButtonsDisabled(true);
 
       // Reset spatula position to where the add weight animation ended
       spatulaGroup.current.position.copy(new THREE.Vector3(0.2, 5.8, 0));
@@ -287,8 +341,9 @@ const SeventhStepComponent = forwardRef<unknown, SeventhStepComponentProps>(
           })
           .start();
       }, 1000);
+
       setTimeout(() => {
-        setButtonDisabled({ add: false, remove: false });
+        setButtonsDisabled(false);
         setActiveButton(null);
       }, 3000);
     };
@@ -343,6 +398,18 @@ const SeventhStepComponent = forwardRef<unknown, SeventhStepComponentProps>(
                   ? "cursor-not-allowed bg-gray-300 opacity-50"
                   : "bg-gradient-to-br from-green-300 to-green-500 hover:scale-110 hover:from-green-200 hover:to-green-400"
               }`}
+              onClick={handleAddExtraWeight}
+              disabled={buttonDisabled.add}
+            >
+              Add+
+            </button>
+
+            <button
+              className={`ml-4 rounded-full p-3 text-sm font-bold text-white shadow-lg transition-transform duration-300 focus:outline-none focus:ring ${
+                buttonDisabled.add
+                  ? "cursor-not-allowed bg-gray-300 opacity-50"
+                  : "bg-gradient-to-br from-green-300 to-green-500 hover:scale-110 hover:from-green-200 hover:to-green-400"
+              }`}
               onClick={handleAddWeight}
               disabled={buttonDisabled.add}
             >
@@ -356,7 +423,12 @@ const SeventhStepComponent = forwardRef<unknown, SeventhStepComponentProps>(
                   ? "cursor-not-allowed bg-gray-300 opacity-50"
                   : "bg-gradient-to-br from-red-300 to-red-500 hover:scale-110 hover:from-pink-200 hover:to-red-400"
               }`}
-              onClick={handleRemoveWeight}
+              onClick={ () => {
+
+                setButtonsDisabled(true);
+                handleRemoveWeight();
+              }
+              }
               disabled={buttonDisabled.remove}
             >
               Remove

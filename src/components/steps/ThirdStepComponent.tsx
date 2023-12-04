@@ -6,6 +6,7 @@ import { Beaker } from "../Beaker";
 import { Spatula } from "../Spatula";
 import { BottleCap } from "../BottleCap";
 import { Bottle } from "../Bottle";
+import { useGLTF } from "@react-three/drei";
 interface SelectedItems {
   [itemName: string]: boolean;
 }

@@ -14,3 +14,5 @@ export function Beaker(props: any) {
     />
   );
 }
+
+useGLTF.preload("./Beaker.gltf");

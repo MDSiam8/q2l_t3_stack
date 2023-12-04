@@ -6,3 +6,5 @@ export function Spatula(props: any) {
   const clonedScene = spatula.scene.clone(); // Clone the scene for isolated use
   return <primitive {...props} object={clonedScene} />;
 }
+
+useGLTF.preload("./spatula.gltf")

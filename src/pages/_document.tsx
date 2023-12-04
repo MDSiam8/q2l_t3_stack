@@ -18,6 +18,7 @@ class MyDocument extends Document {
         <body>
             {/* <div > */}
             <div id="root"></div>
+            <div id="overlay-root"></div> 
 
             {/* </div> */}
           <Main />

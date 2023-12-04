@@ -30,3 +30,5 @@ export function Bottle(props: any) {
     />
   );
 }
+
+useGLTF.preload("./sample bottle body.gltf")

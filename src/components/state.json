@@ -49,6 +49,7 @@
     "stepTitle": "Open Side Window",
     "description": "Animation showing us opening the side window of the analytical balance.",
     "directions": "Next, open the side window of the analytical balance.",
+    "user_instructions": "Click on the balance's side door that is to your right to open it.",
     "objectsInFocus": [
       "analytical_balance"
     ]
@@ -57,6 +58,7 @@
     "stepTitle": "Folding Weighing Paper Diagonally",
     "description": "Animation showing us obtaining and folding a weighing paper in half.",
     "directions": "Obtain a weighing paper and fold it diagonally.",
+    "user_instructions": "Click the weighing paper to fold it.",
     "objectsInFocus": [
       "weighing_paper"
     ]
@@ -74,6 +76,7 @@
     "stepTitle": "Add Powder Sample Onto Weighing Paper",
     "description": "Add the appropriate amount of powder sample onto the weighing paper that is still on the balance.",
     "directions": "Add around 0.5g of powder sample. Notice the balance reading as you do so.",
+    "user_instructions": "Use the buttons to add/remove powder sample.",
     "objectsInFocus": [
       "analytical_balance",
       "weighing_paper",
@@ -95,6 +98,7 @@
     "stepTitle": "Close Side Window",
     "description": "Animation showing us closing the side window of the analytical balance.",
     "directions": "After adding powder, close the side window of the balance.",
+    "user_instructions": "Click the side door to close it.",
     "objectsInFocus": [
       "analytical_balance",
       "weighing_paper"
@@ -167,6 +171,16 @@
         "count": 0,
         "userAnswers": []
       }
+    ]
+  },
+  "13": {
+    "stepTitle": "The End",
+    "description": "This is the ending step, indicating to the user that they have finished the lab.",
+    "directions": "Congratulations! You have finished the lab. We hope you enjoyed it!",
+    "objectsInFocus": [
+      "analytical_balance",
+      "beaker",
+      "diagonal_weighing_paper"
     ]
   }
 }

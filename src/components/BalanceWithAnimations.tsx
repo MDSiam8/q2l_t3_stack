@@ -73,3 +73,5 @@ const BalanceWithAnimations = forwardRef<BalanceWithAnimationsHandles, BalanceWi
 );
 
 export default BalanceWithAnimations;
+
+useGLTF.preload("./balanceUpdated.gltf")
