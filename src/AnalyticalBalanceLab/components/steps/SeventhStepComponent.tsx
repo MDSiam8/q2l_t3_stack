@@ -283,14 +283,17 @@ const SeventhStepComponent = forwardRef<unknown, SeventhStepComponentProps>(
             updateBalanceReading(newReading);
             updateBalanceReadingAfterAddingPowder(newReading);
             setIsAnimating(false);
+            setButtonsDisabled(false);
+            // setActiveButton(null);
           }) // Hide powder at the end
           .start();
       }, 2000);
-      setTimeout(() => {
-        // setButtonDisabled({ add: false, remove: false });
-        setButtonsDisabled(false);
-        setActiveButton(null);
-      }, 4000);
+
+      // setTimeout(() => {
+      //   // setButtonDisabled({ add: false, remove: false });
+      //   setButtonsDisabled(false);
+      //   setActiveButton(null);
+      // }, 4000);
 
     }
     const handleRemoveWeight = () => {
@@ -338,13 +341,15 @@ const SeventhStepComponent = forwardRef<unknown, SeventhStepComponentProps>(
           .easing(TWEEN.Easing.Quadratic.Out)
           .onComplete(() => {
             setPowderVisible(false);
+            setButtonsDisabled(false);
+            setActiveButton(null);
           })
           .start();
       }, 1000);
 
       setTimeout(() => {
-        setButtonsDisabled(false);
-        setActiveButton(null);
+        // setButtonsDisabled(false);
+        // setActiveButton(null);
       }, 3000);
     };
 
