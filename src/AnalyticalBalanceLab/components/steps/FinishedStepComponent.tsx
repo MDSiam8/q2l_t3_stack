@@ -1,9 +1,15 @@
-import React, { useRef } from 'react';
+import React, { useEffect, useRef } from 'react';
 import { useFrame } from '@react-three/fiber';
 import { Text } from '@react-three/drei';
 import * as THREE from 'three';
+import { setNextDisabled } from '../Experience';
 
-const FinishedStepComponent: React.FC = () => {
+interface FinishedStepComponentProps {
+  nextButtonRef: React.RefObject<HTMLButtonElement>;
+}
+
+const FinishedStepComponent: React.FC<FinishedStepComponentProps> = ({ nextButtonRef }) => {
+  // ...existing code...
   const textRef = useRef<THREE.Mesh>(null);
   const yOffset: number = 7;
 
@@ -15,6 +21,13 @@ const FinishedStepComponent: React.FC = () => {
       textRef.current.position.y = y;
     }
   });
+
+
+  useEffect(() => {
+    if (nextButtonRef && nextButtonRef.current) {
+      setNextDisabled(nextButtonRef);
+    }
+  }, [nextButtonRef]);
 
   return (
     <group>

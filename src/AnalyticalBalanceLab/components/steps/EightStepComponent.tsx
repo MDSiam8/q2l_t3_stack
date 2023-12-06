@@ -14,8 +14,10 @@ import { BottleCap } from "../BottleCap";
 import { Spatula } from "../Spatula";
 import { Html, Sphere } from "@react-three/drei";
 import { Beaker } from "../Beaker";
+import { setNextEnabled } from "../Experience";
 
 interface EighthStepComponentProps {
+  nextButtonRef: React.RefObject<HTMLButtonElement>;
   setIsAnimating: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
@@ -26,7 +28,7 @@ interface EighthStepComponentMethods {
 const EighthStepComponent = forwardRef<
   EighthStepComponentMethods,
   EighthStepComponentProps
->(({ setIsAnimating }, ref) => {
+>(({ setIsAnimating, nextButtonRef }, ref) => {
   const balanceWithAnimationsRef = useRef<BalanceWithAnimationsHandles>(null);
   const weighingPaperRef = useRef<WeighingPaperRef>(null);
   const groupRef = useRef<Group>(null); // Internal ref for the Group
@@ -70,7 +72,8 @@ const EighthStepComponent = forwardRef<
           updateBalanceReadingAfterAddingPowder(0.5017);
           setIsAnimating(true);
           handleReplayAnimation(); // Start the initial animation sequence
-          setIsAnimating(false);
+          // setIsAnimating(false);
+          setNextEnabled(nextButtonRef);
         }}
       />
       <group position={[0.6, 5.6, -0.02]}>

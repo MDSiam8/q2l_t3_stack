@@ -12,6 +12,7 @@ import { Beaker } from "../Beaker";
 import { Bottle } from "../Bottle";
 import { BottleCap } from "../BottleCap";
 import { Spatula } from "../Spatula";
+import { setNextEnabled } from "../Experience";
 
 interface BalanceWithAnimationsRef {
   replayAnimation: () => Promise<void>;
@@ -22,7 +23,13 @@ interface WeighingPaperRef {
   replayAnimation: () => void;
 }
 
-const SixthStepComponent = forwardRef<{}>((props, ref) => {
+interface SixthStepComponentProps {
+  nextButtonRef: React.RefObject<HTMLButtonElement>;
+}
+
+const SixthStepComponent = forwardRef<{}, SixthStepComponentProps>(
+  ({ nextButtonRef }, ref) => {
+
   const balanceWithAnimationsRef = useRef<BalanceWithAnimationsRef>(null);
   const weighingPaperRef = useRef<WeighingPaperRef>(null);
   const paperGroup = useRef(new THREE.Group());
@@ -81,6 +88,7 @@ const SixthStepComponent = forwardRef<{}>((props, ref) => {
     await movePaperLeft(); // Move left
     await movePaperDown(); // Then move down
     updateBalanceReadingAfterPaperDown(0.0012);
+    setNextEnabled(nextButtonRef);
   };
 
   useImperativeHandle(ref, () => ({

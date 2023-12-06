@@ -12,12 +12,18 @@ import { Bottle } from "../Bottle";
 import { BottleCap } from "../BottleCap";
 import { Spatula } from "../Spatula";
 import { Beaker } from "../Beaker";
+import { setNextEnabled } from "../Experience";
 
 interface WeighingPaperRef {
   replayAnimation: () => void;
 }
 
-const FifthStepComponent = forwardRef<{}>((props, ref) => {
+
+interface FifthStepComponentProps {
+  nextButtonRef: React.RefObject<HTMLButtonElement>;
+}
+const FifthStepComponent = forwardRef<{}, FifthStepComponentProps>(
+  ({ nextButtonRef }, ref) => {
   const weighingPaperRef = useRef<WeighingPaperRef>(null);
   const paperGroup = useRef(new THREE.Group());
   const originalStartPos = new THREE.Vector3(0, 5, -3); // Initial position
@@ -88,6 +94,8 @@ const FifthStepComponent = forwardRef<{}>((props, ref) => {
               if (weighingPaperRef.current) {
                 weighingPaperRef.current.replayAnimation();
               }
+            }).then(() => {
+              setNextEnabled(nextButtonRef);
             });
           }}
         />

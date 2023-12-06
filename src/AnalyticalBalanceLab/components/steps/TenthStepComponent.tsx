@@ -17,6 +17,7 @@ import { Spatula } from "../Spatula";
 import { Sphere } from "@react-three/drei";
 import AnswerBox from "../AnswerBox";
 import { Beaker } from "../Beaker";
+import { setNextEnabled } from "../Experience";
 
 interface TenthStepComponentProps {
   nextButtonRef: React.RefObject<HTMLButtonElement>;
@@ -114,7 +115,7 @@ const TenthStepComponent = forwardRef<
                   sphereRef.current.visible = false; // Hide the sphere after animation
                 }
                 setSphereScale(0.15);
-
+                setNextEnabled(nextButtonRef);
                 // Return the weighing paper to its original position and rotation
                 if (
                   initialWeighingPaperPosition &&

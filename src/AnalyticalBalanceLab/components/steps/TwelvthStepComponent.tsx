@@ -17,6 +17,7 @@ import React, {
   import { Beaker } from "../Beaker";
 import chartImg from './chart.jpg';
 import { BalanceReadingRef } from "../BalanceReading";
+import { setNextDisabled, setNextEnabled } from "../Experience";
   
 interface TwelvthStepComponentProps {
   nextButtonRef: React.RefObject<HTMLButtonElement>;
@@ -34,8 +35,7 @@ const TwelvthStepComponent = forwardRef<THREE.Group, TwelvthStepComponentProps>(
     useEffect(() => {
       updateBalanceReadingAfterAddingPowder(0.0012);
       if (nextButtonRef && nextButtonRef.current) {
-        nextButtonRef.current.disabled = true; // Disable the button initially
-        nextButtonRef.current.style.opacity = "0.5";
+        setNextDisabled(nextButtonRef);
       }
     }, []);
   
@@ -85,8 +85,7 @@ const TwelvthStepComponent = forwardRef<THREE.Group, TwelvthStepComponentProps>(
           correctAnswers={["0.5005 g", ".5005 g", "0.5005", ".5005", "0.5005g", ".5005g"]}
           onCorrectAnswer={() => {
             if (nextButtonRef && nextButtonRef.current) {
-              nextButtonRef.current.style.opacity = "1";
-              nextButtonRef.current.disabled = false; // Enable the button when the correct answer is given
+              setNextEnabled(nextButtonRef);
             }
           }}
           imageUrl="https://media.discordapp.net/attachments/773313587141672961/1173949610700578936/Screenshot_2023-11-14_060341.png?ex=6565d0c6&is=65535bc6&hm=a242149e5db348711ecbbc3fbc33965267783aca17c0f3914d5dd1aff0c01ae1&=&width=273&height=102"

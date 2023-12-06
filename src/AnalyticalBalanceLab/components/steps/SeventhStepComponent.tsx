@@ -7,16 +7,18 @@ import React, {
 } from "react";
 import BalanceWithAnimations from "../BalanceWithAnimations";
 import WeighingPaper from "../WeighingPaper";
-import {Bottle} from "../Bottle";
+import { Bottle } from "../Bottle";
 import { BottleCap } from "../BottleCap";
 import { Spatula } from "../Spatula";
 import { Html, Sphere } from "@react-three/drei";
 import * as THREE from "three";
 import * as TWEEN from "@tweenjs/tween.js";
 import { HtmlProps } from "@react-three/drei/web/Html";
+import { setNextEnabled } from "../Experience";
 
 interface SeventhStepComponentProps {
   setIsAnimating: React.Dispatch<React.SetStateAction<boolean>>;
+  nextButtonRef: React.RefObject<HTMLButtonElement>;
   // Include other props as necessary
 }
 interface BalanceWithAnimationsRef {
@@ -28,7 +30,7 @@ interface WeighingPaperRef {
   replayAnimation: () => void;
 }
 const SeventhStepComponent = forwardRef<unknown, SeventhStepComponentProps>(
-  ({ setIsAnimating }, ref) => {
+  ({ setIsAnimating, nextButtonRef }, ref) => {
     const balanceWithAnimationsRef = useRef<BalanceWithAnimationsRef>(null);
     const weighingPaperRef = useRef<WeighingPaperRef>(null);
     const bottleCapGroup = useRef(new THREE.Group());
@@ -52,14 +54,24 @@ const SeventhStepComponent = forwardRef<unknown, SeventhStepComponentProps>(
     const [activeButton, setActiveButton] = useState<"remove" | "add" | null>(
       null,
     );
+    const [netButtonPush, setNetButtonPush] = useState(0);
 
-    const setButtonsDisabled = (disabled : boolean) => {
+    const setButtonsDisabled = (disabled: boolean) => {
       setButtonDisabled({ add: disabled, remove: disabled });
     };
 
     useEffect(() => {
-      if (bottleCapGroup.current) {
+      if (netButtonPush == 5) {
+        // Logic to enable the Next button
+        // Assuming you have a ref to the Next button
+        if (nextButtonRef.current) {
+          setNextEnabled(nextButtonRef);
+        }
+      }
+    }, [netButtonPush, nextButtonRef]);
 
+    useEffect(() => {
+      if (bottleCapGroup.current) {
       }
       updateBalanceReadingAfterAddingPowder(balanceReading);
       setPowderVisible(false);
@@ -244,6 +256,7 @@ const SeventhStepComponent = forwardRef<unknown, SeventhStepComponentProps>(
       setTimeout(() => {
         setButtonsDisabled(false);
       }, 4000);
+      setNetButtonPush((prev) => prev + 1); // Adds 1
     };
     const handleAddExtraWeight = () => {
       setActiveButton("add");
@@ -284,6 +297,7 @@ const SeventhStepComponent = forwardRef<unknown, SeventhStepComponentProps>(
             updateBalanceReadingAfterAddingPowder(newReading);
             setIsAnimating(false);
             setButtonsDisabled(false);
+            setNetButtonPush((prev) => prev + 2); // Adds 2
             // setActiveButton(null);
           }) // Hide powder at the end
           .start();
@@ -294,8 +308,7 @@ const SeventhStepComponent = forwardRef<unknown, SeventhStepComponentProps>(
       //   setButtonsDisabled(false);
       //   setActiveButton(null);
       // }, 4000);
-
-    }
+    };
     const handleRemoveWeight = () => {
       // Disable the add button and enable it after the animation
       setActiveButton("remove");
@@ -343,6 +356,7 @@ const SeventhStepComponent = forwardRef<unknown, SeventhStepComponentProps>(
             setPowderVisible(false);
             setButtonsDisabled(false);
             setActiveButton(null);
+            setNetButtonPush((prev) => prev - 1); // Subtracts 1
           })
           .start();
       }, 1000);
@@ -428,12 +442,10 @@ const SeventhStepComponent = forwardRef<unknown, SeventhStepComponentProps>(
                   ? "cursor-not-allowed bg-gray-300 opacity-50"
                   : "bg-gradient-to-br from-red-300 to-red-500 hover:scale-110 hover:from-pink-200 hover:to-red-400"
               }`}
-              onClick={ () => {
-
+              onClick={() => {
                 setButtonsDisabled(true);
                 handleRemoveWeight();
-              }
-              }
+              }}
               disabled={buttonDisabled.remove}
             >
               Remove
