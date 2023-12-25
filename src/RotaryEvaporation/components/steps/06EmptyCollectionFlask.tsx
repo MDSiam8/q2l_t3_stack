@@ -1,0 +1,41 @@
+import React, { useEffect, forwardRef } from "react";
+import { RotavapWithHeatBathAnim } from "../rotavap/RotavapWithHeatOnAnim";
+import { OrganicProductBeaker } from "../BeakerWithSolution";
+import { setNextEnabled } from "../Experience";
+import { Html } from "next/document";
+import { HundredMLFlask } from "../round-bottom-flasks/100mlRBFlask";
+import { TwentyFiveMLFlask } from "../round-bottom-flasks/25mlRBFlask";
+import { FiftyMLFlask } from "../round-bottom-flasks/50mlRBFlask";
+import { RotavapWithFlaskAnim } from "../rotavap/RotavapWithFlaskAnim";
+import { Beaker } from "~/AnalyticalBalanceLab/components/Beaker";
+
+interface Step2LabTasksProps {
+  nextButtonRef: React.RefObject<HTMLButtonElement>;
+}
+
+const Step6EmptyCollectionFlask = forwardRef<HTMLDivElement, Step2LabTasksProps>(
+  ({ nextButtonRef }, ref) => {
+
+    useEffect(() => {
+      // Enable the next button after 3 seconds
+      const timer = setTimeout(() => {
+        if (nextButtonRef && nextButtonRef.current) {
+          setNextEnabled(nextButtonRef);
+        }
+      }, 3000);
+
+      // Clear the timeout if the component unmounts
+      return () => clearTimeout(timer);
+    }, [nextButtonRef]);
+
+    return (
+        <group>
+        <RotavapWithFlaskAnim position={[0, 5, 0]} scale={0.8}/>
+        <HundredMLFlask position={[2.2, 5, -2.2]} />
+        <Beaker position={[1.6,5,2.5]} />
+      </group>
+    );
+  }
+);
+
+export default Step6EmptyCollectionFlask;
