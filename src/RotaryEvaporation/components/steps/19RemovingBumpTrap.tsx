@@ -17,6 +17,7 @@ import { RotavapTurnOff } from "../rotavap/RotavapTurnOff";
 import { RotavapOpenStopcock } from "../rotavap/RotavapOpenStopcock";
 import { RotavapRemoveFlask } from "../rotavap/RotavapRemoveFlask";
 import { RotavapRemoveBumpTrap } from "../rotavap/RotavapRemoveBumpTrap";
+import { RBFlaskWithEvaporatedProduct } from "../round-bottom-flasks/RBFlaskWithEvapProduct";
 
 interface Step2LabTasksProps {
   nextButtonRef: React.RefObject<HTMLButtonElement>;
@@ -39,7 +40,7 @@ const Step19RemoveBumpTrap = forwardRef<HTMLDivElement, Step2LabTasksProps>(
     return (
       <group>
         <RotavapRemoveBumpTrap position={[0, 5, 0]} scale={0.8} />
-        <HundredMLFlask position={[2.2, 5, -2.2]} />
+        <RBFlaskWithEvaporatedProduct position={[2.2, 5, 0]} />
       </group>
     );
   },

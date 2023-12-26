@@ -67,6 +67,7 @@
         "stepTitle": "",
         "description": "A balance with the side window open with a folder filter paper inside it.",
         "directions": "Empty all the liquid (if any) in the solvent collection flask. Then, connect back the solvent collection flask to the rotary evaporator.",
+        "user_instructions": "Click the solvent collection flask to empty it into beaker.",
         "objectsInFocus": [
             "analytical_balance",
             "weighing_paper"
@@ -75,8 +76,8 @@
     "7": {
         "stepTitle": "",
         "description": "Add the appropriate amount of powder sample onto the weighing paper that is still on the balance.",
-        "directions": "Turn on the hot water bath, to around 40 Celsius.",
-        "user_instructions": "Click the power switch to turn it on, then turn the knob to the appropriate temperature.",
+        "directions": "Turn on the hot water bath by pressing the power button and rotating the temperature knob to around 40 Celsius.",
+        "user_instructions": "Click the power switch to turn it on.",
         "objectsInFocus": [
             "analytical_balance",
             "weighing_paper",
@@ -109,7 +110,7 @@
         "stepTitle": "Transfer Sample Powder Into Clean Beaker",
         "description": "Animation showing us adding the sample powder from a diagonally folded filter paper into a beaker.",
         "directions": "Raise the side arm of the rotary evaporator.",
-        "user_instructions": "Click and drag the up arrow to raise the arm.",
+        "user_instructions": "Click the arm to raise it.",
         "objectsInFocus": [
             "analytical_balance",
             "beaker",
@@ -130,7 +131,7 @@
         "stepTitle": "",
         "description": "User anwers the net weight of the sample powder obtained onto the number pad.",
         "directions": "Turn on and adjust the rotation knob to start turning it at a certain speed.",
-        "user_instructions": "Press the power button to turn on. Then, rotate the knob.",
+        "user_instructions": "Press the power button to start the process of turning it on.",
         "objectsInFocus": [
             "number_pad",
             "beaker"
@@ -161,6 +162,7 @@
         "stepTitle": "",
         "description": "This is the ending step, indicating to the user that they have finished the lab.",
         "directions": "After evaporation, raise the arm of the rotavap to remove the flask from the water bath.",
+        "user_instructions": "Click on the arm to raise it.",
         "objectsInFocus": [
             "analytical_balance",
             "beaker",
@@ -171,7 +173,7 @@
         "stepTitle": "",
         "description": "This is the ending step, indicating to the user that they have finished the lab.",
         "directions": "Turn off the rotation. Then, turn off the hot water bath.",
-        "user_instructions": "Turn each knob to 0 (rotation and hot-water bath). Then press the power button to turn it off.",
+        "user_instructions": "Press the rotation knob to turn it to 0 and power off rotation. Then repeat for the hot water bath.",
         "objectsInFocus": [
             "analytical_balance",
             "beaker",
@@ -193,6 +195,7 @@
         "stepTitle": "",
         "description": "This is the ending step, indicating to the user that they have finished the lab.",
         "directions": "Turn off the condenser and the vacuum pump.",
+        "user_instructions": "Click the power buttons to turn them off.",
         "objectsInFocus": [
             "analytical_balance",
             "beaker",
@@ -203,6 +206,7 @@
         "stepTitle": "",
         "description": "This is the ending step, indicating to the user that they have finished the lab.",
         "directions": "Take off the keck clips. Then, remove the round-bottomed flask.",
+        "user_instructions": "Click on the keck clip to start removing the round-bottomed flask.",
         "objectsInFocus": [
             "analytical_balance",
             "beaker",

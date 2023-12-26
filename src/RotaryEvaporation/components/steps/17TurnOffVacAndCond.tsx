@@ -38,8 +38,6 @@ const Step17TurnOffCondensorAndVacuum = forwardRef<HTMLDivElement, Step2LabTasks
     return (
       <group>
         <RotavapRemoveFlask position={[0, 5, 0]} scale={0.8}/>
-        <HundredMLFlask position={[2.2, 5, -2.2]} />
-
         {/* Condensor Toggle Button */}
         <Html position={[2, 10, -2]} transform rotation-y={3.14/2}>
           <div className="flex flex-col items-center justify-center">

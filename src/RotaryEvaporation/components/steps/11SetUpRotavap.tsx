@@ -32,7 +32,7 @@ const Step11SetupRotavp = forwardRef<HTMLDivElement, Step2LabTasksProps>(
     return (
       <group>
         <RotavapWithSetupAnimations position={[0, 5, 0]} scale={0.8} />
-        <HundredMLFlask position={[2.2, 5, -2.2]} />
+        {/* <HundredMLFlask position={[2.2, 5, -2.2]} /> */}
       </group>
     );
   },

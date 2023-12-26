@@ -1,31 +1,34 @@
-import React, { useEffect, forwardRef } from "react";
+// Parent Component
+import React, { useState, forwardRef, useEffect } from "react";
+import { OrganicProductBeakerWithPourAnimation } from "../BeakerWithPouringAnim";
 import { RotavapWithHeatBathAnim } from "../rotavap/RotavapWithHeatOnAnim";
-import { setNextEnabled } from "../Experience";
-import { HundredMLFlask } from "../round-bottom-flasks/100mlRBFlask";
+import { HundredMLFlaskWithFillAnimation } from "../round-bottom-flasks/RBFlaskWithFillAnim";
+// Import the components used within this parent component
 
 interface Step2LabTasksProps {
   nextButtonRef: React.RefObject<HTMLButtonElement>;
 }
 
 const Step5TransferProducts = forwardRef<HTMLDivElement, Step2LabTasksProps>(
-  ({ nextButtonRef }, ref) => {
+  ({ nextButtonRef }) => {
+    const [startFlaskAnimation, setStartFlaskAnimation] = useState(9999);
 
-    useEffect(() => {
-      // Enable the next button after 3 seconds
-      const timer = setTimeout(() => {
-        if (nextButtonRef && nextButtonRef.current) {
-          setNextEnabled(nextButtonRef);
-        }
-      }, 3000);
-
-      // Clear the timeout if the component unmounts
-      return () => clearTimeout(timer);
-    }, [nextButtonRef]);
+    // Function to be called when the beaker is clicked
+    const onBeakerClick = () => {
+      // Start the beaker animation here if it's controlled within this component
+      console.log("harrrrrr i have clicked beaker");
+      setStartFlaskAnimation(1.95);
+      // Set a timeout to start the flask animation after 2 seconds
+      // setTimeout(() => {
+      //   setStartFlaskAnimation(true);
+      // }, 3400); // Delay of 2 seconds
+    };
 
     return (
-        <group>
-        <RotavapWithHeatBathAnim position={[0, 5, 0]} scale={0.8}/>
-        <HundredMLFlask position={[2.2, 5, -2.2]} />
+      <group>
+        <RotavapWithHeatBathAnim position={[0, 5, 0]} scale={0.8} />
+        <HundredMLFlaskWithFillAnimation startAnimationDelay={startFlaskAnimation} position={[2.2, 5, .4]} />
+        <OrganicProductBeakerWithPourAnimation onClick={onBeakerClick} position={[0, 5, -2.2]} rotation-y={3.14 / 180 * 180} />
       </group>
     );
   }

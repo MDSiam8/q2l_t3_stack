@@ -1,52 +1,50 @@
-import React, { useState, useEffect } from "react";
-import { useGLTF, useAnimations, Box } from "@react-three/drei";
-import { GroupProps, Vector3 } from "@react-three/fiber";
+import React, { useState, useEffect, useRef } from "react";
+import { useGLTF, Box } from "@react-three/drei";
+import { GroupProps, Vector3, useFrame } from "@react-three/fiber";
 import * as THREE from "three";
 
 export function RotavapSubmerge(props: GroupProps) {
   const gltf1 = useGLTF("./10-submerge flask.glb");
   const gltf2 = useGLTF("./11-evaporating.glb");
-  const [currentModel, setCurrentModel] = useState(gltf1);
+  const [isFirstModel, setIsFirstModel] = useState(true);
+  const mixer1 = useRef(new THREE.AnimationMixer(gltf1.scene));
+  const mixer2 = useRef(new THREE.AnimationMixer(gltf2.scene));
 
-  const { scene, animations } = currentModel;
-  const clonedScene = scene.clone(); // Clone the scene for isolated use
-  const { actions } = useAnimations(animations, clonedScene);
+  const playFirstAnimation = () => {
+    const action = mixer1.current.clipAction(gltf1.animations[0] as THREE.AnimationClip);
+    action.reset().play();
+    action.setEffectiveTimeScale(0.75);
 
-  // Function to play the animation and switch models
-  const playAnimation = () => {
-    const animationName = "Animation";
-    const action = actions[animationName];
-    if (action) {
-      action.reset().play();
-      action.setEffectiveTimeScale(0.75);
-    //   action.setLoop(THREE.LoopOnce, 1);
-    //   action.clampWhenFinished = true;
-
-      // Assuming the duration of the animation is known
-      const animationDuration = 2000; // Duration in milliseconds
-      setTimeout(() => {
-        setCurrentModel(gltf2); // Switch to the second model after the animation duration
-      }, animationDuration);
-    }
+    setTimeout(() => {
+      setIsFirstModel(false);
+    }, action.getClip().duration * 1000);
   };
 
   useEffect(() => {
-    if (currentModel === gltf2) {
-      const action = actions["Animation"];
-      if (action) {
-        action.reset().play();
-        // action.setLoop(THREE.LoopRepeat, Infinity);
-      }
+    if (!isFirstModel) {
+      const action = mixer2.current.clipAction(gltf2.animations[0] as THREE.AnimationClip);
+      action.reset().play();
+      action.setLoop(THREE.LoopRepeat, Infinity);
     }
-  }, [currentModel, actions]);
+  }, [isFirstModel]);
 
-  const hitboxPosition : Vector3 = [-1.5, 4.0, 2.5];
-  const hitboxScale : Vector3 = [2, 6, 2];
+  // Update the mixers every frame
+  useFrame((_, delta) => {
+    mixer1.current.update(delta);
+    mixer2.current.update(delta);
+  });
+
+  const hitboxPosition: Vector3 = [-1.5, 4.0, 2.5];
+  const hitboxScale: Vector3 = [2, 6, 2];
 
   return (
     <group {...props}>
-      <primitive object={clonedScene} scale={0.8} opacity={0.8} />
-      <Box position={hitboxPosition} scale={hitboxScale} onClick={playAnimation}>
+      {isFirstModel ? (
+        <primitive object={gltf1.scene} scale={0.8} opacity={0.8} />
+      ) : (
+        <primitive object={gltf2.scene} scale={0.8} opacity={0.8} />
+      )}
+      <Box position={hitboxPosition} scale={hitboxScale} onClick={playFirstAnimation}>
         <meshStandardMaterial transparent opacity={0.0} />
       </Box>
     </group>

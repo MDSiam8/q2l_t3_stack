@@ -31,7 +31,7 @@ const Step9CloseStopcock = forwardRef<HTMLDivElement, Step2LabTasksProps>(
       <group>
         <Arrow pointingDirection="right" position={[0,9.2,4.9]} />
         <RotavapCloseStopcock position={[0, 5, 0]} scale={0.8} />
-        <HundredMLFlask position={[2.2, 5, -2.2]} />
+        <HundredMLFlask position={[2.2, 5, .4]} />
       </group>
     );
   },

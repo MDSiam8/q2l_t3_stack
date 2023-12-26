@@ -1,63 +1,93 @@
-import React, { useState, useEffect } from "react";
-import { useGLTF, useAnimations, Box } from "@react-three/drei";
-import { GroupProps, Vector3 } from "@react-three/fiber";
+import React, { useState, useEffect, useRef } from "react";
+import { useGLTF, Box } from "@react-three/drei";
+import { GroupProps, Vector3, useFrame } from "@react-three/fiber";
 import * as THREE from "three";
 import Arrow from "../Arrow";
 
 export function RotavapTurnOff(props: GroupProps) {
+  const initialGltf = useGLTF("./9-start rotating.glb");
   const gltf1 = useGLTF("./13-turn off rotation.glb");
   const gltf2 = useGLTF("./14-turn off heat bath.glb");
-  const [currentModel, setCurrentModel] = useState(gltf1);
-  const [animationState, setAnimationState] = useState(0); // 0: first animation, 1: second animation
+  const [animationState, setAnimationState] = useState("initial");
 
-  const { scene, animations } = currentModel;
-  const clonedScene = scene.clone(); // Clone the scene for isolated use
-  const { actions } = useAnimations(animations, clonedScene);
+  // Mixers for each GLTF
+  const initialMixer = useRef(
+    new THREE.AnimationMixer(initialGltf.scene),
+  ).current;
+  const mixer1 = useRef(new THREE.AnimationMixer(gltf1.scene)).current;
+  const mixer2 = useRef(new THREE.AnimationMixer(gltf2.scene)).current;
 
-  // Function to play the first animation
+  // Play the initial animation
+  useEffect(() => {
+    const action = initialMixer.clipAction(
+      initialGltf.animations[0] as THREE.AnimationClip,
+    );
+    action.play();
+  }, [initialGltf.animations, initialMixer]);
+
+  // Function to trigger the first animation
   const playFirstAnimation = () => {
-    const action = actions["Animation"];
-    if (action) {
-      action.reset().play();
-      action.setEffectiveTimeScale(0.75);
-      action.setLoop(THREE.LoopOnce, 1);
-      action.clampWhenFinished = true;
-
-      setTimeout(() => {
-        setAnimationState(1); // Enable second animation
-      }, 3000); // Adjust duration as needed
-    }
+    const action = mixer1.clipAction(
+      gltf1.animations[0] as THREE.AnimationClip,
+    );
+    action.reset().play();
+    action.setLoop(THREE.LoopOnce, 1); // Play only once
+    setAnimationState("first");
   };
 
-  // Function to play the second animation
+  // Function to trigger the second animation
   const playSecondAnimation = () => {
-    setCurrentModel(gltf2);
-    const action = actions["Animation"];
-    if (action) {
-      action.reset().play();
-      action.clampWhenFinished = true;
-      action.setLoop(THREE.LoopOnce, 1);
-
-    //   action.setLoop(THREE.LoopRepeat, Infinity);
-    }
+    const action = mixer2.clipAction(
+      gltf2.animations[0] as THREE.AnimationClip,
+    );
+    action.reset().play();
+    action.setLoop(THREE.LoopOnce, 1); // Play only once
+    setAnimationState("second");
   };
 
-  const hitboxPosition1 : Vector3 = [-.75, 6.35, 2.85];
-  const hitboxPosition2 : Vector3 = [1.8, .85, -0.5];
-  const hitboxScale : Vector3 = [.5, .5, .5];
+  // Update mixers every frame
+  useFrame((_, delta) => {
+    initialMixer.update(delta);
+    mixer1.update(delta);
+    mixer2.update(delta);
+  });
+
+  const hitboxPosition1: Vector3 = [-0.75, 6.35, 2.05];
+  const hitboxPosition2: Vector3 = [1.8, 0.85, -0.5];
+  const hitboxScale: Vector3 = [0.5, 0.5, 0.5];
 
   return (
     <group {...props}>
-      <primitive object={clonedScene} scale={0.8} opacity={0.8} />
-      {animationState === 0 && <Arrow pointingDirection="left" position={[-.7, 6.3, 1]} />}
-      {animationState === 1 && <Arrow pointingDirection="left" position={[1.6, .9, -2]} />}
-      {animationState === 0 && (
-        <Box position={hitboxPosition1} scale={hitboxScale} onClick={playFirstAnimation}>
-          <meshStandardMaterial transparent opacity={0.00} />
+      {animationState === "initial" && (
+        <primitive object={initialGltf.scene} scale={0.8} opacity={0.8} />
+      )}
+      {animationState === "first" && (
+        <primitive object={gltf1.scene} scale={0.8} opacity={0.8} />
+      )}
+      {animationState === "second" && (
+        <primitive object={gltf2.scene} scale={0.8} opacity={0.8} />
+      )}
+      {animationState === "initial" && (
+        <Arrow pointingDirection="left" position={[-0.7, 6.3, 1]} />
+      )}
+      {animationState === "first" && (
+        <Arrow pointingDirection="left" position={[1.6, 0.9, -2]} />
+      )}
+      {animationState === "initial" && (
+        <Box
+          position={hitboxPosition1}
+          scale={hitboxScale}
+          onClick={playFirstAnimation}
+        >
+          <meshStandardMaterial transparent opacity={0.0} />
         </Box>
       )}
-      {animationState === 1 && (
-        <Box position={hitboxPosition2} scale={hitboxScale} onClick={playSecondAnimation}>
+      {animationState === "first" && (
+        <Box
+          position={hitboxPosition2}
+          scale={hitboxScale}
+          onClick={playSecondAnimation}
+        >
           <meshStandardMaterial transparent opacity={0.0} />
         </Box>
       )}
@@ -65,5 +95,6 @@ export function RotavapTurnOff(props: GroupProps) {
   );
 }
 
+useGLTF.preload("./9-start rotating.glb");
 useGLTF.preload("./13-turn off rotation.glb");
 useGLTF.preload("./14-turn off heat bath.glb");

@@ -36,7 +36,7 @@ const Step4SelectFlask = forwardRef<HTMLDivElement, Step2LabTasksProps>(
     return (
       <group>
         <RotavapWithHeatBathAnim position={[0, 5, 0]} scale={0.8}/>
-        <HundredMLFlask onClick={() => handleFlaskClick(100, [2.2, 6, -2.2])} position={[2.2, 5, -2.2]} rotation-y={3.14*1/2}/>
+        <HundredMLFlask scale={0.8} isEmpty={true} onClick={() => handleFlaskClick(100, [2.2, 6, -2.2])} position={[2.2, 4.9, -2.2]} rotation-y={3.14*1/2}/>
         <FiftyMLFlask onClick={() => handleFlaskClick(50, [2.2, 6, 0])} position={[2.2, 5, 0]} rotation-y={3.14*1/2} />
         <TwentyFiveMLFlask onClick={() => handleFlaskClick(25, [2.2, 6, 2.2])} position={[2.2, 5, 2.2]} rotation-y={3.14*1/2} />
 

@@ -1,18 +1,35 @@
-import React, { useRef } from "react";
-import { useFBX, useGLTF } from "@react-three/drei";
+import React, { useEffect } from "react";
+import { useGLTF, useAnimations } from "@react-three/drei";
+import * as THREE from "three";
 
-export function HundredMLFlask(props: any) {
-  const beaker = useGLTF("./round-bottomed flask 100ml.gltf"); // This needs to be replaced by the correct model.
-  const clonedScene = beaker.scene.clone(); // Clone the scene for isolated use
+interface HundredMLFlaskProps {
+  isEmpty?: boolean;
+  [key: string]: any;
+}
+
+export function HundredMLFlask({ isEmpty = false, ...props }: HundredMLFlaskProps) {
+  const emptyFlask = useGLTF("./round-bottomed flask 100ml.gltf");
+  const filledFlask = useGLTF("./rb flask filling animation.glb");
+  const clonedScene = isEmpty ? emptyFlask.scene.clone() : filledFlask.scene.clone();
+  const { actions } = useAnimations(filledFlask.animations, clonedScene);
+
+  useEffect(() => {
+    if (!isEmpty) {
+      console.log("it is not empty!");
+      const animation = actions['Animation'];
+      if (animation) {
+        animation.play();
+        animation.paused = true; // Pause the animation immediately
+        animation.time = animation.getClip().duration;
+        animation.enabled = true;
+      }
+    }
+  }, [isEmpty, actions]);
 
   return (
-    <primitive
-      {...props}
-      object={clonedScene}
-      scale={.8}
-      opacity={0.8}
-    />
+    <primitive {...props} object={clonedScene} opacity={0.8} />
   );
 }
 
 useGLTF.preload("./round-bottomed flask 100ml.gltf");
+useGLTF.preload("./rb flask filling animation.glb");

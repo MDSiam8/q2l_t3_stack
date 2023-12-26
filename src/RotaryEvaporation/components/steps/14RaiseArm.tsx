@@ -35,7 +35,7 @@ const Step14RaiseArm = forwardRef<HTMLDivElement, Step2LabTasksProps>(
     return (
       <group>
         <RotavapRaiseArmAfterEvap position={[0, 5, 0]} scale={0.8} />
-        <HundredMLFlask position={[2.2, 5, -2.2]} />
+        {/* <HundredMLFlask position={[2.2, 5, -2.2]} /> */}
       </group>
     );
   },

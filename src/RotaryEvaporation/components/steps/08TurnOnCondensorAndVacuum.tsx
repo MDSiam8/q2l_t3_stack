@@ -36,7 +36,7 @@ const Step8TurnOnCondensorAndVacuum = forwardRef<HTMLDivElement, Step2LabTasksPr
     return (
       <group>
         <RotavapWithHeatBathAnim position={[0, 5, 0]} scale={0.8}/>
-        <HundredMLFlask position={[2.2, 5, -2.2]} />
+        <HundredMLFlask position={[2.2, 5, .4]} />
 
         {/* Condensor Toggle Button */}
         <Html position={[2, 10, -2]} transform rotation-y={3.14/2}>

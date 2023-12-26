@@ -1,22 +1,6 @@
 import React, { useEffect, forwardRef } from "react";
-import { RotavapWithHeatBathAnim } from "../rotavap/RotavapWithHeatOnAnim";
-import { OrganicProductBeaker } from "../BeakerWithSolution";
 import { setNextEnabled } from "../Experience";
-import { Html } from "next/document";
-import { HundredMLFlask } from "../round-bottom-flasks/100mlRBFlask";
-import { TwentyFiveMLFlask } from "../round-bottom-flasks/25mlRBFlask";
-import { FiftyMLFlask } from "../round-bottom-flasks/50mlRBFlask";
-import { RotavapCloseStopcock } from "../rotavap/RotavapCloseStopcock";
-import Arrow from "../Arrow";
-import { RotavapWithRaiseArmAnim } from "../rotavap/RotavapRaiseArmAnimation";
-import { RotavapWithSetupAnimations } from "../rotavap/RotavapWithSetupAnimations";
-import { RotavapTurnOnRotation } from "../rotavap/RotavapTurnOnRotation";
-import { RotavapSubmerge } from "../rotavap/RotavapSubmerged";
-import { RotavapRaiseArmAfterEvap } from "../rotavap/RotavapRaiseArmAfterEvap";
-import { RotavapTurnOff } from "../rotavap/RotavapTurnOff";
-import { RotavapOpenStopcock } from "../rotavap/RotavapOpenStopcock";
-import { RotavapRemoveFlask } from "../rotavap/RotavapRemoveFlask";
-import { RotavapRemoveBumpTrap } from "../rotavap/RotavapRemoveBumpTrap";
+import { RBFlaskWithEvaporatedProduct } from "../round-bottom-flasks/RBFlaskWithEvapProduct";
 
 interface Step2LabTasksProps {
   nextButtonRef: React.RefObject<HTMLButtonElement>;
@@ -38,7 +22,7 @@ const Step20Conclusion = forwardRef<HTMLDivElement, Step2LabTasksProps>(
 
     return (
       <group>
-        <HundredMLFlask position={[2.2, 5, -2.2]} />
+        <RBFlaskWithEvaporatedProduct position={[0,4.9,3.7]} />
       </group>
     );
   },

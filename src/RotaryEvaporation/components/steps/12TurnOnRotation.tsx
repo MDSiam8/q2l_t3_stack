@@ -32,8 +32,9 @@ const Step12TurnOnRotation = forwardRef<HTMLDivElement, Step2LabTasksProps>(
 
     return (
       <group>
+        <Arrow pointingDirection="right" position={[-.8,10,3.1]}/>
         <RotavapTurnOnRotation position={[0, 5, 0]} scale={0.8} />
-        <HundredMLFlask position={[2.2, 5, -2.2]} />
+        {/* <HundredMLFlask position={[2.2, 5, -2.2]} /> */}
       </group>
     );
   },

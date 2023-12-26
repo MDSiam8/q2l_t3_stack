@@ -93,7 +93,7 @@ export const setNextEnabled = (nextButtonRef : React.RefObject<HTMLButtonElement
   }
 }
 export default function Experience() {
-  const [currentStep, setCurrentStep] = useState<number>(1);
+  const [currentStep, setCurrentStep] = useState<number>(13);
   const key = currentStep.toString() as StateKey;
   const stepData = state[key]; // Safe indexing
   const stepRefs = useRef<Record<number, StepComponentRef>>({});
@@ -140,6 +140,7 @@ export default function Experience() {
           position: [11.57, 10.1, -0.314],
         }}
       >
+        <color attach="background" args={["#404040"]} />
         <CameraAdjuster />
         {/* <CameraControls makeDefault ref={cameraControlsRef} onStart={() => {
           cameraControlsRef.current?.setFocalOffset(0,-2.5,0, true);
