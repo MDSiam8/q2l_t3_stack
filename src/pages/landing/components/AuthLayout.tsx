@@ -1,8 +1,13 @@
+import React, { ReactNode } from 'react';
 import Image from 'next/image'
 
-import backgroundImage from '@/images/background-auth.jpg'
+import backgroundImage from '../images/background-auth.jpg'
 
-export function AuthLayout({ children }) {
+type AuthLayoutProps = {
+  children: ReactNode;
+};
+
+export function AuthLayout({ children }: AuthLayoutProps) {
   return (
     <>
       <div className="relative flex min-h-full justify-center md:px-12 lg:px-0">

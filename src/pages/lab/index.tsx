@@ -20,6 +20,14 @@ function MyApp(): JSX.Element | null {
       const newRoot = ReactDOM.createRoot(rootElement);
       setRoot(newRoot);
     }
+
+    return () => {
+      // Cleanup function to handle component unmount
+      if (root) {
+        root.unmount();
+      }
+      
+    };
   }, [root]);
 
   useEffect(() => {
