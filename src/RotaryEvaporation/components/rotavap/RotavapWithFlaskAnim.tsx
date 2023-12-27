@@ -12,7 +12,6 @@ export function RotavapWithFlaskAnim({ animationTime = 1, ...props }: RotavapWit
   const { scene } = useGLTF("./1-turn on heat bath.glb");
   const clonedScene = scene.clone(); // Clone the scene for isolated use
   const [startFlaskAnimation, setStartFlaskAnimation] = useState(false);
-  const specificFlaskRef = useRef<THREE.Object3D>(null);
 
   useEffect(() => {
     // Find and hide the specific flask part
@@ -38,7 +37,7 @@ export function RotavapWithFlaskAnim({ animationTime = 1, ...props }: RotavapWit
       <CollectionFlaskWithWastePourAnimation startAnimation={startFlaskAnimation} position={[0, 2.5, 3.7]} scale={0.8} rotation-y={3.14}/>
       <primitive object={clonedScene} scale={0.8} />
       <Box position={hitboxPosition} scale={hitboxScale} onClick={playAnimation}>
-        <meshStandardMaterial transparent opacity={0} />
+        <meshStandardMaterial transparent opacity={.0} />
       </Box>
     </group>
   );

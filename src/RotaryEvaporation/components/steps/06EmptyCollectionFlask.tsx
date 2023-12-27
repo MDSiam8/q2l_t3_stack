@@ -20,7 +20,7 @@ const Step6EmptyCollectionFlask = forwardRef<
   HTMLDivElement,
   Step2LabTasksProps
 >(({ nextButtonRef }, ref) => {
-  const [ startAnimationDelay, setStartAnimationDelay ] = useState<number>(9999);
+  const [startAnimationDelay, setStartAnimationDelay] = useState<number>(9999);
   useEffect(() => {
     // Enable the next button after 3 seconds
     const timer = setTimeout(() => {
@@ -43,14 +43,17 @@ const Step6EmptyCollectionFlask = forwardRef<
           setStartAnimationDelay(0);
         }}
       />
-      <HundredMLFlask position={[2.2, 5, .4]} />
-      <BeakerWithWasteFillAnimation position={[1., 5, 3]} scale={1.2} startAnimationDelay={startAnimationDelay} />
+      <HundredMLFlask position={[2.2, 5, 0.4]} />
+      <BeakerWithWasteFillAnimation
+        position={[1, 5, 3]}
+        scale={1.2}
+        startAnimationDelay={startAnimationDelay}
+      />
       <group position={[0.4, 5, -3.8]}>
-          <KeckClip position={[0, 0, 0.6]} />
-          <KeckClip />
-        </group>
-        <BumpTrap position={[-0.5, 5.25, -4.2]} rotation-x={3.14 / 2} />
-
+        <KeckClip position={[0, 0, 0.6]} />
+        <KeckClip />
+      </group>
+      <BumpTrap position={[-0.5, 5.25, -4.2]} rotation-x={3.14 / 2} />
     </group>
   );
 });

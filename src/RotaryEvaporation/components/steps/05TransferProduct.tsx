@@ -22,7 +22,6 @@ const Step5TransferProducts = forwardRef<HTMLDivElement, Step2LabTasksProps>(
     // Function to be called when the beaker is clicked
     const onBeakerClick = () => {
       // Start the beaker animation here if it's controlled within this component
-      console.log("harrrrrr i have clicked beaker");
       setStartFlaskAnimation(1.95);
       // Set a timeout to start the flask animation after 2 seconds
       // setTimeout(() => {
