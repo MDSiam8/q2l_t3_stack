@@ -1,237 +1,137 @@
 {
     "1": {
         "stepTitle": "Lab Objectives",
-        "description": "Simply a starting page describing what we'll do in this lab",
+        "description": "Introduction to the lab and overview of objectives.",
         "directions": "In this lab, you will learn how to use a rotary evaporator (rotavap).",
-        "objectsInFocus": [
-            "rotary_evaporator"
-        ]
+        "objectsInFocus": ["rotovap"]
     },
     "2": {
-        "stepTitle": "Task",
-        "description": "Page showing powder sample and explaining how our task is to weigh around 0.5 g of that powder sample",
+        "stepTitle": "Understanding the Task",
+        "description": "Explaining the goal of removing solvent from the product solution using the rotavap.",
         "directions": "You have a purified organic product with solvent. Your aim is to remove the solvent by rotary evaporation.",
-        "objectsInFocus": [
-            "powder_sample"
-        ]
+        "objectsInFocus": ["product_solution", "rotovap"]
     },
     "3": {
-        "stepTitle": "Apparatus and Chemical Selection",
-        "description": "Take out all the correct apparatus and chemicals neeed from the cabinet",
-        "directions": "First of all, take out all the apparatus needed for the lab from the cabinet.",
-        "objectsInFocus": [
-            "analytical_balance",
-            "spatula",
-            "beaker",
-            "weighing_paper",
-            "sample"
-        ],
-        "mistakes": [
-            {
-                "mistakeDescription": "Selected incorrect items from cabinet",
-                "context": "Equipment setup",
-                "correctAnswer": [
-                    "analytical_balance",
-                    "spatula",
-                    "beaker",
-                    "weighing_paper",
-                    "sample"
-                ],
-                "category": "selection_mistake",
-                "count": 0,
-                "userAnswers": [
-                    "[DYNAMICALLY UPDATE WITH USER'S SELECTIONS AND UPDATE COUNT EACH TIME USER CHOOSES INCORRECT OPTION]"
-                ]
-            }
-        ]
+        "stepTitle": "Preparing for Evaporation",
+        "description": "Setting up the necessary apparatus for rotary evaporation.",
+        "directions": "First, take out all the apparatus needed for the lab from the cabinet.",
+        "objectsInFocus": ["rotovap", "round_bottomed_flask", "bump_trap", "keck_clips"]
     },
     "4": {
-        "stepTitle": "Select Flask",
-        "description": "Animation showing us opening the side window of the analytical balance.",
+        "stepTitle": "Flask Selection",
+        "description": "Choosing the suitable flask for the given volume of product solution.",
         "directions": "Suppose you have around 40mL of product solution, which round-bottomed flask is the most suitable?",
         "user_instructions": "Click on the flask that will best do the job.",
-        "objectsInFocus": [
-            "analytical_balance"
-        ]
+        "objectsInFocus": ["round_bottomed_flask"]
     },
     "5": {
-        "stepTitle": "",
-        "description": "Animation showing us obtaining and folding a weighing paper in half.",
+        "stepTitle": "Transferring the Product",
+        "description": "Preparing to transfer the organic product into the selected round-bottomed flask.",
         "directions": "Transfer the organic product into the chosen round-bottomed flask.",
         "user_instructions": "Click the beaker to transfer it.",
-        "objectsInFocus": [
-            "weighing_paper"
-        ]
+        "objectsInFocus": ["product_solution", "round_bottomed_flask"]
     },
     "6": {
-        "stepTitle": "",
-        "description": "A balance with the side window open with a folder filter paper inside it.",
-        "directions": "Empty all the liquid (if any) in the solvent collection flask. Then, connect back the solvent collection flask to the rotary evaporator.",
-        "user_instructions": "Click the solvent collection flask to empty it into beaker.",
-        "objectsInFocus": [
-            "analytical_balance",
-            "weighing_paper"
-        ]
+        "stepTitle": "Setting Up the Rotovap",
+        "description": "Preparing the rotary evaporator for the evaporation process.",
+        "directions": "Empty all the liquid in the solvent collection flask and then connect it back to the rotary evaporator.",
+        "user_instructions": "Click the solvent collection flask to empty it into the beaker.",
+        "objectsInFocus": ["rotovap", "solvent_collection_flask"]
     },
     "7": {
-        "stepTitle": "",
-        "description": "Add the appropriate amount of powder sample onto the weighing paper that is still on the balance.",
-        "directions": "Turn on the hot water bath by pressing the power button and rotating the temperature knob to around 40 Celsius.",
+        "stepTitle": "Activating the Water Bath",
+        "description": "Setting up the water bath for the evaporation process.",
+        "directions": "Turn on the hot water bath by pressing the power button and setting the temperature to around 40 Celsius.",
         "user_instructions": "Click the power switch to turn it on.",
-        "objectsInFocus": [
-            "analytical_balance",
-            "weighing_paper",
-            "spatula",
-            "sample"
-        ]
+        "objectsInFocus": ["rotovap", "hot_water_bath"]
     },
     "8": {
-        "stepTitle": "",
-        "description": "Animation showing us closing the side window of the analytical balance.",
+        "stepTitle": "Starting the Condenser and Vacuum Pump",
+        "description": "Activating the condenser and the vacuum pump of the rotary evaporator.",
         "directions": "Turn on the condenser and the vacuum pump.",
         "user_instructions": "Click the buttons to turn them on.",
-        "objectsInFocus": [
-            "analytical_balance",
-            "weighing_paper"
-        ]
+        "objectsInFocus": ["rotovap", "condenser", "vacuum_pump"]
     },
     "9": {
-        "stepTitle": "",
-        "description": "User anwers the stabilized reading onto the number pad.",
+        "stepTitle": "Reducing Pressure",
+        "description": "Adjusting the rotovap to create the optimal evaporation conditions.",
         "directions": "Close the stopcock of the condenser to further reduce pressure.",
         "user_instructions": "Rotate 90 degrees towards you.",
-        "objectsInFocus": [
-            "analytical_balance",
-            "weighing_paper",
-            "number_pad"
-        ]
+        "objectsInFocus": ["rotovap", "stopcock"]
     },
     "10": {
-        "stepTitle": "Transfer Sample Powder Into Clean Beaker",
-        "description": "Animation showing us adding the sample powder from a diagonally folded filter paper into a beaker.",
+        "stepTitle": "Raising the Rotovap Arm",
+        "description": "Adjusting the position of the rotary evaporator's arm for evaporation.",
         "directions": "Raise the side arm of the rotary evaporator.",
         "user_instructions": "Click the arm to raise it.",
-        "objectsInFocus": [
-            "analytical_balance",
-            "beaker",
-            "diagonal_weighing_paper"
-        ]
+        "objectsInFocus": ["rotovap"]
     },
     "11": {
-        "stepTitle": "",
-        "description": "User anwers the stabilized reading onto the number pad.",
+        "stepTitle": "Securing the Flask",
+        "description": "Securing the product flask to the rotary evaporator for safe operation.",
         "directions": "Secure the bump trap with a Keck clip. Then, connect the product flask to the bump trap, and secure it with a Keck clip.",
-        "objectsInFocus": [
-            "analytical_balance",
-            "weighing_paper",
-            "number_pad"
-        ]
+        "objectsInFocus": ["rotovap", "bump_trap", "keck_clips", "product_flask"]
     },
     "12": {
-        "stepTitle": "",
-        "description": "User anwers the net weight of the sample powder obtained onto the number pad.",
-        "directions": "Turn on and adjust the rotation knob to start turning it at a certain speed.",
-        "user_instructions": "Press the power button to start the process of turning it on.",
-        "objectsInFocus": [
-            "number_pad",
-            "beaker"
-        ],
-        "mistakes": [
-            {
-                "mistakeDescription": "Calculate incorrect weight",
-                "context": "Number pad usage",
-                "correctAnswer": "0.5005 grams",
-                "category": "input_mistake",
-                "count": 0,
-                "userAnswers": []
-            }
-        ]
+        "stepTitle": "Adjusting Rotovap Settings",
+        "description": "Setting the rotational speed for effective evaporation.",
+        "directions": "Turn on and adjust the rotation knob to start turning the rotovap at the desired speed.",
+        "user_instructions": "Press the power button to start the rotation.",
+        "objectsInFocus": ["rotovap"]
     },
     "13": {
-        "stepTitle": "Submerge the Flask",
-        "description": "This is the ending step, indicating to the user that they have finished the lab.",
+        "stepTitle": "Submerging the Flask",
+        "description": "Immersing the flask into the water bath for efficient evaporation.",
         "directions": "Slowly submerge the flask into the hot water bath. If necessary, adjust the height of the round-bottomed flask afterwards to prevent bumping of liquid, so that there is moderate evaporation as shown.",
         "user_instructions": "Click on the arm to bring it down and submerge the flask.",
-        "objectsInFocus": [
-            "analytical_balance",
-            "beaker",
-            "diagonal_weighing_paper"
-        ]
+        "objectsInFocus": ["rotovap", "round_bottomed_flask"]
     },
     "14": {
-        "stepTitle": "",
-        "description": "This is the ending step, indicating to the user that they have finished the lab.",
-        "directions": "After evaporation, raise the arm of the rotavap to remove the flask from the water bath.",
+        "stepTitle": "Removing the Flask",
+        "description": "Taking the flask out of the water bath after evaporation.",
+        "directions": "After evaporation, raise the arm of the rotovap to remove the flask from the water bath.",
         "user_instructions": "Click on the arm to raise it.",
-        "objectsInFocus": [
-            "analytical_balance",
-            "beaker",
-            "diagonal_weighing_paper"
-        ]
+        "objectsInFocus": ["rotovap", "round_bottomed_flask"]
     },
     "15": {
-        "stepTitle": "",
-        "description": "This is the ending step, indicating to the user that they have finished the lab.",
-        "directions": "Turn off the rotation. Then, turn off the hot water bath.",
-        "user_instructions": "Press the rotation knob to turn it to 0 and power off rotation. Then repeat for the hot water bath.",
-        "objectsInFocus": [
-            "analytical_balance",
-            "beaker",
-            "diagonal_weighing_paper"
-        ]
+        "stepTitle": "Turning Off the Rotovap",
+        "description": "Shutting down the rotary evaporator after the evaporation process.",
+        "directions": "Turn off the rotation, then turn off the hot water bath.",
+        "user_instructions": "Press the rotation knob to zero and power off. Then repeat for the hot water bath.",
+        "objectsInFocus": ["rotovap", "hot_water_bath"]
     },
     "16": {
-        "stepTitle": "",
-        "description": "This is the ending step, indicating to the user that they have finished the lab.",
+        "stepTitle": "Releasing Vacuum",
+        "description": "Releasing the vacuum in the rotary evaporator system.",
         "directions": "Release the vacuum by opening the stopcock.",
         "user_instructions": "Click on the stopcock to open it.",
-        "objectsInFocus": [
-            "analytical_balance",
-            "beaker",
-            "diagonal_weighing_paper"
-        ]
+        "objectsInFocus": ["rotovap", "stopcock"]
     },
     "17": {
-        "stepTitle": "",
-        "description": "This is the ending step, indicating to the user that they have finished the lab.",
+        "stepTitle": "Turning Off Condenser and Vacuum Pump",
+        "description": "Turning off additional components of the rotary evaporator.",
         "directions": "Turn off the condenser and the vacuum pump.",
         "user_instructions": "Click the power buttons to turn them off.",
-        "objectsInFocus": [
-            "analytical_balance",
-            "beaker",
-            "diagonal_weighing_paper"
-        ]
+        "objectsInFocus": ["rotovap", "condenser", "vacuum_pump"]
     },
     "18": {
-        "stepTitle": "",
-        "description": "This is the ending step, indicating to the user that they have finished the lab.",
+        "stepTitle": "Detaching the Flask",
+        "description": "Removing the flask from the rotary evaporator setup.",
         "directions": "Take off the keck clips. Then, remove the round-bottomed flask.",
         "user_instructions": "Click on the keck clip to start removing the round-bottomed flask.",
-        "objectsInFocus": [
-            "analytical_balance",
-            "beaker",
-            "diagonal_weighing_paper"
-        ]
+        "objectsInFocus": ["rotovap", "keck_clips", "round_bottomed_flask"]
     },
     "19": {
-        "stepTitle": "",
-        "description": "This is the ending step, indicating to the user that they have finished the lab.",
-        "directions": "Next up, please remove the bump trap.",
+        "stepTitle": "Removing the Bump Trap",
+        "description": "Detaching the bump trap from the rotary evaporator.",
+        "directions": "Next, remove the bump trap.",
         "user_instructions": "Click on the keck clip to start removing it.",
-        "objectsInFocus": [
-            "analytical_balance",
-            "beaker",
-            "diagonal_weighing_paper"
-        ]
+        "objectsInFocus": ["rotovap", "bump_trap", "keck_clips"]
     },
     "20": {
-        "stepTitle": "The End",
-        "description": "This is the ending step, indicating to the user that they have finished the lab.",
+        "stepTitle": "Lab Conclusion",
+        "description": "Concluding the lab and reviewing the results.",
         "directions": "The organic product without solvent is obtained.",
-        "objectsInFocus": [
-            "analytical_balance",
-            "beaker",
-            "diagonal_weighing_paper"
-        ]
+        "objectsInFocus": ["product_solution", "round_bottomed_flask"]
     }
 }

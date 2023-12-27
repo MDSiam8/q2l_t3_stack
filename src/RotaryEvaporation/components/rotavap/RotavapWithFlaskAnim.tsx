@@ -35,7 +35,7 @@ export function RotavapWithFlaskAnim({ animationTime = 1, ...props }: RotavapWit
 
   return (
     <group {...props}>
-      <CollectionFlaskWithWastePourAnimation startAnimation={startFlaskAnimation} position={[0, 2.5, 3.7]} scale={0.8} rotationY={3.14}/>
+      <CollectionFlaskWithWastePourAnimation startAnimation={startFlaskAnimation} position={[0, 2.5, 3.7]} scale={0.8} rotation-y={3.14}/>
       <primitive object={clonedScene} scale={0.8} />
       <Box position={hitboxPosition} scale={hitboxScale} onClick={playAnimation}>
         <meshStandardMaterial transparent opacity={0} />

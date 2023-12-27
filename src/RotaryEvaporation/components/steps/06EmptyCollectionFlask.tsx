@@ -9,6 +9,8 @@ import { FiftyMLFlask } from "../round-bottom-flasks/50mlRBFlask";
 import { RotavapWithFlaskAnim } from "../rotavap/RotavapWithFlaskAnim";
 import { Beaker } from "~/AnalyticalBalanceLab/components/Beaker";
 import { BeakerWithWasteFillAnimation } from "../BeakerWithLiquidCollectionAnimation";
+import { KeckClip } from "../KeckClip";
+import { BumpTrap } from "../BumpTrap";
 
 interface Step2LabTasksProps {
   nextButtonRef: React.RefObject<HTMLButtonElement>;
@@ -43,6 +45,12 @@ const Step6EmptyCollectionFlask = forwardRef<
       />
       <HundredMLFlask position={[2.2, 5, .4]} />
       <BeakerWithWasteFillAnimation position={[1., 5, 3]} scale={1.2} startAnimationDelay={startAnimationDelay} />
+      <group position={[0.4, 5, -3.8]}>
+          <KeckClip position={[0, 0, 0.6]} />
+          <KeckClip />
+        </group>
+        <BumpTrap position={[-0.5, 5.25, -4.2]} rotation-x={3.14 / 2} />
+
     </group>
   );
 });

@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import Image, { StaticImageData } from 'next/image';
 import uraniumImg from "../images/uranium.jpg"
-import sampleImg from "../images/powder.png"
+import sampleImg from "../images/beakerWithSolution.png"
 
 // Define a type for the chemical item structure
 type ChemicalItem = {

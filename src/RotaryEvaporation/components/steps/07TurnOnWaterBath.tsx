@@ -7,6 +7,8 @@ import { HundredMLFlask } from "../round-bottom-flasks/100mlRBFlask";
 import { TwentyFiveMLFlask } from "../round-bottom-flasks/25mlRBFlask";
 import { FiftyMLFlask } from "../round-bottom-flasks/50mlRBFlask";
 import Arrow from "../Arrow";
+import { BumpTrap } from "../BumpTrap";
+import { KeckClip } from "../KeckClip";
 
 interface Step2LabTasksProps {
   nextButtonRef: React.RefObject<HTMLButtonElement>;
@@ -31,6 +33,12 @@ const Step7TurnOnHotWaterBath = forwardRef<HTMLDivElement, Step2LabTasksProps>(
         <Arrow pointingDirection="right" position={[1.2, 5.15, 1]} />
         <RotavapWithHeatBathAnim position={[0, 5, 0]} scale={0.8} />
         <HundredMLFlask position={[2.2, 5, .4]}/>
+        <group position={[0.4, 5, -3.8]}>
+          <KeckClip position={[0, 0, 0.6]} />
+          <KeckClip />
+        </group>
+        <BumpTrap position={[-0.5, 5.25, -4.2]} rotation-x={3.14 / 2} />
+
       </group>
     );
   },

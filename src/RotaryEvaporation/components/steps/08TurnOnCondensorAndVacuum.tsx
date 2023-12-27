@@ -3,6 +3,8 @@ import { RotavapWithHeatBathAnim } from "../rotavap/RotavapWithHeatOnAnim";
 import { HundredMLFlask } from "../round-bottom-flasks/100mlRBFlask";
 import { Html } from "@react-three/drei";
 import { setNextEnabled } from "../Experience";
+import { BumpTrap } from "../BumpTrap";
+import { KeckClip } from "../KeckClip";
 
 interface Step2LabTasksProps {
   nextButtonRef: React.RefObject<HTMLButtonElement>;
@@ -37,6 +39,11 @@ const Step8TurnOnCondensorAndVacuum = forwardRef<HTMLDivElement, Step2LabTasksPr
       <group>
         <RotavapWithHeatBathAnim position={[0, 5, 0]} scale={0.8}/>
         <HundredMLFlask position={[2.2, 5, .4]} />
+        <group position={[0.4, 5, -3.8]}>
+          <KeckClip position={[0, 0, 0.6]} />
+          <KeckClip />
+        </group>
+        <BumpTrap position={[-0.5, 5.25, -4.2]} rotation-x={3.14 / 2} />
 
         {/* Condensor Toggle Button */}
         <Html position={[2, 10, -2]} transform rotation-y={3.14/2}>

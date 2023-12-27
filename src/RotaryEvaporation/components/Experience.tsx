@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { Suspense, useEffect, useRef, useState } from "react";
 import {
   CameraControls,
   CameraControlsProps,
@@ -13,7 +13,7 @@ import state from "../state.json";
 import { Canvas, useFrame, useThree } from "@react-three/fiber";
 import { CameraAdjuster } from "./CameraAdjuster";
 import { Camera, Vector3 } from "three";
-import  Step1LabObjectives from "./steps/01LabObjective";
+import Step1LabObjectives from "./steps/01LabObjective";
 import Step2LabTasks from "./steps/02LabTask";
 import Step3InventorySelection from "./steps/03SelectFromInventory";
 import Step4SelectFlask from "./steps/04SelectCorrectFlask";
@@ -73,25 +73,30 @@ interface StepComponentRef {
   replayAnimation?: () => void;
   // other methods or properties
 }
-export const getClassNameForNext = (isDisabled : boolean) : string => {
-  let str = "mb-2 flex-grow transform rounded-lg bg-gradient-to-r from-blue-400 to-purple-500 px-4 py-2 font-bold text-white transition duration-300 hover:scale-105 ";
+export const getClassNameForNext = (isDisabled: boolean): string => {
+  let str =
+    "mb-2 flex-grow transform rounded-lg bg-gradient-to-r from-blue-400 to-purple-500 px-4 py-2 font-bold text-white transition duration-300 hover:scale-105 ";
   if (isDisabled) str += "cursor-not-allowed bg-gray-400 opacity-50";
   return str;
-}
+};
 
-export const setNextDisabled = (nextButtonRef : React.RefObject<HTMLButtonElement>) => {
-  if(nextButtonRef && nextButtonRef.current) {
+export const setNextDisabled = (
+  nextButtonRef: React.RefObject<HTMLButtonElement>,
+) => {
+  if (nextButtonRef && nextButtonRef.current) {
     nextButtonRef.current.disabled = true;
     nextButtonRef.current.className = getClassNameForNext(true);
   }
-}
+};
 
-export const setNextEnabled = (nextButtonRef : React.RefObject<HTMLButtonElement>) => {
-  if(nextButtonRef && nextButtonRef.current) {
+export const setNextEnabled = (
+  nextButtonRef: React.RefObject<HTMLButtonElement>,
+) => {
+  if (nextButtonRef && nextButtonRef.current) {
     nextButtonRef.current.disabled = false;
     nextButtonRef.current.className = getClassNameForNext(false);
   }
-}
+};
 export default function Experience() {
   const [currentStep, setCurrentStep] = useState<number>(1);
   const key = currentStep.toString() as StateKey;
@@ -99,17 +104,16 @@ export default function Experience() {
   const stepRefs = useRef<Record<number, StepComponentRef>>({});
   const [isAnimating, setIsAnimating] = useState<boolean>(false);
   const nextButtonRef = useRef<HTMLButtonElement>(null);
-  const replayButtonRef = useRef<HTMLButtonElement>(null);
+  // const replayButtonRef = useRef<HTMLButtonElement>(null);
 
   const cameraControlsRef = useRef<Camera>(null);
   const [nextButtonTempDisabled, setNextButtonTempDisabled] = useState(false);
-  
+
   const handleNextStep = () => {
     if (currentStep < Object.keys(state).length) {
       setCurrentStep(currentStep + 1);
       // setNextDisabled(nextButtonRef);
-      
-      
+
       // setNextButtonTempDisabled(true);
       // setTimeout(() => {
       //   setNextButtonTempDisabled(false);
@@ -117,111 +121,114 @@ export default function Experience() {
     }
   };
 
-  const handleReplayAnimation = () => {
-    const currentStepRef = stepRefs.current[currentStep];
-    if (currentStepRef && currentStepRef.replayAnimation) {
-      currentStepRef.replayAnimation();
-    }
-  };
+  const [loadingMessage, setLoadingMessage] = useState("Loading Resources");
 
-  const stepsWithRefs = new Set([4, 5, 6, 7, 8, 10]); // Add other steps as needed
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setLoadingMessage((prev) => {
+        const dots = (prev.match(/\./g) || []).length;
+        return `Loading Resources${'.'.repeat((dots + 1) % 4)}`;
+      });
+    }, 500); // Update every half second
 
-  // Check if the current step has a replay animation
-  const hasReplayAnimation: boolean = stepsWithRefs.has(currentStep);
-
+    return () => clearInterval(interval);
+  }, []);
+  
   return (
     <div style={{ position: "relative", height: "100vh" }}>
-      <Canvas
-        shadows
-        camera={{
-          fov: 45,
-          // near: 0.1,
-          // far: 200,
-          position: [11.57, 10.1, -0.314],
-        }}
-      >
-        <color attach="background" args={["#404040"]} />
-        <CameraAdjuster />
-        {/* <CameraControls makeDefault ref={cameraControlsRef} onStart={() => {
-          cameraControlsRef.current?.setFocalOffset(0,-2.5,0, true);
-        }}/> */}
-        <OrbitControls minDistance={9} maxDistance={70} />
-
-        <ambientLight intensity={1.6} />
-        <directionalLight
-          castShadow
-          position={[1, 2, 3]}
-          intensity={1.5}
-          shadow-normalBias={0.04}
-        />
-
-        {/* Common elements like Table */}
-        <Table scale={13} position-y={-1} />
-        {/* Green-yellow plane */}
-        <mesh
-          receiveShadow
-          position-y={-1}
-          rotation-x={-Math.PI * 0.5}
-          scale={65}
+      <Suspense fallback={<div style={loadingStyle}>{loadingMessage}</div>}>
+        <Canvas
+          shadows
+          camera={{
+            fov: 45,
+            position: [11.57, 10.1, -0.314],
+          }}
         >
-          <planeGeometry  />
-          <meshStandardMaterial color="gray" />
-        </mesh>
+          <color attach="background" args={["#404040"]} />
+          <CameraAdjuster />
+          <OrbitControls minDistance={9} maxDistance={70} />
+          <ambientLight intensity={1.6} />
+          <directionalLight
+            castShadow
+            position={[1, 2, 3]}
+            intensity={1.5}
+            shadow-normalBias={0.04}
+          />
 
-        {/* Conditional Rendering of Step Components */}
-        {currentStep === 1 && <Step1LabObjectives />}
-         {currentStep === 2 && <Step2LabTasks nextButtonRef={nextButtonRef} />}
-         {currentStep === 3 && <Step3InventorySelection nextButtonRef={nextButtonRef} />}
-        {currentStep === 4 && (
-          <Step4SelectFlask
-            nextButtonRef={nextButtonRef}
-          />
-        )}
-       {currentStep === 5 && (
-          <Step5TransferProducts
-          nextButtonRef={nextButtonRef}
-          />
-        )}
-        {currentStep === 6 && (
-          <Step6EmptyCollectionFlask
-            nextButtonRef={nextButtonRef}
-          />
-        )}
-         {currentStep === 7 && (
-          <Step7TurnOnHotWaterBath
-            nextButtonRef={nextButtonRef}
-          />
-        )}
-        {currentStep === 8 && (
-          <Step8TurnOnCondensorAndVacuum
-            nextButtonRef={nextButtonRef}
-          />
-        )}
-       {currentStep === 9 && (
-          <Step9CloseStopcock nextButtonRef={nextButtonRef} />
-        )}
-       {currentStep === 10 && (
-          <Step10RaiseArm
-            nextButtonRef={nextButtonRef}
-          />
-        )}
+          {/* Common elements like Table */}
+          <Table scale={13} position-y={-1} />
+          {/* Green-yellow plane */}
+          <mesh
+            receiveShadow
+            position-y={-1}
+            rotation-x={-Math.PI * 0.5}
+            scale={65}
+          >
+            <planeGeometry />
+            <meshStandardMaterial color="gray" />
+          </mesh>
+
+          {/* Conditional Rendering of Step Components */}
+          {currentStep === 1 && <Step1LabObjectives />}
+          {currentStep === 2 && <Step2LabTasks nextButtonRef={nextButtonRef} />}
+          {currentStep === 3 && (
+            <Step3InventorySelection nextButtonRef={nextButtonRef} />
+          )}
+          {currentStep === 4 && (
+            <Step4SelectFlask nextButtonRef={nextButtonRef} />
+          )}
+          {currentStep === 5 && (
+            <Step5TransferProducts nextButtonRef={nextButtonRef} />
+          )}
+          {currentStep === 6 && (
+            <Step6EmptyCollectionFlask nextButtonRef={nextButtonRef} />
+          )}
+          {currentStep === 7 && (
+            <Step7TurnOnHotWaterBath nextButtonRef={nextButtonRef} />
+          )}
+          {currentStep === 8 && (
+            <Step8TurnOnCondensorAndVacuum nextButtonRef={nextButtonRef} />
+          )}
+          {currentStep === 9 && (
+            <Step9CloseStopcock nextButtonRef={nextButtonRef} />
+          )}
+          {currentStep === 10 && (
+            <Step10RaiseArm nextButtonRef={nextButtonRef} />
+          )}
           {currentStep === 11 && (
-          <Step11SetupRotavp nextButtonRef={nextButtonRef} />
-        )}
-        {currentStep === 12 && (
-          <Step12TurnOnRotation nextButtonRef={nextButtonRef} />
-        )}
-        
-        {currentStep === 13 && <Step13SubmergeFlask nextButtonRef={nextButtonRef} />}
-        {currentStep === 14 && <Step14RaiseArm nextButtonRef={nextButtonRef} />}
-       {currentStep === 15 && <Step15TurnOff nextButtonRef={nextButtonRef} />}
-        {currentStep === 16 && <Step16OpenStopcock nextButtonRef={nextButtonRef} />}
-        {currentStep === 17 && <Step17TurnOffCondensorAndVacuum nextButtonRef={nextButtonRef} />}
-         {currentStep === 18 && <Step18RemoveItems nextButtonRef={nextButtonRef} />}
-        
-      {currentStep === 19 && <Step19RemoveBumpTrap nextButtonRef={nextButtonRef} />}
-      {currentStep === 20 && <Step20Conclusion nextButtonRef={nextButtonRef} />}
-      </Canvas>
+            <Step11SetupRotavp nextButtonRef={nextButtonRef} />
+          )}
+          {currentStep === 12 && (
+            <Step12TurnOnRotation nextButtonRef={nextButtonRef} />
+          )}
+
+          {currentStep === 13 && (
+            <Step13SubmergeFlask nextButtonRef={nextButtonRef} />
+          )}
+          {currentStep === 14 && (
+            <Step14RaiseArm nextButtonRef={nextButtonRef} />
+          )}
+          {currentStep === 15 && (
+            <Step15TurnOff nextButtonRef={nextButtonRef} />
+          )}
+          {currentStep === 16 && (
+            <Step16OpenStopcock nextButtonRef={nextButtonRef} />
+          )}
+          {currentStep === 17 && (
+            <Step17TurnOffCondensorAndVacuum nextButtonRef={nextButtonRef} />
+          )}
+          {currentStep === 18 && (
+            <Step18RemoveItems nextButtonRef={nextButtonRef} />
+          )}
+
+          {currentStep === 19 && (
+            <Step19RemoveBumpTrap nextButtonRef={nextButtonRef} />
+          )}
+          {currentStep === 20 && (
+            <Step20Conclusion nextButtonRef={nextButtonRef} />
+          )}
+        </Canvas>
+      </Suspense>
       <div
         style={{
           position: "absolute",
@@ -249,11 +256,9 @@ export default function Experience() {
           <div className="ml-4 flex flex-col justify-between self-stretch">
             <button
               onClick={handleNextStep}
-              disabled={
-                currentStep === 21 || nextButtonTempDisabled
-              }
-              className={`mb-2 flex-grow transform rounded-lg bg-gradient-to-r from-blue-400 to-purple-500 px-4 py-2 font-bold text-white transition duration-300 hover:scale-105 ${
-                 currentStep === 13 || nextButtonTempDisabled
+              disabled={currentStep === 21 || nextButtonTempDisabled}
+              className={`mb-0 flex-grow transform rounded-lg bg-gradient-to-r from-blue-400 to-purple-500 px-4 py-2 font-bold text-white transition duration-300 hover:scale-105 ${
+                currentStep === 13 || nextButtonTempDisabled
                   ? "cursor-not-allowed bg-gray-400 opacity-50"
                   : ""
               }`}
@@ -261,21 +266,22 @@ export default function Experience() {
             >
               Next Step
             </button>
-            <button
-              ref={replayButtonRef}
-              onClick={handleReplayAnimation}
-              disabled={isAnimating || !hasReplayAnimation}
-              className={`flex-grow transform rounded-lg px-4 py-2 font-bold text-white transition duration-300 hover:scale-105 ${
-                isAnimating || !hasReplayAnimation
-                  ? "cursor-not-allowed bg-gray-400 opacity-50"
-                  : "bg-gradient-to-r from-green-400 to-blue-500"
-              }`}
-            >
-              Replay Animation
-            </button>
+            
           </div>
         </div>
       </div>
     </div>
   );
 }
+
+const loadingStyle = {
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'center',
+  height: '100vh',
+  background: 'linear-gradient(to right, #6dd5ed, #2193b0)',
+  color: 'white',
+  fontSize: '20px',
+  fontFamily: 'Arial, sans-serif',
+  fontWeight: 'lighter',
+};

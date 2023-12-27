@@ -1,13 +1,13 @@
 import React, { useRef } from "react";
 import { useGLTF } from "@react-three/drei";
-import * as THREE from 'three';
+import * as THREE from "three";
 
-export default function Table(props : any) {
-  const { nodes, materials } : any = useGLTF("./TeaTable01.glb");
+export default function Table(props: any) {
+  const { nodes, materials }: any = useGLTF("./TeaTable01.glb");
 
   const whiteMaterial = materials["Tea Table"].clone();
   // whiteMaterial.color = new THREE.Color('white');
-whiteMaterial.emissive = new THREE.Color('white');
+  whiteMaterial.emissive = new THREE.Color("white");
   whiteMaterial.emissiveIntensity = 0.05;
 
   return (
