@@ -102,8 +102,11 @@ export default function Experience() {
   const key = currentStep.toString() as StateKey;
   const stepData = state[key]; // Safe indexing
   const stepRefs = useRef<Record<number, StepComponentRef>>({});
+  const [isAnimating, setIsAnimating] = useState<boolean>(false);
   const nextButtonRef = useRef<HTMLButtonElement>(null);
+  // const replayButtonRef = useRef<HTMLButtonElement>(null);
 
+  const cameraControlsRef = useRef<Camera>(null);
   const [nextButtonTempDisabled, setNextButtonTempDisabled] = useState(false);
 
   const handleNextStep = () => {
@@ -120,12 +123,13 @@ export default function Experience() {
 
   const [loadingMessage, setLoadingMessage] = useState("Loading Resources");
 
+
   return (
     <Suspense
       fallback={
-        <div className="from-light-blue to-cyan to-green flex h-screen items-center justify-center bg-gradient-to-r">
-          <div className="border-image-gradient rounded-lg border-4 border-transparent bg-clip-padding p-5 shadow-lg">
-            <p className="font-sans text-lg font-light text-white">
+        <div className="flex h-screen items-center justify-center bg-gradient-to-r from-blue-400 via-cyan-500 to-green-400">
+          <div className="rounded-lg border border-transparent bg-black bg-opacity-30 p-6 shadow-lg backdrop-blur-lg backdrop-filter">
+            <p className="text-lg font-thin text-white">
               {loadingMessage}
             </p>
           </div>
@@ -143,7 +147,6 @@ export default function Experience() {
           <color attach="background" args={["#404040"]} />
           <CameraAdjuster />
           <OrbitControls minDistance={9} maxDistance={70} />
-
           <ambientLight intensity={1.6} />
           <directionalLight
             castShadow
