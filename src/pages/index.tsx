@@ -1,11 +1,15 @@
 import Head from "next/head";
-
+import { useClerk } from "@clerk/nextjs";
 import { useState } from "react";
 import { Dialog } from "@headlessui/react";
 import { Bars3Icon, XMarkIcon } from "@heroicons/react/24/outline";
 import Link from "next/link";
 
+
+
+
 export default function Home() {
+  const { openSignIn } = useClerk();
   const navigation = [
     { name: "Product", href: "#" },
     { name: "Features", href: "#" },
@@ -95,12 +99,17 @@ export default function Home() {
               engaging, accessible, and immersive.
             </p>
             <div className="mt-10 flex items-center justify-center gap-x-6">
-              <Link
-                href="dashboard"
-                className="rounded-md bg-indigo-600 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
-              >
-                Get started
-              </Link>
+
+            <Link
+              href="/dashboard"
+              onClick={(e) => {
+                e.preventDefault();
+                openSignIn();
+              }}
+              className="rounded-md bg-indigo-600 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+            >
+              Get started
+            </Link>
               <a
                 href="#"
                 className="text-sm font-semibold leading-6 text-gray-900"
