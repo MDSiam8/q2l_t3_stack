@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useRef } from "react";
 import ReactDOM from "react-dom/client";
 import { Canvas, useFrame, useThree } from "@react-three/fiber";
-import Experience from "../RotaryEvaporation/components/Experience";
+import Experience from "../SeperatingLiquidsLab/components/Experience";
 import * as THREE from "three";
 
 type RootType = ReactDOM.Root | null;
