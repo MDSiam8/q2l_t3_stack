@@ -1,11 +1,13 @@
 import Head from "next/head";
 import { useClerk } from "@clerk/nextjs";
-import { useState } from "react";
 import { Dialog } from "@headlessui/react";
 import { Bars3Icon, XMarkIcon } from "@heroicons/react/24/outline";
 import Link from "next/link";
-
-
+import React, { useEffect, useState, useRef } from "react";
+import ReactDOM from "react-dom/client";
+import { Canvas, useFrame, useThree } from "@react-three/fiber";
+import Experience from "../RotaryEvaporation/components/Experience";
+import * as THREE from "three";
 
 
 export default function Home() {
