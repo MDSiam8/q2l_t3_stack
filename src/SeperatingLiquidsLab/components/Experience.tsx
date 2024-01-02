@@ -21,6 +21,8 @@ import Step5StopperTheSFunnel from "./steps/05PutStopper";
 import Step10DrainSFunnel from "./steps/10DrainAqueousLayer";
 import Step11PourOrganicLayer from "./steps/11PourOrganicLayer";
 import Step12AddPowder from "./steps/12AddPowder";
+import Step13Filter from "./steps/13FilterLiquid";
+import Step14Finish from "./steps/14ObtainedOrganicProduct";
 
 // Interface for the structure of each step in state.json
 interface Step {
@@ -190,31 +192,12 @@ export default function Experience() {
             <Step12AddPowder nextButtonRef={nextButtonRef} />
           )}
 
-         {/*  {currentStep === 13 && (
-            <Step13SubmergeFlask nextButtonRef={nextButtonRef} />
+         {currentStep === 13 && (
+            <Step13Filter nextButtonRef={nextButtonRef} />
           )}
           {currentStep === 14 && (
-            <Step14RaiseArm nextButtonRef={nextButtonRef} />
+            <Step14Finish />
           )}
-          {currentStep === 15 && (
-            <Step15TurnOff nextButtonRef={nextButtonRef} />
-          )}
-          {currentStep === 16 && (
-            <Step16OpenStopcock nextButtonRef={nextButtonRef} />
-          )}
-          {currentStep === 17 && (
-            <Step17TurnOffCondensorAndVacuum nextButtonRef={nextButtonRef} />
-          )}
-          {currentStep === 18 && (
-            <Step18RemoveItems nextButtonRef={nextButtonRef} />
-          )}
-
-          {currentStep === 19 && (
-            <Step19RemoveBumpTrap nextButtonRef={nextButtonRef} />
-          )}
-          {currentStep === 20 && (
-            <Step20Conclusion nextButtonRef={nextButtonRef} />
-          )} */}
         </Canvas>
         <div
           style={{

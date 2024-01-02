@@ -8,8 +8,8 @@ interface HundredMLFlaskWithFillAnimationProps {
   [key: string]: any; // To allow for other props like position, scale, etc.
 }
 
-export function BeakerFillWithOrganicLayer({ isFilled = false, startAnimationDelay = 0, ...props }: HundredMLFlaskWithFillAnimationProps) {
-  const { scene, animations } = useGLTF("./beaker filling with orange solution.glb");
+export function FunnelWithPourAnim({ isFilled = false, startAnimationDelay = 0, ...props }: HundredMLFlaskWithFillAnimationProps) {
+  const { scene, animations } = useGLTF("./filter funnel.glb");
   const clonedScene = scene.clone(); 
   const { actions } = useAnimations(animations, clonedScene);
 
@@ -45,9 +45,9 @@ export function BeakerFillWithOrganicLayer({ isFilled = false, startAnimationDel
   }, [isFilled, startAnimationDelay, actions]);
 
   return (
-    <primitive {...props} object={clonedScene} scale={9} opacity={0.8} />
+    <primitive {...props} object={clonedScene} scale={1.5} opacity={0.8} />
   );
 }
 
 // Preload the GLB file
-useGLTF.preload("./beaker filling with orange solution.glb");
+useGLTF.preload("./filter funnel.glb");
