@@ -88,7 +88,7 @@ export const setNextEnabled = (
   }
 };
 export default function Experience() {
-  const [currentStep, setCurrentStep] = useState<number>(10);
+  const [currentStep, setCurrentStep] = useState<number>(1);
   const key = currentStep.toString() as StateKey;
   const stepData = state[key]; // Safe indexing
   const stepRefs = useRef<Record<number, StepComponentRef>>({});
@@ -113,15 +113,12 @@ export default function Experience() {
 
   const [loadingMessage, setLoadingMessage] = useState("Loading Resources");
 
-
   return (
     <Suspense
       fallback={
         <div className="flex h-screen items-center justify-center bg-gradient-to-r from-blue-400 via-cyan-500 to-green-400">
           <div className="rounded-lg border border-transparent bg-black bg-opacity-30 p-6 shadow-lg backdrop-blur-lg backdrop-filter">
-            <p className="text-lg font-thin text-white">
-              {loadingMessage}
-            </p>
+            <p className="text-lg font-thin text-white">{loadingMessage}</p>
           </div>
         </div>
       }
@@ -159,8 +156,10 @@ export default function Experience() {
           </mesh>
 
           {/* Conditional Rendering of Step Components */}
-           {currentStep === 1 && <Step1LabObjectives />}
-          {currentStep === 2 && <Step2InventorySelection nextButtonRef={nextButtonRef} />}
+          {currentStep === 1 && <Step1LabObjectives />}
+          {currentStep === 2 && (
+            <Step2InventorySelection nextButtonRef={nextButtonRef} />
+          )}
           {currentStep === 3 && (
             <Step3PourToSeperatingFunnel nextButtonRef={nextButtonRef} />
           )}
@@ -182,22 +181,18 @@ export default function Experience() {
           {currentStep === 9 && (
             <Step9CloseStopcock nextButtonRef={nextButtonRef} />
           )} */}
-         {currentStep === 10 && (
+          {currentStep === 10 && (
             <Step10DrainSFunnel nextButtonRef={nextButtonRef} />
           )}
-           {currentStep === 11 && (
+          {currentStep === 11 && (
             <Step11PourOrganicLayer nextButtonRef={nextButtonRef} />
           )}
-         {currentStep === 12 && (
+          {currentStep === 12 && (
             <Step12AddPowder nextButtonRef={nextButtonRef} />
           )}
 
-         {currentStep === 13 && (
-            <Step13Filter nextButtonRef={nextButtonRef} />
-          )}
-          {currentStep === 14 && (
-            <Step14Finish />
-          )}
+          {currentStep === 13 && <Step13Filter nextButtonRef={nextButtonRef} />}
+          {currentStep === 14 && <Step14Finish />}
         </Canvas>
         <div
           style={{
