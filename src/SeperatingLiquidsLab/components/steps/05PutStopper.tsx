@@ -17,19 +17,19 @@ const Step5StopperTheSFunnel = forwardRef<
   HTMLDivElement,
   Step2LabTasksProps
 >(({ nextButtonRef }, ref) => {
-    const flaskRef = useRef();
+    const stopperRef = useRef<THREE.Object3D>(null);
 
     // TODO: FIX THE ANIMATION!!!
     useEffect(() => {
-      if (flaskRef.current) {
+      if (stopperRef.current) {
         // Ensure the flask is referenced and mounted
-        const flask = flaskRef.current;
+        const flask = stopperRef.current;
   
         // GSAP Animation for the flask
-        gsap.timeline()
-          .to(flask.position, { y: "+=2", duration: 1 })
-          .to(flask.position, { x: "-=2", duration: 1 })
-          .to(flask.position, { delay: 2, x: "+=2", y: "-=2", duration: 1 });
+        // gsap.timeline()
+        //   .to(flask.position, { y: "+=2", duration: 1 })
+        //   .to(flask.position, { x: "-=2", duration: 1 })
+        //   .to(flask.position, { delay: 2, x: "+=2", y: "-=2", duration: 1 });
       }
   
       // Enable the next button after 3 seconds
@@ -49,7 +49,7 @@ const Step5StopperTheSFunnel = forwardRef<
           <SeparatingFunnelHolder position={[0, 5, 0]} />
           <SFunnelWithWaterFillAnimation position={[0, 6, .1]} scale={1.75} rotation-y={-3.14/2} startAnimationDelay={4}/>
         </group>
-        <Stopper ref={flaskRef} position={[-1,5,2.5]} startAnimationDelay={0} />
+        <Stopper ref={stopperRef} position={[-1,5,2.5]} />
       </group>
     );
   });

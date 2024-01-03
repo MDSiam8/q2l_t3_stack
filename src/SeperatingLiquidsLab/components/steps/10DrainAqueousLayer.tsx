@@ -2,7 +2,7 @@ import React, { useEffect, forwardRef, useRef, useState } from "react";
 import gsap from "gsap";
 import { setNextEnabled } from "../Experience";
 import { SeparatingFunnelHolder } from "../seperating_funnel/SeparatingFunnelHolder";
-import Stopper from "../Stopper";
+import { Stopper } from "../Stopper";
 import { SFunnelWithDrainAnimation } from "../seperating_funnel/SeparatingFunnelDrainAnim";
 import { BeakerFillWithWaterAnimation } from "../BeakerFillWithWater";
 

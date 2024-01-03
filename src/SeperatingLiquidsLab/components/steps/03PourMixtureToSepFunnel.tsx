@@ -23,10 +23,10 @@ const Step3PourToSeperatingFunnel = forwardRef<
         const flask = flaskRef.current;
   
         // GSAP Animation for the flask
-        gsap.timeline()
-          .to(flask.position, { y: "+=2", duration: 1 })
-          .to(flask.position, { x: "-=2", duration: 1 })
-          .to(flask.position, { delay: 2, x: "+=2", y: "-=2", duration: 1 });
+        // gsap.timeline()
+        //   .to(flask.position, { y: "+=2", duration: 1 })
+        //   .to(flask.position, { x: "-=2", duration: 1 })
+        //   .to(flask.position, { delay: 2, x: "+=2", y: "-=2", duration: 1 });
       }
   
       // Enable the next button after 3 seconds
