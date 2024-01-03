@@ -27,7 +27,7 @@ const Sidebar = () => {
     );
 };
 
-function IconPackage2(props) {
+function IconPackage2(props:any) {
     return (
       <svg
         {...props}
@@ -48,7 +48,7 @@ function IconPackage2(props) {
     )
   }
   
-  function IconPlus(props) {
+  function IconPlus(props:any) {
     return (
       <svg
         {...props}
@@ -69,7 +69,7 @@ function IconPackage2(props) {
   }
   
   
-  function IconSettings(props) {
+  function IconSettings(props:any) {
     return (
       <svg
         {...props}
@@ -90,7 +90,7 @@ function IconPackage2(props) {
   }
   
   
-  function IconUsers(props) {
+  function IconUsers(props:any) {
     return (
       <svg
         {...props}
