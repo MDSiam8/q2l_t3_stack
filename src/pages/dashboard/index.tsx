@@ -22,7 +22,8 @@ import Empty from "../../components/Empty";
 interface Notebook {
   id: string,
   name: string,
-  updatedAt: Date
+  updatedAt: Date,
+  link: string
 }
 
 type NotebookPreviewProps = {
@@ -41,7 +42,7 @@ const NotebookPreview: React.FC<NotebookPreviewProps> = ({ notebooks }) => {
 
 const NotebookCard: React.FC<{ notebook: Notebook }> = ({ notebook }) => {
   return (
-    <Link href={`/lab`} passHref>
+    <Link href={notebook.link} passHref>
       {/* 'passHref' ensures the href prop is passed to the underlying DOM element */}
         <Card>
           <CardHeader>
@@ -58,7 +59,15 @@ const NotebookCard: React.FC<{ notebook: Notebook }> = ({ notebook }) => {
 const notebook: Notebook = {
   id: "1",
   name: "Analytical Balances",
-  updatedAt: new Date()
+  updatedAt: new Date(),
+  link: "/analytical_balance_lab"
+}
+
+const notebook2: Notebook = {
+  id: "2",
+  name: "RotoVap",
+  updatedAt: new Date(),
+  link: "/rotovap_lab"
 }
 
 export default function Dashboard() {
@@ -71,7 +80,7 @@ export default function Dashboard() {
       // const body = await res.json();
       // setNotebooks(body.notebooks);
       // setIsLoading(false);
-      setNotebooks([notebook])
+      setNotebooks([notebook, notebook2])
       setIsLoading(false);
     };
     if (typeof window !== "undefined") {
