@@ -70,17 +70,22 @@ const notebook2: Notebook = {
   link: "/rotovap_lab"
 }
 
+const notebook3: Notebook = {
+  id: "3",
+  name: "Extraction",
+  updatedAt: new Date(),
+  link: "/extraction_lab"
+}
+
+const access_labs = [notebook, notebook2, notebook3]
+
 export default function Dashboard() {
   const [notebooks, setNotebooks] = useState<Notebook[]>([]);
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     const fetchNotebooks = async () => {
-      // const res = await fetch('/api/getNotebooks');
-      // const body = await res.json();
-      // setNotebooks(body.notebooks);
-      // setIsLoading(false);
-      setNotebooks([notebook, notebook2])
+      setNotebooks(access_labs)
       setIsLoading(false);
     };
     if (typeof window !== "undefined") {
