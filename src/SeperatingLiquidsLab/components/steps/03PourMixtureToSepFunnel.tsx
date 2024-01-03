@@ -34,6 +34,7 @@ const Step3PourToSeperatingFunnel = forwardRef<
           rotation-y={-3.14 / 2}
           startAnimationDelay={4}
         />
+
       </group>
       <group ref={flaskRef}>
         <RBFlaskWithPourAnimation

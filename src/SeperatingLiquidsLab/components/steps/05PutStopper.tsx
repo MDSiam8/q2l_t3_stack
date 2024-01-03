@@ -17,10 +17,9 @@ interface Step2LabTasksProps {
 const Step5StopperTheSFunnel = forwardRef<HTMLDivElement, Step2LabTasksProps>(
   ({ nextButtonRef }, ref) => {
     const flaskRef = useRef<Object3D>(null);
-
     // TODO: FIX THE ANIMATION!!!
     useEffect(() => {
-      if (flaskRef.current) {
+      if (stopperRef.current) {
         // Ensure the flask is referenced and mounted
         const flask = flaskRef.current;
 
@@ -32,6 +31,7 @@ const Step5StopperTheSFunnel = forwardRef<HTMLDivElement, Step2LabTasksProps>(
           .to(flask.position, { z: "-=2.6", duration: 0.5 })
           .to(flask.rotation, { x: "3.14", duration: 0.5 })
           .to(flask.position, { y: "-=.95", duration: 0.5 });
+
       }
 
       // Enable the next button after 3 seconds
