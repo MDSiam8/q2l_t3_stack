@@ -1,18 +1,22 @@
-import React, { useEffect } from "react";
-import { useGLTF, useAnimations } from "@react-three/drei";
-import * as THREE from "three";
+import React, { forwardRef } from "react";
+import { useGLTF } from "@react-three/drei";
+import { Object3D } from "three";
+import { GroupProps } from "@react-three/fiber";
 
-interface HundredMLFlaskWithFillAnimationProps {
-  startAnimationDelay?: number; // Delay in seconds
-  [key: string]: any; // To allow for other props like position, scale, etc.
-}
+export const AMSBottleCap = forwardRef<Object3D, GroupProps>((props, ref) => {
+  const bottleCap = useGLTF("./anhydrous magnesium sulfate bottle cap.gltf");
+  const clonedScene = bottleCap.scene.clone(); // Clone the scene for isolated use
 
-export function AMSBottleCap({ startAnimationDelay = 0, ...props }: HundredMLFlaskWithFillAnimationProps) {
-  const { scene, animations } = useGLTF("./bottle body.gltf");
-  const clonedScene = scene.clone(); 
   return (
-    <primitive {...props} object={clonedScene} scale={1} opacity={0.8} />
+    <primitive
+      {...props}
+      object={clonedScene}
+      ref={ref}
+      scale={1.3}
+      opacity={0.8}
+      rotation-y={[3.14 / 180 * 90]}
+    />
   );
-}
-// bottle body.gltf
-useGLTF.preload("./bottle body.gltf");
+});
+
+useGLTF.preload("./anhydrous magnesium sulfate bottle cap.gltf");

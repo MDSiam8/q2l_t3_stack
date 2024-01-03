@@ -4,54 +4,61 @@ import { Html } from "next/document";
 import { SeparatingFunnelHolder } from "../seperating_funnel/SeparatingFunnelHolder";
 import { RBFlaskWithPourAnimation } from "../RBFlaskWithFillAnim";
 import { SFunnelWithFillAnimation } from "../seperating_funnel/SeperatingFunnelWithFillAnimation";
-import gsap from "gsap"
+import gsap from "gsap";
 import { WaterBeakerWithPourAnimation } from "../BeakerWithWaterPourAnim";
 import { SFunnelWithWaterFillAnimation } from "../seperating_funnel/SeperatingFunnelWithWaterPourAnim";
-import { Stopper } from "../Stopper";
+import Stopper from "../Stopper";
+import { Object3D } from "three";
 
 interface Step2LabTasksProps {
   nextButtonRef: React.RefObject<HTMLButtonElement>;
 }
 
-const Step5StopperTheSFunnel = forwardRef<
-  HTMLDivElement,
-  Step2LabTasksProps
->(({ nextButtonRef }, ref) => {
-    const flaskRef = useRef();
+const Step5StopperTheSFunnel = forwardRef<HTMLDivElement, Step2LabTasksProps>(
+  ({ nextButtonRef }, ref) => {
+    const flaskRef = useRef<Object3D>(null);
 
     // TODO: FIX THE ANIMATION!!!
     useEffect(() => {
       if (flaskRef.current) {
         // Ensure the flask is referenced and mounted
         const flask = flaskRef.current;
-  
+
         // GSAP Animation for the flask
-        gsap.timeline()
-          .to(flask.position, { y: "+=2", duration: 1 })
-          .to(flask.position, { x: "-=2", duration: 1 })
-          .to(flask.position, { delay: 2, x: "+=2", y: "-=2", duration: 1 });
+        gsap
+          .timeline()
+          .to(flask.position, { y: "+=5", duration: 0.5 })
+          .to(flask.position, { x: "+=1", duration: 0.5 })
+          .to(flask.position, { z: "-=2.6", duration: 0.5 })
+          .to(flask.rotation, { x: "3.14", duration: 0.5 })
+          .to(flask.position, { y: "-=.95", duration: 0.5 });
       }
-  
+
       // Enable the next button after 3 seconds
       const nextButtonTimer = setTimeout(() => {
         if (nextButtonRef && nextButtonRef.current) {
           setNextEnabled(nextButtonRef);
         }
       }, 3000);
-  
+
       return () => clearTimeout(nextButtonTimer);
     }, [nextButtonRef]);
-  
+
     return (
       <group>
-        
         <group rotation-y={3.14}>
           <SeparatingFunnelHolder position={[0, 5, 0]} />
-          <SFunnelWithWaterFillAnimation position={[0, 6, .1]} scale={1.75} rotation-y={-3.14/2} startAnimationDelay={4}/>
+          <SFunnelWithWaterFillAnimation
+            position={[0, 6, 0.1]}
+            scale={1.75}
+            rotation-y={-3.14 / 2}
+            startAnimationDelay={4}
+          />
         </group>
-        <Stopper ref={flaskRef} position={[-1,5,2.5]} startAnimationDelay={0} />
+        <Stopper ref={flaskRef} position={[-1, 5, 2.5]} scale={0.4} />
       </group>
     );
-  });
-  
-  export default Step5StopperTheSFunnel;
+  },
+);
+
+export default Step5StopperTheSFunnel;
