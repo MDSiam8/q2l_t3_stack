@@ -1,6 +1,16 @@
 import React, { forwardRef, useState } from "react";
 import InventorySystem from "../InventorySystem";
 import { setNextEnabled } from "../Experience";
+import { SeparatingFunnelHolder } from "../seperating_funnel/SeparatingFunnelHolder";
+import { SFunnelWithFillAnimation } from "../seperating_funnel/SeperatingFunnelWithFillAnimation";
+import { RBFlaskWithPourAnimation } from "../RBFlaskWithFillAnim";
+import { Stopper } from "../Stopper";
+import { BeakerFillWithOrganicLayer } from "../BeakerFillingWithOrganicProduct";
+import { FunnelWithPourAnim } from "../Funnel";
+import { Spatula } from "~/AnalyticalBalanceLab/components/Spatula";
+import { AMSBottle } from "../AMSBottle";
+import { AMSBottleCap } from "../AMSBottleCap";
+import { WaterBeakerWithPourAnimation } from "../BeakerWithWaterPourAnim";
 // import { RotavapWithHeatBathAnim } from "../rotavap/RotavapWithHeatOnAnim";
 // import { KeckClip } from "../KeckClip";
 // import { HundredMLFlask } from "../round-bottom-flasks/100mlRBFlask";
@@ -12,11 +22,13 @@ interface SelectedItems {
   [itemName: string]: boolean;
 }
 const requiredItems = new Set([
-  "Rotary Evaporator",
-  "Round-bottomed Flask",
-  "Keck Clips",
-  "Bump Trap",
-  "Product Solution",
+  "Beaker",
+  "Seperating Funnel",
+  "Filter Funnel w/ Filter Paper",
+  "Stopper",
+  "Distilled Water",
+  "Anhydrous Magnesium Sulfate",
+  "Spatula"
 ]);
 
 const Step2InventorySelection = forwardRef<
@@ -51,6 +63,57 @@ const Step2InventorySelection = forwardRef<
         position={[0, 7.7, 0]}
         scale={0.6}
       />
+
+      {selectedItems["Seperating Funnel"] && (
+        <group rotation-y={3.14}>
+          <SeparatingFunnelHolder position={[0, 5, 0]} />
+          <SFunnelWithFillAnimation
+            position={[0, 6, 0.1]}
+            scale={1.75}
+            rotation-y={-3.14 / 2}
+            startAnimationDelay={999}
+          />
+        </group>
+      )}
+
+      <RBFlaskWithPourAnimation
+        position={[0, 5, 2.5]}
+        startAnimationDelay={999}
+      />
+      {selectedItems["Stopper"] && (
+        <Stopper position={[-1, 5, 2.5]} scale={0.4} />
+      )}
+
+      {selectedItems["Filter Funnel w/ Filter Paper"] && (
+        <FunnelWithPourAnim
+          rotation-x={3.14 / 2.3}
+          position={[0, 5, -3]}
+          startAnimationDelay={999}
+        />
+      )}
+      {selectedItems["Beaker"] && (
+        <BeakerFillWithOrganicLayer
+          startAnimationDelay={999}
+          position={[2, 5, -2]}
+        />
+      )}
+      {selectedItems["Distilled Water"] && (
+        <WaterBeakerWithPourAnimation
+          position={[0, 5, 2.5]}
+          startAnimationDelay={999}
+        />
+      )}
+      {selectedItems["Spatula"] && (
+        <Spatula position={[2, 5, 0]} rotation-y={3.14 / 2} scale={0.5} />
+      )}
+      {selectedItems["Anhydrous Magnesium Sulfate"] && (
+        <group>
+          <AMSBottleCap position={[2, 4.8, -3]} rotation-y={3.14 / 2} />
+
+          <AMSBottle position={[2, 5, -3]} rotation-y={3.14 / 2} />
+        </group>
+      )}
+
       {/* {selectedItems["Rotary Evaporator"] && (
         <RotavapWithHeatBathAnim position={[0, 5, 0]} />
       )}
