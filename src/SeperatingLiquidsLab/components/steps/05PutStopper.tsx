@@ -7,8 +7,9 @@ import { SFunnelWithFillAnimation } from "../seperating_funnel/SeperatingFunnelW
 import gsap from "gsap";
 import { WaterBeakerWithPourAnimation } from "../BeakerWithWaterPourAnim";
 import { SFunnelWithWaterFillAnimation } from "../seperating_funnel/SeperatingFunnelWithWaterPourAnim";
-import Stopper from "../Stopper";
+import {Stopper} from "../Stopper";
 import { Object3D } from "three";
+import { SFunnelWithDrainAnimation } from "../seperating_funnel/SeparatingFunnelDrainAnim";
 
 interface Step2LabTasksProps {
   nextButtonRef: React.RefObject<HTMLButtonElement>;
@@ -16,13 +17,12 @@ interface Step2LabTasksProps {
 
 const Step5StopperTheSFunnel = forwardRef<HTMLDivElement, Step2LabTasksProps>(
   ({ nextButtonRef }, ref) => {
-    const flaskRef = useRef<Object3D>(null);
-
+    const stopperRef = useRef<Object3D>(null);
     // TODO: FIX THE ANIMATION!!!
     useEffect(() => {
-      if (flaskRef.current) {
+      if (stopperRef.current) {
         // Ensure the flask is referenced and mounted
-        const flask = flaskRef.current;
+        const flask = stopperRef.current;
 
         // GSAP Animation for the flask
         gsap
@@ -32,6 +32,7 @@ const Step5StopperTheSFunnel = forwardRef<HTMLDivElement, Step2LabTasksProps>(
           .to(flask.position, { z: "-=2.6", duration: 0.5 })
           .to(flask.rotation, { x: "3.14", duration: 0.5 })
           .to(flask.position, { y: "-=.95", duration: 0.5 });
+
       }
 
       // Enable the next button after 3 seconds
@@ -48,14 +49,14 @@ const Step5StopperTheSFunnel = forwardRef<HTMLDivElement, Step2LabTasksProps>(
       <group>
         <group rotation-y={3.14}>
           <SeparatingFunnelHolder position={[0, 5, 0]} />
-          <SFunnelWithWaterFillAnimation
+          <SFunnelWithDrainAnimation
             position={[0, 6, 0.1]}
             scale={1.75}
             rotation-y={-3.14 / 2}
-            startAnimationDelay={4}
+            startAnimationDelay={999}
           />
         </group>
-        <Stopper ref={flaskRef} position={[-1, 5, 2.5]} scale={0.4} />
+        <Stopper ref={stopperRef} position={[-1, 5, 2.5]} scale={0.4} />
       </group>
     );
   },
