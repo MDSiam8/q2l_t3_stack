@@ -21,6 +21,7 @@ const Step11PourOrganicLayer = forwardRef<HTMLDivElement, Step2LabTasksProps>(
           .to(funnelRef.current.position, { y: "+=1", duration: .7 }) // Move up 
           .to(funnelRef.current.position, { z: "+=3.7", y:"-=1.7", duration: .7 }); // Move to the right
       }
+      setStartAnimationDelay(2);
     };
     return (
       <group>
@@ -34,7 +35,6 @@ const Step11PourOrganicLayer = forwardRef<HTMLDivElement, Step2LabTasksProps>(
             startAnimationDelay={startAnimationDelay}
             onClick={() => {
               animateFunnel();
-              setStartAnimationDelay(2);
             }} // Add the onClick handler here
           />
         </group>
