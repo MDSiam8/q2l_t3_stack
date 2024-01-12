@@ -64,28 +64,28 @@
         "stepTitle": "",
         "description": "",
         "directions": "Remove the stopper, drain all the aqueous layer into a beaker. Then, repeat the washing process for 2-3 times.",
-        "user_instructions": "",
+        "user_instructions": "Double click the stopper to proceed.",
         "objectsInFocus": [""]
     },
     "11": {
         "stepTitle": "",
         "description": "",
         "directions": "After washing and draining the aqueous layer, pour the organic layer from the top into a new beaker.",
-        "user_instructions": "",
+        "user_instructions": "Double click the separating funnel to pour organic layer to beaker.",
         "objectsInFocus": [""]
     },
     "12": {
         "stepTitle": "",
         "description": "",
-        "directions": "",
-        "user_instructions": "Add anhydrous magnesium sulfate to absorb the remaining moisture. Swirl well. Add until the magnesium sulfate powder does not stick together and completely separated.",
+        "directions": "Add anhydrous magnesium sulfate to absorb the remaining moisture. Swirl well. Add until the magnesium sulfate powder does not stick together and completely separated.",
+        "user_instructions": "",
         "objectsInFocus": [""]
     },
     "13": {
         "stepTitle": "",
         "description": "",
         "directions": "Filter away the solid.",
-        "user_instructions": "",
+        "user_instructions": "Double click the beaker with the organic solution to filter it.",
         "objectsInFocus": [""]
     },
     "14": {

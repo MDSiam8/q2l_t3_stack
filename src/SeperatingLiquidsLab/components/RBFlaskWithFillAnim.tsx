@@ -1,39 +1,35 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useRef, useImperativeHandle, forwardRef } from "react";
 import { useGLTF, useAnimations } from "@react-three/drei";
 import * as THREE from "three";
 
 interface HundredMLFlaskWithFillAnimationProps {
-  startAnimationDelay?: number; // Delay in seconds
-  [key: string]: any; // To allow for other props like position, scale, etc.
+  startAnimationDelay?: number;
+  [key: string]: any;
 }
 
-export function RBFlaskWithPourAnimation({ startAnimationDelay = 0, ...props }: HundredMLFlaskWithFillAnimationProps) {
+export const RBFlaskWithPourAnimation = forwardRef(({ startAnimationDelay = 0, ...props }: HundredMLFlaskWithFillAnimationProps, ref) => {
   const { scene, animations } = useGLTF("./1-rb flask with liquid in it.glb");
-  const clonedScene = scene.clone(); 
+  const clonedScene = scene.clone();
   const { actions } = useAnimations(animations, clonedScene);
+  const localRef = useRef<THREE.Object3D>(null);
 
   useEffect(() => {
-    console.log(actions);
-
     const timer = setTimeout(() => {
-      console.log("Attempting to start animation after delay...");
       const animation = actions["Animation"];
       if (animation) {
-        console.log("Playing animation...");
         animation.reset().play();
         animation.setEffectiveTimeScale(1);
-        animation.setLoop(THREE.LoopOnce, 1); // Set the animation to loop only once
-        animation.clampWhenFinished = true; // Ensure it clamps when finished
+        animation.setLoop(THREE.LoopOnce, 1);
+        animation.clampWhenFinished = true;
       }
-    }, startAnimationDelay * 1000); // Convert seconds to milliseconds
+    }, startAnimationDelay * 1000);
 
-    // Cleanup function to clear the timeout
     return () => clearTimeout(timer);
   }, [startAnimationDelay, actions]);
 
   return (
-    <primitive {...props} object={clonedScene} scale={1.5} opacity={0.8} />
+    <primitive ref={localRef} {...props} object={clonedScene} scale={1.5} opacity={0.8} />
   );
-}
-// 3-beaker with water in it.glb
+});
+
 useGLTF.preload("./1-rb flask with liquid in it.glb");

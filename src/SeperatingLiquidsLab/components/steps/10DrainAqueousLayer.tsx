@@ -20,7 +20,13 @@ const Step10DrainSFunnel = forwardRef<HTMLDivElement, Step2LabTasksProps>(
           .timeline()
           .to(stopperRef.current.position, { y: "+=1", duration: 0.5 }) // Move up
           .to(stopperRef.current.position, { z: "-=1.3", duration: 0.5 }) // Move left
-          .to(stopperRef.current.position, { y: "-=4.8", duration: 0.5 }); // Move down
+          .to(stopperRef.current.position, { y: "-=4.8", duration: 0.5 })
+          .then(() => {
+
+            // setStartAnimationDelay(4);
+          });
+          setStartAnimationDelay(4);
+
       }
     };
 
@@ -63,7 +69,6 @@ const Step10DrainSFunnel = forwardRef<HTMLDivElement, Step2LabTasksProps>(
           rotation-x={3.14}
           scale={0.3}
           onClick={() => {
-            setStartAnimationDelay(4);
             animateStopper();
           }} // Add the onClick handler here
         />

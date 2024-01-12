@@ -8,11 +8,11 @@ interface HundredMLFlaskWithFillAnimationProps {
 }
 
 export function AMSBottle({ startAnimationDelay = 0, ...props }: HundredMLFlaskWithFillAnimationProps) {
-  const { scene, animations } = useGLTF("./anhydrous magnesium sulfate bottle cap.gltf");
+  const { scene, animations } = useGLTF("./bottle body.gltf");
   const clonedScene = scene.clone(); 
   return (
     <primitive {...props} object={clonedScene} scale={1} opacity={0.8} />
   );
 }
 // anhydrous magnesium sulfate bottle cap.gltf
-useGLTF.preload("./anhydrous magnesium sulfate bottle cap.gltf");
+useGLTF.preload("./bottle body.gltf");
