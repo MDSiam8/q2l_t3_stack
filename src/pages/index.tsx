@@ -1,23 +1,34 @@
 import Head from "next/head";
 import { useClerk } from "@clerk/nextjs";
+import { useState } from "react";
 import { Dialog } from "@headlessui/react";
 import { Bars3Icon, XMarkIcon } from "@heroicons/react/24/outline";
 import Link from "next/link";
-import React, { useEffect, useState, useRef } from "react";
-import ReactDOM from "react-dom/client";
-import { Canvas, useFrame, useThree } from "@react-three/fiber";
-import Experience from "../RotaryEvaporation/components/Experience";
-import * as THREE from "three";
+import { useUser } from "@clerk/nextjs";
+import { useRouter } from "next/navigation";
+
+
+
+
 
 
 export default function Home() {
+  const { openSignUp } = useClerk();
   const { openSignIn } = useClerk();
+  const { isLoaded, isSignedIn, user } = useUser();
+  const router = useRouter();
+
   const navigation = [
     { name: "Product", href: "#" },
     { name: "Features", href: "#" },
     { name: "Marketplace", href: "#" },
     { name: "Company", href: "#" },
   ];
+
+  if (isLoaded && isSignedIn) {
+    router.push("/dashboard");
+  }
+
   return (
     <div className="bg-white">
       <header className="absolute inset-x-0 top-0 z-50">
@@ -57,12 +68,16 @@ export default function Home() {
             ))}
           </div>
           <div className="hidden lg:flex lg:flex-1 lg:justify-end">
-            <a
-              href="#"
+            <Link
+              href="/dashboard"
+              onClick={(e) => {
+                e.preventDefault();
+                openSignIn();
+              }}
               className="text-sm font-semibold leading-6 text-gray-900"
             >
               Log in <span aria-hidden="true">&rarr;</span>
-            </a>
+            </Link>
           </div>
         </nav>
       </header>
@@ -106,18 +121,22 @@ export default function Home() {
               href="/dashboard"
               onClick={(e) => {
                 e.preventDefault();
-                openSignIn();
+                openSignUp();
               }}
               className="rounded-md bg-indigo-600 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
             >
               Get started
             </Link>
-              <a
-                href="#"
-                className="text-sm font-semibold leading-6 text-gray-900"
-              >
-                Learn more <span aria-hidden="true">→</span>
-              </a>
+            <Link
+              href="/dashboard"
+              onClick={(e) => {
+                e.preventDefault();
+                openSignUp();
+              }}
+              className="text-sm font-semibold leading-6 text-gray-900"
+            >
+              Learn more <span aria-hidden="true">→</span>
+            </Link>
             </div>
           </div>
         </div>
