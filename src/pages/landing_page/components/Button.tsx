@@ -1,5 +1,9 @@
 import Link from 'next/link'
 import clsx from 'clsx'
+import { Url } from 'url'
+
+type Variant = 'solid' | 'outline';
+type Color = 'slate' | 'blue' | 'white';
 
 const baseStyles = {
   solid:
@@ -22,7 +26,14 @@ const variantStyles = {
     white:
       'ring-slate-700 text-white hover:ring-slate-500 active:ring-slate-700 active:text-slate-400 focus-visible:outline-white',
   },
-}
+};
+
+type ButtonProps = {
+  variant?: Variant; // Add more variants as needed
+  color?: Color; // Add more colors as needed
+  className?: string;
+  href?: string;
+} & React.ButtonHTMLAttributes<HTMLButtonElement> & React.AnchorHTMLAttributes<HTMLAnchorElement>;
 
 export function Button({
   variant = 'solid',
@@ -30,7 +41,8 @@ export function Button({
   className,
   href,
   ...props
-}) {
+} : ButtonProps) {
+  
   className = clsx(
     baseStyles[variant],
     variantStyles[variant][color],
