@@ -66,9 +66,9 @@ export function Hero() {
           height="720"
           src="https://www.youtube.com/embed/X1B1jnD45sY"
           title="JHU Students Bring Lab Experience to Smartphones"
-          frameborder="0"
+          frameBorder="0"
           allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-          allowfullscreen
+          allowFullScreen
         ></iframe>
       </div>
       <div className="mt-10 lg:mb-10 lg:mt-20">

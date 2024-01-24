@@ -1,16 +1,18 @@
+import React from "react";
 import clsx from "clsx";
 
-export function Container({
-  className,
-  ...props
-}: {
-  className?: String | String[];
-  props?: any;
-}) {
+type ContainerProps = {
+  className?: string | string[];
+  children?: React.ReactNode; // Added this line
+};
+
+export function Container({ className, children, ...props }: ContainerProps) {
   return (
     <div
       className={clsx("mx-auto max-w-7xl px-4 sm:px-6 lg:px-8", className)}
       {...props}
-    />
+    >
+      {children}
+    </div>
   );
 }

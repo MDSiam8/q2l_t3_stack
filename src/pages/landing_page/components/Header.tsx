@@ -1,4 +1,4 @@
-import { Fragment } from "react";
+import React, { Fragment, useState } from 'react';
 import Link from "next/link";
 import { Popover, Transition } from "@headlessui/react";
 import clsx from "clsx";
@@ -8,7 +8,12 @@ import { Container } from "./Container";
 import { Logo } from "./Logo";
 import { NavLink } from "./NavLink";
 
-function MobileNavLink({ href, children }) {
+interface MobileNavLinkProps {
+  href: string;
+  children: React.ReactNode;
+}
+
+function MobileNavLink({ href, children }: MobileNavLinkProps) {
   return (
     <Popover.Button as={Link} href={href} className="block w-full p-2">
       {children}
@@ -16,7 +21,11 @@ function MobileNavLink({ href, children }) {
   );
 }
 
-function MobileNavIcon({ open }) {
+interface MobileNavIconProps {
+  open: boolean;
+}
+
+function MobileNavIcon({ open }: MobileNavIconProps) {
   return (
     <svg
       aria-hidden="true"
@@ -27,32 +36,29 @@ function MobileNavIcon({ open }) {
     >
       <path
         d="M0 1H14M0 7H14M0 13H14"
-        className={clsx(
-          "origin-center transition",
-          open && "scale-90 opacity-0",
-        )}
+        className={clsx('origin-center transition', open && 'scale-90 opacity-0')}
       />
       <path
         d="M2 2L12 12M12 2L2 12"
-        className={clsx(
-          "origin-center transition",
-          !open && "scale-90 opacity-0",
-        )}
+        className={clsx('origin-center transition', !open && 'scale-90 opacity-0')}
       />
     </svg>
   );
 }
 
 function MobileNavigation() {
+  const [open, setOpen] = useState(false);
+
   return (
     <Popover>
       <Popover.Button
+        onClick={() => setOpen(!open)}
         className="relative z-10 flex h-8 w-8 items-center justify-center [&:not(:focus-visible)]:focus:outline-none"
         aria-label="Toggle Navigation"
       >
-        {({ open }) => <MobileNavIcon open={open} />}
+        <MobileNavIcon open={open} />
       </Popover.Button>
-      <Transition.Root>
+      <Transition.Root show={open} as={Fragment}>
         <Transition.Child
           as={Fragment}
           enter="duration-150 ease-out"
@@ -79,7 +85,7 @@ function MobileNavigation() {
           >
             <MobileNavLink href="#features">Features</MobileNavLink>
             <MobileNavLink href="#testimonials">Testimonials</MobileNavLink>
-            <MobileNavLink href="#pricing">Pricing</MobileNavLink>
+            {/* <MobileNavLink href="#pricing">Pricing</MobileNavLink> */}
             <hr className="m-2 border-slate-300/40" />
             {/* <MobileNavLink href="/login">Sign in</MobileNavLink> */}
           </Popover.Panel>
@@ -89,40 +95,35 @@ function MobileNavigation() {
   );
 }
 
-export function Header() {
-  return (
-    <header className="py-10">
-      <Container>
-        <nav className="relative z-50 flex justify-between">
-          <div className="flex items-center md:gap-x-12">
-            <Link href="#" aria-label="Home">
-              {/* <Logo className="h-10 w-auto" /> */}
-              Quest2Learn
-            </Link>
-            <div className="hidden md:flex md:gap-x-6">
-              <NavLink href="#features">Features</NavLink>
-              <NavLink href="#testimonials">Testimonials</NavLink>
-              {/* <NavLink href="#pricing">Pricing</NavLink> */}
-            </div>
+export const Header: React.FC = () => (
+  <header className="py-10">
+    <Container>
+      <nav className="relative z-50 flex justify-between">
+        <div className="flex items-center md:gap-x-12">
+          <Link href="#" aria-label="Home">
+            {/* <Logo className="h-10 w-auto" /> */}
+            Quest2Learn
+          </Link>
+          <div className="hidden md:flex md:gap-x-6">
+            <NavLink href="#features">Features</NavLink>
+            <NavLink href="#testimonials">Testimonials</NavLink>
+            {/* <NavLink href="#pricing">Pricing</NavLink> */}
           </div>
-          <div className="flex items-center gap-x-5 md:gap-x-8">
-            {/* <div className="hidden md:block">
-              <NavLink href="/login">Sign in</NavLink>
-            </div> */}
-            <Button
-              href="https://apps.apple.com/us/app/quest2learn/id1561878611"
-              color="blue"
-            >
-              <span>
-                Get started <span className="hidden lg:inline">today</span>
-              </span>
-            </Button>
-            <div className="-mr-1 md:hidden">
-              <MobileNavigation />
-            </div>
+        </div>
+        <div className="flex items-center gap-x-5 md:gap-x-8">
+          {/* <div className="hidden md:block">
+            <NavLink href="/login">Sign in</NavLink>
+          </div> */}
+          <Button href="https://apps.apple.com/us/app/quest2learn/id1561878611" color="blue">
+            <span>
+              Get started <span className="hidden lg:inline">today</span>
+            </span>
+          </Button>
+          <div className="-mr-1 md:hidden">
+            <MobileNavigation />
           </div>
-        </nav>
-      </Container>
-    </header>
-  );
-}
+        </div>
+      </nav>
+    </Container>
+  </header>
+);
