@@ -71,7 +71,8 @@ const FifthStepComponent = forwardRef<{}, FifthStepComponentProps>(
   useImperativeHandle(ref, () => ({
     replayAnimation: handleReplayAnimation,
   }));
-
+ const beaker = new Beaker();
+ beaker.componentDidMount();
   return (
     <group>
       <BalanceWithAnimations isOpen={false} position={[0, 4.55, 0]} />
@@ -107,7 +108,9 @@ const FifthStepComponent = forwardRef<{}, FifthStepComponentProps>(
       />
       <BottleCap position={[2, 5.1, -2]} />
       <Bottle position={[2, 5, -2]} />
-      <Beaker rotation-y={(-3.14 / 180) * 90} position={[2.6, 4.9, -3]} />
+      {/* <Beaker position={[2.6, 4.9, -3]} /> */}
+      beaker.render();
+      
     </group>
   );
 });
