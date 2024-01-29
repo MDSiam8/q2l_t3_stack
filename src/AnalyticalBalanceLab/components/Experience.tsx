@@ -73,6 +73,27 @@ export const getClassNameForNext = (isDisabled : boolean) : string => {
   return str;
 }
 
+// change if doesnt work
+export const getClassNameForReplay = (isDisabled: boolean): string => {
+  let str = "mb-2 flex-grow transform rounded-lg bg-gradient-to-r from-green-400 to-green-500 px-4 py-2 font-bold text-white transition duration-300 hover:scale-105 ";
+  if (isDisabled) str += "cursor-not-allowed bg-gray-400 opacity-50";
+  return str;
+}
+
+export const setReplayDisabled = (replayButtonRef : React.RefObject<HTMLButtonElement>) => {
+  if (replayButtonRef && replayButtonRef.current) {
+    replayButtonRef.current.disabled = true;
+    replayButtonRef.current.className = getClassNameForReplay(true);
+  }
+}
+
+export const setReplayEnabled = (replayButtonRef : React.RefObject<HTMLButtonElement>) => {
+  if (replayButtonRef && replayButtonRef.current) {
+    replayButtonRef.current.disabled = false;
+    replayButtonRef.current.className = getClassNameForReplay(false);
+  }
+}
+
 export const setNextDisabled = (nextButtonRef : React.RefObject<HTMLButtonElement>) => {
   if(nextButtonRef && nextButtonRef.current) {
     nextButtonRef.current.disabled = true;
@@ -173,13 +194,15 @@ export default function Experience() {
         {currentStep === 5 && (
           <FifthStepComponent
             ref={(el) => (stepRefs.current[5] = el as StepComponentRef)}
-          nextButtonRef={nextButtonRef}
+            nextButtonRef={nextButtonRef}
+            replayButtonRef={replayButtonRef}
           />
         )}
         {currentStep === 6 && (
           <SixthStepComponent
             ref={(el) => (stepRefs.current[6] = el as StepComponentRef)}
             nextButtonRef={nextButtonRef}
+            replayButtonRef={replayButtonRef}
           />
         )}
         {currentStep === 7 && (
@@ -192,8 +215,9 @@ export default function Experience() {
         {currentStep === 8 && (
           <EightStepComponent
             ref={(el) => (stepRefs.current[8] = el as StepComponentRef)}
-            setIsAnimating={setIsAnimating}
+            //setIsAnimating={setIsAnimating}
             nextButtonRef={nextButtonRef}
+            replayButtonRef={replayButtonRef}
           />
         )}
         {currentStep === 9 && (
@@ -203,6 +227,7 @@ export default function Experience() {
           <TenthStepComponent
             ref={(el) => (stepRefs.current[10] = el as StepComponentRef)}
             nextButtonRef={nextButtonRef}
+            replayButtonRef={replayButtonRef}
           />
         )}
         {currentStep === 11 && (

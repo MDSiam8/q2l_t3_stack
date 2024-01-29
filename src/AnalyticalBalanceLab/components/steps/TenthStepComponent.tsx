@@ -17,10 +17,13 @@ import { Spatula } from "../Spatula";
 import { Sphere } from "@react-three/drei";
 import AnswerBox from "../AnswerBox";
 import { Beaker } from "../Beaker";
-import { setNextEnabled } from "../Experience";
+import { setNextEnabled, setReplayDisabled, setReplayEnabled } from "../Experience";
+
+const ANIMATION_DURATION = 2000;
 
 interface TenthStepComponentProps {
   nextButtonRef: React.RefObject<HTMLButtonElement>;
+  replayButtonRef: React.RefObject<HTMLButtonElement>;
 }
 
 export interface TenthStepComponentRef {
@@ -30,7 +33,7 @@ export interface TenthStepComponentRef {
 const TenthStepComponent = forwardRef<
   TenthStepComponentRef,
   TenthStepComponentProps
->(({ nextButtonRef }, ref) => {
+>(({ nextButtonRef, replayButtonRef }, ref) => {
   const balanceWithAnimationsRef = useRef<BalanceWithAnimationsHandles>(null);
   const weighingPaperRef = useRef<THREE.Group>(null);
   const sphereRef = useRef<THREE.Mesh>(null);
@@ -75,11 +78,18 @@ const TenthStepComponent = forwardRef<
   };
 
   const handleReplayAnimation = async () => {
+
+    setReplayDisabled(replayButtonRef)
+
     resetAnimationObjects();
     if (balanceWithAnimationsRef.current!) {
       balanceWithAnimationsRef.current.replayAnimation();
     }
     animateWeighingPaperAndSphere();
+
+    setTimeout(() => {
+      setReplayEnabled(replayButtonRef)
+    }, ANIMATION_DURATION);
   };
 
   useImperativeHandle(ref, () => ({

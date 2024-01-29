@@ -1,20 +1,14 @@
-import React, {
-  useRef,
-  useEffect,
-  useImperativeHandle,
-  forwardRef,
-} from "react";
+import React, { useRef, forwardRef, useImperativeHandle, useEffect, useState } from "react";
 import BalanceWithAnimations from "../BalanceWithAnimations";
 import { Beaker } from "../Beaker";
 import { Bottle } from "../Bottle";
 import { BottleCap } from "../BottleCap";
 import { Spatula } from "../Spatula";
 import WeighingPaper from "../WeighingPaper";
-import { setNextEnabled } from "../Experience";
+import { setNextEnabled, setReplayDisabled, setReplayEnabled } from "../Experience";
 
 interface BalanceWithAnimationsRef {
   replayAnimation: () => Promise<void>;
-  updateBalanceReading: (weight: number) => void; // Assuming it's a function that takes a number
 }
 
 interface FourthStepComponentProps {
@@ -22,40 +16,52 @@ interface FourthStepComponentProps {
   replayAnimButtonRef: React.RefObject<HTMLButtonElement>;
 }
 
-const FourthStepComponent = forwardRef<{}, FourthStepComponentProps>(
+const FourthStepComponent = forwardRef<BalanceWithAnimationsRef, FourthStepComponentProps>(
   ({ nextButtonRef, replayAnimButtonRef }, ref) => {
-    const balanceWithAnimationsRef = useRef<BalanceWithAnimationsRef>(null);
+    const balanceWithAnimationsRef = useRef<BalanceWithAnimationsRef | null>(null);
+    const [isAnimating, setIsAnimating] = useState(false);
 
-    // useEffect(() => {
-    //   // Trigger the animation as soon as the component mounts
-    //   if (balanceWithAnimationsRef.current) {
-    //     balanceWithAnimationsRef.current.replayAnimation();
-    //   }
-    // }, []);
+    const handleBalanceClick = async () => {
+      if (balanceWithAnimationsRef.current && !isAnimating) {
+        setIsAnimating(true);
 
-    const handleBalanceClick = () => {
-      if (balanceWithAnimationsRef.current) {
-        balanceWithAnimationsRef.current.replayAnimation();
-
-        setNextEnabled(nextButtonRef);
+        // Disable replay button during animation
         if (replayAnimButtonRef && replayAnimButtonRef.current) {
-          replayAnimButtonRef.current.disabled = false;
+          setReplayDisabled(replayAnimButtonRef)
         }
+
+        // Start the animation
+        await balanceWithAnimationsRef.current.replayAnimation();
       }
     };
 
+    useEffect(() => {
+      if (isAnimating) {
+        // Simulate animation duration with setTimeout
+        const animationDuration = 2000; // Change this to the actual duration of your animation in milliseconds
+
+        const timeoutId = setTimeout(() => {
+          setIsAnimating(false);
+          setNextEnabled(nextButtonRef);
+
+          // Enable replay button after animation is finished
+          if (replayAnimButtonRef && replayAnimButtonRef.current) {
+            setReplayEnabled(replayAnimButtonRef)
+          }
+        }, animationDuration);
+
+        return () => clearTimeout(timeoutId);
+      }
+    }, [isAnimating, nextButtonRef, replayAnimButtonRef]);
+
     useImperativeHandle(ref, () => ({
-      replayAnimation: () => {
-        if (balanceWithAnimationsRef.current) {
-          balanceWithAnimationsRef.current.replayAnimation();
-        }
-      },
+      replayAnimation: handleBalanceClick,
     }));
 
     return (
       <group>
         <BalanceWithAnimations
-          ref={balanceWithAnimationsRef}
+          ref={(node) => (balanceWithAnimationsRef.current = node)}
           isOpen={true}
           position={[0, 4.55, 0]}
           onClick={handleBalanceClick}

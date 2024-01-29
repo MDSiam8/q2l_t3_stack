@@ -3,6 +3,7 @@ import React, {
   useEffect,
   useImperativeHandle,
   forwardRef,
+  useState,
 } from "react";
 import { Group } from "three";
 import BalanceWithAnimations, {
@@ -12,13 +13,15 @@ import WeighingPaper, { WeighingPaperRef } from "../WeighingPaper";
 import { Bottle } from "../Bottle";
 import { BottleCap } from "../BottleCap";
 import { Spatula } from "../Spatula";
-import { Html, Sphere } from "@react-three/drei";
+import { Sphere } from "@react-three/drei";
 import { Beaker } from "../Beaker";
-import { setNextEnabled } from "../Experience";
+import { setNextEnabled, setReplayDisabled, setReplayEnabled } from "../Experience";
+
+const ANIMATION_DURATION = 2000; // Adjust this to the length of your animation
 
 interface EighthStepComponentProps {
   nextButtonRef: React.RefObject<HTMLButtonElement>;
-  setIsAnimating: React.Dispatch<React.SetStateAction<boolean>>;
+  replayButtonRef: React.RefObject<HTMLButtonElement>;
 }
 
 interface EighthStepComponentMethods {
@@ -28,38 +31,40 @@ interface EighthStepComponentMethods {
 const EighthStepComponent = forwardRef<
   EighthStepComponentMethods,
   EighthStepComponentProps
->(({ setIsAnimating, nextButtonRef }, ref) => {
+>(({ nextButtonRef, replayButtonRef }, ref) => {
+  const [isAnimating, setIsAnimating] = useState(false);
   const balanceWithAnimationsRef = useRef<BalanceWithAnimationsHandles>(null);
   const weighingPaperRef = useRef<WeighingPaperRef>(null);
-  const groupRef = useRef<Group>(null); // Internal ref for the Group
+  const groupRef = useRef<Group>(null);
 
   useEffect(() => {
-    // updateBalanceReadingAfterAddingPowder(0.5017);
-    // setIsAnimating(true);
-    // handleReplayAnimation(); // Start the initial animation sequence
-    // setIsAnimating(false);
-  }, []);
+    if (isAnimating) {
+      setReplayDisabled(replayButtonRef);
+    } else {
+      setReplayEnabled(replayButtonRef);
+    }
+  }, [isAnimating, replayButtonRef]);
 
   const updateBalanceReadingAfterAddingPowder = (num: number) => {
     if (balanceWithAnimationsRef.current) {
-      // Assuming updateBalanceReading is a method of BalanceWithAnimations
       balanceWithAnimationsRef.current.updateBalanceReading(num);
     }
   };
 
   const handleReplayAnimation = async () => {
-    setIsAnimating(true);
-    if (balanceWithAnimationsRef.current) {
-      // Assuming replayAnimation is a method of BalanceWithAnimations
-      await balanceWithAnimationsRef.current.replayAnimation();
+    if (!isAnimating) {
+      setIsAnimating(true);
+      if (balanceWithAnimationsRef.current) {
+        await balanceWithAnimationsRef.current.replayAnimation();
+      }
+      setTimeout(() => {
+        setIsAnimating(false);
+      }, ANIMATION_DURATION);
     }
-    setIsAnimating(false);
   };
 
   useImperativeHandle(ref, () => ({
-    replayAnimation: async () => {
-      handleReplayAnimation();
-    },
+    replayAnimation: handleReplayAnimation,
   }));
 
   return (
@@ -70,9 +75,7 @@ const EighthStepComponent = forwardRef<
         ref={balanceWithAnimationsRef}
         onClick={() => {
           updateBalanceReadingAfterAddingPowder(0.5017);
-          setIsAnimating(true);
-          handleReplayAnimation(); // Start the initial animation sequence
-          // setIsAnimating(false);
+          handleReplayAnimation();
           setNextEnabled(nextButtonRef);
         }}
       />

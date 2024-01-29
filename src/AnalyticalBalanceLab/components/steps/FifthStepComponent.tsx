@@ -1,9 +1,4 @@
-import React, {
-  useRef,
-  useEffect,
-  useImperativeHandle,
-  forwardRef,
-} from "react";
+import React, { useRef, useEffect, useImperativeHandle, forwardRef } from "react";
 import BalanceWithAnimations from "../BalanceWithAnimations";
 import WeighingPaper from "../WeighingPaper";
 import * as THREE from "three";
@@ -12,104 +7,107 @@ import { Bottle } from "../Bottle";
 import { BottleCap } from "../BottleCap";
 import { Spatula } from "../Spatula";
 import { Beaker } from "../Beaker";
-import { setNextEnabled } from "../Experience";
+import { setNextEnabled, setReplayDisabled, setReplayEnabled } from "../Experience";
 
 interface WeighingPaperRef {
   replayAnimation: () => void;
 }
 
-
 interface FifthStepComponentProps {
   nextButtonRef: React.RefObject<HTMLButtonElement>;
+  replayButtonRef: React.RefObject<HTMLButtonElement>;
 }
-const FifthStepComponent = forwardRef<{}, FifthStepComponentProps>(
-  ({ nextButtonRef }, ref) => {
-  const weighingPaperRef = useRef<WeighingPaperRef>(null);
-  const paperGroup = useRef(new THREE.Group());
-  const originalStartPos = new THREE.Vector3(0, 5, -3); // Initial position
 
-  // If we want it to run as soon as the state loads
-  useEffect(() => {
-    paperGroup.current.position.copy(originalStartPos); // Ensure initial position is set
-    // const animate = () => {
-    //   requestAnimationFrame(animate);
-    //   TWEEN.update();
-    // };
-    // requestAnimationFrame(animate);
-    // // Start the initial animation sequence
-    // movePaperUp().then(() => {
-    //   if (weighingPaperRef.current) {
-    //     weighingPaperRef.current.replayAnimation();
-    //   }
-    // });
-  }, []);
+const FifthStepComponent = forwardRef<WeighingPaperRef, FifthStepComponentProps>(
+  ({ nextButtonRef, replayButtonRef }, ref) => {
+    const weighingPaperRef = useRef<WeighingPaperRef>(null);
+    const paperGroup = useRef(new THREE.Group());
+    const originalStartPos = new THREE.Vector3(0, 5, -3); // Initial position
 
-  const movePaperUp = () => {
-    return new Promise((resolve) => {
-      const upPosition = new THREE.Vector3(0, 1, 0);
-      const moveDuration = 1; // Duration in seconds
-      const endPosition = originalStartPos.clone().add(upPosition);
+    const movePaperUp = () => {
+      return new Promise((resolve) => {
+        const upPosition = new THREE.Vector3(0, 1, 0);
+        const moveDuration = 1; // Duration in seconds
+        const endPosition = originalStartPos.clone().add(upPosition);
 
-      new TWEEN.Tween(paperGroup.current.position)
-        .to(endPosition, moveDuration * 1600)
-        .onUpdate(() => {
-          paperGroup.current.position.copy(paperGroup.current.position);
-        })
-        .onComplete(() => resolve(0))
-        .start();
-    });
-  };
+        new TWEEN.Tween(paperGroup.current.position)
+          .to(endPosition, moveDuration * 1600)
+          .onUpdate(() => {
+            paperGroup.current.position.copy(paperGroup.current.position);
+          })
+          .onComplete(() => resolve(0))
+          .start();
+      });
+    };
 
-  const handleReplayAnimation = async () => {
-    paperGroup.current.position.copy(originalStartPos); // Reset position
-    await movePaperUp();
-    if (weighingPaperRef.current) {
-      weighingPaperRef.current.replayAnimation();
-    }
-  };
+    const handleReplayAnimation = async () => {
+      if (replayButtonRef && replayButtonRef.current) {
+        setReplayDisabled(replayButtonRef);
+      }
 
-  useImperativeHandle(ref, () => ({
-    replayAnimation: handleReplayAnimation,
-  }));
+      paperGroup.current.position.copy(originalStartPos);
 
-  return (
-    <group>
-      <BalanceWithAnimations isOpen={false} position={[0, 4.55, 0]} />
-      <group ref={paperGroup}>
-        <WeighingPaper
-          folded={false}
-          ref={weighingPaperRef}
-          rotation-y={(3.14 / 180) * 180}
-          onClick={() => {
-            paperGroup.current.position.copy(originalStartPos); // Ensure initial position is set
+      await movePaperUp();
 
-            const animate = () => {
-              requestAnimationFrame(animate);
-              TWEEN.update();
-            };
-            requestAnimationFrame(animate);
+      if (weighingPaperRef.current) {
+        weighingPaperRef.current.replayAnimation();
+      }
 
-            // Start the initial animation sequence
-            movePaperUp().then(() => {
-              if (weighingPaperRef.current) {
-                weighingPaperRef.current.replayAnimation();
-              }
-            }).then(() => {
-              setNextEnabled(nextButtonRef);
-            });
-          }}
+      // Enable replay button after animation is finished
+      if (replayButtonRef && replayButtonRef.current) {
+        setReplayEnabled(replayButtonRef);
+      }
+
+      setNextEnabled(nextButtonRef);
+    };
+
+    // If we want it to run as soon as the state loads
+    useEffect(() => {
+      paperGroup.current.position.copy(originalStartPos); // Ensure initial position is set
+
+      const animate = () => {
+        requestAnimationFrame(animate);
+        TWEEN.update();
+      };
+
+      requestAnimationFrame(animate);
+
+      // Start the initial animation sequence
+      movePaperUp().then(() => {
+        if (weighingPaperRef.current) {
+          weighingPaperRef.current.replayAnimation();
+        }
+      }).then(() => {
+        setNextEnabled(nextButtonRef);
+      });
+    }, [nextButtonRef]);
+
+    useImperativeHandle(ref, () => ({
+      replayAnimation: handleReplayAnimation,
+    }));
+
+    return (
+      <group>
+        <BalanceWithAnimations isOpen={false} position={[0, 4.55, 0]} />
+        <group ref={paperGroup}>
+          <WeighingPaper
+            folded={false}
+            ref={weighingPaperRef}
+            rotation-y={(3.14 / 180) * 180}
+            onClick={() => handleReplayAnimation()}
+          />
+        </group>
+        <Spatula
+          rotation-y={(3.14 / 180) * 90}
+          scale={0.5}
+          position={[2.5, 5, 0]}
         />
+        <BottleCap position={[2, 5.1, -2]} />
+        <Bottle position={[2, 5, -2]} />
+        <Beaker rotation-y={(-3.14 / 180) * 90} position={[2.6, 4.9, -3]} />
       </group>
-      <Spatula
-        rotation-y={(3.14 / 180) * 90}
-        scale={0.5}
-        position={[2.5, 5, 0]}
-      />
-      <BottleCap position={[2, 5.1, -2]} />
-      <Bottle position={[2, 5, -2]} />
-      <Beaker rotation-y={(-3.14 / 180) * 90} position={[2.6, 4.9, -3]} />
-    </group>
-  );
-});
+    );
+  }
+);
 
 export default FifthStepComponent;
