@@ -1,9 +1,9 @@
 import clsx from 'clsx'
 
-import { Button } from '@/components/Button'
-import { Container } from '@/components/Container'
+import { Button } from './Button'
+import { Container } from './Container'
 
-function SwirlyDoodle({ className }) {
+function SwirlyDoodle({ className }: { className: string }) {
   return (
     <svg
       aria-hidden="true"
@@ -20,7 +20,7 @@ function SwirlyDoodle({ className }) {
   )
 }
 
-function CheckIcon({ className }) {
+function CheckIcon({ className }: { className: string }) {
   return (
     <svg
       aria-hidden="true"
@@ -46,7 +46,14 @@ function CheckIcon({ className }) {
   )
 }
 
-function Plan({ name, price, description, href, features, featured = false }) {
+function Plan({ name, price, description, href, features, featured = false }: { 
+  name: string; 
+  price: string; 
+  description: string; 
+  href: string; 
+  features: string[]; 
+  featured?: boolean; 
+}) {
   return (
     <section
       className={clsx(
