@@ -31,9 +31,6 @@ const ThirdStepComponent = forwardRef<HTMLDivElement, {nextButtonRef: React.RefO
     });
   };
 
-  const beaker = new Beaker();
- beaker.componentDidMount();
-
   return (
     <group>
       <InventorySystem
@@ -52,8 +49,7 @@ const ThirdStepComponent = forwardRef<HTMLDivElement, {nextButtonRef: React.RefO
         />
       )}
       {selectedItems["Beaker"] && (
-        // <Beaker rotation-y={(-3.14 / 180) * 90} position={[2.6, 4.9, -3]} />
-        beaker.render()
+        <Beaker rotation-y={(-3.14 / 180) * 90} position={[2.6, 4.9, -3]} />
       )}
       {selectedItems["Spatula"] && (
         <Spatula
