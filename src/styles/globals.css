@@ -2,8 +2,20 @@
 @tailwind components;
 @tailwind utilities;
 
-html,
-body,
+body, html
+{ 
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    background: #202A37;
+    font-family: "Trebuchet MS", "Lucida Grande", "Lucida Sans Unicode", "Lucida Sans", sans-serif;
+    /* font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; */
+    /* font-family: Helvetica, Arial; */
+    /* font-family: "Century Gothic", CenturyGothic, Geneva, AppleGothic, sans-serif; */
+
+}
 #root
 {
     position: fixed;
@@ -11,7 +23,7 @@ body,
     left: 0;
     width: 100%;
     height: 100%;
-    background: ivory;
+    background: #202A37;
     /* font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; */
     /* font-family: Helvetica, Arial; */
     /* font-family: "Century Gothic", CenturyGothic, Geneva, AppleGothic, sans-serif; */
@@ -47,25 +59,21 @@ body,
     
 }
 
-.sidebar-container {
-    width: 1;
-    height: 100vh;
-    position: relative;
-    z-index: 100000;
-    top: 0;
-    left: 0;
-    overflow-x: hidden;
-    transition: 0.5s;
-    background-color: #8c8c8c; /* Change to the color you want */
-  }
-  
-  .sidebar-container:hover {
-    width: 250px; /* Change to the width you want on hover */
-  }
-  
-  .sidebar {
-    width: 100%;
-    height: 100%;
-    position: relative;
-    padding-top: 60px;
-  }
+.dashboard {
+  display: flex;
+}
+
+.sidebar {
+  width: 250px;
+  height: 100%;
+  position: fixed;
+  z-index: 1;
+  top: 0;
+  left: 0;
+  background-color: #111;
+  overflow-x: hidden;
+}
+
+.main-content {
+  flex-grow: 1;
+}

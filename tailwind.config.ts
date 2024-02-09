@@ -5,6 +5,11 @@ export default {
   content: ["./src/**/*.tsx"],
   theme: {
     extend: {
+      colors: {
+        'dashboard-bg': '#202A37',  
+        'card-bg': '#4B5563',
+        'card-text': '#D1D5DB',
+      },
       fontFamily: {
         sans: ["var(--font-sans)", ...fontFamily.sans],
       },

@@ -1,4 +1,4 @@
-'use client'
+"use client";
 import { UserButton } from "@clerk/nextjs";
 import { Button } from "../../components/ui/button";
 import Link from "next/link";
@@ -8,10 +8,11 @@ import {
   CardDescription,
   CardFooter,
   CardHeader,
+  CardImage,
   CardTitle,
 } from "../../components/ui/card";
-import { BellIcon, InfoIcon } from "lucide-react"
-import Sidebar from './Sidebar';
+import { BellIcon, InfoIcon } from "lucide-react";
+import Sidebar from "./Sidebar";
 
 //import Navbar from "@/components/Navbar";
 //import Sidebar from "@/components/Sidebar";
@@ -20,10 +21,12 @@ import Empty from "../../components/Empty";
 //import { Notebook } from "@prisma/client";
 
 interface Notebook {
-  id: string,
-  name: string,
-  updatedAt: Date,
-  link: string
+  id: string;
+  image: string;
+  name: string;
+  updatedAt: Date;
+  completed: string;
+  link: string;
 }
 
 type NotebookPreviewProps = {
@@ -32,7 +35,7 @@ type NotebookPreviewProps = {
 
 const NotebookPreview: React.FC<NotebookPreviewProps> = ({ notebooks }) => {
   return (
-    <div className="grid grid-cols-1 md:grid-cols-4 gap-4 p-4 md:pr-10">
+    <div className="grid grid-cols-1 gap-4 p-4 md:grid-cols-4 md:pr-10">
       {notebooks.map((notebook) => (
         <NotebookCard key={notebook.id} notebook={notebook} />
       ))}
@@ -44,31 +47,40 @@ const NotebookCard: React.FC<{ notebook: Notebook }> = ({ notebook }) => {
   return (
     <Link href={notebook.link} passHref>
       {/* 'passHref' ensures the href prop is passed to the underlying DOM element */}
-        <Card>
-          <CardHeader>
-            <CardTitle>{notebook.name}</CardTitle>
-          </CardHeader>
-          <CardContent>
-            {/* Add additional notebook details here */}
-          </CardContent>
-        </Card>
+      <Card>
+        {notebook.image !== "none" && <CardImage imageSrc={notebook.image} />}
+        <CardHeader>
+          <CardTitle>{notebook.name}</CardTitle>
+        </CardHeader>
+        <CardContent>
+          <CardDescription>Status: {notebook.completed}</CardDescription>
+          <CardDescription>
+            Last updated: {notebook.updatedAt.toLocaleDateString()}
+          </CardDescription>
+          {/* Add additional notebook details here */}
+        </CardContent>
+      </Card>
     </Link>
   );
 };
 
 const notebook: Notebook = {
   id: "1",
+  image: "Abalance.png",
   name: "Analytical Balances",
   updatedAt: new Date(),
-  link: "/analytical_balance_lab"
-}
+  completed: "Not Started",
+  link: "/analytical_balance_lab",
+};
 
 const notebook2: Notebook = {
   id: "2",
+  image: "rotovap.jpeg",
   name: "RotoVap",
+  completed: "Not Started",
   updatedAt: new Date(),
-  link: "/rotovap_lab"
-}
+  link: "/rotovap_lab",
+};
 
 export default function Dashboard() {
   const [notebooks, setNotebooks] = useState<Notebook[]>([]);
@@ -80,7 +92,7 @@ export default function Dashboard() {
       // const body = await res.json();
       // setNotebooks(body.notebooks);
       // setIsLoading(false);
-      setNotebooks([notebook, notebook2])
+      setNotebooks([notebook, notebook2]);
       setIsLoading(false);
     };
     if (typeof window !== "undefined") {
@@ -89,22 +101,21 @@ export default function Dashboard() {
   }, []);
 
   return (
-    
-    <div className="h-full relative">
-      <div className="flex flex-col">
-        <header className="flex h-14 lg:h-[60px] items-center gap-4 border-b bg-zinc-100/40 px-6 dark:bg-zinc-800/40">
-          {/* <Sidebar /> */}
-          <div className="ml-auto flex items-center gap-4">
-            <div>
-              <UserButton afterSignOutUrl="/" />
-            </div>
-          </div>
-        </header>
-        <main className="flex flex-1 flex-col gap-4 p-4 md:gap-8 md:p-6">
-            <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
-            
-            </div>
+    <div className="relative h-full bg-dashboard-bg">
+      <header className="flex h-14 items-center gap-4 border-b bg-zinc-100/40 px-6 dark:bg-zinc-800/40 lg:h-[60px]">
+        <div className="ml-auto flex items-center gap-4">
           <div>
+            <UserButton afterSignOutUrl="/" />
+          </div>
+        </div>
+      </header>
+      <div className="dashboard flex flex-row">
+        <div className="w-64 flex-shrink-0">
+          <Sidebar />
+        </div>
+        <main className="flex flex-1 flex-col gap-4 p-4 md:gap-8 md:p-6">
+          <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3"></div>
+          <div className="main-content">
             {isLoading ? (
               // Add loading skeleton UI here
               <div>Loading...</div>
