@@ -29,6 +29,49 @@ interface Notebook {
   link: string;
 }
 
+// Reusable card component to display notebook details
+const NotebookCard: React.FC<{ notebook: Notebook }> = ({ notebook }) => {
+  const getStatusColor = (status: string) => {
+    switch (status) {
+      case 'Not Started':
+        return '#FF8888';
+      case 'In Progress':
+        return '#FFFF88';
+      case 'Completed':
+        return '#8DC8FF';
+      default:
+        return 'black';
+    }
+  };
+
+  return (
+    <Link href={notebook.link} passHref>
+      {/* 'passHref' ensures the href prop is passed to the underlying DOM element */}
+      <Card>
+        {notebook.image !== "none" && <CardImage imageSrc={notebook.image} />}
+        <CardHeader>
+          <div className="notebook-title">
+            <CardTitle>{notebook.name}</CardTitle>
+          </div>
+        </CardHeader>
+        <CardContent>
+          <div className="completed-status" style={{ color: getStatusColor(notebook.completed) }}>
+            <CardDescription>
+              {notebook.completed}
+            </CardDescription>
+          </div>
+          {/* <div className="last-updated">
+            <CardDescription>
+              Last updated: {notebook.updatedAt.toLocaleDateString()}
+            </CardDescription>
+          </div> */}
+          {/* Add additional notebook details here */}
+        </CardContent>
+      </Card>
+    </Link>
+  );
+};
+
 type NotebookPreviewProps = {
   notebooks: Notebook[];
 };
@@ -43,41 +86,29 @@ const NotebookPreview: React.FC<NotebookPreviewProps> = ({ notebooks }) => {
   );
 };
 
-const NotebookCard: React.FC<{ notebook: Notebook }> = ({ notebook }) => {
-  return (
-    <Link href={notebook.link} passHref>
-      {/* 'passHref' ensures the href prop is passed to the underlying DOM element */}
-      <Card>
-        {notebook.image !== "none" && <CardImage imageSrc={notebook.image} />}
-        <CardHeader>
-          <CardTitle>{notebook.name}</CardTitle>
-        </CardHeader>
-        <CardContent>
-          <CardDescription>Status: {notebook.completed}</CardDescription>
-          <CardDescription>
-            Last updated: {notebook.updatedAt.toLocaleDateString()}
-          </CardDescription>
-          {/* Add additional notebook details here */}
-        </CardContent>
-      </Card>
-    </Link>
-  );
-};
-
 const notebook: Notebook = {
   id: "1",
   image: "Abalance.png",
   name: "Analytical Balances",
   updatedAt: new Date(),
-  completed: "Not Started",
+  completed: "Completed",
   link: "/analytical_balance_lab",
 };
 
 const notebook2: Notebook = {
   id: "2",
-  image: "rotovap.jpeg",
+  image: "rotoVap.jpeg",
   name: "RotoVap",
   completed: "Not Started",
+  updatedAt: new Date(),
+  link: "/rotovap_lab",
+};
+
+const notebook3: Notebook = {
+  id: "2",
+  image: "buchner.jpeg",
+  name: "Buchner Funnel",
+  completed: "In Progress",
   updatedAt: new Date(),
   link: "/rotovap_lab",
 };
@@ -92,7 +123,8 @@ export default function Dashboard() {
       // const body = await res.json();
       // setNotebooks(body.notebooks);
       // setIsLoading(false);
-      setNotebooks([notebook, notebook2]);
+      // notebooks will be fetched from the backend in the future
+      setNotebooks([notebook, notebook2, notebook3]);
       setIsLoading(false);
     };
     if (typeof window !== "undefined") {

@@ -25,20 +25,17 @@ const CardImage = React.forwardRef<HTMLDivElement, CardImageProps>(
   ({ imageSrc, className, ...props }, ref) => (
     <div
       ref={ref}
-      className={cn("flex flex-col space-y-1.5 p-6", className)}
+      className={cn("flex flex-col", className)}
       {...props}
     >
       <img
         src={imageSrc}
         alt="Card"
-        style={{ width: "100%", objectFit: "cover", borderRadius: "5px" }}
+        style={{ width: "100%", height: "250px", objectFit: "cover"}}
       />
     </div>
   ),
 );
-
-CardImage.displayName = "CardImage";
-
 CardImage.displayName = "CardImage";
 
 const CardHeader = React.forwardRef<
