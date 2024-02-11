@@ -27,6 +27,7 @@ import state from "./state.json";
 import { Canvas, useFrame, useThree } from "@react-three/fiber";
 // import { CameraAdjuster } from "./CameraAdjuster";
 import { Camera, Vector3 } from "three";
+import Step1 from "./steps/01FirstStep";
 
 // Interface for the structure of each step in state.json
 interface Step {
@@ -163,8 +164,8 @@ export default function Experience() {
         </mesh>
 
         {/* Conditional Rendering of Step Components */}
-        {/* {currentStep === 1 && <FirstStepComponent />}
-        {currentStep === 2 && <SecondStepComponent nextButtonRef={nextButtonRef} />}
+         {currentStep === 1 && <Step1/>}
+        {/* {currentStep === 2 && <SecondStepComponent nextButtonRef={nextButtonRef} />}
         {currentStep === 3 && <ThirdStepComponent nextButtonRef={nextButtonRef} />}
         {currentStep === 4 && (
           <FourthStepComponent
