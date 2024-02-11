@@ -8,17 +8,45 @@ import ReactDOM from "react-dom/client";
 import { Canvas, useFrame, useThree } from "@react-three/fiber";
 import Experience from "../SeperatingLiquidsLab/components/Experience";
 import * as THREE from "three";
+import { Container } from "./landing_page/components/Container";
+import { Button } from "./landing_page/components/Button";
+import logoJHU from "./landing_page/images/logos/johns-hopkins.svg";
+import logoCUHK from './landing_page/images/logos/cuhk.svg';
+import Image from 'next/image'
+import { PrimaryFeatures } from "./landing_page/components/PrimaryFeatures";
+import { SecondaryFeatures } from "./landing_page/components/SecondaryFeatures";
+import { Testimonials } from "./landing_page/components/Testimonials";
+import { Footer } from "./landing_page/components/Footer";
+import { Hero } from "./landing_page/components/Hero";
+import { Header } from "./landing_page/components/Header";
 
 
 export default function Home() {
   const { openSignIn } = useClerk();
+
   const navigation = [
+    { name: "Home", href: "#"},
     { name: "Product", href: "#" },
     { name: "Features", href: "#" },
     { name: "Marketplace", href: "#" },
     { name: "Company", href: "#" },
   ];
+  
   return (
+    <>
+    {/* <Header /> */}
+    <div style={{ height: '100vh', overflowY: 'auto' }}>
+    <Hero />
+    <div style={{ overflowY: 'auto' }}> 
+    <PrimaryFeatures />
+    </div>
+    <div style={{ overflowY: 'auto' }}>
+    <Testimonials />
+    </div>
+
+  
+  </div>
+    {/*
     <div className="bg-white">
       <header className="absolute inset-x-0 top-0 z-50">
         <nav
@@ -134,6 +162,8 @@ export default function Home() {
           />
         </div>
       </div>
-    </div>
+      </div>
+          */}    
+    </>
   );
 }
