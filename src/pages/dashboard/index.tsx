@@ -99,7 +99,7 @@ const notebook: Notebook = {
 
 const notebook2: Notebook = {
   id: "2",
-  image: "rotoVap.jpeg",
+  image: "rotovap.jpeg",
   name: "RotoVap",
   completed: "Not Started",
   updatedAt: new Date(),
