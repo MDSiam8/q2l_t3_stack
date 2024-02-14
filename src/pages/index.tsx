@@ -6,11 +6,11 @@ import { Bars3Icon, XMarkIcon } from "@heroicons/react/24/outline";
 import Link from "next/link";
 import { useUser } from "@clerk/nextjs";
 import { useRouter } from "next/navigation";
-
-
-
-
-
+import React, { useEffect, useState, useRef } from "react";
+import ReactDOM from "react-dom/client";
+import { Canvas, useFrame, useThree } from "@react-three/fiber";
+import Experience from "../SeperatingLiquidsLab/components/Experience";
+import * as THREE from "three";
 
 export default function Home() {
   const { openSignUp } = useClerk();
