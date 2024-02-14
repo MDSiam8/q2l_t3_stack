@@ -64,14 +64,53 @@ body, html
 }
 
 .sidebar {
-  width: 250px;
+  width: 303px;
   height: 100%;
   position: fixed;
   z-index: 1;
   top: 0;
   left: 0;
-  background-color: #111;
+  background-color: #202A37;
+  border-right: 1px solid #fff;
   overflow-x: hidden;
+}
+
+.sidebar-title {
+  color: #fff;
+  height: 95px;
+  display: flex;
+  align-items: center;
+  margin-left: 40px;
+  font-size: 18px;
+  font-weight: bold;
+}
+
+.sidebar-elements {
+  display: flex;
+  flex-direction: column;
+}
+
+.sidebar-elements div {
+  color: #fff;
+  margin-bottom: 14px;
+  margin-left: 40px;
+  display: flex;
+  align-items: center;
+  font-size: 14px;
+
+}
+
+.sidebar-elements > div:first-child {
+  margin-top: 10px;
+}
+.sidebar-elements img {
+  height: 25px;
+  width: 25px;
+  margin-right: 12px;
+}
+
+.sidebar-elements div:nth-child(6) {
+  margin-top: 150px;
 }
 
 .main-content {
