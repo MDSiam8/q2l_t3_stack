@@ -25,8 +25,16 @@ export default function Home() {
     { name: "Company", href: "#" },
   ];
 
-  if (isLoaded && isSignedIn) {
-    router.push("/dashboard");
+  
+
+  const onSignInClick = () => {
+    //prevents reopening sign in is user already authed
+    if (isLoaded && isSignedIn) {
+      router.push("/dashboard");
+    }
+    else {
+      openSignIn();
+    }
   }
 
   return (
@@ -70,9 +78,10 @@ export default function Home() {
           <div className="hidden lg:flex lg:flex-1 lg:justify-end">
             <Link
               href="/dashboard"
-              onClick={(e) => {
+              onClick={
+                (e) => {
                 e.preventDefault();
-                openSignIn();
+                onSignInClick();
               }}
               className="text-sm font-semibold leading-6 text-gray-900"
             >
@@ -121,7 +130,7 @@ export default function Home() {
               href="/dashboard"
               onClick={(e) => {
                 e.preventDefault();
-                openSignUp();
+                onSignInClick();
               }}
               className="rounded-md bg-indigo-600 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
             >
@@ -131,7 +140,7 @@ export default function Home() {
               href="/dashboard"
               onClick={(e) => {
                 e.preventDefault();
-                openSignUp();
+                onSignInClick();
               }}
               className="text-sm font-semibold leading-6 text-gray-900"
             >

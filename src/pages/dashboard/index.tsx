@@ -54,19 +54,21 @@ const NotebookCard: React.FC<{ notebook: Notebook }> = ({ notebook }) => {
             <CardTitle>{notebook.name}</CardTitle>
           </div>
         </CardHeader>
-        <CardContent>
-          <div className="completed-status" style={{ color: getStatusColor(notebook.completed) }}>
-            <CardDescription>
-              {notebook.completed}
-            </CardDescription>
-          </div>
-          {/* <div className="last-updated">
-            <CardDescription>
-              Last updated: {notebook.updatedAt.toLocaleDateString()}
-            </CardDescription>
-          </div> */}
-          {/* Add additional notebook details here */}
-        </CardContent>
+        {
+        // <CardContent>
+        //   <div className="completed-status" style={{ color: getStatusColor(notebook.completed) }}>
+        //     <CardDescription>
+        //       {notebook.completed}
+        //     </CardDescription>
+        //   </div>
+        //   {/* <div className="last-updated">
+        //     <CardDescription>
+        //       Last updated: {notebook.updatedAt.toLocaleDateString()}
+        //     </CardDescription>
+        //   </div> */}
+        //   {/* Add additional notebook details here */}
+        // </CardContent>
+      }
       </Card>
     </Link>
   );
@@ -91,7 +93,7 @@ const notebook: Notebook = {
   image: "Abalance.png",
   name: "Analytical Balances",
   updatedAt: new Date(),
-  completed: "Completed",
+  completed: "Not Started",
   link: "/analytical_balance_lab",
 };
 
@@ -105,10 +107,10 @@ const notebook2: Notebook = {
 };
 
 const notebook3: Notebook = {
-  id: "2",
+  id: "3",
   image: "buchner.jpeg",
   name: "Buchner Funnel",
-  completed: "In Progress",
+  completed: "Not Started",
   updatedAt: new Date(),
   link: "/rotovap_lab",
 };
@@ -133,7 +135,7 @@ export default function Dashboard() {
   }, []);
 
   return (
-    <div className="relative h-full bg-dashboard-bg">
+    <div className="relative h-full bg-dashboard-bg"> {/*Relative H-full not filling the entire page for some reason */}
       <header className="flex h-14 items-center gap-4 border-b bg-zinc-100/40 px-6 dark:bg-zinc-800/40 lg:h-[60px]">
         <div className="ml-auto flex items-center gap-4">
           <div>
@@ -142,9 +144,11 @@ export default function Dashboard() {
         </div>
       </header>
       <div className="dashboard flex flex-row">
-        <div className="w-64 flex-shrink-0">
-          <Sidebar />
-        </div>
+        {
+        // <div className="w-64 flex-shrink-0">
+        //   <Sidebar />
+        // </div>
+        }
         <main className="flex flex-1 flex-col gap-4 p-4 md:gap-8 md:p-6">
           <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3"></div>
           <div className="main-content">

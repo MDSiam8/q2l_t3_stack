@@ -6,7 +6,7 @@ export default {
   theme: {
     extend: {
       colors: {
-        'dashboard-bg': '#202A37',  
+        'dashboard-bg': '#ADD8E6',  
         'card-bg': '#4B5563',
         'card-text': '#D1D5DB',
       },
