@@ -1,6 +1,5 @@
 import Head from "next/head";
 import { useClerk } from "@clerk/nextjs";
-import { useState } from "react";
 import { Dialog } from "@headlessui/react";
 import { Bars3Icon, XMarkIcon } from "@heroicons/react/24/outline";
 import Link from "next/link";
