@@ -81,10 +81,17 @@ const notebook4: Notebook = {
   id: "4",
   name: "Micropipette",
   updatedAt: new Date(),
-  link: "/micropipette"
+  link: "/micropipette_lab"
 }
 
-const access_labs = [notebook, notebook2, notebook3, notebook4]
+const notebook5: Notebook = {
+  id: "4",
+  name: "Gel Electrophoresis",
+  updatedAt: new Date(),
+  link: "/GelElectrophoresis_lab"
+}
+
+const access_labs = [notebook, notebook2, notebook3, notebook4, notebook5]
 
 export default function Dashboard() {
   const [notebooks, setNotebooks] = useState<Notebook[]>([]);
