@@ -115,6 +115,15 @@ const notebook3: Notebook = {
   link: "/rotovap_lab",
 };
 
+const notebook3: Notebook = {
+  id: "3",
+  name: "Extraction",
+  updatedAt: new Date(),
+  link: "/extraction_lab"
+}
+
+const access_labs = [notebook, notebook2, notebook3]
+
 export default function Dashboard() {
   const [notebooks, setNotebooks] = useState<Notebook[]>([]);
   const [isLoading, setIsLoading] = useState(true);
