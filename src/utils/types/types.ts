@@ -17,7 +17,7 @@ interface Hitbox {
 }
 
 
-type ActionName = "open" | "close" 
+export type ActionName = "open" | "close" | "move"
 
 export interface ActionWithHitbox {
   // performAction: () => void;
@@ -25,8 +25,26 @@ export interface ActionWithHitbox {
   hitbox: Hitbox;
 }
 
+// Define the structure for animation sequence steps in a timeline
+interface AnimationSequence {
+  props: { [key: string]: any };
+  // duration: number;
+}
+
+// Define the structure for actions with a timeline
+export interface ActionWithTimeline {
+  actionName: ActionName;
+  timeline: {
+    defaults: { [key: string]: any };
+    sequence: AnimationSequence[];
+  };
+}
+
+// Union type for actions
+export type Action = ActionWithHitbox | ActionWithTimeline;
+
 export interface ModelProps {
-  position: PositionRange;
+  startingPosition:[number, number, number];
   scale: number;
   opacity: number;
   rotation: [number, number, number];
@@ -57,13 +75,10 @@ export interface SampleBottleModelProps extends ModelProps {
 // Define a union of all specific ModelProps types
 type LabModelProps = AnalyticalBalanceModelProps | MicroscopeModelProps | CentrifugeModelProps | SampleBottleModelProps ;
 
-
-
-// Using Generics to define the model props
-export interface ObjectInFocus {
+export interface LabObject {
   name: string;
   model: any; // Adjust based on your 3D model's type
-  actions: ActionWithHitbox[]; // Updated to reflect the new actions structure
+  actions: Action[]; // Updated to reflect the new actions structure
   modelProps: LabModelProps; // Use the generic type parameter
 }
 
@@ -88,13 +103,15 @@ export interface QuizQuestion {
 
 export type InteractiveElement = TextInput | Image | QuizQuestion;
 
-export interface LabStep {
+interface LabStep<T = any> { // T = any by default for maximum flexibility
   stepTitle: string;
   description: string;
   directions: string;
   user_instructions?: string;
-  objectsInFocus: ObjectInFocus[];
+  labObjects: LabObject[];
   interactiveElements?: InteractiveElement[];
+  customStep?: React.ElementType<T>; // Using generic type T for custom step props
+  // customStep?: React.FC<T> | React.ReactNode; // Using generic type T for custom step props
 }
 
-export type LabSchema = LabStep[];
+export type LabSchema = LabStep<any>[]; // Array of LabStep,

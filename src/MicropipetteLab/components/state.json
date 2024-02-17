@@ -1,6 +1,6 @@
 {
-    "1": { 
-        "stepTitle": "Setup",
+    "1": {  
+        "stepTitle": "REMOVE",
         "description": "Placing lab into virtual environment",
         "directions": "Tap on the screen to place the lab onto the floor",
         "user_instructions": "",
@@ -25,28 +25,28 @@
     "3": {
         "stepTitle": "Micropipette Selection",
         "description": "Select the micropipette that will be used",
-        "directions": "Our first task will be to select the appropriate micro pipette",
+        "directions": "Our first task will be to select the appropriate micropipette.",
         "user_instructions": "",
         "objectsInFocus": []
     },
     "4": {
         "stepTitle": "",
         "description": "",
-        "directions": "Micropipettes are calibrated to different ranges. 0.2-2ul for a P2 pipette, 2ul-20ul for a P20 pipette, 20-200ul for a P200 pipette, and a 200ul-1000ul for a P1000 pipette",
+        "directions": "Micropipettes are calibrated to different ranges. 0.2-2ul for P2 pipettes, 2ul-20ul for P20 pipettes, 20-200ul for P200 pipettes, and 200ul-1000ul for P1000 pipettes.",
         "user_instructions": "",
         "objectsInFocus": []
     },
     "5": {
         "stepTitle": "",
         "description": "",
-        "directions": "Now, we will give you a volume in microliters and you will need to identify which pipette would be appropriate to extract that volume.",
-        "user_instructions": "",
+        "directions": "Now, we'll give you a volume in microliters and you will need to identify which pipette would be appropriate to extract that volume.",
+        "user_instructions": "Hint: the pipette type is always given on the top of the push button.",
         "objectsInFocus": []
     },
     "6": {
         "stepTitle": "",
         "description": "",
-        "directions": "Hint: the pipette type is always given on the top of the push button",
+        "directions": "",
         "user_instructions": "",
         "objectsInFocus": [
             "pointingArrows"
@@ -55,26 +55,26 @@
     "7": {
         "stepTitle": "",
         "description": "",
-        "directions": "Select the appropriate pipette for the given volume. (Hint: you can use the slider on the right to rotate the pipettes to see their push button.)",
-        "user_instructions": "Target volume: 1ul",
-        "objectsInFocus": []
+        "directions": "Select the appropriate pipette for the given volume: 1ul. ",
+        "user_instructions": "Hint: Try rotating your camera to view the top of the pipette to see their volume!",
+        "objectsInFocus": ["pipetteP2", "pipetteP20", "pipetteP200", "pipetteP1000"]
     },
     "8": {
         "stepTitle": "Set pipette volume",
         "description": "Instruct user on how to set the pipette volume",
-        "directions": "Good job! Now let us work on setting the volume on the pipette!",
-        "user_instructions": "",
+        "directions": "Good job! Now lets work on setting the volume on the pipette!",
+        "user_instructions": "Remember, rotating clockwise (to the right) increases volume, whereas rotating counterclockwise (to the left) decreases the volume.",
         "objectsInFocus": []
     },
     "9": {
-        "stepTitle": "",
+        "stepTitle": "REMOVE", 
         "description": "",
         "directions": "To set the volume use the joystick to rotate the push button to the target volume.",
         "user_instructions": "",
         "objectsInFocus": []
     },
     "10": {
-        "stepTitle": "",
+        "stepTitle": "REMOVE",
         "description": "",
         "directions": "Rotating counterclockwise would increase the volume while rotating clockwise would decrease the volume.",
         "user_instructions": "",
@@ -83,10 +83,12 @@
     "11": {
         "stepTitle": "",
         "description": "",
-        "directions": "Now set the volume of the pipette to match the volume shown. Use the right arrow to move the push button counterclockwise  and the left arrow to rotate the push button clockwise.",
-        "user_instructions": "Target volume: 1ul",
+        "directions": "Set the volume of the pipette to extract 1ul.",
+        "user_instructions": "Use the right arrow to rotate the push button counterclockwise and the left arrow to rotate the push button clockwise.",
         "objectsInFocus": [
-            "setPipetteVolumeUI"
+            "setPipetteVolumeUI",
+            "rotateClockwiseButton",
+            "rotateCounterClockwiseButton"
         ]
     },
     "12": {
@@ -97,7 +99,7 @@
         "objectsInFocus": []
     },
     "13": {
-        "stepTitle": "",
+        "stepTitle": "REMOVE",
         "description": "",
         "directions": "In front of us we have some tip holders for each kind of micrpipette. We will need to identify the correct box to use based on the micropipette we selected.",
         "user_instructions": "",

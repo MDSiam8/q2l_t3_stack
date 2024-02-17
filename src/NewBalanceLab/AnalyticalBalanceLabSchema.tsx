@@ -1,14 +1,12 @@
+import FourthStepComponent from "~/AnalyticalBalanceLab/components/steps/FourthStepComponent";
 import {
   LabSchema,
-  ObjectInFocus,
+  LabObject,
   InteractiveElement,
 } from "../utils/types/types";
-import {
-  AnalyticalBalanceModel,
-  openBalance,
-  AnalyticalBalanceModelRef
-} from "~/Models/AnalyticalBalanceModel";
-import { SampleBottleModel, openBottle } from "~/Models/SampleBottleModel";
+import { AnalyticalBalanceModel } from "~/Models/AnalyticalBalanceModel";
+import { SampleBottleModel } from "~/Models/SampleBottleModel";
+import FirstStepComponent from "~/AnalyticalBalanceLab/components/steps/FirstStepComponent";
 
 export const AnalyticalBalanceLabSchema: LabSchema = [
   {
@@ -17,7 +15,7 @@ export const AnalyticalBalanceLabSchema: LabSchema = [
     directions: "In this lab, you will learn how to use an analytical balance.",
     user_instructions:
       "Please familiarize yourself with the analytical balance.",
-    objectsInFocus: [
+    labObjects: [
       {
         name: "Analytical Balance",
         model: AnalyticalBalanceModel,
@@ -25,16 +23,13 @@ export const AnalyticalBalanceLabSchema: LabSchema = [
           {
             actionName: "open",
             hitbox: {
-              position: [0, 2, 0],
+              position: [0, 0, 0],
               scale: 3,
             },
           },
         ],
         modelProps: {
-          position: {
-            startingPosition: { x: 0, y: 0 },
-            endingPosition: { x: 50, y: 50 },
-          },
+          startingPosition: [1, 0, 0],
           isOpen: false,
           scale: 1.3,
           opacity: 0.8,
@@ -62,29 +57,46 @@ export const AnalyticalBalanceLabSchema: LabSchema = [
       "Page showing powder sample and explaining how our task is to weigh around 0.5 g of that powder sample",
     directions: "Our task is to weigh around 0.5g of the powder sample.",
     user_instructions: "Weigh the powder sample using the analytical balance.",
-    objectsInFocus: [
+    labObjects: [
       {
         name: "Sample Bottle",
         model: SampleBottleModel,
         actions: [
           {
-            // performAction: () => {
-            //   console.log("Performing open bottle action");
-            //   // openBottle function needs to be defined elsewhere
-            //   openBottle();
-            // },
-            actionName: "open",
-            hitbox: {
-              position: [0, 2, 0],
-              scale: 3,
+            actionName: "move",
+            timeline: {
+              defaults: {},
+              sequence: [
+                { props: { y: "+=4", duration: 1 } },
+                { props: { x: "+=.2", z: "-=2.6", duration: 1 } }, // Move right
+              ],
             },
           },
         ],
         modelProps: {
-          position: {
-            startingPosition: { x: 50, y: 50 },
-            endingPosition: { x: 50, y: 50 },
+          startingPosition: [1, 3, 0],
+          scale: 1.3,
+          opacity: 0.8,
+          rotation: [0, (3.14 / 180) * 90, 0], // Example rotation
+        },
+      },
+      {
+        name: "Sample Bottle",
+        model: SampleBottleModel,
+        actions: [
+          {
+            actionName: "move",
+            timeline: {
+              defaults: {},
+              sequence: [
+                { props: { y: "+=4", duration: 1 } },
+                { props: { x: "+=.2", z: "-=2.6", duration: 1 } }, // Move right
+              ],
+            },
           },
+        ],
+        modelProps: {
+          startingPosition: [1, 3, 0],
           scale: 1.3,
           opacity: 0.8,
           rotation: [0, (3.14 / 180) * 90, 0], // Example rotation
@@ -100,6 +112,15 @@ export const AnalyticalBalanceLabSchema: LabSchema = [
       },
     ],
   },
-  
+// New custom step
+{
+  stepTitle: "Custom Interactive Step",
+  description: "A custom step involving an interactive component.",
+  directions: "Follow the instructions in the custom component.",
+  user_instructions: "Interact with the custom component as directed.",
+  labObjects: [], // Assuming no specific objects are in focus for this step
+  interactiveElements: [], // Assuming the custom component handles its interaction
+  customStep: FourthStepComponent, // Assuming GenericCustomStep is a previously defined or imported component
+},
   // Additional steps...
 ];

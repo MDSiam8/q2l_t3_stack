@@ -6,19 +6,10 @@ import React, {
 } from "react";
 import { useGLTF, useAnimations } from "@react-three/drei";
 import * as THREE from "three";
-import { ModelProps } from "~/utils/types/types";
+import { ActionName, ModelProps } from "~/utils/types/types";
 // import { GLTF } from 'three/examples/jsm/loaders/GLTFLoader';
 // import { GLTFLoader } from 'three';
 
-// Export the 3D model (this could be a path, a reference, or an object depending on your setup)
-// export const AnalyticalBalanceModel = "path/to/analytical_balance_model.glb";
-
-// Export action functions specific to the Analytical Balance
-export const openBalance = () => {
-  console.log("Examining the analytical balance.");
-};
-export const closeBalance = () =>
-  console.log("Closing the analytical balance.");
 
 interface AnalyticalBalanceModelProps extends ModelProps {
   isOpen: boolean;
@@ -31,7 +22,7 @@ interface AnalyticalBalanceModelProps extends ModelProps {
 // }
 
 export interface AnalyticalBalanceModelRef {
-  performAction: (actionName: string) => Promise<void>; // Added a placeholder actionName parameter and return type
+  performAction: (actionName: ActionName) => Promise<void>; // Added a placeholder actionName parameter and return type
   replayAnimation: () => Promise<void>;
   updateBalanceReading: (weight: number) => void;
 }
@@ -59,9 +50,7 @@ export const AnalyticalBalanceModel = forwardRef<
   AnalyticalBalanceModelProps
 >((props: AnalyticalBalanceModelProps, ref) => {
   const gltf = useGLTF(modelPath);
-  //   as GLTF & {
-  //     animations: THREE.AnimationClip[];
-  //   };
+
   const { actions } = useAnimations(gltf.animations, gltf.scene);
   const examineAnimationRef = useRef<THREE.AnimationAction | null>(null);
   const balance = useGLTF("./balanceUpdated.gltf");
@@ -69,16 +58,6 @@ export const AnalyticalBalanceModel = forwardRef<
   const animationAction = useRef<THREE.AnimationAction | null>(null);
   const balanceReadingRef = useRef<any>(null);
   const { isOpen } = props;
-  // const isOpen = false;
-  //   useEffect(() => {
-  const animationToPlay = isOpen ? "glassRAction.002" : "glassR.001Action";
-  const action = animations.actions
-    ? animations.actions[animationToPlay]
-    : null;
-  if (action) {
-    animationAction.current = action;
-    animationAction.current.setLoop(THREE.LoopOnce, 1);
-  }
 
   if (balance.scene.children[3]) {
     balance.scene.children[3].visible = !isOpen;
@@ -86,13 +65,6 @@ export const AnalyticalBalanceModel = forwardRef<
   if (balance.scene.children[17]) {
     balance.scene.children[17].visible = isOpen;
   }
-
-  //     return () => {
-  //       if (animationAction.current) {
-  //         animationAction.current.fadeOut(0.5);
-  //       }
-  //     };
-  //   }, [isOpen, balance.animations, animations.actions]);
 
   const handleReplayAnimation = async () => {
     if (animationAction.current) {
@@ -107,52 +79,30 @@ export const AnalyticalBalanceModel = forwardRef<
     }
   };
 
-  type ActionName = "open" | "close";
 
-  const performAction: AnalyticalBalanceModelRef['performAction'] = async (actionName) => {
+  const performAction: AnalyticalBalanceModelRef["performAction"] = async (
+    actionName: ActionName,
+  ) => {
     if (actionName === "open") {
       // Logic for opening
       console.log("Opening...");
-      const animationToPlay = "glassRAction.002";
-        const action = animations.actions
-          ? animations.actions[animationToPlay]
-          : null;
-        if (action) {
-          animationAction.current = action;
-          animationAction.current.setLoop(THREE.LoopOnce, 1);
-        }
-        action?.reset().play();
     } else if (actionName === "close") {
       // Logic for closing
       console.log("Closing...");
     }
+    // Will need to check for Open or Close actions in the future!!
+    const animationToPlay = actionName === "open" ? "glassRAction.002" : "glassRAction.001" 
+    const action = animations.actions
+      ? animations.actions[animationToPlay]
+      : null;
+    if (action) {
+      animationAction.current = action;
+      animationAction.current.setLoop(THREE.LoopOnce, 1);
+      animationAction.current.clampWhenFinished = true;
+    }
+    action?.reset().play();
     // Make sure to return a promise, for actions that do not inherently return one, wrap in Promise.resolve()
     return Promise.resolve();
-    // switch (name) {
-    //   case "open":
-    //     // Logic to open the balance
-    //     console.log("Opening balance...");
-    //     const animationToPlay = "glassRAction.002";
-    //     const action = animations.actions
-    //       ? animations.actions[animationToPlay]
-    //       : null;
-    //     if (action) {
-    //       animationAction.current = action;
-    //       animationAction.current.setLoop(THREE.LoopOnce, 1);
-    //     }
-    //     action?.reset().play();
-    //     // Here, place your actual code to open the balance.
-    //     // This might involve setting state, calling a method on a class, triggering animations, etc.
-    //     break;
-    //   case "close":
-    //     // Logic to close the balance
-    //     console.log("Closing balance...");
-    //     // Similarly, place your actual code to close the balance here.
-    //     break;
-    //   default:
-    //     // Optional: handle unknown actions
-    //     console.warn(`Action "${name}" is not recognized.`);
-    // }
   };
 
   useImperativeHandle(ref, () => ({
@@ -161,9 +111,9 @@ export const AnalyticalBalanceModel = forwardRef<
     updateBalanceReading,
   }));
 
-  const { position, ...restOfProps } = props;
+  // const { startingPosition, ...restOfProps } = props;
   return (
-    <group {...restOfProps}>
+    <group {...props} position={props.startingPosition}>
       <primitive object={balance.scene} scale={0.6} />
       {/* <BalanceReading ref={balanceReadingRef} /> */}
     </group>
