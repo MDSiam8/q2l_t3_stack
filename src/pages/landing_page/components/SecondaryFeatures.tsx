@@ -2,8 +2,6 @@ import { useEffect, useState } from 'react'
 import Image from 'next/image'
 import { Tab } from '@headlessui/react'
 import clsx from 'clsx'
-
-import { Container } from './Container'
 import backgroundImage from '../images/background-features.jpg'
 import screenshotExpenses from '../images/screenshots/expenses.png'
 import screenshotPayroll from '../images/screenshots/payroll.png'
@@ -12,6 +10,7 @@ import screenshotVatReturns from '../images/screenshots/vat-returns.png'
 import screenshot3DModels from '../images/screenshots/3DModels.png'
 import screenshotMinigames from '../images/screenshots/targetedMinigames.jpeg'
 import screenshotAccessibility from '../images/screenshots/Test.png'
+import Container from './Container'
 const features = [
   {
     title: 'Hyper-realistic 3D Models',
@@ -62,7 +61,7 @@ const features = [
 //   },
 // ]
 
-export function SecondaryFeatures() {
+export default function SecondaryFeatures() {
   let [tabOrientation, setTabOrientation] = useState('horizontal')
 
   useEffect(() => {

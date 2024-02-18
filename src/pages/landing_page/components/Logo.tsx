@@ -1,4 +1,4 @@
-export function Logo(props: React.SVGProps<SVGSVGElement>) {
+export default function Logo(props: React.SVGProps<SVGSVGElement>) {
   return (
     <svg aria-hidden="true" viewBox="0 0 109 40" {...props}>
       <path

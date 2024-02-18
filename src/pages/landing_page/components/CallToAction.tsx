@@ -1,9 +1,9 @@
 import Image from 'next/image'
-import { Button } from './Button'
-import { Container } from './Container'
-import backgroundImage from '@/images/background-call-to-action.jpg'
+import backgroundImage from '../images/background-call-to-action.jpg'
+import Button from './Button'
+import Container from './Container'
 
-export function CallToAction() {
+export default function CallToAction() {
   return (
     <section
       id="get-started-today"

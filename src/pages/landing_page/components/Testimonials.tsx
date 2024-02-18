@@ -1,11 +1,10 @@
 import Image from 'next/image'
-
-import { Container } from './Container'
 import avatarImage1 from '../images/avatars/avatar-1.png'
 import avatarImage2 from '../images/avatars/avatar-2.png'
 import avatarImage3 from '../images/avatars/avatar-3.png'
 import avatarImage4 from '../images/avatars/avatar-4.png'
 import avatarImage5 from '../images/avatars/avatar-5.png'
+import Container from './Container'
 
 const testimonials = [
   [
@@ -78,7 +77,7 @@ function QuoteIcon(props: any) {
   )
 }
 
-export function Testimonials() {
+export default function Testimonials() {
   return (
     <section
       id="testimonials"

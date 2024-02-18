@@ -2,11 +2,9 @@ import React, { Fragment, useState } from 'react';
 import Link from "next/link";
 import { Popover, Transition } from "@headlessui/react";
 import clsx from "clsx";
+import Button from './Button';
+import Container from './Container';
 
-import { Button } from "./Button";
-import { Container } from "./Container";
-import { Logo } from "./Logo";
-import { NavLink } from "./NavLink";
 
 interface MobileNavLinkProps {
   href: string;
@@ -83,8 +81,8 @@ function MobileNavigation() {
             as="div"
             className="absolute inset-x-0 top-full mt-4 flex origin-top flex-col rounded-2xl bg-white p-4 text-lg tracking-tight text-slate-900 shadow-xl ring-1 ring-slate-900/5"
           >
-            <MobileNavLink href="#features">Features</MobileNavLink>
-            <MobileNavLink href="#testimonials">Testimonials</MobileNavLink>
+            {/*<MobileNavLink href="#features">Features</MobileNavLink> */}
+            {/* <MobileNavLink href="#testimonials">Testimonials</MobileNavLink> */}
             {/* <MobileNavLink href="#pricing">Pricing</MobileNavLink> */}
             <hr className="m-2 border-slate-300/40" />
             {/* <MobileNavLink href="/login">Sign in</MobileNavLink> */}
@@ -105,8 +103,8 @@ export const Header: React.FC = () => (
             Quest2Learn
           </Link>
           <div className="hidden md:flex md:gap-x-6">
-            <NavLink href="#features">Features</NavLink>
-            <NavLink href="#testimonials">Testimonials</NavLink>
+            {/*<NavLink href="#features">Features</NavLink>*/}
+            {/*<NavLink href="#testimonials">Testimonials</NavLink>*/}
             {/* <NavLink href="#pricing">Pricing</NavLink> */}
           </div>
         </div>
@@ -127,3 +125,6 @@ export const Header: React.FC = () => (
     </Container>
   </header>
 );
+
+
+export default Header; 

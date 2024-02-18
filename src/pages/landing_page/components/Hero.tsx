@@ -1,7 +1,4 @@
 import Image from "next/image";
-
-import { Button } from "./Button";
-import { Container } from "./Container";
 import logoLaravel from "../images/logos/laravel.svg";
 import logoMirage from "../images/logos/mirage.svg";
 import logoStatamic from "../images/logos/statamic.svg";
@@ -11,8 +8,10 @@ import logoTuple from "../images/logos/tuple.svg";
 import logoUCLA from "../images/logos/UCLA.svg";
 import logoCUHK from "../images/logos/cuhk.svg";
 import logoJHU from "../images/logos/johns-hopkins.svg";
+import Button from "./Button";
+import Container from "./Container";
 
-export function Hero() {
+export default function Hero() {
   return (
 
     
@@ -56,7 +55,7 @@ export function Hero() {
         src="https://www.youtube.com/embed/X1B1jnD45sY" 
         title="JHU Students Bring Lab Experience to Smartphones" 
         allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
-        allowFullScreen="true">
+        allowFullScreen={true}>
       </iframe>
     </div>
     </span>

@@ -23,7 +23,7 @@ interface TextFieldProps extends React.InputHTMLAttributes<HTMLInputElement> {
   className?: string;
 }
 
-export function TextField({ id, label, type = 'text', className = '', ...props }: TextFieldProps) {
+export default function TextField({ id, label, type = 'text', className = '', ...props }: TextFieldProps) {
   return (
     <div className={className}>
       {label && <Label id={id}>{label}</Label>}

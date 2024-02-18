@@ -6,7 +6,7 @@ type ContainerProps = {
   children?: React.ReactNode; // Added this line
 };
 
-export function Container({ className, children, ...props }: ContainerProps) {
+export default function Container({ className, children, ...props }: ContainerProps) {
   return (
     <div
       className={clsx("mx-auto max-w-7xl px-4 sm:px-6 lg:px-8", className)}

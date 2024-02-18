@@ -1,7 +1,6 @@
 import Image from 'next/image'
-
-import { Container } from './Container'
 import backgroundImage from '../images/background-faqs.jpg'
+import Container from './Container'
 
 const faqs = [
   [
@@ -57,7 +56,7 @@ const faqs = [
   ],
 ]
 
-export function Faqs() {
+export default function Faqs() {
   return (
     <section
       id="faq"

@@ -7,7 +7,7 @@ type AuthLayoutProps = {
   children: ReactNode;
 };
 
-export function AuthLayout({ children }: AuthLayoutProps) {
+export default function AuthLayout({ children }: AuthLayoutProps) {
   return (
     <>
       <div className="relative flex min-h-full justify-center md:px-12 lg:px-0">

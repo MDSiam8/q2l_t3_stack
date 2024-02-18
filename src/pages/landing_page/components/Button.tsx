@@ -35,7 +35,7 @@ type ButtonProps = {
   href?: string;
 } & React.ButtonHTMLAttributes<HTMLButtonElement> & React.AnchorHTMLAttributes<HTMLAnchorElement>;
 
-export function Button({
+export default function Button({
   variant = 'solid',
   color = 'slate',
   className,

@@ -1,7 +1,7 @@
 import clsx from 'clsx'
+import Button from './Button';
+import Container from './Container';
 
-import { Button } from './Button'
-import { Container } from './Container'
 
 function SwirlyDoodle({ className }: { className: string }) {
   return (
@@ -100,7 +100,7 @@ function Plan({ name, price, description, href, features, featured = false }: {
   )
 }
 
-export function Pricing() {
+export default function Pricing() {
   return (
     <section
       id="pricing"

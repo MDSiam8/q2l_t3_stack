@@ -1,10 +1,9 @@
 import Link from 'next/link'
+import Container from './Container'
+import Logo from './Logo'
+import NavLink from './NavLink'
 
-import { Container } from './Container'
-import { Logo } from './Logo'
-import { NavLink } from './NavLink'
-
-export function Footer() {
+export default function Footer() {
   return (
     <footer className="bg-slate-50">
       <Container>
