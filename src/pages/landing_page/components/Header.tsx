@@ -4,7 +4,7 @@ import { Popover, Transition } from "@headlessui/react";
 import clsx from "clsx";
 import Button from './Button';
 import Container from './Container';
-
+import NavLink from './NavLink';
 
 interface MobileNavLinkProps {
   href: string;
@@ -103,8 +103,8 @@ export const Header: React.FC = () => (
             Quest2Learn
           </Link>
           <div className="hidden md:flex md:gap-x-6">
-            {/*<NavLink href="#features">Features</NavLink>*/}
-            {/*<NavLink href="#testimonials">Testimonials</NavLink>*/}
+            <NavLink href="#features">Features</NavLink>
+            <NavLink href="#testimonials">Testimonials</NavLink>
             {/* <NavLink href="#pricing">Pricing</NavLink> */}
           </div>
         </div>
@@ -112,14 +112,11 @@ export const Header: React.FC = () => (
           {/* <div className="hidden md:block">
             <NavLink href="/login">Sign in</NavLink>
           </div> */}
-          <Button href="https://apps.apple.com/us/app/quest2learn/id1561878611" color="blue">
+          <Button href="/dashboard" color="blue">
             <span>
               Get started <span className="hidden lg:inline">today</span>
             </span>
           </Button>
-          <div className="-mr-1 md:hidden">
-            <MobileNavigation />
-          </div>
         </div>
       </nav>
     </Container>
