@@ -16,7 +16,6 @@
 }
 
 @font-face {
-  font-weight: bold;
   font-family: 'Lexend';
   font-style: normal;
   font-weight: 400;
@@ -25,17 +24,8 @@
 }
 /* Add more @font-face rules for other Lexend font weights/styles as needed */
 
+
 /* Global styles */
-body{
-  font-family: sans-serif;
-  font-weight: 300;
-}
-
-
-
-h1, h2, h3, h4, h5, h6 {
-  font-family: 'Lexend', sans-serif; /* Use Lexend font family for headings */
-}
 
 
 /* Add more global styles as needed */

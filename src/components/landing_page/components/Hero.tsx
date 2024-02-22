@@ -29,16 +29,13 @@ export default function Hero() {
         <span className="relative">Quest2Learn{' '}</span>
       </span>{' '}
       <span className="relative">augmented learning </span>
-      <span className="relative">for modern classrooms.</span>
+      for modern classrooms.
     </h1>
-    <span className='relative'>
     <p className="mx-auto mt-6 max-w-2xl text-lg tracking-tight text-slate-700">
       Quest2Learn is a revolutionary augmented reality platform that allows
       teachers to transform any environment into a laboratory for learning
       science.
     </p>
-    </span>
-    <span className='relative'>
     <div className="mt-10 mb-14 flex justify-center gap-x-6">
       <Button 
         href="https://calendly.com/chinat/30min"
@@ -46,9 +43,7 @@ export default function Hero() {
         Book a call with us
       </Button>
     </div>
-    </span>
-    <span className='relative'>
-      <div className="aspect-w-16 aspect-h-9">
+      <div className="aspect-w-16 aspect-h-9 flex justify-center">
       <iframe 
         width="1280" 
         height="720" 
@@ -58,8 +53,6 @@ export default function Hero() {
         allowFullScreen={true}>
       </iframe>
     </div>
-    </span>
-    <span className='relative'>
     <div className="mt-10 lg:mt-20 lg:mb-10">
       <p className="font-display text-base text-slate-900">
         Trusted by these three institutions so far
@@ -90,10 +83,6 @@ export default function Hero() {
         ))}
       </ul>
     </div>
-    </span>
-    <span className='relative'>
-      
-    </span>
    
   </Container>
   );
