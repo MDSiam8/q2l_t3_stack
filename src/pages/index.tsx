@@ -1,5 +1,4 @@
 import Head from "next/head";
-import { useClerk } from "@clerk/nextjs";
 import Link from "next/link";
 import React, { useEffect, useState, useRef } from "react";
 import ReactDOM from "react-dom/client";
@@ -9,7 +8,6 @@ import * as THREE from "three";
 import LandingPage from "./landing_page/index";
 
 export default function Home() {
-  const { openSignIn } = useClerk();
   
   return (
     <>

@@ -5,6 +5,10 @@ import clsx from "clsx";
 import Button from './Button';
 import Container from './Container';
 import NavLink from './NavLink';
+import { useClerk } from "@clerk/nextjs";
+import { useUser } from "@clerk/nextjs";
+import { useRouter } from "next/navigation";
+
 
 interface MobileNavLinkProps {
   href: string;
@@ -93,35 +97,43 @@ function MobileNavigation() {
   );
 }
 
-export const Header: React.FC = () => (
-  <header className="py-10">
-    <Container>
-      <nav className="relative z-50 flex justify-between">
-        <div className="flex items-center md:gap-x-12">
-          <Link href="#" aria-label="Home">
-            {/* <Logo className="h-10 w-auto" /> */}
-            Quest2Learn
-          </Link>
-          <div className="hidden md:flex md:gap-x-6">
-            <NavLink href="#features">Features</NavLink>
-            <NavLink href="#testimonials">Testimonials</NavLink>
-            {/* <NavLink href="#pricing">Pricing</NavLink> */}
+export const Header: React.FC = () => {
+  const { openSignIn } = useClerk();
+  const { user } = useUser();
+  const router = useRouter();
+
+  const handleGetStartedClick = async (e: React.MouseEvent) => {
+    e.preventDefault();
+    if (!user) {
+      openSignIn();
+    } else {
+      router.push("/dashboard");
+    }
+  };
+
+  return (
+    <header className="py-10">
+      <Container>
+        <nav className="relative z-50 flex justify-between">
+          <div className="flex items-center md:gap-x-12">
+            <Link href="#" aria-label="Home">
+              Quest2Learn
+            </Link>
+            <div className="hidden md:flex md:gap-x-6">
+              <NavLink href="#features">Features</NavLink>
+              <NavLink href="#testimonials">Testimonials</NavLink>
+            </div>
           </div>
-        </div>
-        <div className="flex items-center gap-x-5 md:gap-x-8">
-          {/* <div className="hidden md:block">
-            <NavLink href="/login">Sign in</NavLink>
-          </div> */}
-          <Button href="/dashboard" color="blue">
-            <span>
-              Get started <span className="hidden lg:inline">today</span>
-            </span>
-          </Button>
-        </div>
-      </nav>
-    </Container>
-  </header>
-);
+          <div className="flex items-center gap-x-5 md:gap-x-8">
+            <Button onClick={handleGetStartedClick} color="blue">
+              Get started today
+            </Button>
+          </div>
+        </nav>
+      </Container>
+    </header>
+  );
+};
 
 
 export default Header; 
