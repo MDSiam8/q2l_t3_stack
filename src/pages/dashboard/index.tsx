@@ -91,7 +91,7 @@ const NotebookPreview: React.FC<NotebookPreviewProps> = ({ notebooks }) => {
 const notebook: Notebook = {
   id: "1",
   image: "Abalance.png",
-  name: "Analytical Balances",
+  name: "Analytical Balance",
   updatedAt: new Date(),
   completed: "Not Started",
   link: "/analytical_balance_lab",
@@ -108,11 +108,11 @@ const notebook2: Notebook = {
 
 const notebook3: Notebook = {
   id: "3",
-  image: "buchner.jpeg",
-  name: "Buchner Funnel",
+  image: "sepFunnel.jpeg",
+  name: "Extraction",
   completed: "Not Started",
   updatedAt: new Date(),
-  link: "/rotovap_lab",
+  link: "extraction_lab",
 };
 
 const access_labs = [notebook, notebook2, notebook3]
