@@ -23,11 +23,11 @@ const tailwindConfig: Config = {
       borderRadius: {
         "4xl": "2rem",
       },
-      colors: {
-        'dashboard-bg': '#ADD8E6',  
-        'card-bg': '#4B5563',
-        'card-text': '#D1D5DB',
-      },
+      // colors: {
+      //   'dashboard-bg': '#ADD8E6',  
+      //   'card-bg': '#4B5563',
+      //   'card-text': '#D1D5DB',
+      // },
       fontFamily: {
         sans: ["Inter", ...fontFamily.sans],
         display: ["Lexend", ...fontFamily.sans],

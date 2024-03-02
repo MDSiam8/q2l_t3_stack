@@ -2,7 +2,7 @@
 @tailwind components;
 @tailwind utilities;
 
-body, html
+/* body, html
 { 
     margin: 0;
     padding: 0;
@@ -15,7 +15,7 @@ body, html
     /* font-family: Helvetica, Arial; */
     /* font-family: "Century Gothic", CenturyGothic, Geneva, AppleGothic, sans-serif; */
 
-}
+/*} */
 #root
 {
     position: fixed;
@@ -23,11 +23,11 @@ body, html
     left: 0;
     width: 100%;
     height: 100%;
-    background: #ADD8E6;
     /* font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; */
     /* font-family: Helvetica, Arial; */
     /* font-family: "Century Gothic", CenturyGothic, Geneva, AppleGothic, sans-serif; */
     font-family: "Trebuchet MS", "Lucida Grande", "Lucida Sans Unicode", "Lucida Sans", sans-serif;
+}
 
 #__next {
   min-height: 100%;
