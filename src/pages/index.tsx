@@ -1,7 +1,4 @@
 import Head from "next/head";
-import { useClerk } from "@clerk/nextjs";
-import { Dialog } from "@headlessui/react";
-import { Bars3Icon, XMarkIcon } from "@heroicons/react/24/outline";
 import Link from "next/link";
 import { useUser } from "@clerk/nextjs";
 import { useRouter } from "next/navigation";
@@ -10,33 +7,27 @@ import ReactDOM from "react-dom/client";
 import { Canvas, useFrame, useThree } from "@react-three/fiber";
 import Experience from "../SeperatingLiquidsLab/components/Experience";
 import * as THREE from "three";
+import LandingPage from "./landing_page/index";
 
 export default function Home() {
-  const { openSignUp } = useClerk();
-  const { openSignIn } = useClerk();
-  const { isLoaded, isSignedIn, user } = useUser();
-  const router = useRouter();
-
-  const navigation = [
-    { name: "Product", href: "#" },
-    { name: "Features", href: "#" },
-    { name: "Marketplace", href: "#" },
-    { name: "Company", href: "#" },
-  ];
-
-  
-
-  const onSignInClick = () => {
-    //prevents reopening sign in is user already authed
-    if (isLoaded && isSignedIn) {
-      router.push("/dashboard");
-    }
-    else {
-      openSignIn();
-    }
-  }
-
   return (
+    <>
+    <Head>
+        <title>Quest2Learn - Augmented learning for modern classrooms</title>
+        <meta
+          name="description"
+          content="Quest2Learn is a revolutionary augmented reality platform that allows teachers to transform any environment into a laboratory for learning science.."
+        />
+    </Head> 
+    <LandingPage />
+    </>
+  );
+}
+
+
+
+
+    {/*
     <div className="bg-white">
       <header className="absolute inset-x-0 top-0 z-50">
         <nav
@@ -161,6 +152,5 @@ export default function Home() {
           />
         </div>
       </div>
-    </div>
-  );
-}
+      </div>
+          */}    

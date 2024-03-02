@@ -112,7 +112,7 @@ const notebook3: Notebook = {
   name: "Buchner Funnel",
   completed: "Not Started",
   updatedAt: new Date(),
-  link: "/rotovap_lab",
+  link: "/extraction_lab",
 };
 
 const access_labs = [notebook, notebook2, notebook3]
