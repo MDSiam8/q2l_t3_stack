@@ -22,6 +22,10 @@ const tailwindConfig: Config = {
     extend: {
       borderRadius: {
         "4xl": "2rem",
+      colors: {
+        'dashboard-bg': '#ADD8E6',  
+        'card-bg': '#4B5563',
+        'card-text': '#D1D5DB',
       },
       fontFamily: {
         sans: ["Inter", ...fontFamily.sans],

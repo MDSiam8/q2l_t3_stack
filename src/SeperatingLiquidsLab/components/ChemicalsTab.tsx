@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import Image, { StaticImageData } from 'next/image';
 import uraniumImg from "../images/uranium.jpg"
-import sampleImg from "../images/beakerWithSolution.png"
-
+import distilledImg from "../images/distilledWater.webp"
+import annHydImg from "../images/anhydrous magnesium sulfate.png"
 // Define a type for the chemical item structure
 type ChemicalItem = {
   name: string;
@@ -20,9 +20,9 @@ const ChemicalsTab: React.FC<ChemicalsTabProps> = ({ onItemSelect }) => {
   const [selectedChemicals, setSelectedChemicals] = useState<Record<string, boolean>>({});
 
   const chemicalItems: ChemicalItem[] = [
-    { name: 'Distilled Water', image: sampleImg, isCorrect: true },
-    { name: 'Anhydrous Magnesium Sulfate', image: uraniumImg, isCorrect: true },
-    { name: 'Concentrated Sulfuric Acid', image: uraniumImg, isCorrect: false },
+    { name: 'Distilled Water', image: distilledImg, isCorrect: true },
+    { name: 'Anhydrous Magnesium Sulfate', image: annHydImg, isCorrect: true },
+    { name: 'Conc. Sulfuric Acid', image: uraniumImg, isCorrect: false },
     { name: 'Sodium Hydroxide', image: uraniumImg, isCorrect: false },
     // { name: 'Jason', image: 'https://media.licdn.com/dms/image/D4D03AQGkBsDtj7HvSw/profile-displayphoto-shrink_400_400/0/1692380975651?e=1705536000&v=beta&t=lEbtRpoZUZU3AB5clx-R49G-2ssNasmu7-hjnFPR71M', isCorrect: false },
     // Add more items as needed
