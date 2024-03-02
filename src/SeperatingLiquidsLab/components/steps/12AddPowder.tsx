@@ -22,7 +22,6 @@ import { AMSBottleCap } from "../AMSBottleCap";
 import { AMSBottle } from "../AMSBottle";
 import { Sphere, Html } from "@react-three/drei";
 import { Group, Mesh, Object3D } from "three";
-import { BeakerPouringOrganicSolution } from "../BeakerPourOrganicSol";
 
 interface Step2LabTasksProps {
   nextButtonRef: React.RefObject<HTMLButtonElement>;
@@ -245,11 +244,11 @@ const Step12AddPowder = forwardRef<HTMLDivElement, Step2LabTasksProps>(
           </button>
         </Html>
         <group position-x={2}>
-          <BeakerPouringOrganicSolution
+          <BeakerFillWithOrganicLayer
             position={[0, 4.9, -3.1]}
             rotation-y={3.14 / 2}
             isFilled={true}
-            startAnimationDelay={999}
+            startAnimationDelay={-1}
           />
           {/* This is the collection of powder */}
           <Sphere
