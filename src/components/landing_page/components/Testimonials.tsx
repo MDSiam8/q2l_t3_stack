@@ -1,10 +1,11 @@
 import Image from 'next/image'
-import avatarImage1 from '../images/avatars/avatar-1.png'
-import avatarImage2 from '../images/avatars/avatar-2.png'
-import avatarImage3 from '../images/avatars/avatar-3.png'
-import avatarImage4 from '../images/avatars/avatar-4.png'
-import avatarImage5 from '../images/avatars/avatar-5.png'
 import Container from './Container'
+import dr_johnson_avatar from '../images/avatars/dr_johnson_avatar.png'
+import dr_young_avatar from '../images/avatars/dr_young_avatar.png'
+import gill_w_avatar from '../images/avatars/gill_w_avatar.png'
+import toby_m_avatar from '../images/avatars/toby_m_avatar.png'
+import pranav_s_avatar from '../images/avatars/pranav_s_avatar.png'
+import alana_d_avatar from '../images/avatars/alana_d_avatar.png'
 
 const testimonials = [
   [
@@ -13,57 +14,57 @@ const testimonials = [
         'Quest2Learn has completely transformed the way I teach science. My students are more engaged and excited to learn, and the platform has allowed me to bring real-world lab experiences into the classroom.',
       author: {
         name: 'Dr. Johnson',
-        role: 'Professor of Science at XYZ University',
-        image: avatarImage1,
+        role: 'Biochemistry Lab Professor at JHU',
+        image: dr_johnson_avatar,
       },
     },
     {
       content:
-        'As a student, I have found Quest2Learn to be an incredibly helpful tool for understanding difficult concepts in science. The interactive nature of the platform makes it much more engaging than traditional lectures or textbooks.',
+        'As someone who finds text-based prelabs to be boring, the interactive nature of Quest2Learn makes learning the lab material much more engaging than traditional lectures or textbooks.',
       author: {
-        name: 'Jane Smith',
-        role: 'Undergraduate Student at ABC College',
-        image: avatarImage4,
+        name: 'Alana',
+        role: 'Undergraduate Student at UCSB',
+        image: alana_d_avatar,
       },
     },
   ],
   [
     {
       content:
-        'I have been using Quest2Learn with my middle school students and have seen a significant improvement in their lab skills and understanding of scientific concepts. The platform is easy to use and provides a safe and interactive learning environment.',
+        'I used Quest2Learn, and it helped me prepare before going to lab. I can practice certain techniques that I would otherwise not have access to. I would recommend it to anyone who wants hands-on experience in a virtual lab setting.',
       author: {
-        name: 'Ms. Davis',
-        role: 'Middle School Science Teacher',
-        image: avatarImage5,
+        name: 'Pranav',
+        role: 'Undergraduate Researcher at JHMI',
+        image: pranav_s_avatar,
       },
     },
     {
       content:
         'I highly recommend Quest2Learn for any institution looking to enhance their science education. The platform is accessible and affordable, and provides students with valuable hands-on experience in a virtual setting.',
       author: {
-        name: 'Dr. Lee',
-        role: 'Dean of Science at DEF University',
-        image: avatarImage2,
+        name: 'Dr. Young',
+        role: 'Chemistry Lab Professor at JHU',
+        image: dr_young_avatar,
       },
     },
   ],
   [
     {
       content:
-        'Using Quest2Learn has been a game-changer for my research team. The platform has allowed us to simulate experiments and test new ideas in a safe and cost-effective way.',
+        'Using Quest2Learn has been a game-changer for my research. The platform has allowed our lab to simulate experiments and test new ideas in a safe and cost-effective way.',
       author: {
-        name: 'Dr. Patel',
-        role: 'Research Scientist at GHI Labs',
-        image: avatarImage3,
+        name: 'Gill',
+        role: 'Medical Student at USC',
+        image: gill_w_avatar,
       },
     },
     {
       content:
-        'Quest2Learn has helped me prepare for a career in the biotechnology industry by providing me with hands-on experience in a virtual lab setting. I feel more confident and prepared for my future career thanks to this platform.',
+        'As a student, I have found Quest2Learn to be an incredibly helpful tool for understanding difficult concepts in science. The interactive nature of the platform makes it much more engaging than traditional lectures or textbooks.',
       author: {
-        name: 'John Doe',
-        role: 'Graduate Student in Biotechnology',
-        image: avatarImage4,
+        name: 'Toby',
+        role: 'Undergraduate Student at JHU',
+        image: toby_m_avatar,
       },
     },
   ],

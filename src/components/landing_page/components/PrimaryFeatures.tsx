@@ -3,35 +3,33 @@ import Image from 'next/image'
 import { Tab } from '@headlessui/react'
 import clsx from 'clsx'
 import backgroundImage from '../images/background-features.jpg'
-import screenshotExpenses from '../images/screenshots/expenses.png'
-import screenshotPayroll from '../images/screenshots/payroll.png'
-import screenshotReporting from '../images/screenshots/reporting.png'
-import screenshotVatReturns from '../images/screenshots/vat-returns.png'
-import screenshot3DModels from '../images/screenshots/3DModels.png'
-import screenshotMinigames from '../images/screenshots/targetedMinigames.jpeg'
-import screenshotAccessibility from '../images/screenshots/Test.png'
+// import screenshot3DModels from '../images/screenshots/3DModels.png'
+// import screenshotMinigames from '../images/screenshots/targetedMinigames.jpeg'
+// import screenshotAccessibility from '../images/screenshots/Test.png'
+import screenshotDemo from '../images/screenshots/3d-demo.png'
+import screenshotInventory from '../images/screenshots/inventory-demo.png'
+import screenshotLogo from '../images/screenshots/3jslogo.png'
 import Container from './Container'
 const features = [
   {
     title: 'Hyper-realistic 3D Models',
     description:
       'Our 3D models are so realistic, you might forget you are in a virtual world.',
-          // image: screenshotPayroll,
-          image: screenshot3DModels,
+          image: screenshotDemo,
         },
         {
           title: 'Targeted Minigames',
           description:
           'Our minigames are designed to help you master specific skills and improve your performance.',
           // image: screenshotPayroll,
-          image: screenshotMinigames,
+          image: screenshotInventory,
         },
         {
           title: 'High Accessibility',
           description:
-          'Our app is available on both iOS and Android devices, making it easy for you to access from anywhere.',
+          'Our app is built on the web using three.js, making it easy for you to access from anywhere.',
           // image: screenshotPayroll,
-          image: screenshotAccessibility,
+          image: screenshotLogo,
   },
 ]
 // const features = [
