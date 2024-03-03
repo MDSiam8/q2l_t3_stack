@@ -1,24 +1,33 @@
 import Head from "next/head";
-import { useClerk } from "@clerk/nextjs";
-import { Dialog } from "@headlessui/react";
-import { Bars3Icon, XMarkIcon } from "@heroicons/react/24/outline";
 import Link from "next/link";
+import { useUser } from "@clerk/nextjs";
+import { useRouter } from "next/navigation";
 import React, { useEffect, useState, useRef } from "react";
 import ReactDOM from "react-dom/client";
 import { Canvas, useFrame, useThree } from "@react-three/fiber";
 import Experience from "../SeperatingLiquidsLab/components/Experience";
 import * as THREE from "three";
-
+import LandingPage from "./landing_page/index";
 
 export default function Home() {
-  const { openSignIn } = useClerk();
-  const navigation = [
-    { name: "Product", href: "#" },
-    { name: "Features", href: "#" },
-    { name: "Marketplace", href: "#" },
-    { name: "Company", href: "#" },
-  ];
   return (
+    <>
+    <Head>
+        <title>Quest2Learn - Augmented learning for modern classrooms</title>
+        <meta
+          name="description"
+          content="Quest2Learn is a revolutionary augmented reality platform that allows teachers to transform any environment into a laboratory for learning science.."
+        />
+    </Head> 
+    <LandingPage />
+    </>
+  );
+}
+
+
+
+
+    {/*
     <div className="bg-white">
       <header className="absolute inset-x-0 top-0 z-50">
         <nav
@@ -57,12 +66,17 @@ export default function Home() {
             ))}
           </div>
           <div className="hidden lg:flex lg:flex-1 lg:justify-end">
-            <a
-              href="#"
+            <Link
+              href="/dashboard"
+              onClick={
+                (e) => {
+                e.preventDefault();
+                onSignInClick();
+              }}
               className="text-sm font-semibold leading-6 text-gray-900"
             >
               Log in <span aria-hidden="true">&rarr;</span>
-            </a>
+            </Link>
           </div>
         </nav>
       </header>
@@ -106,18 +120,22 @@ export default function Home() {
               href="/dashboard"
               onClick={(e) => {
                 e.preventDefault();
-                openSignIn();
+                onSignInClick();
               }}
               className="rounded-md bg-indigo-600 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
             >
               Get started
             </Link>
-              <a
-                href="#"
-                className="text-sm font-semibold leading-6 text-gray-900"
-              >
-                Learn more <span aria-hidden="true">→</span>
-              </a>
+            <Link
+              href="/dashboard"
+              onClick={(e) => {
+                e.preventDefault();
+                onSignInClick();
+              }}
+              className="text-sm font-semibold leading-6 text-gray-900"
+            >
+              Learn more <span aria-hidden="true">→</span>
+            </Link>
             </div>
           </div>
         </div>
@@ -134,6 +152,5 @@ export default function Home() {
           />
         </div>
       </div>
-    </div>
-  );
-}
+      </div>
+          */}    
