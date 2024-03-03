@@ -23,6 +23,8 @@ import Step11PourOrganicLayer from "./steps/11PourOrganicLayer";
 import Step12AddPowder from "./steps/12AddPowder";
 import Step13Filter from "./steps/13FilterLiquid";
 import Step14Finish from "./steps/14ObtainedOrganicProduct";
+import Step6MoveFunnel from "./steps/06InvertAndOpenToVent";
+import Step7ShakeFunnel from "./steps/07ShakeAndOpen";
 
 // Interface for the structure of each step in state.json
 interface Step {
@@ -88,7 +90,7 @@ export const setNextEnabled = (
   }
 };
 export default function Experience() {
-  const [currentStep, setCurrentStep] = useState<number>(1);
+  const [currentStep, setCurrentStep] = useState<number>(5);
   const key = currentStep.toString() as StateKey;
   const stepData = state[key]; // Safe indexing
   const stepRefs = useRef<Record<number, StepComponentRef>>({});
@@ -169,13 +171,13 @@ export default function Experience() {
           {currentStep === 5 && (
             <Step5StopperTheSFunnel nextButtonRef={nextButtonRef} />
           )}
-          {/* {currentStep === 6 && (
-            <Step6EmptyCollectionFlask nextButtonRef={nextButtonRef} />
+          {currentStep === 6 && (
+            <Step6MoveFunnel nextButtonRef={nextButtonRef} />
           )}
           {currentStep === 7 && (
-            <Step7TurnOnHotWaterBath nextButtonRef={nextButtonRef} />
+            <Step7ShakeFunnel nextButtonRef={nextButtonRef} />
           )}
-          {currentStep === 8 && (
+          {/* currentStep === 8 && (
             <Step8TurnOnCondensorAndVacuum nextButtonRef={nextButtonRef} />
           )}
           {currentStep === 9 && (
