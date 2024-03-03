@@ -36,7 +36,7 @@
         "stepTitle": "",
         "description": "",
         "directions": "Slowly invert the funnel and open the stopcock to vent.",
-        "user_instructions": "",
+        "user_instructions": "Click on the funnel to invert and open the stopcock to vent.",
         "objectsInFocus": [""]
     },
     "7": {
