@@ -25,6 +25,7 @@ import Step13Filter from "./steps/13FilterLiquid";
 import Step14Finish from "./steps/14ObtainedOrganicProduct";
 import Step6MoveFunnel from "./steps/06InvertAndOpenToVent";
 import Step7ShakeFunnel from "./steps/07ShakeAndOpen";
+import Step6VentAirBeforeMixing from "./steps/06InvertAndOpenToVent";
 
 // Interface for the structure of each step in state.json
 interface Step {
@@ -171,8 +172,8 @@ export default function Experience() {
           {currentStep === 5 && (
             <Step5StopperTheSFunnel nextButtonRef={nextButtonRef} />
           )}
-          {currentStep === 6 && (
-            <Step6MoveFunnel nextButtonRef={nextButtonRef} />
+           {currentStep === 6 && (
+            <Step6VentAirBeforeMixing nextButtonRef={nextButtonRef} />
           )}
           {currentStep === 7 && (
             <Step7ShakeFunnel nextButtonRef={nextButtonRef} />
