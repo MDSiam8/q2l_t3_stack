@@ -50,7 +50,7 @@ export const api = createTRPCNext<AppRouter>({
    *
    * @see https://trpc.io/docs/nextjs#ssr-boolean-default-false
    */
-  ssr: false,
+  ssr: false, //set server side rendering to true; hopefully no issues
 });
 
 /**
