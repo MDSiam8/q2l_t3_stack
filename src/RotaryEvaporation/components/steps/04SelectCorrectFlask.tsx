@@ -1,7 +1,7 @@
-import React, { useState, forwardRef } from "react";
+import React, { useState, forwardRef, useEffect } from "react";
 import { Html } from "@react-three/drei";
 import { RotavapWithHeatBathAnim } from "../rotavap/RotavapWithHeatOnAnim";
-import { setNextEnabled } from "../Experience";
+import { setNextDisabled, setNextEnabled } from "../Experience";
 import { HundredMLFlask } from "../round-bottom-flasks/100mlRBFlask";
 import { TwentyFiveMLFlask } from "../round-bottom-flasks/25mlRBFlask";
 import { FiftyMLFlask } from "../round-bottom-flasks/50mlRBFlask";
@@ -9,6 +9,7 @@ import * as THREE from "three";
 import { BumpTrap } from "../BumpTrap";
 import { KeckClip } from "../KeckClip";
 import { OrganicProductBeaker } from "../BeakerWithSolution";
+import { RotavapWithFlaskAnim } from "../rotavap/RotavapWithFlaskAnim";
 
 interface Step2LabTasksProps {
   nextButtonRef: React.RefObject<HTMLButtonElement>;
@@ -16,6 +17,11 @@ interface Step2LabTasksProps {
 
 const Step4SelectFlask = forwardRef<HTMLDivElement, Step2LabTasksProps>(
   ({ nextButtonRef }, ref) => {
+    useEffect(() => {
+      // Disable the next button
+      setNextDisabled(nextButtonRef);
+    }, []);
+
     const [dialog, setDialog] = useState({
       show: false,
       message: "",
@@ -31,7 +37,8 @@ const Step4SelectFlask = forwardRef<HTMLDivElement, Step2LabTasksProps>(
         setNextEnabled(nextButtonRef);
         message = "Correct! The 100 mL flask is the right choice.";
       } else if (flaskSize === 50) {
-        message = "Incorrect. 50mL is not suitable because the solution should be less than half-filled to prevent overflowing during evaporation.";
+        message =
+          "Incorrect. 50mL is not suitable because the solution should be less than half-filled to prevent overflowing during evaporation.";
       } else {
         message = "Incorrect. The 25 mL flask is too small.";
       }
@@ -45,7 +52,7 @@ const Step4SelectFlask = forwardRef<HTMLDivElement, Step2LabTasksProps>(
 
     return (
       <group>
-        <RotavapWithHeatBathAnim position={[0, 5, 0]} scale={0.8} />
+        <RotavapWithFlaskAnim position={[0, 5, 0]} scale={0.8} />{" "}
         <HundredMLFlask
           scale={0.8}
           isEmpty={true}
@@ -85,10 +92,15 @@ const Step4SelectFlask = forwardRef<HTMLDivElement, Step2LabTasksProps>(
           />
         </group>
         <BumpTrap position={[-0.5, 5.25, -4.2]} rotation-x={3.14 / 2} />
-
         {dialog.show && (
-          <Html position={dialog.position}>
-            <div className="rounded-lg border border-pink-300 bg-pink-100 p-3 text-pink-700 shadow-md">
+          <Html position={dialog.position} transform scale={0.3} rotation-y={90 * 3.14/180}>
+            <div
+              className={`rounded-lg p-6 text-sm shadow-lg ${
+                dialog.message.startsWith("Correct")
+                  ? "border-green-500 bg-green-100 text-green-900"
+                  : "border-red-500 bg-red-100 text-red-900"
+              } max-w-[350px] min-w-[120px] border select-none`}
+            >
               {dialog.message}
             </div>
           </Html>

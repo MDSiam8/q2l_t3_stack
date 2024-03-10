@@ -4,7 +4,7 @@ import { GroupProps, Object3DProps, Vector3, Vector3Props } from "@react-three/f
 import * as THREE from "three";
 
 export function RotavapWithRaiseArmAnim(props: GroupProps) {
-  const { scene, animations } = useGLTF("./3-raise side arm.glb");
+  const { scene, animations } = useGLTF("./2 raise side arm.glb");
   const clonedScene = scene.clone(); // Clone the scene for isolated use
   const { actions } = useAnimations(animations, clonedScene);
   // Function to play the animation
@@ -34,4 +34,4 @@ export function RotavapWithRaiseArmAnim(props: GroupProps) {
   );
 }
 
-useGLTF.preload("./3-raise side arm.glb");
+useGLTF.preload("./2 raise side arm.glb");

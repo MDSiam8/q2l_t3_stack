@@ -1,6 +1,6 @@
-import React, { forwardRef, useState } from "react";
+import React, { forwardRef, useEffect, useState } from "react";
 import InventorySystem from "../InventorySystem";
-import { setNextEnabled } from "../Experience";
+import { setNextDisabled, setNextEnabled } from "../Experience";
 import { RotavapWithHeatBathAnim } from "../rotavap/RotavapWithHeatOnAnim";
 import { KeckClip } from "../KeckClip";
 import { HundredMLFlask } from "../round-bottom-flasks/100mlRBFlask";
@@ -8,6 +8,7 @@ import { TwentyFiveMLFlask } from "../round-bottom-flasks/25mlRBFlask";
 import { FiftyMLFlask } from "../round-bottom-flasks/50mlRBFlask";
 import { BumpTrap } from "../BumpTrap";
 import { OrganicProductBeaker } from "../BeakerWithSolution";
+import { RotavapWithFlaskAnim } from "../rotavap/RotavapWithFlaskAnim";
 interface SelectedItems {
   [itemName: string]: boolean;
 }
@@ -25,6 +26,10 @@ const Step3InventorySelection = forwardRef<
 >(({ nextButtonRef }, ref) => {
   const [selectedItems, setSelectedItems] = useState<SelectedItems>({});
 
+  useEffect(() => {
+    // Disable the next button
+    setNextDisabled(nextButtonRef);
+  }, [])
   const handleItemSelection = (itemName: string) => {
     setSelectedItems((prev) => {
       const newSelectedItems = { ...prev, [itemName]: !prev[itemName] };
@@ -52,8 +57,10 @@ const Step3InventorySelection = forwardRef<
         scale={0.6}
       />
       {selectedItems["Rotary Evaporator"] && (
-        <RotavapWithHeatBathAnim position={[0, 5, 0]} />
-      )}
+        <RotavapWithFlaskAnim
+        position={[0, 5, 0]}
+        scale={0.8}
+      />           )}
       {selectedItems["Keck Clips"] && (
         <group position={[0.4, 5, -3.8]}>
           <KeckClip position={[0, 0, 0.6]} />

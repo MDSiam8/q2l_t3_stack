@@ -19,11 +19,10 @@ interface BalanceWithAnimationsRef {
 
 interface FourthStepComponentProps {
   nextButtonRef: React.RefObject<HTMLButtonElement>;
-  replayAnimButtonRef: React.RefObject<HTMLButtonElement>;
 }
 
 const FourthStepComponent = forwardRef<{}, FourthStepComponentProps>(
-  ({ nextButtonRef, replayAnimButtonRef }, ref) => {
+  ({ nextButtonRef }, ref) => {
     const balanceWithAnimationsRef = useRef<BalanceWithAnimationsRef>(null);
 
     // useEffect(() => {
@@ -38,9 +37,7 @@ const FourthStepComponent = forwardRef<{}, FourthStepComponentProps>(
         balanceWithAnimationsRef.current.replayAnimation();
 
         setNextEnabled(nextButtonRef);
-        if (replayAnimButtonRef && replayAnimButtonRef.current) {
-          replayAnimButtonRef.current.disabled = false;
-        }
+  
       }
     };
 

@@ -14,7 +14,7 @@ import { Html, Sphere } from "@react-three/drei";
 import * as THREE from "three";
 import * as TWEEN from "@tweenjs/tween.js";
 import { HtmlProps } from "@react-three/drei/web/Html";
-import { setNextEnabled } from "../Experience";
+import { setNextDisabled, setNextEnabled } from "../Experience";
 
 interface SeventhStepComponentProps {
   setIsAnimating: React.Dispatch<React.SetStateAction<boolean>>;
@@ -67,6 +67,8 @@ const SeventhStepComponent = forwardRef<unknown, SeventhStepComponentProps>(
         if (nextButtonRef.current) {
           setNextEnabled(nextButtonRef);
         }
+      } else {
+        setNextDisabled(nextButtonRef);
       }
     }, [netButtonPush, nextButtonRef]);
 

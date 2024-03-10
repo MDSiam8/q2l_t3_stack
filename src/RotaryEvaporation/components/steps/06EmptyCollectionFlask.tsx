@@ -1,7 +1,7 @@
 import React, { useEffect, forwardRef, useState } from "react";
 import { RotavapWithHeatBathAnim } from "../rotavap/RotavapWithHeatOnAnim";
 import { OrganicProductBeaker } from "../BeakerWithSolution";
-import { setNextEnabled } from "../Experience";
+import { setNextDisabled, setNextEnabled } from "../Experience";
 import { Html } from "next/document";
 import { HundredMLFlask } from "../round-bottom-flasks/100mlRBFlask";
 import { TwentyFiveMLFlask } from "../round-bottom-flasks/25mlRBFlask";
@@ -11,6 +11,8 @@ import { Beaker } from "~/AnalyticalBalanceLab/components/Beaker";
 import { BeakerWithWasteFillAnimation } from "../BeakerWithLiquidCollectionAnimation";
 import { KeckClip } from "../KeckClip";
 import { BumpTrap } from "../BumpTrap";
+import { ArrowRight } from "lucide-react";
+import Arrow from "../Arrow";
 
 interface Step2LabTasksProps {
   nextButtonRef: React.RefObject<HTMLButtonElement>;
@@ -21,17 +23,11 @@ const Step6EmptyCollectionFlask = forwardRef<
   Step2LabTasksProps
 >(({ nextButtonRef }, ref) => {
   const [startAnimationDelay, setStartAnimationDelay] = useState<number>(9999);
+  
   useEffect(() => {
-    // Enable the next button after 3 seconds
-    const timer = setTimeout(() => {
-      if (nextButtonRef && nextButtonRef.current) {
-        setNextEnabled(nextButtonRef);
-      }
-    }, 3000);
-
-    // Clear the timeout if the component unmounts
-    return () => clearTimeout(timer);
-  }, [nextButtonRef]);
+    // Disable the next button
+    setNextDisabled(nextButtonRef);
+  }, []);
 
   return (
     <group>
@@ -41,8 +37,15 @@ const Step6EmptyCollectionFlask = forwardRef<
         animationTime={0}
         onClick={() => {
           setStartAnimationDelay(0);
+          setTimeout(() => {
+            if (nextButtonRef && nextButtonRef.current) {
+              setNextEnabled(nextButtonRef);
+            }
+          }, 5000);
+      
         }}
       />
+      <Arrow pointingDirection="right" position={[0,7,4.3]}/>
       <HundredMLFlask position={[2.2, 5, 0.4]} />
       <BeakerWithWasteFillAnimation
         position={[1, 5, 3]}

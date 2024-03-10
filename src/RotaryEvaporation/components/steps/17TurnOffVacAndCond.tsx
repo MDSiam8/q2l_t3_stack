@@ -2,7 +2,7 @@ import React, { useState, useEffect, forwardRef } from "react";
 import { RotavapWithHeatBathAnim } from "../rotavap/RotavapWithHeatOnAnim";
 import { HundredMLFlask } from "../round-bottom-flasks/100mlRBFlask";
 import { Html } from "@react-three/drei";
-import { setNextEnabled } from "../Experience";
+import { setNextDisabled, setNextEnabled } from "../Experience";
 import { RotavapCloseStopcock } from "../rotavap/RotavapCloseStopcock";
 import { RotavapRemoveFlask } from "../rotavap/RotavapRemoveFlask";
 
@@ -16,16 +16,20 @@ const Step17TurnOffCondensorAndVacuum = forwardRef<HTMLDivElement, Step2LabTasks
     const [isVacuumOn, setVacuumOn] = useState(true);
 
     useEffect(() => {
-      // Enable the next button after 3 seconds
-      const timer = setTimeout(() => {
+      // Disable the next button
+      setNextDisabled(nextButtonRef);
+    }, []);
+
+    useEffect(() => {
+      if (!isCondensorOn && !isVacuumOn) {
         if (nextButtonRef && nextButtonRef.current) {
           setNextEnabled(nextButtonRef);
-        }
-      }, 3000);
-
-      // Clear the timeout if the component unmounts
-      return () => clearTimeout(timer);
-    }, [nextButtonRef]);
+        } 
+      }
+      else {
+        setNextDisabled(nextButtonRef);
+      }
+    }, [isCondensorOn, isVacuumOn]);
 
     const toggleCondensor = () => {
       setCondensorOn(!isCondensorOn);

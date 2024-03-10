@@ -70,7 +70,7 @@ interface StepComponentRef {
 }
 export const getClassNameForNext = (isDisabled: boolean): string => {
   let str =
-    "mb-2 flex-grow transform rounded-lg bg-gradient-to-r from-blue-400 to-purple-500 px-4 py-2 font-bold text-white transition duration-300 hover:scale-105 ";
+    "flex-grow transform rounded-lg bg-gradient-to-r from-blue-400 to-purple-500 px-4 py-2 font-bold text-white transition duration-300 hover:scale-105 ";
   if (isDisabled) str += "cursor-not-allowed bg-gray-400 opacity-50";
   return str;
 };
@@ -124,6 +124,10 @@ export default function Experience() {
         <div className="flex h-screen items-center justify-center bg-gradient-to-r from-blue-400 via-cyan-500 to-green-400">
           <div className="rounded-lg border border-transparent bg-black bg-opacity-30 p-6 shadow-lg backdrop-blur-lg backdrop-filter">
             <p className="text-lg font-thin text-white">{loadingMessage}</p>
+            <img
+              src="loadingQ2L.svg"
+              alt="Loading"
+              className="w-20 h-20 m-auto" />
           </div>
         </div>
       }

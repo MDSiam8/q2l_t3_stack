@@ -21,9 +21,9 @@ import Step5TransferProducts from "./steps/05TransferProduct";
 import Step6EmptyCollectionFlask from "./steps/06EmptyCollectionFlask";
 import Step7TurnOnHotWaterBath from "./steps/07TurnOnWaterBath";
 import Step8TurnOnCondensorAndVacuum from "./steps/08TurnOnCondensorAndVacuum";
-import Step9CloseStopcock from "./steps/09CloseStopcock";
-import Step10RaiseArm from "./steps/10RaiseArm";
-import Step11SetupRotavp from "./steps/11SetUpRotavap";
+import Step11CloseStopcock from "./steps/11CloseStopcock";
+import Step9RaiseArm from "./steps/09RaiseArm";
+import Step10SetupRotovap from "./steps/10SetUpRotavap";
 import Step12TurnOnRotation from "./steps/12TurnOnRotation";
 import Step13SubmergeFlask from "./steps/13SubmergeFlask";
 import Step14RaiseArm from "./steps/14RaiseArm";
@@ -75,7 +75,7 @@ interface StepComponentRef {
 }
 export const getClassNameForNext = (isDisabled: boolean): string => {
   let str =
-    "mb-2 flex-grow transform rounded-lg bg-gradient-to-r from-blue-400 to-purple-500 px-4 py-2 font-bold text-white transition duration-300 hover:scale-105 ";
+    "flex-grow transform rounded-lg bg-gradient-to-r from-blue-400 to-purple-500 px-4 py-2 font-bold text-white transition duration-300 hover:scale-105 ";
   if (isDisabled) str += "cursor-not-allowed bg-gray-400 opacity-50";
   return str;
 };
@@ -123,15 +123,16 @@ export default function Experience() {
 
   const [loadingMessage, setLoadingMessage] = useState("Loading Resources");
 
-
   return (
     <Suspense
       fallback={
         <div className="flex h-screen items-center justify-center bg-gradient-to-r from-blue-400 via-cyan-500 to-green-400">
           <div className="rounded-lg border border-transparent bg-black bg-opacity-30 p-6 shadow-lg backdrop-blur-lg backdrop-filter">
-            <p className="text-lg font-thin text-white">
-              {loadingMessage}
-            </p>
+            <p className="text-lg font-thin text-white">{loadingMessage}</p>
+            <img
+              src="loadingQ2L.svg"
+              alt="Loading"
+              className="w-20 h-20 m-auto" />
           </div>
         </div>
       }
@@ -189,14 +190,12 @@ export default function Experience() {
           {currentStep === 8 && (
             <Step8TurnOnCondensorAndVacuum nextButtonRef={nextButtonRef} />
           )}
-          {currentStep === 9 && (
-            <Step9CloseStopcock nextButtonRef={nextButtonRef} />
-          )}
+          {currentStep === 9 && <Step9RaiseArm nextButtonRef={nextButtonRef} />}
           {currentStep === 10 && (
-            <Step10RaiseArm nextButtonRef={nextButtonRef} />
+            <Step10SetupRotovap nextButtonRef={nextButtonRef} />
           )}
           {currentStep === 11 && (
-            <Step11SetupRotavp nextButtonRef={nextButtonRef} />
+            <Step11CloseStopcock nextButtonRef={nextButtonRef} />
           )}
           {currentStep === 12 && (
             <Step12TurnOnRotation nextButtonRef={nextButtonRef} />
