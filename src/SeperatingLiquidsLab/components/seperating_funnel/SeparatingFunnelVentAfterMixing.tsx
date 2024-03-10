@@ -2,16 +2,17 @@ import React, { useEffect, forwardRef, useImperativeHandle } from "react";
 import { useGLTF, useAnimations } from "@react-three/drei";
 import * as THREE from "three";
 
-interface HundredMLFlaskWithFillAnimationProps {
+interface SFunnelPouringOrganicLayerProps {
   startAnimationDelay?: number; // Delay in seconds, undefined or positive to auto-start, negative to disable auto-start
   [key: string]: any; // Additional props like position, scale, etc.
 }
 
-export const BeakerFillWithWaterAnimation = forwardRef((props: HundredMLFlaskWithFillAnimationProps, ref) => {
-  const { scene, animations } = useGLTF("./beaker filling with water.glb");
+export const SFunnelVentAfterMixing = forwardRef((props: SFunnelPouringOrganicLayerProps, ref) => {
+  const { scene, animations } = useGLTF("./WithArmature_VentAirAfterMixing.glb");
   const clonedScene = scene.clone(); // Clone for isolated use
   const { actions } = useAnimations(animations, clonedScene);
 
+  // Adjust useEffect to account for startAnimationDelay handling
   useEffect(() => {
     // Auto-start animation if startAnimationDelay is undefined or a non-negative number
     if (props.startAnimationDelay === undefined || props.startAnimationDelay >= 0) {
@@ -26,10 +27,8 @@ export const BeakerFillWithWaterAnimation = forwardRef((props: HundredMLFlaskWit
 
   // Define startAnimation for external calls
   const startAnimation = () => {
-    console.log("Attempting to start animation...");
     const animation = actions["Animation"];
     if (animation) {
-      console.log("Playing animation...");
       animation.reset().play();
       animation.setEffectiveTimeScale(1);
       animation.setLoop(THREE.LoopOnce, 1);
@@ -42,7 +41,7 @@ export const BeakerFillWithWaterAnimation = forwardRef((props: HundredMLFlaskWit
     startAnimation,
   }));
 
-  return <primitive object={clonedScene} {...props} scale={9} opacity={0.8} />;
+  return <primitive object={clonedScene} {...props} ref={ref} />;
 });
 
-useGLTF.preload("./beaker filling with water.glb");
+useGLTF.preload("./WithArmature_VentAirAfterMixing.glb");

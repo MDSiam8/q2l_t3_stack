@@ -1,5 +1,5 @@
 import React, { useEffect, forwardRef, useState, useRef } from "react";
-import { setNextEnabled } from "../Experience";
+import { setNextDisabled, setNextEnabled } from "../Experience";
 import { Html } from "next/document";
 import { SeparatingFunnelHolder } from "../seperating_funnel/SeparatingFunnelHolder";
 import { RBFlaskWithPourAnimation } from "../RBFlaskWithFillAnim";
@@ -18,6 +18,9 @@ const Step4PourWaterToSeperatingFunnel = forwardRef<
   Step2LabTasksProps
 >(({ nextButtonRef }, ref) => {
     const flaskRef = useRef<Group>(null);
+    useEffect(() => {
+      setNextDisabled(nextButtonRef);
+    }, [])
 
     // TODO: FIX THE ANIMATION!!!
     useEffect(() => {

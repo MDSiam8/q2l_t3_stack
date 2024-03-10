@@ -23,6 +23,11 @@ import Step11PourOrganicLayer from "./steps/11PourOrganicLayer";
 import Step12AddPowder from "./steps/12AddPowder";
 import Step13Filter from "./steps/13FilterLiquid";
 import Step14Finish from "./steps/14ObtainedOrganicProduct";
+import Step6MoveFunnel from "./steps/06InvertAndOpenToVent";
+import Step7ShakeFunnel from "./steps/07ShakeAndOpen";
+import Step6VentAirBeforeMixing from "./steps/06InvertAndOpenToVent";
+import Step8OpenStopcockAfterVenting from "./steps/08OpenStopcockAfterShake";
+import Step9MixtureSeparates from "./steps/09FormLayers";
 
 // Interface for the structure of each step in state.json
 interface Step {
@@ -169,18 +174,18 @@ export default function Experience() {
           {currentStep === 5 && (
             <Step5StopperTheSFunnel nextButtonRef={nextButtonRef} />
           )}
-          {/* {currentStep === 6 && (
-            <Step6EmptyCollectionFlask nextButtonRef={nextButtonRef} />
+          {currentStep === 6 && (
+            <Step6VentAirBeforeMixing nextButtonRef={nextButtonRef} />
           )}
           {currentStep === 7 && (
-            <Step7TurnOnHotWaterBath nextButtonRef={nextButtonRef} />
+            <Step7ShakeFunnel nextButtonRef={nextButtonRef} />
           )}
           {currentStep === 8 && (
-            <Step8TurnOnCondensorAndVacuum nextButtonRef={nextButtonRef} />
+            <Step8OpenStopcockAfterVenting nextButtonRef={nextButtonRef} />
           )}
           {currentStep === 9 && (
-            <Step9CloseStopcock nextButtonRef={nextButtonRef} />
-          )} */}
+            <Step9MixtureSeparates nextButtonRef={nextButtonRef} />
+          )}
           {currentStep === 10 && (
             <Step10DrainSFunnel nextButtonRef={nextButtonRef} />
           )}
@@ -192,7 +197,7 @@ export default function Experience() {
           )}
 
           {currentStep === 13 && <Step13Filter nextButtonRef={nextButtonRef} />}
-          {currentStep === 14 && <Step14Finish />}
+          {currentStep === 14 && <Step14Finish nextButtonRef={nextButtonRef} />}
         </Canvas>
         <div
           style={{

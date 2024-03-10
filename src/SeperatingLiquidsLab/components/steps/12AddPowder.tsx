@@ -5,18 +5,10 @@ import React, {
   useRef,
   useCallback,
 } from "react";
-import { setNextEnabled } from "../Experience";
+import { setNextDisabled, setNextEnabled } from "../Experience";
 import { SeparatingFunnelHolder } from "../seperating_funnel/SeparatingFunnelHolder";
-import { RBFlaskWithPourAnimation } from "../RBFlaskWithFillAnim";
 import { SFunnelWithFillAnimation } from "../seperating_funnel/SeperatingFunnelWithFillAnimation";
 import gsap from "gsap";
-import * as TWEEN from "@tweenjs/tween.js";
-import { WaterBeakerWithPourAnimation } from "../BeakerWithWaterPourAnim";
-import { SFunnelWithWaterFillAnimation } from "../seperating_funnel/SeperatingFunnelWithWaterPourAnim";
-import { SFunnelWithDrainAnimation } from "../seperating_funnel/SeparatingFunnelDrainAnim";
-import { BeakerFillWithWaterAnimation } from "../BeakerFillWithWater";
-import { BeakerFillWithOrganicLayer } from "../BeakerFillingWithOrganicProduct";
-import { SFunnelPouringOrganicLayer } from "../seperating_funnel/SeparatingFunnelPouringOrganicLayer";
 import { Spatula } from "~/AnalyticalBalanceLab/components/Spatula";
 import { AMSBottleCap } from "../AMSBottleCap";
 import { AMSBottle } from "../AMSBottle";
@@ -35,31 +27,16 @@ const Step12AddPowder = forwardRef<HTMLDivElement, Step2LabTasksProps>(
     const powderRef = useRef<Mesh>(null);
     const collectionSphereRef = useRef<Mesh>(null);
     const groupSphereRef = useRef<Group>(null);
-    const [addCount, setAddCount] = useState(0);
+    const addCountRef = useRef(0);
+    const beakerRef = useRef<Group>(null);
 
-    // Initialize animations
-    // useEffect(() => {
-    //   console.log("Hellooo");
-    //   // Animation for bottle cap
-    //   if (bottleCapRef.current) {
-    //     gsap.timeline()
-    //       .to(bottleCapRef.current.position, { y: "+=1", duration: 0.5 }) // Move up
-    //       .to(bottleCapRef.current.position, { x: "-=1", y: "-=2", duration: 0.5 }); // Move back and down
-    //   }
-
-    //   // Animation for spatula
-    //   if (spatulaRef.current) {
-    //     gsap.timeline()
-    //       .to(spatulaRef.current.position, { y: "+=2", duration: 1 }) // Move up
-    //       .to(spatulaRef.current.rotation, { x: Math.PI / 2, duration: 1 }) // Rotate
-    //       .to(spatulaRef.current.position, { z: "-=2", duration: 1 }) // Move right
-    //       .to(spatulaRef.current.position, { y: "-=1", duration: 1 }); // Move down
-    //   }
-    // }, []);
     useEffect(() => {
       const bottleCapTimeline = gsap.timeline();
       const spatulaTimeline = gsap.timeline();
-
+      setNextDisabled(nextButtonRef);
+      // if (nextButtonRef.current) {
+      //   nextButtonRef.current.disabled = true; // Disable the button
+      // }
       if (bottleCapRef.current) {
         bottleCapTimeline
           .to(bottleCapRef.current.position, { y: "+=1", duration: 0.5 })
@@ -77,24 +54,6 @@ const Step12AddPowder = forwardRef<HTMLDivElement, Step2LabTasksProps>(
           .to(spatulaRef.current.position, { z: "-=2", duration: 1 })
           .to(spatulaRef.current.position, { y: "-=1", duration: 1 });
       }
-      // if (spatulaRef.current && powderRef.current) {
-      //   const addTimeline = gsap.timeline();
-      //   addTimeline
-      //     .to([spatulaRef.current.position, powderRef.current.position], { y: "+=1", duration: 0.5 })
-      //     .to([spatulaRef.current.position, powderRef.current.position], { z: "+=1", duration: 0.5 })
-      //     .to([spatulaRef.current.position, powderRef.current.position], {
-      //       y: "-=1",
-      //       duration: 0.5,
-      //       onComplete: () => {
-      //         if (powderRef.current)
-      //         gsap.set(powderRef.current.position, { x: 2, y: 5.5, z: -2 });
-      //         if (collectionSphereRef.current) {
-      //           gsap.to(collectionSphereRef.current.scale, { x: "+=0.05", y: "+=0.05", z: "+=0.05" });
-      //         }
-      //       }
-      //     });
-      // }
-
       return () => {
         bottleCapTimeline.kill();
         spatulaTimeline.kill();
@@ -104,27 +63,75 @@ const Step12AddPowder = forwardRef<HTMLDivElement, Step2LabTasksProps>(
     const handleAddClick = () => {
       // Animate spatula and powder sphere
       if (spatulaRef.current && powderRef.current) {
-        gsap.timeline()
-          .to([spatulaRef.current.position, powderRef.current.position], { y: "+=1", duration: 0.5 })
-          .to([spatulaRef.current.position, powderRef.current.position], { z: "-=1", duration: 0.5 })
-          .to([spatulaRef.current.position, powderRef.current.position], { 
-            y: "-=1", 
-            duration: 0.5, 
+        gsap
+          .timeline()
+          .to([spatulaRef.current.position, powderRef.current.position], {
+            y: "+=1",
+            duration: 0.5,
+          })
+          .to([spatulaRef.current.position, powderRef.current.position], {
+            z: "-=1",
+            duration: 0.5,
+          })
+          .to([spatulaRef.current.position, powderRef.current.position], {
+            y: "-=1",
+            duration: 0.5,
             onComplete: () => {
+              animateBeakerSwirl();
+              // animateBeakerInCircles();
               gsap.set(powderRef.current!.position, { x: 2, y: 5.5, z: -2 });
-              if (collectionSphereRef.current) {
-                gsap.to(collectionSphereRef.current.scale, { x: "+=0.05", y: "+=0.05", z: "+=0.05" });
-              }
-    
+              gsap.set(spatulaRef.current!.position, { x: 2, y: 6.2, z: -2 });
+
               // Update addCount state after animations
-              setAddCount(prevCount => prevCount + 1);
-            }
+              // setAddCount(prevCount => prevCount + 1);
+              addCountRef.current += 1;
+              // checkAddCount();
+            },
           });
       }
     };
 
-    useEffect(() => {
-      if (addCount === 3) {
+    const animateBeakerSwirl = () => {
+      const beakerTimeline = gsap.timeline();
+      beakerTimeline
+        .to(beakerRef.current!.position, {
+          z: "-=.3",
+          x: "+=.3",
+          duration: 0.3,
+        })
+        .to(beakerRef.current!.position, {
+          z: "+=.6",
+          x: "-=.6",
+          duration: 0.3,
+        })
+        .to(beakerRef.current!.position, {
+          z: "-=.3",
+          x: "+=.3",
+          duration: 0.3,
+        })
+        .to(beakerRef.current!.position, {
+          z: "+=.3",
+          x: "-=.3",
+          duration: 0.3,
+        })
+        .to(beakerRef.current!.position, {
+          z: "-=.3",
+          x: "+=.3",
+          duration: 0.3,
+          onComplete: () => {
+            if (collectionSphereRef.current) {
+              gsap.to(collectionSphereRef.current.scale, {
+                x: "+=0.05",
+                y: "+=0.05",
+                z: "+=0.05",
+              });
+            }
+            checkAddCount();
+          },
+        });
+    };
+    const checkAddCount = () => {
+      if (addCountRef.current === 4) {
         if (collectionSphereRef.current) {
           collectionSphereRef.current.visible = false;
         }
@@ -135,66 +142,42 @@ const Step12AddPowder = forwardRef<HTMLDivElement, Step2LabTasksProps>(
           setNextEnabled(nextButtonRef);
         }
       }
-    }, [addCount, nextButtonRef]);
-    
-    
-    // const handleAddClick = () => {
-    //   // Ensure no overlapping animations
-    //   console.log("Add button clicked", { spatulaRef, powderRef });
+    };
 
-    //   gsap.killTweensOf([spatulaRef.current, powderRef.current]);
+    // const animateBeakerInCircles = useCallback(() => {
+    //   const radius = 1; // Adjust the radius as needed for the size of the circle
+    //   const duration = 2; // Duration of one complete circle in seconds
+    //   let angle = 0; // Starting angle
 
-    //   if (spatulaRef.current && powderRef.current) {
-    //     const addTimeline = gsap.timeline();
-    //     addTimeline
-    //       .to([spatulaRef.current.position, powderRef.current.position], {
-    //         y: "+=1",
-    //         duration: 0.5,
-    //       })
-    //       .to([spatulaRef.current.position, powderRef.current.position], {
-    //         z: "+=1",
-    //         duration: 0.5,
-    //       })
-    //       .to([spatulaRef.current.position, powderRef.current.position], {
-    //         y: "-=1",
-    //         duration: 0.5,
-    //         onComplete: () => {
-    //           if (powderRef.current)
-    //             gsap.set(powderRef.current.position, { x: 2, y: 5.5, z: -2 });
-    //           if (collectionSphereRef.current) {
-    //             gsap.to(collectionSphereRef.current.scale, {
-    //               x: "+=0.05",
-    //               y: "+=0.05",
-    //               z: "+=0.05",
-    //             });
-    //           }
-    //         },
-    //       });
-    //   }
-    //   // setAddCount((prevCount) => {
-    //   //   // Update the count and handle visibility of spheres
-    //   //   const newCount = prevCount + 1;
-    //   //   if (newCount === 3) {
-    //   //     if (collectionSphereRef.current) {
-    //   //       collectionSphereRef.current.visible = false;
-    //   //     }
-    //   //     if (groupSphereRef.current) {
-    //   //       groupSphereRef.current.visible = true;
-    //   //     }
-    //   //     if (nextButtonRef.current) {
-    //   //       setNextEnabled(nextButtonRef);
-    //   //     }
-    //   //   }
-    //   //   return newCount;
-    //   // }
-    //   // );
-    // };
+    //   const timeline = gsap.timeline({
+    //     repeat: -1, // Loop indefinitely
+    //     onUpdate: () => {
+    //       if (beakerRef.current) {
+    //         // Calculate x and z positions based on the angle
+    //         const x = radius * Math.cos(angle);
+    //         const z = radius * Math.sin(angle);
+    //         beakerRef.current.position.x = x;
+    //         beakerRef.current.position.z = z;
+    //       }
+    //     },
+    //   });
 
-    // TODO: Create animation for bottle cap opening and spatula going inside
-    // TODO: Create animation for spatula picking up powder, and playing swirling animation
-    // TODO: Create function such that powder in beaker becomes bigger for the first 2 scoops,
-    //       then it breaks up on the 3rd scoop
-    // TODO: Next button to be enabled after 3rd scoop
+    //   timeline.to(
+    //     {},
+    //     {
+    //       // Empty target as we're using onUpdate only
+    //       duration: duration,
+    //       ease: "none",
+    //       onComplete: () => {
+    //         angle += Math.PI / 2; // Increase the angle by 90 degrees at the end of each loop
+    //         if (angle >= 2 * Math.PI) {
+    //           angle = 0; // Reset the angle after a full circle
+    //         }
+    //       },
+    //     },
+    //   );
+    // }, []);
+
     const animateSpatulaOnClick = useCallback(() => {
       if (spatulaRef.current) {
         gsap.to(spatulaRef.current.position, { y: "+=1", duration: 0.5 });
@@ -232,9 +215,9 @@ const Step12AddPowder = forwardRef<HTMLDivElement, Step2LabTasksProps>(
         <Sphere ref={powderRef} position={[2, 5.3, -2]} scale={0.1} />
 
         <AMSBottle position={[2, 5, -2]} rotation-y={3.14 / 2} />
-        <Html transform rotation-y={3.14 / 2} position={[2, 6.5, -2]}  >
+        <Html transform rotation-y={3.14 / 2} position={[2, 6.5, -2]}>
           <button
-            className="bg-green-200"
+            className="transform rounded-full scale-90 bg-blue-500 px-3 py-1 font-bold text-white transition duration-300 ease-in-out hover:scale-100 hover:bg-blue-700"
             onClick={(e) => {
               e.preventDefault();
               e.stopPropagation();
@@ -244,7 +227,7 @@ const Step12AddPowder = forwardRef<HTMLDivElement, Step2LabTasksProps>(
             Add
           </button>
         </Html>
-        <group position-x={2}>
+        <group position-x={2} ref={beakerRef}>
           <BeakerPouringOrganicSolution
             position={[0, 4.9, -3.1]}
             rotation-y={3.14 / 2}
