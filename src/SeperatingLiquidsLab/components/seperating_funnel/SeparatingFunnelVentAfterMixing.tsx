@@ -2,16 +2,17 @@ import React, { useEffect, forwardRef, useImperativeHandle } from "react";
 import { useGLTF, useAnimations } from "@react-three/drei";
 import * as THREE from "three";
 
-interface SFunnelShakingProps {
+interface SFunnelPouringOrganicLayerProps {
   startAnimationDelay?: number; // Delay in seconds, undefined or positive to auto-start, negative to disable auto-start
   [key: string]: any; // Additional props like position, scale, etc.
 }
 
-export const SFunnelShaking = forwardRef((props: SFunnelShakingProps, ref) => {
-  const { scene, animations } = useGLTF("./shaking (2).glb");
+export const SFunnelVentAfterMixing = forwardRef((props: SFunnelPouringOrganicLayerProps, ref) => {
+  const { scene, animations } = useGLTF("./WithArmature_VentAirAfterMixing.glb");
   const clonedScene = scene.clone(); // Clone for isolated use
   const { actions } = useAnimations(animations, clonedScene);
 
+  // Adjust useEffect to account for startAnimationDelay handling
   useEffect(() => {
     // Auto-start animation if startAnimationDelay is undefined or a non-negative number
     if (props.startAnimationDelay === undefined || props.startAnimationDelay >= 0) {
@@ -24,6 +25,7 @@ export const SFunnelShaking = forwardRef((props: SFunnelShakingProps, ref) => {
     // No cleanup action needed if startAnimationDelay is negative
   }, [props.startAnimationDelay, actions]);
 
+  // Define startAnimation for external calls
   const startAnimation = () => {
     const animation = actions["Animation"];
     if (animation) {
@@ -34,6 +36,7 @@ export const SFunnelShaking = forwardRef((props: SFunnelShakingProps, ref) => {
     }
   };
 
+  // Expose startAnimation method to parent components via ref
   useImperativeHandle(ref, () => ({
     startAnimation,
   }));
@@ -41,4 +44,4 @@ export const SFunnelShaking = forwardRef((props: SFunnelShakingProps, ref) => {
   return <primitive object={clonedScene} {...props} ref={ref} />;
 });
 
-useGLTF.preload("./shaking (2).glb");
+useGLTF.preload("./WithArmature_VentAirAfterMixing.glb");

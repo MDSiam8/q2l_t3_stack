@@ -109,7 +109,7 @@ const notebook2: Notebook = {
 const notebook3: Notebook = {
   id: "3",
   image: "buchner.jpeg",
-  name: "Buchner Funnel",
+  name: "Liquid-Liquid Extraction",
   completed: "Not Started",
   updatedAt: new Date(),
   link: "/extraction_lab",

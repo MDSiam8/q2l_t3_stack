@@ -3,96 +3,120 @@
         "stepTitle": "Lab Objectives",
         "description": "Introduction to the lab and overview of objectives.",
         "directions": "You have a organic product mixture. Your aim is to extract the final product from the mixture.",
-        "objectsInFocus": ["mixture"]
+        "objectsInFocus": [
+            "mixture"
+        ]
     },
     "2": {
         "stepTitle": "Preparations",
         "description": "Setting up the necessary apparatus for liquid-liquid extraction.",
         "directions": "First, take out all the apparatus needed for the lab from the cabinet.",
-        "objectsInFocus": ["beaker", "seperating_funnel", "filter funnel w/ filter paper", "stopper", "distilled water", "anhydrous magnesium sulfate"]
+        "objectsInFocus": [
+            "beaker",
+            "seperating_funnel",
+            "filter funnel w/ filter paper",
+            "stopper",
+            "distilled water",
+            "anhydrous magnesium sulfate"
+        ]
     },
     "3": {
-        "stepTitle": "",
-        "description": "",
-        "directions": "Pour the organic product mixture in to a separating funnel.",
-        "user_instructions": "",
-        "objectsInFocus": [""]
+        "stepTitle": "Adding the Mixture",
+        "description": "Pouring the organic product mixture into a separating funnel.",
+        "directions": "Pour the organic product mixture into a separating funnel.",
+        "objectsInFocus": []
     },
     "4": {
-        "stepTitle": "",
-        "description": "",
-        "directions": "Next, pour the water into the separating funnel. Notice, two layers are formed due to immiscibility. In this case, the organic layer is on the top as it has lower density than the bottom aqueous layer.",
-        "user_instructions": "",
-        "objectsInFocus": [""]
+        "stepTitle": "Adding Water",
+        "description": "Pouring water into the separating funnel and observing layer formation.",
+        "directions": "Next, pour the water into the separating funnel. Notice, two layers are formed due to immiscibility. In this case, the organic layer is on the top as it has a lower density than the bottom aqueous layer.",
+        "objectsInFocus": []
     },
     "5": {
-        "stepTitle": "",
-        "description": "",
-        "directions": "Now, stopper the seperating funnel.",
-        "user_instructions": "",
-        "objectsInFocus": [""]
+        "stepTitle": "Closing the Funnel",
+        "description": "Securing the separating funnel with a stopper.",
+        "directions": "Now, stopper the separating funnel.",
+        "objectsInFocus": []
     },
     "6": {
-        "stepTitle": "",
-        "description": "",
+        "stepTitle": "Venting the Funnel",
+        "description": "Inverting the funnel and venting it to release pressure.",
         "directions": "Slowly invert the funnel and open the stopcock to vent.",
-        "user_instructions": "Click on the funnel to invert and open the stopcock to vent.",
-        "objectsInFocus": [""]
+        "user_instructions": "Click on the stopcock to open it.",
+        "objectsInFocus": [
+            ""
+        ]
     },
     "7": {
-        "stepTitle": "",
-        "description": "",
-        "directions": "Close the stopcock, gently shake the separating funnel to mix the liquid well.",
-        "user_instructions": "",
-        "objectsInFocus": [""]
+        "stepTitle": "Shaking the Funnel",
+        "description": "Mixing the liquids by shaking the separating funnel.",
+        "directions": "After you close the stopcock, gently shake the separating funnel to mix the liquid well.",
+        "user_instructions": "Click on the funnel to shake it.",
+        "objectsInFocus": [
+            ""
+        ]
     },
     "8": {
-        "stepTitle": "",
-        "description": "",
+        "stepTitle": "Second Venting",
+        "description": "Opening the stopcock again to vent after shaking.",
         "directions": "After shaking, open the stopcock again to vent. Then close the stopcock.",
-        "user_instructions": "",
-        "objectsInFocus": [""]
+        "user_instructions": "Click on the stopcock to vent.",
+        "objectsInFocus": [
+            ""
+        ]
     },
     "9": {
-        "stepTitle": "",
-        "description": "",
+        "stepTitle": "Allowing Layer Separation",
+        "description": "Waiting for the liquid layers to separate completely.",
         "directions": "Let the mixture set until two layers separated completely.",
         "user_instructions": "",
-        "objectsInFocus": [""]
+        "objectsInFocus": [
+            ""
+        ]
     },
     "10": {
-        "stepTitle": "",
-        "description": "",
+        "stepTitle": "Draining the Aqueous Layer",
+        "description": "Removing the bottom layer and repeating the washing process.",
         "directions": "Remove the stopper, drain all the aqueous layer into a beaker. Then, repeat the washing process for 2-3 times.",
-        "user_instructions": "Double click the stopper to proceed.",
-        "objectsInFocus": [""]
+        "user_instructions": "Click the stopper to proceed.",
+        "objectsInFocus": [
+            ""
+        ]
     },
     "11": {
-        "stepTitle": "",
-        "description": "",
+        "stepTitle": "Collecting the Organic Layer",
+        "description": "Transferring the organic layer into a new beaker.",
         "directions": "After washing and draining the aqueous layer, pour the organic layer from the top into a new beaker.",
-        "user_instructions": "Double click the separating funnel to pour organic layer to beaker.",
-        "objectsInFocus": [""]
+        "user_instructions": "Click the separating funnel to pour organic layer to beaker.",
+        "objectsInFocus": [
+            ""
+        ]
     },
     "12": {
-        "stepTitle": "",
-        "description": "",
+        "stepTitle": "Drying the Organic Layer",
+        "description": "Adding anhydrous magnesium sulfate to the organic layer.",
         "directions": "Add anhydrous magnesium sulfate to absorb the remaining moisture. Swirl well. Add until the magnesium sulfate powder does not stick together and completely separated.",
         "user_instructions": "",
-        "objectsInFocus": [""]
+        "objectsInFocus": [
+            ""
+        ]
     },
     "13": {
-        "stepTitle": "",
-        "description": "",
+        "stepTitle": "Filtration",
+        "description": "Filtering away the solid to purify the product.",
         "directions": "Filter away the solid.",
-        "user_instructions": "Double click the beaker with the organic solution to filter it.",
-        "objectsInFocus": [""]
+        "user_instructions": "Click the beaker with the organic solution to filter it.",
+        "objectsInFocus": [
+            ""
+        ]
     },
     "14": {
-        "stepTitle": "",
-        "description": "",
-        "directions": "Purified organic product is obtained.",
+        "stepTitle": "Obtaining the Final Product",
+        "description": "Collecting the purified organic product.",
+        "directions": "Congratulations! You have finished the lab, as the purified organic product is now obtained.",
         "user_instructions": "",
-        "objectsInFocus": [""]
+        "objectsInFocus": [
+            ""
+        ]
     }
 }

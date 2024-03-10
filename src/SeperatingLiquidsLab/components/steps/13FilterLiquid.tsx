@@ -5,12 +5,7 @@ import { SeparatingFunnelHolder } from "../seperating_funnel/SeparatingFunnelHol
 import { RBFlaskWithPourAnimation } from "../RBFlaskWithFillAnim";
 import { SFunnelWithFillAnimation } from "../seperating_funnel/SeperatingFunnelWithFillAnimation";
 import gsap from "gsap";
-import { WaterBeakerWithPourAnimation } from "../BeakerWithWaterPourAnim";
-import { SFunnelWithWaterFillAnimation } from "../seperating_funnel/SeperatingFunnelWithWaterPourAnim";
-import { SFunnelWithDrainAnimation } from "../seperating_funnel/SeparatingFunnelDrainAnim";
-import { BeakerFillWithWaterAnimation } from "../BeakerFillWithWater";
 import { BeakerFillWithOrganicLayer } from "../BeakerFillingWithOrganicProduct";
-import { SFunnelPouringOrganicLayer } from "../seperating_funnel/SeparatingFunnelPouringOrganicLayer";
 import { FunnelWithPourAnim } from "../Funnel";
 import { Sphere } from "@react-three/drei";
 import { BeakerPouringOrganicSolution } from "../BeakerPourOrganicSol";
@@ -31,12 +26,30 @@ const Step13Filter = forwardRef<HTMLDivElement, Step2LabTasksProps>(
         // Rise the beaker by 1 unit, then move to the front by 2 units on the x-axis
         tl.to(beakerRef.current.position, { y: "+=2", duration: 1 }).to(
           beakerRef.current.position,
-          { x: "+=2", z: "+=.3", duration: 1 },
-        );
+          {
+            x: "+=2",
+            z: "+=.3",
+            duration: 1,
+            onComplete: () => {
+              setShowPowder(false);
+              setAnimDelay(0.1);
+            },
+          },
+        ).to(beakerRef.current.position, {
+         duration: 3
+        }).to(beakerRef.current.position,{
+          x: "-=2", y: "-=2", z: "+=.3", duration: 1,
+          onComplete: () => {
+            setNextEnabled(nextButtonRef);
+          }
+        });
+        // .to(beakerRef.current.position, {
+        //   onComplete: () => {
+        //     setNextEnabled(nextButtonRef);
+        //   }
+        // })
       }
 
-      setAnimDelay(2);
-      setShowPowder(false);
     };
     // TODO: Create animation of beaker pouring into the funnel
     // TODO: Play animation of the funnel

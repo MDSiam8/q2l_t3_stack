@@ -26,6 +26,8 @@ import Step14Finish from "./steps/14ObtainedOrganicProduct";
 import Step6MoveFunnel from "./steps/06InvertAndOpenToVent";
 import Step7ShakeFunnel from "./steps/07ShakeAndOpen";
 import Step6VentAirBeforeMixing from "./steps/06InvertAndOpenToVent";
+import Step8OpenStopcockAfterVenting from "./steps/08OpenStopcockAfterShake";
+import Step9MixtureSeparates from "./steps/09FormLayers";
 
 // Interface for the structure of each step in state.json
 interface Step {
@@ -91,7 +93,7 @@ export const setNextEnabled = (
   }
 };
 export default function Experience() {
-  const [currentStep, setCurrentStep] = useState<number>(5);
+  const [currentStep, setCurrentStep] = useState<number>(1);
   const key = currentStep.toString() as StateKey;
   const stepData = state[key]; // Safe indexing
   const stepRefs = useRef<Record<number, StepComponentRef>>({});
@@ -172,18 +174,18 @@ export default function Experience() {
           {currentStep === 5 && (
             <Step5StopperTheSFunnel nextButtonRef={nextButtonRef} />
           )}
-           {currentStep === 6 && (
+          {currentStep === 6 && (
             <Step6VentAirBeforeMixing nextButtonRef={nextButtonRef} />
           )}
           {currentStep === 7 && (
             <Step7ShakeFunnel nextButtonRef={nextButtonRef} />
           )}
-          {/* currentStep === 8 && (
-            <Step8TurnOnCondensorAndVacuum nextButtonRef={nextButtonRef} />
+          {currentStep === 8 && (
+            <Step8OpenStopcockAfterVenting nextButtonRef={nextButtonRef} />
           )}
           {currentStep === 9 && (
-            <Step9CloseStopcock nextButtonRef={nextButtonRef} />
-          )} */}
+            <Step9MixtureSeparates nextButtonRef={nextButtonRef} />
+          )}
           {currentStep === 10 && (
             <Step10DrainSFunnel nextButtonRef={nextButtonRef} />
           )}
@@ -195,7 +197,7 @@ export default function Experience() {
           )}
 
           {currentStep === 13 && <Step13Filter nextButtonRef={nextButtonRef} />}
-          {currentStep === 14 && <Step14Finish />}
+          {currentStep === 14 && <Step14Finish nextButtonRef={nextButtonRef} />}
         </Canvas>
         <div
           style={{

@@ -1,19 +1,32 @@
 import React, { useEffect, forwardRef, useRef, useState } from "react";
 import gsap from "gsap";
-import { setNextEnabled } from "../Experience";
+import { setNextDisabled, setNextEnabled } from "../Experience";
 import { SeparatingFunnelHolder } from "../seperating_funnel/SeparatingFunnelHolder";
 import { Stopper } from "../Stopper";
-import { SFunnelWithDrainAnimation } from "../seperating_funnel/SeparatingFunnelDrainAnim";
+import SFunnelWithDrainAnimation from "../seperating_funnel/SeparatingFunnelDrainAnim";
 import { BeakerFillWithWaterAnimation } from "../BeakerFillWithWater";
 
 interface Step2LabTasksProps {
   nextButtonRef: React.RefObject<HTMLButtonElement>;
 }
 
+interface FunnelActions {
+  playAnimation: () => void;
+}
+interface BeakerActions {
+  startAnimation: () => void;
+}
+
 const Step10DrainSFunnel = forwardRef<HTMLDivElement, Step2LabTasksProps>(
   ({ nextButtonRef }, ref) => {
     const stopperRef = useRef<THREE.Object3D>(null);
-    const [startAnimationDelay, setStartAnimationDelay] = useState(999);
+    // const animDelay = useRef(999);
+    const funnelRef = useRef<FunnelActions>(null);
+    const beakerRef = useRef<BeakerActions>(null);
+    useEffect(() => {
+      setNextDisabled(nextButtonRef);
+    }, []);
+    // const [startAnimationDelay, setStartAnimationDelay] = useState(999);
     const animateStopper = () => {
       if (stopperRef.current) {
         gsap
@@ -22,11 +35,17 @@ const Step10DrainSFunnel = forwardRef<HTMLDivElement, Step2LabTasksProps>(
           .to(stopperRef.current.position, { z: "-=1.3", duration: 0.5 }) // Move left
           .to(stopperRef.current.position, { y: "-=4.8", duration: 0.5 })
           .then(() => {
-
+            funnelRef.current!.playAnimation();
+            beakerRef.current!.startAnimation();
+            setTimeout(() => {
+              if (nextButtonRef && nextButtonRef.current) {
+                setNextEnabled(nextButtonRef);
+              }
+            }, 3000);
             // setStartAnimationDelay(4);
           });
-          setStartAnimationDelay(4);
-
+        // setStartAnimationDelay(4);
+        // animDelay.current = 4;
       }
     };
 
@@ -60,7 +79,8 @@ const Step10DrainSFunnel = forwardRef<HTMLDivElement, Step2LabTasksProps>(
             position={[0, 6, 0.1]}
             scale={1.75}
             rotation-y={-3.14 / 2}
-            startAnimationDelay={startAnimationDelay}
+            ref={funnelRef}
+            startAnimationDelay={-1}
           />
         </group>
         <Stopper
@@ -74,8 +94,9 @@ const Step10DrainSFunnel = forwardRef<HTMLDivElement, Step2LabTasksProps>(
         />
         <BeakerFillWithWaterAnimation
           position={[0, 5.2, -0.1]}
+          ref={beakerRef}
           rotation-y={3.14 / 2}
-          startAnimationDelay={startAnimationDelay}
+          startAnimationDelay={-1}
         />
       </group>
     );

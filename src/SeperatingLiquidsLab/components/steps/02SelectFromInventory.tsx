@@ -1,6 +1,6 @@
-import React, { forwardRef, useState } from "react";
+import React, { forwardRef, useEffect, useState } from "react";
 import InventorySystem from "../InventorySystem";
-import { setNextEnabled } from "../Experience";
+import { setNextDisabled, setNextEnabled } from "../Experience";
 import { SeparatingFunnelHolder } from "../seperating_funnel/SeparatingFunnelHolder";
 import { SFunnelWithFillAnimation } from "../seperating_funnel/SeperatingFunnelWithFillAnimation";
 import { RBFlaskWithPourAnimation } from "../RBFlaskWithFillAnim";
@@ -37,6 +37,10 @@ const Step2InventorySelection = forwardRef<
 >(({ nextButtonRef }, ref) => {
   const [selectedItems, setSelectedItems] = useState<SelectedItems>({});
 
+  useEffect(() => {
+    setNextDisabled(nextButtonRef);
+  }, [])
+  
   const handleItemSelection = (itemName: string) => {
     setSelectedItems((prev) => {
       const newSelectedItems = { ...prev, [itemName]: !prev[itemName] };
