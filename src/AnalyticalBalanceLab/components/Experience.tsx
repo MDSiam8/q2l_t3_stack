@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { Suspense, useEffect, useRef, useState } from "react";
 import {
   CameraControls,
   CameraControlsProps,
@@ -68,7 +68,7 @@ interface StepComponentRef {
   // other methods or properties
 }
 export const getClassNameForNext = (isDisabled : boolean) : string => {
-  let str = "mb-2 flex-grow transform rounded-lg bg-gradient-to-r from-blue-400 to-purple-500 px-4 py-2 font-bold text-white transition duration-300 hover:scale-105 ";
+  let str = "flex-grow transform rounded-lg bg-gradient-to-r from-blue-400 to-purple-500 px-4 py-2 font-bold text-white transition duration-300 hover:scale-105 ";
   if (isDisabled) str += "cursor-not-allowed bg-gray-400 opacity-50";
   return str;
 }
@@ -93,7 +93,7 @@ export default function Experience() {
   const stepRefs = useRef<Record<number, StepComponentRef>>({});
   const [isAnimating, setIsAnimating] = useState<boolean>(false);
   const nextButtonRef = useRef<HTMLButtonElement>(null);
-  const replayButtonRef = useRef<HTMLButtonElement>(null);
+  // const replayButtonRef = useRef<HTMLButtonElement>(null);
 
   const cameraControlsRef = useRef<Camera>(null);
   const [nextButtonTempDisabled, setNextButtonTempDisabled] = useState(false);
@@ -122,6 +122,19 @@ export default function Experience() {
   const hasReplayAnimation: boolean = stepsWithRefs.has(currentStep);
 
   return (
+    <Suspense
+    fallback={
+      <div className="flex h-screen items-center justify-center bg-gradient-to-r from-blue-400 via-cyan-500 to-green-400">
+        <div className="rounded-lg border border-transparent bg-black bg-opacity-30 p-6 shadow-lg backdrop-blur-lg backdrop-filter">
+          <p className="text-lg font-thin text-white">{"Loading Resources"}</p>
+          <img
+              src="loadingQ2L.svg"
+              alt="Loading"
+              className="w-20 h-20 m-auto" />
+        </div>
+      </div>
+    }
+  >
     <div style={{ position: "relative", height: "100vh" }}>
       <Canvas
         shadows
@@ -167,7 +180,6 @@ export default function Experience() {
           <FourthStepComponent
             ref={(el) => (stepRefs.current[4] = el as StepComponentRef)}
             nextButtonRef={nextButtonRef}
-            replayAnimButtonRef={replayButtonRef}
           />
         )}
         {currentStep === 5 && (
@@ -244,7 +256,7 @@ export default function Experience() {
               disabled={
                 currentStep === 13 || nextButtonTempDisabled
               }
-              className={`mb-2 flex-grow transform rounded-lg bg-gradient-to-r from-blue-400 to-purple-500 px-4 py-2 font-bold text-white transition duration-300 hover:scale-105 ${
+              className={`flex-grow transform rounded-lg bg-gradient-to-r from-blue-400 to-purple-500 px-4 py-2 font-bold text-white transition duration-300 hover:scale-105 ${
                  currentStep === 13 || nextButtonTempDisabled
                   ? "cursor-not-allowed bg-gray-400 opacity-50"
                   : ""
@@ -253,21 +265,11 @@ export default function Experience() {
             >
               Next Step
             </button>
-            <button
-              ref={replayButtonRef}
-              onClick={handleReplayAnimation}
-              disabled={isAnimating || !hasReplayAnimation}
-              className={`flex-grow transform rounded-lg px-4 py-2 font-bold text-white transition duration-300 hover:scale-105 ${
-                isAnimating || !hasReplayAnimation
-                  ? "cursor-not-allowed bg-gray-400 opacity-50"
-                  : "bg-gradient-to-r from-green-400 to-blue-500"
-              }`}
-            >
-              Replay Animation
-            </button>
+         
           </div>
         </div>
       </div>
     </div>
+    </Suspense>
   );
 }

@@ -1,5 +1,5 @@
 import React, { useEffect, forwardRef } from "react";
-import { setNextEnabled } from "../Experience";
+import { setNextDisabled, setNextEnabled } from "../Experience";
 import { RBFlaskWithEvaporatedProduct } from "../round-bottom-flasks/RBFlaskWithEvapProduct";
 
 interface Step2LabTasksProps {
@@ -9,16 +9,9 @@ interface Step2LabTasksProps {
 const Step20Conclusion = forwardRef<HTMLDivElement, Step2LabTasksProps>(
   ({ nextButtonRef }, ref) => {
     useEffect(() => {
-      // Enable the next button after 3 seconds
-      const timer = setTimeout(() => {
-        if (nextButtonRef && nextButtonRef.current) {
-          setNextEnabled(nextButtonRef);
-        }
-      }, 3000);
-
-      // Clear the timeout if the component unmounts
-      return () => clearTimeout(timer);
-    }, [nextButtonRef]);
+      // Disable the next button
+      setNextDisabled(nextButtonRef);
+    }, []);
 
     return (
       <group>

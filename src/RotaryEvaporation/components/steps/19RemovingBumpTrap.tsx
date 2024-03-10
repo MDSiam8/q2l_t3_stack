@@ -1,7 +1,7 @@
 import React, { useEffect, forwardRef } from "react";
 import { RotavapWithHeatBathAnim } from "../rotavap/RotavapWithHeatOnAnim";
 import { OrganicProductBeaker } from "../BeakerWithSolution";
-import { setNextEnabled } from "../Experience";
+import { setNextDisabled, setNextEnabled } from "../Experience";
 import { Html } from "next/document";
 import { HundredMLFlask } from "../round-bottom-flasks/100mlRBFlask";
 import { TwentyFiveMLFlask } from "../round-bottom-flasks/25mlRBFlask";
@@ -26,21 +26,28 @@ interface Step2LabTasksProps {
 const Step19RemoveBumpTrap = forwardRef<HTMLDivElement, Step2LabTasksProps>(
   ({ nextButtonRef }, ref) => {
     useEffect(() => {
-      // Enable the next button after 3 seconds
-      const timer = setTimeout(() => {
-        if (nextButtonRef && nextButtonRef.current) {
-          setNextEnabled(nextButtonRef);
-        }
-      }, 3000);
-
-      // Clear the timeout if the component unmounts
-      return () => clearTimeout(timer);
-    }, [nextButtonRef]);
+      // Disable the next button
+      setNextDisabled(nextButtonRef);
+    }, []);
 
     return (
       <group>
-        <RotavapRemoveBumpTrap position={[0, 5, 0]} scale={0.8} />
-        <RBFlaskWithEvaporatedProduct position={[2.2, 5, 0]} />
+        <RotavapRemoveBumpTrap position={[0, 5, 0]} scale={0.8} onClick={() => {
+          setTimeout(() => {
+            if (nextButtonRef && nextButtonRef.current) {
+              setNextEnabled(nextButtonRef);
+            }
+          }, 5000);
+          // Right now, for all the onClicks, it activates after
+          // the user clicks anywhere. So even if we click on the wrong
+          // area, it will still activate the next button. 
+          // One way to fix it is to create our own custom prop that we call
+          // OnClickSpecificSpot that will only activate the next button if the
+          // user clicks on the box collider. We can pass in the function through the 
+          // props, and attach it as an onClick event to the box collider inside 
+          // the Rotovap components.
+        }} />
+        <RBFlaskWithEvaporatedProduct position={[2.2, 5, 0]}/>
       </group>
     );
   },

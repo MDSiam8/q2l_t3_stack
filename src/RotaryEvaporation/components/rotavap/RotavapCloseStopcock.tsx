@@ -4,7 +4,7 @@ import { GroupProps, Object3DProps, Vector3, Vector3Props } from "@react-three/f
 import * as THREE from "three";
 
 export function RotavapCloseStopcock(props: GroupProps) {
-  const { scene, animations } = useGLTF("./2-close stopcock.glb");
+  const { scene, animations } = useGLTF("./7 close stopcock.glb");
   const clonedScene = scene.clone(); // Clone the scene for isolated use
   const { actions } = useAnimations(animations, clonedScene);
   // Function to play the animation
@@ -20,7 +20,7 @@ export function RotavapCloseStopcock(props: GroupProps) {
   };
 
   // Set position and scale for the hitbox
-  const hitboxPosition: Vector3 = [0, 5.2, 4.9]; // Replace x, y, z with the coordinates near the power button
+  const hitboxPosition: Vector3 = [0, 6.1, 4.9]; // Replace x, y, z with the coordinates near the power button
   const hitboxScale: Vector3 = [.6, .6, .6]; // Replace width, height, depth with appropriate dimensions
 
   return (
@@ -28,10 +28,10 @@ export function RotavapCloseStopcock(props: GroupProps) {
       <primitive object={clonedScene} scale={0.8} opacity={0.8} />
       {/* Invisible Box for Click Interactions */}
       <Box position={hitboxPosition} scale={hitboxScale} onClick={playAnimation}>
-        <meshStandardMaterial transparent opacity={0.0} /> {/* Invisible material */}
+        <meshStandardMaterial transparent opacity={0} /> {/* Invisible material */}
       </Box>
     </group>
   );
 }
 
-useGLTF.preload("./2-close stopcock.glb");
+useGLTF.preload("./7 close stopcock.glb");

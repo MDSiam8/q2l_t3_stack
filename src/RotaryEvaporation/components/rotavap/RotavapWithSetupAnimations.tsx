@@ -5,10 +5,10 @@ import * as THREE from "three";
 
 export function RotavapWithSetupAnimations(props: GroupProps) {
   const [currentAnimationIndex, setCurrentAnimationIndex] = useState(0);
-  const gltf1 = useGLTF("./4-install bump trap.glb");
-  const gltf2 = useGLTF("./5-insert keck clip (bump trap).glb");
-  const gltf3 = useGLTF("./6-install rb flask.glb");
-  const gltf4 = useGLTF("./7-install keck clip (rb).glb");
+  const gltf1 = useGLTF("./3 install bump trap.glb");
+  const gltf2 = useGLTF("./4 insert kect clip (bump trap).glb");
+  const gltf3 = useGLTF("./5 install rb flask.glb");
+  const gltf4 = useGLTF("./6 insert keck clip (rb).glb");
 
   const mixers = [
     useRef(new THREE.AnimationMixer(gltf1.scene)),
@@ -54,7 +54,7 @@ export function RotavapWithSetupAnimations(props: GroupProps) {
 }
 
 // Preload all animation files
-useGLTF.preload("./4-install bump trap.glb");
-useGLTF.preload("./5-insert keck clip (bump trap).glb");
-useGLTF.preload("./6-install rb flask.glb");
-useGLTF.preload("./7-install keck clip (rb).glb");
+useGLTF.preload("./3 install bump trap.glb");
+useGLTF.preload("./4 insert kect clip (bump trap).glb");
+useGLTF.preload("./5 install rb flask.glb");
+useGLTF.preload("./6 insert keck clip (rb).glb");

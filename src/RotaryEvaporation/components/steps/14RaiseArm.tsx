@@ -1,7 +1,7 @@
 import React, { useEffect, forwardRef } from "react";
 import { RotavapWithHeatBathAnim } from "../rotavap/RotavapWithHeatOnAnim";
 import { OrganicProductBeaker } from "../BeakerWithSolution";
-import { setNextEnabled } from "../Experience";
+import { setNextDisabled, setNextEnabled } from "../Experience";
 import { Html } from "next/document";
 import { HundredMLFlask } from "../round-bottom-flasks/100mlRBFlask";
 import { TwentyFiveMLFlask } from "../round-bottom-flasks/25mlRBFlask";
@@ -21,20 +21,19 @@ interface Step2LabTasksProps {
 const Step14RaiseArm = forwardRef<HTMLDivElement, Step2LabTasksProps>(
   ({ nextButtonRef }, ref) => {
     useEffect(() => {
-      // Enable the next button after 3 seconds
-      const timer = setTimeout(() => {
-        if (nextButtonRef && nextButtonRef.current) {
-          setNextEnabled(nextButtonRef);
-        }
-      }, 3000);
-
-      // Clear the timeout if the component unmounts
-      return () => clearTimeout(timer);
-    }, [nextButtonRef]);
+      // Disable the next button
+      setNextDisabled(nextButtonRef);
+    }, []);
 
     return (
       <group>
-        <RotavapRaiseArmAfterEvap position={[0, 5, 0]} scale={0.8} />
+        <RotavapRaiseArmAfterEvap position={[0, 5, 0]} scale={0.8} onClick={() => {
+          setTimeout(() => {
+            if (nextButtonRef && nextButtonRef.current) {
+              setNextEnabled(nextButtonRef);
+            }
+          }, 2000);
+        }}/>
         {/* <HundredMLFlask position={[2.2, 5, -2.2]} /> */}
       </group>
     );

@@ -1,7 +1,7 @@
-import React, { useEffect, forwardRef } from "react";
+import React, { useEffect, forwardRef, useRef } from "react";
 import { RotavapWithHeatBathAnim } from "../rotavap/RotavapWithHeatOnAnim";
 import { OrganicProductBeaker } from "../BeakerWithSolution";
-import { setNextEnabled } from "../Experience";
+import { setNextDisabled, setNextEnabled } from "../Experience";
 import { Html } from "next/document";
 import { HundredMLFlask } from "../round-bottom-flasks/100mlRBFlask";
 import { TwentyFiveMLFlask } from "../round-bottom-flasks/25mlRBFlask";
@@ -21,21 +21,33 @@ interface Step2LabTasksProps {
 
 const Step15TurnOff = forwardRef<HTMLDivElement, Step2LabTasksProps>(
   ({ nextButtonRef }, ref) => {
+    const countClick = useRef(0);
     useEffect(() => {
-      // Enable the next button after 3 seconds
-      const timer = setTimeout(() => {
-        if (nextButtonRef && nextButtonRef.current) {
-          setNextEnabled(nextButtonRef);
-        }
-      }, 3000);
+      // Disable the next button
+      setNextDisabled(nextButtonRef);
+    }, []);
 
-      // Clear the timeout if the component unmounts
-      return () => clearTimeout(timer);
+    useEffect(() => {
+      // Disable the next button
+      setNextDisabled(nextButtonRef);
     }, [nextButtonRef]);
 
     return (
       <group>
-        <RotavapTurnOff position={[0, 5, 0]} scale={0.8} />
+        <RotavapTurnOff
+          position={[0, 5, 0]}
+          scale={0.8}
+          onClick={() => {
+            countClick.current += 1;
+            if (countClick.current > 1) {
+              setTimeout(() => {
+                if (nextButtonRef && nextButtonRef.current) {
+                  setNextEnabled(nextButtonRef);
+                }
+              }, 3000);
+            }
+          }}
+        />
         {/* <HundredMLFlask position={[2.2, 5, -2.2]} /> */}
       </group>
     );

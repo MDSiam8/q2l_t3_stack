@@ -88,7 +88,7 @@ const TwelvthStepComponent = forwardRef<THREE.Group, TwelvthStepComponentProps>(
               setNextEnabled(nextButtonRef);
             }
           }}
-          imageUrl="https://media.discordapp.net/attachments/773313587141672961/1173949610700578936/Screenshot_2023-11-14_060341.png?ex=6565d0c6&is=65535bc6&hm=a242149e5db348711ecbbc3fbc33965267783aca17c0f3914d5dd1aff0c01ae1&=&width=273&height=102"
+          imageUrl="balanceData.png"
         />
       </group>
       </group>
