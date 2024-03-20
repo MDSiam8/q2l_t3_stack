@@ -27,6 +27,8 @@ import FinishedStepComponent from "./steps/FinishedStepComponent";
 import { Canvas, useFrame, useThree } from "@react-three/fiber";
 import { CameraAdjuster } from "./CameraAdjuster";
 import { Camera, Vector3 } from "three";
+import { api } from '~/utils/api'
+import { useUser } from "@clerk/nextjs";
 
 // Interface for the structure of each step in state.json
 interface Step {
@@ -98,7 +100,13 @@ export default function Experience() {
   const cameraControlsRef = useRef<Camera>(null);
   const [nextButtonTempDisabled, setNextButtonTempDisabled] = useState(false);
   
-  const handleNextStep = () => {
+  // const { user } = useUser();
+  // const mutation = api.logger.create.useMutation()
+  // const mutation = api.logger.create.useMutation()
+
+
+  // const { mutate, isLoading, error } = api.logger.create.useMutation()
+  const handleNextStep = async () => {
     if (currentStep < Object.keys(state).length) {
       setCurrentStep(currentStep + 1);
       setNextDisabled(nextButtonRef);
@@ -106,7 +114,19 @@ export default function Experience() {
       // setTimeout(() => {
       //   setNextButtonTempDisabled(false);
       // }, 2000);
+      
     }
+    // const userName = user?.fullName || "unknown"
+    // const input = {user: userName, activity: `Analytical Balance changed to Step ${currentStep + 1}`}
+    // const url = 'https://magicloops.dev/api/loop/run/7d23dbac-e54a-4ce6-9e92-f3ef4c8ab23e';
+
+    //   // const response = await fetch(url, {
+    //   fetch(url, {
+    //     method: 'POST',
+    //     body: JSON.stringify({ input: JSON.stringify(input) }),
+    //   });
+    // mutation.mutate({user: userName, activity: `Analytical Balance changed to Step ${currentStep + 1}`});
+    // mutate({user: userName, activity: `Analytical Balance changed to Step ${currentStep + 1}`});
   };
 
   const handleReplayAnimation = () => {
