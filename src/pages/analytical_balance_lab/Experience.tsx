@@ -7,26 +7,26 @@ import {
   OrbitControls,
   PerspectiveCamera,
 } from "@react-three/drei";
-import FirstStepComponent from "./steps/FirstStepComponent";
-import SecondStepComponent from "./steps/SecondStepComponent";
-import FourthStepComponent from "./steps/FourthStepComponent";
-import Table from "./Table";
+import FirstStepComponent from "~/AnalyticalBalanceLab/components/steps/FirstStepComponent";
+import SecondStepComponent from "~/AnalyticalBalanceLab/components/steps/SecondStepComponent";
+import FourthStepComponent from "~/AnalyticalBalanceLab/components/steps/FourthStepComponent";
+import Table from "~/AnalyticalBalanceLab/components/Table";
 // ...other necessary imports...
 
-import state from "./state.json";
-import InventorySystem from "./InventorySystem";
-import ThirdStepComponent from "./steps/ThirdStepComponent";
-import FifthStepComponent from "./steps/FifthStepComponent";
-import SixthStepComponent from "./steps/SixthStepComponent";
-import SeventhStepComponent from "./steps/SeventhStepComponent";
-import EightStepComponent from "./steps/EightStepComponent";
-import NinthStepComponent from "./steps/NinthStepComponent";
-import TenthStepComponent from "./steps/TenthStepComponent";
-import EleventhStepComponent from "./steps/EleventhStepComponent";
-import TwelvthStepComponent from "./steps/TwelvthStepComponent";
-import FinishedStepComponent from "./steps/FinishedStepComponent";
+import state from "~/AnalyticalBalanceLab/components/state.json";
+import InventorySystem from "~/AnalyticalBalanceLab/components/InventorySystem";
+import ThirdStepComponent from "~/AnalyticalBalanceLab/components/steps/ThirdStepComponent";
+import FifthStepComponent from "~/AnalyticalBalanceLab/components/steps/FifthStepComponent";
+import SixthStepComponent from "~/AnalyticalBalanceLab/components/steps/SixthStepComponent";
+import SeventhStepComponent from "~/AnalyticalBalanceLab/components/steps/SeventhStepComponent";
+import EightStepComponent from "~/AnalyticalBalanceLab/components/steps/EightStepComponent";
+import NinthStepComponent from "~/AnalyticalBalanceLab/components/steps/NinthStepComponent";
+import TenthStepComponent from "~/AnalyticalBalanceLab/components/steps/TenthStepComponent";
+import EleventhStepComponent from "~/AnalyticalBalanceLab/components/steps/EleventhStepComponent";
+import TwelvthStepComponent from "~/AnalyticalBalanceLab/components/steps/TwelvthStepComponent";
+import FinishedStepComponent from "~/AnalyticalBalanceLab/components/steps/FinishedStepComponent";
 import { Canvas, useFrame, useThree } from "@react-three/fiber";
-import { CameraAdjuster } from "./CameraAdjuster";
+import { CameraAdjuster } from "~/AnalyticalBalanceLab/components/CameraAdjuster";
 import { Camera, Vector3 } from "three";
 import { api } from '~/utils/api'
 import { useUser } from "@clerk/nextjs";
@@ -89,7 +89,13 @@ export const setNextEnabled = (nextButtonRef : React.RefObject<HTMLButtonElement
     nextButtonRef.current.className = getClassNameForNext(false);
   }
 }
-export default function Experience() {
+
+interface ExperienceProps {
+  logActivity: (activity: string) => void;
+}
+
+const Experience: React.FC<ExperienceProps> = ({ logActivity }) => {
+
   const [currentStep, setCurrentStep] = useState<number>(1);
   const key = currentStep.toString() as StateKey;
   const stepData = state[key]; // Safe indexing
@@ -100,12 +106,10 @@ export default function Experience() {
 
   const cameraControlsRef = useRef<Camera>(null);
   const [nextButtonTempDisabled, setNextButtonTempDisabled] = useState(false);
+
+
+  //const { user } = useUser();
   
-  // const mutation = api.logger.create.useMutation()
-  // const mutation = api.logger.create.useMutation()
-
-
-  // const { mutate } = api.logger.create.useMutation()
   const handleNextStep = async () => {
     if (currentStep < Object.keys(state).length) {
       setCurrentStep(currentStep + 1);
@@ -114,19 +118,10 @@ export default function Experience() {
       // setTimeout(() => {
       //   setNextButtonTempDisabled(false);
       // }, 2000);
-      
-    }
-    // const userName = user?.fullName || "unknown"
-    // const input = {user: userName, activity: `Analytical Balance changed to Step ${currentStep + 1}`}
-    // const url = 'https://magicloops.dev/api/loop/run/7d23dbac-e54a-4ce6-9e92-f3ef4c8ab23e';
 
-    //   // const response = await fetch(url, {
-    //   fetch(url, {
-    //     method: 'POST',
-    //     body: JSON.stringify({ input: JSON.stringify(input) }),
-    //   });
-    // mutation.mutate({user: userName, activity: `Analytical Balance changed to Step ${currentStep + 1}`});
-    // mutate({user: userName, activity: `Analytical Balance changed to Step ${currentStep + 1}`});
+      //const userName = user?.fullName || "unknown"
+      logActivity(`Switched to step: ${currentStep + 1}`)
+    }
   };
 
   const handleReplayAnimation = () => {
@@ -293,3 +288,5 @@ export default function Experience() {
     </Suspense>
   );
 }
+
+export default Experience
