@@ -1,3 +1,5 @@
+import { GroupProps } from "@react-three/fiber";
+import { Group } from "three";
 import { AnalyticalBalanceModelRef } from "~/Models/AnalyticalBalanceModel";
 
 // types.ts
@@ -23,6 +25,10 @@ export interface ActionWithHitbox {
   // performAction: () => void;
   actionName: ActionName;
   hitbox: Hitbox;
+  timeline?: { // have an optional timeline as well?
+    defaults: { [key: string]: any };
+    sequence: AnimationSequence[];
+  };
 }
 
 // Define the structure for animation sequence steps in a timeline
@@ -78,6 +84,7 @@ type LabModelProps = AnalyticalBalanceModelProps | MicroscopeModelProps | Centri
 export interface LabObject {
   name: string;
   model: any; // Adjust based on your 3D model's type
+  // model: THREE.Mesh; // Adjust based on your 3D model's type
   actions: Action[]; // Updated to reflect the new actions structure
   modelProps: LabModelProps; // Use the generic type parameter
 }

@@ -6,25 +6,28 @@ import React, {
 } from "react";
 import { useGLTF, useAnimations } from "@react-three/drei";
 import * as THREE from "three";
-import { ActionName, ModelProps } from "~/utils/types/types";
+import { ActionName, ModelProps, AnalyticalBalanceModelProps } from "~/utils/types/types";
 // import { GLTF } from 'three/examples/jsm/loaders/GLTFLoader';
 // import { GLTFLoader } from 'three';
 
 
-interface AnalyticalBalanceModelProps extends ModelProps {
-  isOpen: boolean;
-  // Add any additional properties specific to AnalyticalBalanceModelProps here
-}
+// interface AnalyticalBalanceModelProps extends ModelProps {
+//   isOpen: boolean;
+//   // Add any additional properties specific to AnalyticalBalanceModelProps here
+// }
 
 // export interface BalanceWithAnimationsRef {
 //   replayAnimation: () => Promise<void>;
 //   updateBalanceReading: (weight: number) => void; // Assuming it's a function that takes a number
 // }
 
-export interface AnalyticalBalanceModelRef {
+
+export interface AnalyticalBalanceModelRef extends THREE.Object3D {
   performAction: (actionName: ActionName) => Promise<void>; // Added a placeholder actionName parameter and return type
   replayAnimation: () => Promise<void>;
   updateBalanceReading: (weight: number) => void;
+  // position: (position: [number, number, number]) => void;
+  // position: () => [number, number, number];
 }
 
 const modelPath = "./balanceUpdated.gltf";
@@ -109,6 +112,8 @@ export const AnalyticalBalanceModel = forwardRef<
     performAction: performAction,
     replayAnimation: handleReplayAnimation,
     updateBalanceReading,
+    ...balance.scene,
+    ...balanceReadingRef.current
   }));
 
   // const { startingPosition, ...restOfProps } = props;

@@ -8,6 +8,7 @@ import { AnalyticalBalanceModel } from "~/Models/AnalyticalBalanceModel";
 import { SampleBottleModel } from "~/Models/SampleBottleModel";
 import FirstStepComponent from "~/AnalyticalBalanceLab/components/steps/FirstStepComponent";
 
+
 export const AnalyticalBalanceLabSchema: LabSchema = [
   {
     stepTitle: "Lab Objectives",
@@ -21,15 +22,24 @@ export const AnalyticalBalanceLabSchema: LabSchema = [
         model: AnalyticalBalanceModel,
         actions: [
           {
-            actionName: "open",
+            // actionName: "open",
+            actionName: "move",
             hitbox: {
               position: [0, 0, 0],
               scale: 3,
             },
+            timeline: {
+              defaults: {},
+              sequence: [
+                { props: { y: "+=4", duration: 1 } },
+                { props: { x: "+=.2", z: "-=2.6", duration: 1 } }, // Move right
+              ],
+            },
           },
+          
         ],
         modelProps: {
-          startingPosition: [1, 0, 0],
+          startingPosition: [2, 0, 0],
           isOpen: false,
           scale: 1.3,
           opacity: 0.8,
@@ -74,20 +84,20 @@ export const AnalyticalBalanceLabSchema: LabSchema = [
           },
         ],
         modelProps: {
-          startingPosition: [1, 3, 0],
+          startingPosition: [3, 3, 0],
           scale: 1.3,
           opacity: 0.8,
           rotation: [0, (3.14 / 180) * 90, 0], // Example rotation
         },
       },
       {
-        name: "Sample Bottle",
-        model: SampleBottleModel,
+        name: "Analytical Balance",
+        model: AnalyticalBalanceModel,
         actions: [
           {
             actionName: "move",
             timeline: {
-              defaults: {},
+              defaults: { delay: 0 },
               sequence: [
                 { props: { y: "+=4", duration: 1 } },
                 { props: { x: "+=.2", z: "-=2.6", duration: 1 } }, // Move right
@@ -96,7 +106,8 @@ export const AnalyticalBalanceLabSchema: LabSchema = [
           },
         ],
         modelProps: {
-          startingPosition: [1, 3, 0],
+          startingPosition: [2, 0, 0],
+          isOpen: false,
           scale: 1.3,
           opacity: 0.8,
           rotation: [0, (3.14 / 180) * 90, 0], // Example rotation
