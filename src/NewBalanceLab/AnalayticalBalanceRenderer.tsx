@@ -9,11 +9,9 @@ import {
 } from "@react-three/drei";
 import { AnalyticalBalanceLabSchema } from "./AnalyticalBalanceLabSchema";
 import {
-  ActionWithHitbox,
-  ActionWithTimeline,
   InteractiveElement,
   LabObject,
-  Action,
+  Action
 } from "~/utils/types/types";
 import { preload } from "react-dom";
 import THREE, { Camera } from "three";
@@ -22,31 +20,15 @@ import gsap from "gsap";
 
 const modelPath = "./sample bottle body.gltf";
 
-function isActionWithHitbox(action: Action): action is ActionWithHitbox {
-  return "hitbox" in action;
-}
+// function isActionWithHitbox(action: Action): action is Action {
+//   return "hitbox" in action;
+// }
 
-function isActionWithTimeline(action: Action): action is ActionWithTimeline {
-  return "timeline" in action;
-}
+// function isActionWithTimeline(action: Action): action is ActionWithTimeline {
+//   return "timeline" in action;
+// }
 
-// Function to initialize animations
-const initializeAnimations = (actions: any[]) => {
-  actions.forEach((action) => {
-    const tl = gsap.timeline(action.timeline.defaults);
-    action.timeline.sequence.forEach(
-      (seq: {
-        target: gsap.TweenTarget;
-        animation: gsap.TweenVars;
-        position: gsap.Position | undefined;
-      }) => {
-        tl.to(seq.target, seq.animation, seq.position);
-      },
-    );
 
-    // Optionally store or return the timeline if you need to control it later
-  });
-};
 export default function Experience() {
   const [currentStepIndex, setCurrentStepIndex] = useState(0);
   const currentStep = AnalyticalBalanceLabSchema[currentStepIndex];
@@ -58,115 +40,6 @@ export default function Experience() {
   };
 
   // Placeholder for a function that renders 3D objects based on type or properties
-
-  type ModelRendererProps = {
-    object: LabObject;
-    index: React.Key;
-  };
-  const ModelRenderer: React.FC<ModelRendererProps> = ({ object }) => {
-    const modelRef = useRef<THREE.Mesh>(null);
-
-    const handleClick = () => {
-      if (
-        modelRef.current &&
-        "performAction" in modelRef.current &&
-        object.actions?.[0]
-      ) {
-        console.log("modelRef.current position ", modelRef.current.position);
-
-        // Special condition if it is move animation
-        if (object.actions[0].actionName === "move") {
-          const innerModelRef = modelRef.current;
-          console.log("current model ref", innerModelRef);
-          console.log("modelRef", modelRef);
-          console.log("modelRef position", modelRef.current.position);
-          // console.log
-          // Add timeline here?
-          if (modelRef.current) {
-            // const tl = gsap.timeline({ delay: 0 });
-            // tl.to(modelRef.current.position, { y: "+=4", duration: 1 }).to(
-            //   modelRef.current.position,
-            //   { x: "+=.2", z: "-=2.6", duration: 1 },
-            // );
-            console.log(object.actions[0].timeline);
-            const tl = gsap.timeline(object.actions[0].timeline.defaults);
-            const animations = object.actions[0].timeline.sequence
-            animations.forEach(animation => {
-              tl.to(modelRef.current.position, animation.props);
-            });
-            // const tl = gsap.timeline({ delay: 0 });
-            // tl.to(modelRef.current.position, { y: "+=4", duration: 1 }).to(
-            //   modelRef.current.position,
-            //   { x: "+=.2", z: "-=2.6", duration: 1 },
-            // );
-          }
-        }
-        // Otherwise, let it do its custom animation
-        else {
-          (modelRef.current as any).performAction(object.actions[0].actionName);
-        }
-      }
-    };
-
-    useEffect(() => {
-      if (
-        object.actions?.[0] &&
-        isActionWithTimeline(object.actions[0]) &&
-        modelRef.current
-      ) {
-        // const timeline = gsap.timeline({ delay: 1 });
-        // const animations = [
-        //   {
-        //     target: modelRef.current.position,
-        //     params: { y: "+=4", duration: 1 }
-        //   },
-        //   {
-        //     target: modelRef.current.position,
-        //     params: { x: "+=.2", z: "-=2.6", duration: 1 }
-        //   }
-        // ];
-
-        // const tl = gsap.timeline(object.actions[0].timeline.defaults);
-        // const animations = object.actions[0].timeline.sequence;
-        // animations.forEach((animation) => {
-        //   tl.to(modelRef.current.position, animation.props);
-        // });
-
-        // timeline
-        //   .to(modelRef.current.position, { y: "+=4", duration: 1 })
-        //   .to(modelRef.current.position, {
-        //     x: "+=.2",
-        //     z: "-=2.6",
-        //     duration: 1,
-        //   });
-      }
-    }, [object.actions]);
-
-    return (
-      <>
-        {object.actions?.[0] && isActionWithHitbox(object.actions[0]) ? (
-          <>
-            <Box
-              position={object.actions[0].hitbox.position}
-              scale={object.actions[0].hitbox.scale}
-              onClick={handleClick}
-            >
-              <meshStandardMaterial />
-            </Box>
-            <object.model ref={modelRef} {...object.modelProps} />
-            {/* <group ref={modelRef}>
-              <object.model {...object.modelProps} />
-            </group> */}
-          </>
-        ) : (
-          <object.model ref={modelRef} {...object.modelProps} />
-        )}
-      </>
-    );
-    // <group ref={modelRef}>
-    //   <object.model {...object.modelProps} />
-    // </group>
-  };
 
   // export default ModelRenderer;
 
@@ -185,17 +58,6 @@ export default function Experience() {
     }
   }
 
-  // const {actions} = useAnimations(animations, clonedScene)
-  // const playAnimation = () => {
-  //   const animationName = "Animation"; // Replace with your actual animation name
-  //   const action = actions[animationName];
-  //   if (action) {
-  //     action.reset().play();
-  //     action.setEffectiveTimeScale(0.75); // Slowing down the animation to 75% of its original speed
-  //     action.setLoop(THREE.LoopOnce, 1); // Setting the animation to play only once
-  //     action.clampWhenFinished = true; // Clamp the animation at the end state
-  //   }
-  // };
   return (
     <div style={{ height: "100vh" }}>
       <Canvas
@@ -211,15 +73,6 @@ export default function Experience() {
         <directionalLight position={[0, 6, 0]} intensity={1} />
 
         {/* Render 3D models */}
-        {/* {!currentStep?.customStep &&
-          currentStep?.objectsInFocus.map(
-            (object: ObjectInFocus, index: React.Key | null | undefined) => (
-              <React.Fragment key={index}>
-                {renderModel(object, index)}
-              </React.Fragment>
-            ),
-          )} */}
-
         {!currentStep?.customStep &&
           currentStep?.labObjects.map((object, index) => (
             <React.Fragment key={index}>
@@ -227,14 +80,9 @@ export default function Experience() {
             </React.Fragment>
           ))}
 
-        {currentStep?.customStep && <currentStep.customStep />}
         {/* // Check for custom step */}
-        {/* if (currentStep?.customStep) {
-    console.log("custom step!", currentStep?.customStep)
-    const CustomStepComponent = currentStep.customStep;
-    // Ensure CustomStepComponent is a valid React element
-    return <CustomStepComponent />;
-  } */}
+        {currentStep?.customStep && <currentStep.customStep />}
+     
         {/* Render other interactive elements */}
         {currentStep?.interactiveElements?.map(
           (
@@ -298,5 +146,116 @@ export default function Experience() {
     </div>
   );
 }
+
+type ModelRendererProps = {
+  object: LabObject;
+  index: React.Key;
+};
+
+const ModelRenderer: React.FC<ModelRendererProps> = ({ object }) => {
+  const modelRef = useRef<THREE.Mesh>(null);
+
+  const handleClick = () => {
+    if (
+      modelRef.current &&
+      "performAction" in modelRef.current &&
+      object.actions?.[0]
+    ) {
+      console.log("modelRef.current position ", modelRef.current.position);
+
+      // Special condition if it is move animation
+      if (object.actions[0].actionName === "move") {
+        const innerModelRef = modelRef.current;
+        console.log("current model ref", innerModelRef);
+        console.log("modelRef", modelRef);
+        console.log("modelRef position", modelRef.current.position);
+        // console.log
+        // Add timeline here?
+        if (modelRef.current) {
+          // const tl = gsap.timeline({ delay: 0 });
+          // tl.to(modelRef.current.position, { y: "+=4", duration: 1 }).to(
+          //   modelRef.current.position,
+          //   { x: "+=.2", z: "-=2.6", duration: 1 },
+          // );
+          console.log(object.actions[0].timeline);
+          const tl = gsap.timeline(object.actions[0].timeline.defaults);
+          const animations = object.actions[0].timeline.sequence
+          animations.forEach(animation => {
+            tl.to(modelRef.current.position, animation.props);
+          });
+          // const tl = gsap.timeline({ delay: 0 });
+          // tl.to(modelRef.current.position, { y: "+=4", duration: 1 }).to(
+          //   modelRef.current.position,
+          //   { x: "+=.2", z: "-=2.6", duration: 1 },
+          // );
+        }
+      }
+      // Otherwise, let it do its custom animation
+      else {
+        (modelRef.current as any).performAction(object.actions[0].actionName);
+      }
+    }
+  };
+
+  useEffect(() => {
+    if (
+      object.actions?.[0] &&
+      // isActionWithTimeline(object.actions[0]) &&
+      modelRef.current &&
+      object.actions?.[0].auto
+    ) {
+      // const timeline = gsap.timeline({ delay: 1 });
+      // const animations = [
+      //   {
+      //     target: modelRef.current.position,
+      //     params: { y: "+=4", duration: 1 }
+      //   },
+      //   {
+      //     target: modelRef.current.position,
+      //     params: { x: "+=.2", z: "-=2.6", duration: 1 }
+      //   }
+      // ];
+
+      const tl = gsap.timeline(object.actions[0].timeline.defaults);
+      const animations = object.actions[0].timeline.sequence;
+      animations.forEach((animation) => {
+        tl.to(modelRef.current.position, animation.props);
+      });
+
+      // timeline
+      //   .to(modelRef.current.position, { y: "+=4", duration: 1 })
+      //   .to(modelRef.current.position, {
+      //     x: "+=.2",
+      //     z: "-=2.6",
+      //     duration: 1,
+      //   });
+    }
+  }, [object.actions]);
+
+  return (
+    <>
+      {(object.actions?.[0] && !object.actions[0].auto) ? (
+        <>
+          <Box
+            position={object.actions[0].hitbox?.position ?? [0, 0, 0]}
+            scale={object.actions[0].hitbox?.scale ?? [1, 1, 1]}
+            onClick={handleClick}
+          >
+            <meshStandardMaterial />
+          </Box>
+          <object.model ref={modelRef} {...object.modelProps} />
+          {/* <group ref={modelRef}>
+            <object.model {...object.modelProps} />
+          </group> */}
+        </>
+      ) : (
+        <object.model ref={modelRef} {...object.modelProps} />
+      )}
+    </>
+  );
+  // <group ref={modelRef}>
+  //   <object.model {...object.modelProps} />
+  // </group>
+};
 
 useGLTF.preload(modelPath);

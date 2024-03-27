@@ -1,6 +1,5 @@
 import { GroupProps } from "@react-three/fiber";
 import { Group } from "three";
-import { AnalyticalBalanceModelRef } from "~/Models/AnalyticalBalanceModel";
 
 // types.ts
 export interface Position {
@@ -21,14 +20,27 @@ interface Hitbox {
 
 export type ActionName = "open" | "close" | "move"
 
-export interface ActionWithHitbox {
+// export interface ActionWithHitbox {
+//   // performAction: () => void;
+//   actionName: ActionName;
+//   hitbox: Hitbox;
+//   timeline?: { // have an optional timeline as well?
+//     defaults: { [key: string]: any };
+//     sequence: AnimationSequence[];
+//   };
+//   auto: boolean; // Should the animation play automatically on page load?
+// }
+
+export interface Action {
   // performAction: () => void;
   actionName: ActionName;
-  hitbox: Hitbox;
+  hitbox?: Hitbox;
   timeline?: { // have an optional timeline as well?
     defaults: { [key: string]: any };
     sequence: AnimationSequence[];
   };
+  auto: boolean; // Should the animation play automatically on page load?
+  // If false, then it will play onClick of the hitbox
 }
 
 // Define the structure for animation sequence steps in a timeline
@@ -38,16 +50,20 @@ interface AnimationSequence {
 }
 
 // Define the structure for actions with a timeline
-export interface ActionWithTimeline {
-  actionName: ActionName;
-  timeline: {
-    defaults: { [key: string]: any };
-    sequence: AnimationSequence[];
-  };
-}
+// export interface ActionWithTimeline {
+//   actionName: ActionName;
+//   timeline: {
+//     defaults: { [key: string]: any };
+//     sequence: AnimationSequence[];
+//   };
+//   auto: boolean;
+// }
 
 // Union type for actions
-export type Action = ActionWithHitbox | ActionWithTimeline;
+// export type Action = Actions;
+// export type Action = Actions | ActionWithTimeline;
+
+
 
 export interface ModelProps {
   startingPosition:[number, number, number];

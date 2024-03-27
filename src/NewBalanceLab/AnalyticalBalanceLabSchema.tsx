@@ -35,6 +35,7 @@ export const AnalyticalBalanceLabSchema: LabSchema = [
                 { props: { x: "+=.2", z: "-=2.6", duration: 1 } }, // Move right
               ],
             },
+            auto: false
           },
           
         ],
@@ -81,6 +82,7 @@ export const AnalyticalBalanceLabSchema: LabSchema = [
                 { props: { x: "+=.2", z: "-=2.6", duration: 1 } }, // Move right
               ],
             },
+            auto: true
           },
         ],
         modelProps: {
@@ -103,6 +105,7 @@ export const AnalyticalBalanceLabSchema: LabSchema = [
                 { props: { x: "+=.2", z: "-=2.6", duration: 1 } }, // Move right
               ],
             },
+            auto: true
           },
         ],
         modelProps: {
