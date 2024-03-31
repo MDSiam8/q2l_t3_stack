@@ -15,29 +15,6 @@ export const labRouter = createTRPCRouter({
             });
             return lab
     }),
-    getAllLabsByUserId: publicProcedure
-        .input(z.object({ userId: z.string() }))
-        .query(async ({ input, ctx }) => {
-            const labs = await ctx.db.lab.findMany({
-                where: {
-                    userId: input.userId
-                }
-            })
-            return labs;
-    }),
-    getLatestLabByUserId: publicProcedure
-        .input(z.object({ userId: z.string() }))
-        .query(async ({ input, ctx }) => {
-            const lab = await ctx.db.lab.findFirst({
-                where: {
-                    userId: input.userId
-                },
-                orderBy: {
-                    createdAt: "desc"
-                }
-            })
-            return lab;
-    }),
     getLabById: publicProcedure
         .input(z.object({ id: z.string() }))
         .query(async ({ input, ctx }) => {

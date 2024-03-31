@@ -3,6 +3,7 @@ import { createTRPCRouter, publicProcedure } from '~/server/api/trpc'
 
 
 export const userRouter = createTRPCRouter({
+
     userCreate: publicProcedure //endpoint
         .input(z.object({ name: z.string() }))
         .mutation(async ({ input, ctx }) => {
@@ -14,6 +15,31 @@ export const userRouter = createTRPCRouter({
             return user
         }),
 
+    updateName: publicProcedure
+        .input(z.object({ id: z.string(), name: z.string() }))
+        .mutation(async ({ input, ctx }) => {
+            const user = await ctx.db.user.update({
+                where: {
+                    id: input.id
+                },
+                data: {
+                    name: input.name
+                }
+            })
+            return user
+        }),
+
+    userDelete: publicProcedure
+        .input(z.object({ id: z.string() }))
+        .mutation(async ({ input, ctx }) => {
+            const user = await ctx.db.user.delete({
+                where: {
+                    id: input.id
+                }
+            })
+            return user
+        }),
+        
     getUserId: publicProcedure
         .input(z.object({ name: z.string() }))
         .query(async ({ input, ctx }) => {
@@ -26,5 +52,30 @@ export const userRouter = createTRPCRouter({
                 }
             })
             return user
-        })
+        }),
+
+    getAllLabs: publicProcedure
+        .input(z.object({ userId: z.string() }))
+        .query(async ({ input, ctx }) => {
+            const labs = await ctx.db.lab.findMany({
+                where: {
+                    userId: input.userId
+                }
+            })
+            return labs;
+        }),
+
+    getLatestLab: publicProcedure
+        .input(z.object({ userId: z.string() }))
+        .query(async ({ input, ctx }) => {
+            const lab = await ctx.db.lab.findFirst({
+                where: {
+                    userId: input.userId
+                },
+                orderBy: {
+                    createdAt: "desc"
+                }
+            })
+            return lab;
+        }),
 })

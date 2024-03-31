@@ -7,11 +7,11 @@ export default function Test() {
     const { mutate: createLab } = api.lab.createLab.useMutation();
     const { mutate: completeLab } = api.lab.markLabAsComplete.useMutation();
     // mutate({ name: "Lab1", userId: "1"});
-    const { data } = api.lab.getAllLabsByUserId.useQuery({ userId: "1" });
-    const { data: latestLab } = api.lab.getLatestLabByUserId.useQuery({ userId: "1" });
+    // const { data } = api.lab.getAllLabsByUserId.useQuery({ userId: "1" });
+    // const { data: latestLab } = api.lab.getLatestLabByUserId.useQuery({ userId: "1" });
     const { mutate: updateLab } = api.lab.updateLabProgress.useMutation();
     const { mutate: deleteLab } = api.lab.deleteLab.useMutation();
-    //console.log(data);
+    // console.log(data);
     // const handleClick = () => {
     //     createLab({ name: "new lab", userId: "1" });
     // }
@@ -46,14 +46,14 @@ export default function Test() {
             <div>
                 All Labs:
             </div>
-            <ul>
+            {/* <ul>
                 {data?.map((lab) => (
                     <li key={lab.id}>{lab.name}</li>
                 ))}
             </ul>
             <div>
                 Newest addition: {latestLab?.name}
-            </div>
+            </div> */}
         </div>
     )
 }
