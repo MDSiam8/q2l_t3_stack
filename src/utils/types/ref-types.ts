@@ -16,3 +16,7 @@ export interface AnalyticalBalanceModelRef extends BaseModelRef {
 export interface SampleBottleModelRef extends BaseModelRef {
     // No additional functionality needed
 }
+
+export interface BeakerRef extends BaseModelRef {
+  
+}

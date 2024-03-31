@@ -19,9 +19,7 @@ export const SampleBottleModel = forwardRef<SampleBottleModelRef, ModelProps>((p
   
 
   useImperativeHandle(ref, () => ({
-    performAction,
-    replayAnimation,
-    // ...bottle.scene,
+    ...bottle.scene,
     ...bottleRef.current
     // You can add more methods here as needed
   }));
@@ -29,7 +27,7 @@ export const SampleBottleModel = forwardRef<SampleBottleModelRef, ModelProps>((p
   // Assuming ModelProps includes properties like scale, opacity, and rotation
   // We need to transform these props into a format suitable for <primitive>
   // Note: 'opacity' might not directly apply to <primitive>, it typically applies to materials
-  return <primitive object={scene} {...props} />;
+  return <primitive object={bottle.scene} {...props} />;
   // scale={1.3}
   // opacity={0.8}
   // rotation={[0, (3.14 / 180) * 90, 0]}/>;

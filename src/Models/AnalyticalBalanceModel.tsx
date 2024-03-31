@@ -62,6 +62,7 @@ export const AnalyticalBalanceModel = forwardRef<
   };
 
 
+  //abstracting this function may require forward ref again
   const performAction: AnalyticalBalanceModelRef["performAction"] = async (
     actionName: ActionName,
   ) => {

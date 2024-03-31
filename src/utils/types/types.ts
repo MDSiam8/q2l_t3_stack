@@ -94,8 +94,17 @@ export interface CentrifugeModelProps extends ModelProps {
 export interface SampleBottleModelProps extends ModelProps {
 }
 
+export interface BeakerProps extends ModelProps {
+
+}
+
 // Define a union of all specific ModelProps types
-type LabModelProps = AnalyticalBalanceModelProps | MicroscopeModelProps | CentrifugeModelProps | SampleBottleModelProps ;
+type LabModelProps = AnalyticalBalanceModelProps | MicroscopeModelProps | CentrifugeModelProps | SampleBottleModelProps | BeakerProps;
+
+
+export interface RendererProps {
+  schema: LabSchema;
+}
 
 export interface LabObject {
   name: string;
