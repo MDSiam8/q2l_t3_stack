@@ -37,7 +37,7 @@ const tailwindConfig: Config = {
       },
     },
   },
-  plugins: [],
+  plugins: [require('@tailwindcss/forms'), require('@tailwindcss/aspect-ratio')],
 };
 
 export default tailwindConfig;
