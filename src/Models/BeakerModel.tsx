@@ -3,6 +3,7 @@ import { forwardRef, useImperativeHandle, useRef } from "react";
 import { Props } from "~/BaseComponents";
 import { BeakerRef } from "~/utils/types/ref-types";
 import { ActionName, BeakerProps } from "~/utils/types/types";
+import performAction from "./model-utils";
 import * as THREE from 'three'
 
 const modelPath = "./Beaker.gltf";
@@ -20,23 +21,25 @@ export const BeakerModel = forwardRef<BeakerRef, BeakerProps>(
       if (animationAction.current) {
         await animationAction.current.reset().fadeIn(0.5).play();
         animationAction.current.clampWhenFinished = true;
-      }
+      }  
     };
 
-    const performAction: BeakerRef["performAction"] = async (
-      actionName: ActionName,
-    ) => {
-        const action = animations.actions
-        ? animations.actions[actionName]
-        : null;
-      if (action) {
-        animationAction.current = action;
-        animationAction.current.setLoop(THREE.LoopOnce, 1);
-        animationAction.current.clampWhenFinished = true;
-      }
-      // Make sure to return a promise, for actions that do not inherently return one, wrap in Promise.resolve()
-      return Promise.resolve();
-    };
+    // const performAction: BeakerRef["performAction"] = async (
+    //   actionName: ActionName,
+    // ) => {
+    //     const action = animations.actions
+    //     ? animations.actions[actionName]
+    //     : null;
+    //   if (action) {
+    //     animationAction.current = action;
+    //     animationAction.current.setLoop(THREE.LoopOnce, 1);
+    //     animationAction.current.clampWhenFinished = true;
+    //   }
+    //   // Make sure to return a promise, for actions that do not inherently return one, wrap in Promise.resolve()
+    //   return Promise.resolve();
+    // };
+
+    performAction({beaker.animation, beaker.scene, animationAction}, )
 
     useImperativeHandle(ref, () => ({
       performAction: performAction,
