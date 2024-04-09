@@ -16,7 +16,7 @@
     "@headlessui/react": "^1.7.17",
     "@heroicons/react": "^2.1.1",
     "@prisma/client": "^5.5.2",
-    "@react-three/drei": "^9.88.11",
+    "@react-three/drei": "^9.105.2",
     "@react-three/fiber": "^8.15.10",
     "@t3-oss/env-nextjs": "^0.7.1",
     "@tailwindcss/aspect-ratio": "^0.4.2",
