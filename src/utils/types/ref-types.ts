@@ -1,4 +1,4 @@
-import { ActionName } from "./types";
+import { ActionName } from "./types"
 
 export interface BaseModelRef extends THREE.Object3D {
   performAction: (actionName: ActionName) => Promise<void>; // Added a placeholder actionName parameter and return type

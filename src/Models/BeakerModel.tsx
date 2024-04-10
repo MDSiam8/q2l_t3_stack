@@ -3,7 +3,7 @@ import { forwardRef, useImperativeHandle, useRef } from "react";
 import { Props } from "~/BaseComponents";
 import { BeakerRef } from "~/utils/types/ref-types";
 import { ActionName, BeakerProps } from "~/utils/types/types";
-import performAction from "./model-utils";
+import createActionPerformer from "./model-utils";
 import * as THREE from 'three'
 
 const modelPath = "./Beaker.gltf";
@@ -39,10 +39,11 @@ export const BeakerModel = forwardRef<BeakerRef, BeakerProps>(
     //   return Promise.resolve();
     // };
 
-    performAction({beaker.animation, beaker.scene, animationAction}, )
+    //basically need to wrap the function to change the signature
+    const actionPerformer = createActionPerformer({animations: beaker.animations, scene: beaker.scene, animationAction})
 
     useImperativeHandle(ref, () => ({
-      performAction: performAction,
+      performAction: actionPerformer,
       replayAnimation: handleReplayAnimation,
       ...beaker.scene,
       ...beakerRef.current,
