@@ -98,8 +98,16 @@ export interface BeakerProps extends ModelProps {
 
 }
 
+export interface BeakerGlbProps extends ModelProps {
+
+}
+
+export interface HorizontalGelTankProps extends ModelProps {
+
+}
+
 // Define a union of all specific ModelProps types
-type LabModelProps = AnalyticalBalanceModelProps | MicroscopeModelProps | CentrifugeModelProps | SampleBottleModelProps | BeakerProps;
+type LabModelProps = AnalyticalBalanceModelProps | MicroscopeModelProps | CentrifugeModelProps | SampleBottleModelProps | BeakerProps | BeakerGlbProps | HorizontalGelTankProps;
 
 
 export interface RendererProps {

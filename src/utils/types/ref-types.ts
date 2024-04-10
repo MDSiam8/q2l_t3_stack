@@ -20,3 +20,11 @@ export interface SampleBottleModelRef extends BaseModelRef {
 export interface BeakerRef extends BaseModelRef {
   
 }
+
+export interface BeakerGlbRef extends BaseModelRef {
+  // liquid and beaker are individual layers
+}
+
+export interface HorizontalGelTankRef extends BaseModelRef {
+  // each tank component is an individual layer
+}
