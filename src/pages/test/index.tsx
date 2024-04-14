@@ -2,15 +2,15 @@ import { Button } from '~/components/ui/button';
 import { api } from '~/utils/api'
 
 export default function Test() {
-    // const { mutate } = api.user.userCreate.useMutation();
+    const { mutate } = api.user.userCreate.useMutation();
     // mutate({ name: "User1"})
     const { mutate: createLab } = api.lab.createLab.useMutation();
-    const { mutate: completeLab } = api.lab.markLabAsComplete.useMutation();
+    //const { mutate: completeLab } = api.lab.markLabAsComplete.useMutation();
     // mutate({ name: "Lab1", userId: "1"});
-    // const { data } = api.lab.getAllLabsByUserId.useQuery({ userId: "1" });
+    const { data } = api.user.getAllLabs.useQuery({ userId: "cluq2o78500002at9wsix6569" });
     // const { data: latestLab } = api.lab.getLatestLabByUserId.useQuery({ userId: "1" });
-    const { mutate: updateLab } = api.lab.updateLabProgress.useMutation();
-    const { mutate: deleteLab } = api.lab.deleteLab.useMutation();
+    //const { mutate: updateLab } = api.lab.updateLabProgress.useMutation();
+    //const { mutate: deleteLab } = api.lab.deleteLab.useMutation();
     // console.log(data);
     // const handleClick = () => {
     //     createLab({ name: "new lab", userId: "1" });
@@ -31,6 +31,12 @@ export default function Test() {
     //need to manage state
     return (
         <div className="relative">
+            {/* <Button onClick={() => mutate({ name: "User1" })}>
+                create a user
+            </Button> */}
+            <Button onClick={() => createLab({ name: "new lab", userId: "cluq2o78500002at9wsix6569" })}>
+                create a lab    
+            </Button>
             {/* <Button onClick={handleClick}>
                 create a lab
             </Button>
@@ -46,12 +52,13 @@ export default function Test() {
             <div>
                 All Labs:
             </div>
-            {/* <ul>
+            <ul>
                 {data?.map((lab) => (
                     <li key={lab.id}>{lab.name}</li>
                 ))}
             </ul>
-            <div>
+
+            {/* <div>
                 Newest addition: {latestLab?.name}
             </div> */}
         </div>

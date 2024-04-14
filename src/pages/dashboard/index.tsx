@@ -13,6 +13,9 @@ import {
 } from "../../components/ui/card";
 import { BellIcon, InfoIcon } from "lucide-react";
 import Sidebar from "./Sidebar";
+import { useUser } from "@clerk/nextjs";
+import { api } from '~/utils/api'
+import { User } from '@prisma/client';
 
 //import Navbar from "@/components/Navbar";
 //import Sidebar from "@/components/Sidebar";
@@ -55,20 +58,20 @@ const NotebookCard: React.FC<{ notebook: Notebook }> = ({ notebook }) => {
           </div>
         </CardHeader>
         {
-        // <CardContent>
-        //   <div className="completed-status" style={{ color: getStatusColor(notebook.completed) }}>
-        //     <CardDescription>
-        //       {notebook.completed}
-        //     </CardDescription>
-        //   </div>
-        //   {/* <div className="last-updated">
-        //     <CardDescription>
-        //       Last updated: {notebook.updatedAt.toLocaleDateString()}
-        //     </CardDescription>
-        //   </div> */}
-        //   {/* Add additional notebook details here */}
-        // </CardContent>
-      }
+          // <CardContent>
+          //   <div className="completed-status" style={{ color: getStatusColor(notebook.completed) }}>
+          //     <CardDescription>
+          //       {notebook.completed}
+          //     </CardDescription>
+          //   </div>
+          //   {/* <div className="last-updated">
+          //     <CardDescription>
+          //       Last updated: {notebook.updatedAt.toLocaleDateString()}
+          //     </CardDescription>
+          //   </div> */}
+          //   {/* Add additional notebook details here */}
+          // </CardContent>
+        }
       </Card>
     </Link>
   );
@@ -120,6 +123,27 @@ const access_labs = [notebook, notebook2, notebook3]
 export default function Dashboard() {
   const [notebooks, setNotebooks] = useState<Notebook[]>([]);
   const [isLoading, setIsLoading] = useState(true);
+  const { user } = useUser();
+  const { mutate } = api.user.userCreate.useMutation();
+  const userId = user?.id ?? null;
+  const fullName = user?.fullName ?? "new user";
+  const { data: currUser, refetch, isLoading: userLoading } = api.user.getUserById.useQuery({ id: userId });
+  useEffect(() => {
+    refetch(); 
+  }, [userId]);
+
+  useEffect(() => {
+    if (!user || userLoading) {
+      return;
+    }
+    if (!currUser) {
+      console.log("Creating user");
+      mutate({ id: userId, name: fullName });
+    }
+  }, [userId, currUser]);
+
+
+
 
   useEffect(() => {
     const fetchNotebooks = async () => {
@@ -147,9 +171,9 @@ export default function Dashboard() {
       </header>
       <div className="dashboard flex flex-row">
         {
-        // <div className="w-64 flex-shrink-0">
-        //   <Sidebar />
-        // </div>
+          // <div className="w-64 flex-shrink-0">
+          //   <Sidebar />
+          // </div>
         }
         <main className="flex flex-1 flex-col gap-4 p-4 md:gap-8 md:p-6">
           <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3"></div>

@@ -5,10 +5,14 @@ import { createTRPCRouter, publicProcedure } from '~/server/api/trpc'
 export const userRouter = createTRPCRouter({
 
     userCreate: publicProcedure //endpoint
-        .input(z.object({ name: z.string() }))
+        .input(z.object({ name: z.string().nullable(), id: z.string().nullable()}))
         .mutation(async ({ input, ctx }) => {
+            if (!input.id || !input.name) {
+                return null;
+            }
             const user = await ctx.db.user.create({
                 data: {
+                    id: input.id,
                     name: input.name
                 },
             });
@@ -33,6 +37,20 @@ export const userRouter = createTRPCRouter({
         .input(z.object({ id: z.string() }))
         .mutation(async ({ input, ctx }) => {
             const user = await ctx.db.user.delete({
+                where: {
+                    id: input.id
+                }
+            })
+            return user
+        }),
+
+    getUserById: publicProcedure
+        .input(z.object({ id: z.string().nullable() }))
+        .query(async ({ input, ctx }) => {
+            if (!input.id) {
+                return null;
+              }
+            const user = await ctx.db.user.findUnique({
                 where: {
                     id: input.id
                 }
