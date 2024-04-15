@@ -1,5 +1,6 @@
 
 import { BeakerModel } from "~/Models/BeakerModel"; // Make sure to replace with the correct import path for your models
+import { MicropipetteP2Model } from "~/Models/MicropipetteP2";
 import { LabSchema } from "~/utils/types/types";
 
 const MicropipetteLabSchema: LabSchema = [
@@ -9,13 +10,13 @@ const MicropipetteLabSchema: LabSchema = [
     directions: "Introduction to the lab",
     user_instructions: "",
     labObjects: [{
-        name: "Beaker",
-        model: BeakerModel,
+        name: "Micropipette",
+        model: MicropipetteP2Model,
         actions: [
           {
             actionName: "move",
             hitbox: {
-              position: [0, 0, 0],
+              position: [0, 1, 2],
               scale: 1,
             },
             timeline: {
@@ -25,7 +26,7 @@ const MicropipetteLabSchema: LabSchema = [
               ],
             },
             auto: false
-          }
+          },
         ],
         modelProps: {
           startingPosition: [0, 0, 0],
@@ -33,7 +34,30 @@ const MicropipetteLabSchema: LabSchema = [
           opacity: 1,
           rotation: [0, 0, 0],
         },
-      }],
+      },
+    {
+      name: "Beaker",
+      model: BeakerModel,
+      modelProps: {
+        scale: 5,
+        opacity: 0.9,
+        rotation: [0, 0, 0],
+        startingPosition: [0, 0, 0],
+      },
+      actions: [
+        {
+          actionName: "move",
+          auto: true,
+          timeline: {
+            defaults: {},
+            sequence: [
+              { props: { duration: 4 }, },
+              { props: { y: "+=1", z: "+=2", duration: 1 }, },
+            ],
+          }
+        }
+      ]
+    }],
     interactiveElements: []
   },
   {
