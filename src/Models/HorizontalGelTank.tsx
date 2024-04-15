@@ -45,7 +45,7 @@ export const HorizontalGelTankModel = forwardRef<HorizontalGelTankRef, Horizonta
       performAction: performAction,
       replayAnimation: handleReplayAnimation,
       ...horizontalGelTank.scene,
-      ...horizontalGelTank.current,
+      ...horizontalGelTankRef.current,
     }));
     
     return (
