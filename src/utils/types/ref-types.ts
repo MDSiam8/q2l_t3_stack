@@ -28,3 +28,7 @@ export interface BeakerGlbRef extends BaseModelRef {
 export interface HorizontalGelTankRef extends BaseModelRef {
   // each tank component is an individual layer
 }
+
+export interface MicropipetteRef extends BaseModelRef {
+  // each tank component is an individual layer
+}

@@ -106,8 +106,12 @@ export interface HorizontalGelTankProps extends ModelProps {
 
 }
 
+export interface MicropipetteProps extends ModelProps {
+
+}
+
 // Define a union of all specific ModelProps types
-type LabModelProps = AnalyticalBalanceModelProps | MicroscopeModelProps | CentrifugeModelProps | SampleBottleModelProps | BeakerProps | BeakerGlbProps | HorizontalGelTankProps;
+type LabModelProps = AnalyticalBalanceModelProps | MicroscopeModelProps | CentrifugeModelProps | SampleBottleModelProps | BeakerProps | BeakerGlbProps | HorizontalGelTankProps | MicropipetteProps;
 
 
 export interface RendererProps {

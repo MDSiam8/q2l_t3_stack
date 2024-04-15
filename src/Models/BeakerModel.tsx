@@ -51,7 +51,7 @@ export const BeakerModel = forwardRef<BeakerRef, BeakerProps>(
     
     return (
       <group {...props} position={props.startingPosition}>
-        <primitive object={beaker.scene} scale={props.scale} />
+        <primitive object={beaker.scene} scale={props.scale} ref={beakerRef} />
         {/* <BalanceReading ref={balanceReadingRef} /> */}
       </group>
     );

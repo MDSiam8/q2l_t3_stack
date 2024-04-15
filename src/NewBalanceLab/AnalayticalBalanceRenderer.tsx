@@ -178,10 +178,10 @@ const ModelRenderer: React.FC<ModelRendererProps> = ({ object }) => {
           //   { x: "+=.2", z: "-=2.6", duration: 1 },
           // );
           console.log(object.actions[0].timeline);
-          const tl = gsap.timeline(object.actions[0].timeline.defaults);
-          const animations = object.actions[0].timeline.sequence
+          const tl = gsap.timeline(object!.actions[0].timeline!.defaults);
+          const animations = object!.actions[0].timeline!.sequence
           animations.forEach(animation => {
-            tl.to(modelRef.current.position, animation.props);
+            tl.to(modelRef.current!.position, animation.props);
           });
           // const tl = gsap.timeline({ delay: 0 });
           // tl.to(modelRef.current.position, { y: "+=4", duration: 1 }).to(
@@ -216,10 +216,10 @@ const ModelRenderer: React.FC<ModelRendererProps> = ({ object }) => {
       //   }
       // ];
 
-      const tl = gsap.timeline(object.actions[0].timeline.defaults);
-      const animations = object.actions[0].timeline.sequence;
+      const tl = gsap.timeline(object!.actions[0].timeline!.defaults);
+      const animations = object!.actions[0].timeline!.sequence;
       animations.forEach((animation) => {
-        tl.to(modelRef.current.position, animation.props);
+        tl.to(modelRef.current!.position, animation.props);
       });
 
       // timeline

@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useRef } from "react";
 import ReactDOM from "react-dom/client";
 import { Canvas, useFrame, useThree } from "@react-three/fiber";
-import Experience from "../../MicropipetteLab/components/Experience";
+import Experience from "../../NewArchitectureOfficialLabs/Micropipette/MicropipetteLabRenderer";
 import * as THREE from "three";
 
 type RootType = ReactDOM.Root | null;
