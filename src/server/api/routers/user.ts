@@ -73,8 +73,11 @@ export const userRouter = createTRPCRouter({
         }),
 
     getAllLabs: publicProcedure
-        .input(z.object({ userId: z.string() }))
+        .input(z.object({ userId: z.string().nullable() }))
         .query(async ({ input, ctx }) => {
+            if (!input.userId) {
+                return null;
+            }
             const labs = await ctx.db.lab.findMany({
                 where: {
                     userId: input.userId

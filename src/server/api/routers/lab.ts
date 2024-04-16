@@ -4,8 +4,11 @@ import { createTRPCRouter, publicProcedure } from "~/server/api/trpc";
 
 export const labRouter = createTRPCRouter({
     createLab: publicProcedure
-        .input(z.object({ name: z.string(), userId: z.string()}))
+        .input(z.object({ name: z.string(), userId: z.string().nullable()}))
         .mutation(async ({ input, ctx }) => {
+            if (!input.userId) {
+                return null;
+            }
             const lab = await ctx.db.lab.create({
                 data: {
                     name: input.name,

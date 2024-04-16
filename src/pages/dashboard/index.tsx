@@ -23,7 +23,7 @@ import { useEffect, useState } from "react";
 import Empty from "../../components/Empty";
 //import { Notebook } from "@prisma/client";
 
-interface Notebook {
+interface Lab {
   id: string;
   image: string;
   name: string;
@@ -33,7 +33,7 @@ interface Notebook {
 }
 
 // Reusable card component to display notebook details
-const NotebookCard: React.FC<{ notebook: Notebook }> = ({ notebook }) => {
+const LabCard: React.FC<{ lab: Lab }> = ({ lab }) => {
   const getStatusColor = (status: string) => {
     switch (status) {
       case 'Not Started':
@@ -48,13 +48,13 @@ const NotebookCard: React.FC<{ notebook: Notebook }> = ({ notebook }) => {
   };
 
   return (
-    <Link href={notebook.link} passHref>
+    <Link href={lab.link} passHref>
       {/* 'passHref' ensures the href prop is passed to the underlying DOM element */}
       <Card>
-        {notebook.image !== "none" && <CardImage imageSrc={notebook.image} />}
+        {lab.image !== "none" && <CardImage imageSrc={lab.image} />}
         <CardHeader>
           <div className="notebook-title">
-            <CardTitle>{notebook.name}</CardTitle>
+            <CardTitle>{lab.name}</CardTitle>
           </div>
         </CardHeader>
         {
@@ -77,88 +77,150 @@ const NotebookCard: React.FC<{ notebook: Notebook }> = ({ notebook }) => {
   );
 };
 
-type NotebookPreviewProps = {
-  notebooks: Notebook[];
+type LabPreviewProps = {
+  labs: Lab[];
 };
 
-const NotebookPreview: React.FC<NotebookPreviewProps> = ({ notebooks }) => {
+const NotebookPreview: React.FC<LabPreviewProps> = ({ labs }) => {
   return (
     <div className="grid grid-cols-1 gap-4 p-4 md:grid-cols-4 md:pr-10">
-      {notebooks.map((notebook) => (
-        <NotebookCard key={notebook.id} notebook={notebook} />
+      {labs.map((lab) => (
+        <LabCard key={lab.id} lab={lab} />
       ))}
     </div>
   );
 };
 
-const notebook: Notebook = {
-  id: "1",
-  image: "Abalance.png",
-  name: "Analytical Balances",
-  updatedAt: new Date(),
-  completed: "Not Started",
-  link: "/analytical_balance_lab",
-};
+// const notebook: Notebook = {
+//   id: "1",
+//   image: "Abalance.png",
+//   name: "Analytical Balances",
+//   updatedAt: new Date(),
+//   completed: "Not Started",
+//   link: "/analytical_balance_lab",
+// };
 
-const notebook2: Notebook = {
-  id: "2",
-  image: "rotovap.jpeg",
-  name: "RotoVap",
-  completed: "Not Started",
-  updatedAt: new Date(),
-  link: "/rotovap_lab",
-};
+// const notebook2: Notebook = {
+//   id: "2",
+//   image: "rotovap.jpeg",
+//   name: "RotoVap",
+//   completed: "Not Started",
+//   updatedAt: new Date(),
+//   link: "/rotovap_lab",
+// };
 
-const notebook3: Notebook = {
-  id: "3",
-  image: "buchner.jpeg",
-  name: "Buchner Funnel",
-  completed: "Not Started",
-  updatedAt: new Date(),
-  link: "/extraction_lab",
-};
+// const notebook3: Notebook = {
+//   id: "3",
+//   image: "buchner.jpeg",
+//   name: "Buchner Funnel",
+//   completed: "Not Started",
+//   updatedAt: new Date(),
+//   link: "/extraction_lab",
+// };
+const labArr: Lab[] = [
+  {
+    id: "1",
+    image: "Abalance.png",
+    name: "Analytical Balances",
+    updatedAt: new Date(),
+    completed: "Not Started",
+    link: "/analytical_balance_lab",
+  },
+  {
+    id: "2",
+    image: "rotovap.jpeg",
+    name: "RotoVap",
+    completed: "Not Started",
+    updatedAt: new Date(),
+    link: "/rotovap_lab",
+  },
+  {
+    id: "3",
+    image: "buchner.jpeg",
+    name: "Buchner Funnel",
+    completed: "Not Started",
+    updatedAt: new Date(),
+    link: "/extraction_lab",
+  }
+];
 
-const access_labs = [notebook, notebook2, notebook3]
+//const access_labs = [notebook, notebook2, notebook3]
+interface LabNew {
+  id: string;
+  createdAt: Date;
+  updatedAt: Date;
+  name: string;
+  status: string;
+  progress: number;
+  userId: string;
+}
 
 export default function Dashboard() {
-  const [notebooks, setNotebooks] = useState<Notebook[]>([]);
+  const [notebooks, setNotebooks] = useState<Lab[]>([]);
   const [isLoading, setIsLoading] = useState(true);
+  const [labs, setLabs] = useState<LabNew[]>([]); // Changed type to Lab[]
   const { user } = useUser();
-  const { mutate } = api.user.userCreate.useMutation();
+  const { mutate: createUser } = api.user.userCreate.useMutation();
+  const { mutate: createLab } = api.lab.createLab.useMutation();
   const userId = user?.id ?? null;
   const fullName = user?.fullName ?? "new user";
-  const { data: currUser, refetch, isLoading: userLoading } = api.user.getUserById.useQuery({ id: userId });
+  const { data: currUser, refetch: userRefetch , isLoading: userLoading } = api.user.getUserById.useQuery({ id: userId });
+  const { data: allLabs, refetch: labsRefetch, isLoading: labsLoading } = api.user.getAllLabs.useQuery({ userId: userId });
+  
   useEffect(() => {
-    refetch(); 
+    userRefetch();
+    labsRefetch().then((res) => {
+      if (res.data) {
+        setLabs(res.data);
+      }
+    }).catch((error) => {
+      console.error('Error fetching labs:', error);
+    });
   }, [userId]);
 
   useEffect(() => {
-    if (!user || userLoading) {
-      return;
+    if (allLabs) {
+      setLabs(allLabs);
     }
-    if (!currUser) {
-      console.log("Creating user");
-      mutate({ id: userId, name: fullName });
-    }
-  }, [userId, currUser]);
-
-
-
+  }, [allLabs]);
 
   useEffect(() => {
-    const fetchNotebooks = async () => {
-      // const res = await fetch('/api/getNotebooks');
-      // const body = await res.json();
-      // setNotebooks(body.notebooks);
-      // setIsLoading(false);
-      // notebooks will be fetched from the backend in the future
-      setNotebooks([notebook, notebook2, notebook3]);
+    if (!user || userLoading || labsLoading) {
+      return;
+    }
+    //console.log("currUser: ", currUser);
+    if (!currUser) {
+      createUser({ id: userId, name: fullName });
+      // Create 3 labs for the user, need to update this to create labs based on user's access
+      createLab({ name: "Analytical Balances", userId: userId });
+      createLab({ name: "RotoVap", userId: userId });
+      createLab({ name: "Buchner Funnel", userId: userId });
+    }
+  }, [userId, user, userLoading, labsLoading, currUser, createUser, createLab, fullName]);
+
+  useEffect(() => {
+    const fetchLabs = () => {
+      if (!labs) {
+        return;
+      }
+      const userNotebooks: Lab[] = [];
+      labs.forEach((lab) => {
+        const correspondingNotebook = findNotebookForLab(lab.name);
+        if (correspondingNotebook) {
+          userNotebooks.push(correspondingNotebook);
+        }
+      });
+      setNotebooks(userNotebooks);
       setIsLoading(false);
     };
-    if (typeof window !== "undefined") {
-      fetchNotebooks();
+    if (labs) {
+      fetchLabs();
     }
-  }, []);
+  }, [labs]);
+
+  const findNotebookForLab = (labName: string): Lab | undefined => {
+    return labArr.find(lab => lab.name === labName); // Assuming labArr is defined elsewhere
+  };
 
   return (
     <div className="relative h-full bg-dashboard-bg"> {/*Relative H-full not filling the entire page for some reason */}
@@ -182,7 +244,7 @@ export default function Dashboard() {
               // Add loading skeleton UI here
               <div>Loading...</div>
             ) : notebooks?.length > 0 ? (
-              <NotebookPreview notebooks={notebooks} />
+              <NotebookPreview labs={notebooks} />
             ) : (
               <Empty label="No labs to access!" />
             )}
