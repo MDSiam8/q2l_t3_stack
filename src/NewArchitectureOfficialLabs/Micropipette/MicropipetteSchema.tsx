@@ -1,6 +1,6 @@
 
 import { BeakerModel } from "~/Models/BeakerModel"; // Make sure to replace with the correct import path for your models
-import { MicropipetteP2Model } from "~/Models/MicropipetteP2";
+import { MicropipetteTipBoxP200Model } from "~/Models/MicropipetteTipBoxP200";
 import { LabSchema } from "~/utils/types/types";
 
 const MicropipetteLabSchema: LabSchema = [
@@ -10,8 +10,8 @@ const MicropipetteLabSchema: LabSchema = [
     directions: "Introduction to the lab",
     user_instructions: "",
     labObjects: [{
-        name: "Micropipette",
-        model: MicropipetteP2Model,
+        name: "MicropipetteTipBoxP200",
+        model: MicropipetteTipBoxP200Model,
         actions: [
           {
             actionName: "move",
@@ -22,7 +22,7 @@ const MicropipetteLabSchema: LabSchema = [
             timeline: {
                 defaults: {},  // should typically be empty; can use it to pass in parameters to gsap.timeline() if needed
               sequence: [
-                { props: { y: "+=1", duration: 1 } } // Moves the beaker upwards
+                { props: { y: "-=1", duration: 1 } } // Moves the beaker upwards
               ],
             },
             auto: false
