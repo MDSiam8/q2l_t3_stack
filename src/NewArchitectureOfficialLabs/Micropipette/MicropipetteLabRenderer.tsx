@@ -7,7 +7,6 @@ import {
   useAnimations,
   useGLTF,
 } from "@react-three/drei";
-import { LabSchema, RendererProps } from "~/utils/types/types";
 import {
   InteractiveElement,
   LabObject,
@@ -17,6 +16,9 @@ import { preload } from "react-dom";
 import THREE, { Camera } from "three";
 import Table from "~/AnalyticalBalanceLab/components/Table";
 import gsap from "gsap";
+import MicropipetteLabSchema from "./MicropipetteSchema";
+
+const modelPath = "./sample bottle body.gltf";
 
 // function isActionWithHitbox(action: Action): action is Action {
 //   return "hitbox" in action;
@@ -27,13 +29,13 @@ import gsap from "gsap";
 // }
 
 
-export default function Experience(props: RendererProps) {
+export default function Experience() {
   const [currentStepIndex, setCurrentStepIndex] = useState(0);
-  const currentStep = props.schema[currentStepIndex];
+  const currentStep = MicropipetteLabSchema[currentStepIndex];
 
   const goToNextStep = () => {
     setCurrentStepIndex((prevIndex) =>
-      Math.min(prevIndex + 1, props.schema.length - 1),
+      Math.min(prevIndex + 1, MicropipetteLabSchema.length - 1),
     );
   };
 
@@ -255,3 +257,5 @@ const ModelRenderer: React.FC<ModelRendererProps> = ({ object }) => {
   //   <object.model {...object.modelProps} />
   // </group>
 };
+
+useGLTF.preload(modelPath);

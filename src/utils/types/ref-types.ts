@@ -1,4 +1,4 @@
-import { ActionName } from "./types";
+import { ActionName } from "./types"
 
 export interface BaseModelRef extends THREE.Object3D {
   performAction: (actionName: ActionName) => Promise<void>; // Added a placeholder actionName parameter and return type
@@ -19,4 +19,16 @@ export interface SampleBottleModelRef extends BaseModelRef {
 
 export interface BeakerRef extends BaseModelRef {
   
+}
+
+export interface BeakerGlbRef extends BaseModelRef {
+  // liquid and beaker are individual layers
+}
+
+export interface HorizontalGelTankRef extends BaseModelRef {
+  // each tank component is an individual layer
+}
+
+export interface MicropipetteRef extends BaseModelRef {
+  // each tank component is an individual layer
 }
