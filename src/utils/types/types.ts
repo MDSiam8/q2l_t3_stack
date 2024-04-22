@@ -102,8 +102,19 @@ export interface BeakerGlbProps extends ModelProps {
 
 }
 
-export interface HorizontalGelTankProps extends ModelProps {
-
+export interface HorizontalGelTankProps extends ModelProps{
+  // startingPosition: [number, number, number];
+  // scale: number;
+  // opacity: number;
+  // rotation: [number, number, number];
+  // partSettings?: {
+  //   [key: string]: {
+  //     color?: string;
+  //     position?: [number, number, number];
+  //     scale?: number;
+  //     visible?: boolean;
+  //   };
+  // };
 }
 
 export interface MicropipetteProps extends ModelProps {

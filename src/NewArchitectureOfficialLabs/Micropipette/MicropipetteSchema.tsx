@@ -1,5 +1,6 @@
 
 import { BeakerModel } from "~/Models/BeakerModel"; // Make sure to replace with the correct import path for your models
+import { HorizontalGelTankModel } from "~/Models/HorizontalGelTank";
 import { MicropipetteP2Model } from "~/Models/MicropipetteP2";
 import { LabSchema } from "~/utils/types/types";
 
