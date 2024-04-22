@@ -22,16 +22,16 @@ const Step5StopperTheSFunnel = forwardRef<HTMLDivElement, Step2LabTasksProps>(
     useEffect(() => {
       if (stopperRef.current) {
         // Ensure the flask is referenced and mounted
-        const flask = stopperRef.current;
+        const stopper = stopperRef.current;
 
         // GSAP Animation for the flask
         gsap
           .timeline()
-          .to(flask.position, { y: "+=5", duration: 0.5 })
-          .to(flask.position, { x: "+=1", duration: 0.5 })
-          .to(flask.position, { z: "-=2.6", duration: 0.5 })
-          .to(flask.rotation, { x: "3.14", duration: 0.5 })
-          .to(flask.position, { y: "-=.95", duration: 0.5 });
+          .to(stopper.position, { y: "+=5", duration: 0.5 })
+          .to(stopper.position, { x: "+=1", duration: 0.5 })
+          .to(stopper.position, { z: "-=2.6", duration: 0.5 })
+          .to(stopper.rotation, { x: "3.14", duration: 0.5 })
+          .to(stopper.position, { y: "-=.95", duration: 0.5 });
 
       }
 
