@@ -110,6 +110,10 @@ export interface MicropipetteProps extends ModelProps {
 
 }
 
+export interface MicropipetteTipBoxProps extends ModelProps {
+
+}
+
 // Define a union of all specific ModelProps types
 type LabModelProps = AnalyticalBalanceModelProps | MicroscopeModelProps | CentrifugeModelProps | SampleBottleModelProps | BeakerProps | BeakerGlbProps | HorizontalGelTankProps | MicropipetteProps;
 
