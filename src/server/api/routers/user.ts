@@ -7,9 +7,20 @@ export const userRouter = createTRPCRouter({
     userCreate: publicProcedure //endpoint
         .input(z.object({ name: z.string().nullable(), id: z.string().nullable()}))
         .mutation(async ({ input, ctx }) => {
+            
             if (!input.id || !input.name) {
                 return null;
             }
+            // return null if id is already in db
+            const existingUser = await ctx.db.user.findUnique({
+                where: {
+                    id: input.id
+                }
+            })
+            if (existingUser) {
+                return null;
+            }
+
             const user = await ctx.db.user.create({
                 data: {
                     id: input.id,
@@ -85,7 +96,20 @@ export const userRouter = createTRPCRouter({
             })
             return labs;
         }),
-
+    getOneUserLabByName: publicProcedure
+        .input(z.object({ userId: z.string().nullable(), name: z.string() }))
+        .query(async ({ input, ctx }) => {
+            if (!input.userId || !input.name) {
+                return null;
+            }
+            const lab = await ctx.db.lab.findFirst({
+                where: {
+                    userId: input.userId,
+                    name: input.name
+                }
+            })
+            return lab;
+        }),
     getLatestLab: publicProcedure
         .input(z.object({ userId: z.string() }))
         .query(async ({ input, ctx }) => {

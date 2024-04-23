@@ -160,14 +160,17 @@ export default function Dashboard() {
   const [isLoading, setIsLoading] = useState(true);
   const [labs, setLabs] = useState<LabNew[]>([]); // Changed type to Lab[]
   const { user } = useUser();
-  const { mutate: createUser } = api.user.userCreate.useMutation();
-  const { mutate: createLab } = api.lab.createLab.useMutation();
+  const { mutate: createUser, isLoading: createUserLoading } = api.user.userCreate.useMutation();
+  const { mutate: createLab, isLoading: createLabsLoading } = api.lab.createLab.useMutation();
   const userId = user?.id ?? null;
   const fullName = user?.fullName ?? "new user";
   const { data: currUser, refetch: userRefetch , isLoading: userLoading } = api.user.getUserById.useQuery({ id: userId });
   const { data: allLabs, refetch: labsRefetch, isLoading: labsLoading } = api.user.getAllLabs.useQuery({ userId: userId });
   
   useEffect(() => {
+    if (!user || createUserLoading || createLabsLoading) {
+      return;
+    }
     userRefetch();
     labsRefetch().then((res) => {
       if (res.data) {
@@ -176,7 +179,7 @@ export default function Dashboard() {
     }).catch((error) => {
       console.error('Error fetching labs:', error);
     });
-  }, [userId]);
+  }, [userId, createUserLoading, createLabsLoading]);
 
   useEffect(() => {
     if (allLabs) {
@@ -192,9 +195,9 @@ export default function Dashboard() {
     if (!currUser) {
       createUser({ id: userId, name: fullName });
       // Create 3 labs for the user, need to update this to create labs based on user's access
-      createLab({ name: "Analytical Balances", userId: userId });
-      createLab({ name: "RotoVap", userId: userId });
-      createLab({ name: "Buchner Funnel", userId: userId });
+      createLab({ id: `${userId}1`, name: "Analytical Balances", userId: userId });
+      createLab({ id: `${userId}2`, name: "RotoVap", userId: userId });
+      createLab({ id: `${userId}3`, name: "Buchner Funnel", userId: userId });
     }
   }, [userId, user, userLoading, labsLoading, currUser, createUser, createLab, fullName]);
 

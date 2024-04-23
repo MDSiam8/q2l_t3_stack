@@ -4,13 +4,24 @@ import { createTRPCRouter, publicProcedure } from "~/server/api/trpc";
 
 export const labRouter = createTRPCRouter({
     createLab: publicProcedure
-        .input(z.object({ name: z.string(), userId: z.string().nullable()}))
+        .input(z.object({ name: z.string(), userId: z.string().nullable(), id: z.string().nullable()}))
         .mutation(async ({ input, ctx }) => {
-            if (!input.userId) {
+            if (!input.userId || !input.name || !input.id) {
+                return null;
+            }
+            const existingLab = await ctx.db.lab.findUnique({
+                where: {
+                    id: input.id,
+                    name: input.name,
+                    userId: input.userId,
+                }
+            })
+            if (existingLab) {
                 return null;
             }
             const lab = await ctx.db.lab.create({
                 data: {
+                    id: input.id,
                     name: input.name,
                     status: "active",
                     userId: input.userId
