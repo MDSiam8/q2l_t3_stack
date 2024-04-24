@@ -1,37 +1,37 @@
-// import { useRouter } from "next/router";
-// import { useEffect, useState } from "react";
-// import { useUser } from "@clerk/nextjs";
-// import { api } from '~/utils/api'
+import { useEffect, useState } from "react";
+import { useUser } from "@clerk/nextjs";
+import { api } from '~/utils/api';
 
+export function useLabAccess(labName: string) {
+  const { user } = useUser();
+  const userId = user?.id ?? null;
+  const [canAccess, setCanAccess] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
+  const { data: labAccess, refetch: labRefetch, isLoading: labLoading } = api.user.getOneUserLabByName.useQuery({ userId: userId, name: labName });
 
-// const useLabAccess = (labName: string) => {
-//     const router = useRouter();
-//     const { user } = useUser();
-//     const [isLoading, setIsLoading] = useState(true);
+  useEffect(() => {
+    // only fetch when userId is loaded
+    if (!userId) return;
 
+    labRefetch().then((res) => {
+      if (res.data !== null) {
+        setCanAccess(true);
+      }
+    }).catch((error) => {
+      console.error('Error fetching lab:', error);
+    }).finally(() => {
+      setIsLoading(false);
+    });
 
-//     useEffect(() => {
-//         if (!user || isLoading) return;
-//         if (!user || !userHasAccessToLab(user, labName)) {
-//             router.push("/dashboard"); // Redirect to dashboard if user doesn't have access
-//         }
-//     }, [user, router, labName]);
+  }, [userId, labRefetch]);
 
-//     return user && userHasAccessToLab(user, labName);
-// };
+  useEffect(() => {
 
-// const userHasAccessToLab = async (user, labName) => {
-//     try {
-//         const { data: labAccess, isLoading: labLoading, error } = api.user.getOneUserLabByName.useQuery({ userId: user.id, name: labName });
-//         if (error) {
-//             console.error("Error fetching lab access:", error);
-//             return false;
-//         }
-//         return labAccess ? true : false;
-//     } catch (error) {
-//         console.error("Error fetching lab access:", error);
-//         return false;
-//     }
-// };
+    if (labLoading) return;
+    if (userId && labAccess === null) {
+      setCanAccess(false);
+    }
+  }, [userId, labLoading, labAccess]);
 
-// export default useLabAccess;
+  return { canAccess, isLoading };
+}
