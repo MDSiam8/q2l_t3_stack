@@ -1,4 +1,5 @@
 import { BeakerModel } from "~/Models/BeakerModel"; // Make sure to replace with the correct import path for your models
+import { MicropipetteTipBoxP200Model } from "~/Models/MicropipetteTipBoxP200";
 import { LabSchema } from "~/utils/types/types";
 import CustomStepSample from "./CustomSteps/CustomStepSample";
 import { MicropipetteP2Model } from "~/Models/MicropipetteP2";
@@ -11,24 +12,23 @@ const MicropipetteLabSchema: LabSchema = [
       "Welcome to the pipetting lab. In this lab, we will practice proper micropipetting techniques.",
     directions: "Introduction to the lab",
     user_instructions: "",
-    labObjects: [
-      {
-        name: "Beaker",
-        model: BeakerModel,
+    labObjects: [{
+        name: "MicropipetteTipBoxP200",
+        model: MicropipetteTipBoxP200Model,
         actions: [
           {
             actionName: "move",
             hitbox: {
-              position: [0, 0, 0],
+              position: [0, 1, 2],
               scale: 1,
             },
             timeline: {
               defaults: {}, // should typically be empty; can use it to pass in parameters to gsap.timeline() if needed
               sequence: [
-                { props: { y: "+=1", duration: 1 } }, // Moves the beaker upwards
+                { props: { y: "-=1", duration: 1 } } // Moves the beaker upwards
               ],
             },
-            auto: false,
+            auto: false
           },
         ],
         modelProps: {
@@ -38,8 +38,30 @@ const MicropipetteLabSchema: LabSchema = [
           rotation: [0, 0, 0],
         },
       },
-    ],
-    interactiveElements: [],
+    {
+      name: "Beaker",
+      model: BeakerModel,
+      modelProps: {
+        scale: 5,
+        opacity: 0.9,
+        rotation: [0, 0, 0],
+        startingPosition: [0, 0, 0],
+      },
+      actions: [
+        {
+          actionName: "move",
+          auto: true,
+          timeline: {
+            defaults: {},
+            sequence: [
+              { props: { duration: 4 }, },
+              { props: { y: "+=1", z: "+=2", duration: 1 }, },
+            ],
+          }
+        }
+      ]
+    }],
+    interactiveElements: []
   },
   {
     stepTitle: "Micropipette Selection",
