@@ -32,3 +32,7 @@ export interface HorizontalGelTankRef extends BaseModelRef {
 export interface MicropipetteRef extends BaseModelRef {
   // each tank component is an individual layer
 }
+
+export interface MicropipetteTipBoxRef extends BaseModelRef {
+  // each tank component is an individual layer
+}
