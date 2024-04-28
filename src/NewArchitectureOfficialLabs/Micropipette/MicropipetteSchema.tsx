@@ -1,5 +1,8 @@
 import { BeakerModel } from "~/Models/BeakerModel"; // Make sure to replace with the correct import path for your models
 import { LabSchema } from "~/utils/types/types";
+import CustomStepSample from "./CustomSteps/CustomStepSample";
+import { MicropipetteP2Model } from "~/Models/MicropipetteP2";
+import SetVolumeCustomStep from "./CustomSteps/SetVolumeCustomStep";
 
 const MicropipetteLabSchema: LabSchema = [
   {
@@ -82,17 +85,31 @@ const MicropipetteLabSchema: LabSchema = [
       "Good job! Now let's work on setting the volume on the pipette!",
     user_instructions:
       "Remember, rotating clockwise (to the right) increases volume, whereas rotating counterclockwise (to the left) decreases the volume.",
-    labObjects: [],
+    labObjects: [
+      {
+        name: "Micropipette",
+        model: MicropipetteP2Model,
+        modelProps: {
+          startingPosition: [0, 2, 0],
+          scale: 5,
+          opacity: 1,
+          rotation: [0, 3.14 * 180 / 180, 0],
+        },
+        actions: []
+        }
+    ],
     interactiveElements: [],
   },
   {
-    stepTitle: "Set Pipette Volume, USE CUSTOM STEP. We should have a overlay that simulates a display reading overlayed on the pipette",
+    stepTitle:
+      "Set Pipette Volume, USE CUSTOM STEP. We should have a overlay that simulates a display reading overlayed on the pipette",
     description: "Instruct user to set the pipette volume",
     directions: "Set the volume of the pipette to extract 1ul.",
     user_instructions:
       "Use the right arrow to rotate the push button counterclockwise and the left arrow to rotate the push button clockwise.",
     labObjects: [],
     interactiveElements: [],
+    customStep: SetVolumeCustomStep
   },
   {
     stepTitle: "Tip Selection and Attachment",
@@ -104,7 +121,8 @@ const MicropipetteLabSchema: LabSchema = [
     interactiveElements: [],
   },
   {
-    stepTitle: "Tip Selection and Attachment - WE WILL USE CUSTOM STEP FOR THIS.",
+    stepTitle:
+      "Tip Selection and Attachment - WE WILL USE CUSTOM STEP FOR THIS.",
     description:
       "Instruct user on how to select the right tip and attach it to the pipette",
     directions:
