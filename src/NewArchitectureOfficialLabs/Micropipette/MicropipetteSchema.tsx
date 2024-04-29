@@ -25,7 +25,7 @@ const MicropipetteLabSchema: LabSchema = [
             timeline: {
               defaults: {}, // should typically be empty; can use it to pass in parameters to gsap.timeline() if needed
               sequence: [
-                { props: { y: "-=1", duration: 1 } } // Moves the beaker upwards
+                { props: { y: "+=1", duration: 1 } } // Moves the beaker upwards
               ],
             },
             auto: false
