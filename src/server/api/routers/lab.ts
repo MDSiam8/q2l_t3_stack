@@ -23,6 +23,7 @@ export const labRouter = createTRPCRouter({
                 data: {
                     id: input.id,
                     name: input.name,
+                    progress: 1,
                     status: "active",
                     userId: input.userId
                 },

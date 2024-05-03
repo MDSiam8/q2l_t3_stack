@@ -10,6 +10,9 @@ import FirstStepComponent from "./steps/FirstStepComponent";
 import SecondStepComponent from "./steps/SecondStepComponent";
 import FourthStepComponent from "./steps/FourthStepComponent";
 import Table from "./Table";
+import { api } from '~/utils/api'
+import { useUser } from "@clerk/nextjs";
+
 // ...other necessary imports...
 
 import state from "./state.json";
@@ -97,17 +100,43 @@ export default function Experience() {
 
   const cameraControlsRef = useRef<Camera>(null);
   const [nextButtonTempDisabled, setNextButtonTempDisabled] = useState(false);
+  const { mutate: updateProgress } = api.lab.updateLabProgress.useMutation();
+  const { user } = useUser();
+  const userId = user?.id ?? null;
+  const { data: lab, refetch: labRefetch, isLoading: labLoading } = api.lab.getLabById.useQuery({ id: userId+"1" });
   
+  // useEffect on first load to extract current step
+  useEffect(() => {
+    if (!userId || labLoading) return;
+    const fetchProgress = async () => {
+      labRefetch().then((res) => {
+        //console.log(res.data);
+        if (res.data) {
+          //console.log("Progress: ", res.data.progress);
+          setCurrentStep(res.data.progress);
+        }
+      }).catch((error) => {
+        console.error('Error fetching lab progress:', error);
+      });
+    };
+    fetchProgress();
+  }, [userId, labLoading]);
+  
+
+
   const handleNextStep = () => {
     if (currentStep < Object.keys(state).length) {
       setCurrentStep(currentStep + 1);
+      //console.log("Current Step: ", currentStep);
       setNextDisabled(nextButtonRef);
-      // setNextButtonTempDisabled(true);
-      // setTimeout(() => {
-      //   setNextButtonTempDisabled(false);
-      // }, 2000);
+      if (userId) {
+        updateProgress({ id: userId+"1", userId: userId, progress: currentStep});
+      }
+      
     }
   };
+  // setCurrentStep(currentStep); extracted from backend 
+  // empty arr as dependency 
 
   const handleReplayAnimation = () => {
     const currentStepRef = stepRefs.current[currentStep];
