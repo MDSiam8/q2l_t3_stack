@@ -33,6 +33,8 @@ import Step17TurnOffCondensorAndVacuum from "./steps/17TurnOffVacAndCond";
 import Step18RemoveItems from "./steps/18RemoveRotavapItems";
 import Step19RemoveBumpTrap from "./steps/19RemovingBumpTrap";
 import Step20Conclusion from "./steps/20Conclusion";
+import { api } from "~/utils/api";
+import { useUser } from "@clerk/nextjs";
 
 // Interface for the structure of each step in state.json
 interface Step {
@@ -108,16 +110,32 @@ export default function Experience() {
 
   const cameraControlsRef = useRef<Camera>(null);
   const [nextButtonTempDisabled, setNextButtonTempDisabled] = useState(false);
+  const { mutate: updateProgress } = api.lab.updateLabProgress.useMutation();
+  const { user } = useUser();
+  const userId = user?.id ?? null;
+  const { data: lab, refetch: labRefetch, isLoading: labLoading } = api.lab.getLabById.useQuery({ id: userId+"2" });
+
+  useEffect(() => {
+    if (!userId || labLoading) return;
+    const fetchProgress = async () => {
+      labRefetch().then((res) => {
+        if (res.data) {
+          setCurrentStep(res.data.progress);
+        }
+      }).catch((error) => {
+        console.error('Error fetching lab progress:', error);
+      });
+    };
+    fetchProgress();
+  }, [userId, labLoading]);
 
   const handleNextStep = () => {
     if (currentStep < Object.keys(state).length) {
       setCurrentStep(currentStep + 1);
       // setNextDisabled(nextButtonRef);
-
-      // setNextButtonTempDisabled(true);
-      // setTimeout(() => {
-      //   setNextButtonTempDisabled(false);
-      // }, 2000);
+      if (userId) {
+        updateProgress({ id: userId+"2", userId: userId, progress: currentStep});
+      }
     }
   };
 

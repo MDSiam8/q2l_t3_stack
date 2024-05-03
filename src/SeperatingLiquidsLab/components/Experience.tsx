@@ -23,6 +23,8 @@ import Step11PourOrganicLayer from "./steps/11PourOrganicLayer";
 import Step12AddPowder from "./steps/12AddPowder";
 import Step13Filter from "./steps/13FilterLiquid";
 import Step14Finish from "./steps/14ObtainedOrganicProduct";
+import { api } from "~/utils/api";
+import { useUser } from "@clerk/nextjs";
 
 // Interface for the structure of each step in state.json
 interface Step {
@@ -98,16 +100,32 @@ export default function Experience() {
 
   const cameraControlsRef = useRef<Camera>(null);
   const [nextButtonTempDisabled, setNextButtonTempDisabled] = useState(false);
+  const { mutate: updateProgress } = api.lab.updateLabProgress.useMutation();
+  const { user } = useUser();
+  const userId = user?.id ?? null;
+  const { data: lab, refetch: labRefetch, isLoading: labLoading } = api.lab.getLabById.useQuery({ id: userId+"3" });
+
+  useEffect(() => {
+    if (!userId || labLoading) return;
+    const fetchProgress = async () => {
+      labRefetch().then((res) => {
+        if (res.data) {
+          setCurrentStep(res.data.progress);
+          //console.log("Progress: ", res.data.progress);
+        }
+      }).catch((error) => {
+        console.error('Error fetching lab progress:', error);
+      });
+    };
+    fetchProgress();
+  }, [userId, labLoading]);
 
   const handleNextStep = () => {
     if (currentStep < Object.keys(state).length) {
       setCurrentStep(currentStep + 1);
-      // setNextDisabled(nextButtonRef);
-
-      // setNextButtonTempDisabled(true);
-      // setTimeout(() => {
-      //   setNextButtonTempDisabled(false);
-      // }, 2000);
+      if (userId) {
+        updateProgress({ id: userId+"3", userId: userId, progress: currentStep});
+      }
     }
   };
 
