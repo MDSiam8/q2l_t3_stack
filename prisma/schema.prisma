@@ -27,6 +27,11 @@ model User {
     createdAt DateTime @default(now())
     updatedAt DateTime @updatedAt
     labs Lab[]
+
+    // link each user to an organization
+    organizationId String 
+    organization   Organization @relation(fields: [organizationId], references: [id])
+    
     //should have a list of labs they have access to
     //user tracking
 }
@@ -42,8 +47,23 @@ model Lab {
   status String
   progress Int @default(0)
 
+  // link each lab to an organization
+  organizationId String
+  organization   Organization @relation(fields: [organizationId], references: [id])
+
   user User @relation(fields: [userId], references: [id])
   userId String
 
   @@index([userId])
 }
+
+
+model Organization {
+  id        String   @id @default(cuid())
+  name      String
+  labs      Lab[]
+  users     User[]
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
