@@ -1,5 +1,5 @@
 import { BeakerModel } from "~/Models/BeakerModel"; // Make sure to replace with the correct import path for your models
-import { MicropipetteTipBoxP200Model } from "~/Models/MicropipetteTipBoxP200";
+import { MicropipetteTipBoxP20Model } from "~/Models/MicropipetteTipBoxP20";
 import { LabSchema } from "~/utils/types/types";
 import CustomStepSample from "./CustomSteps/CustomStepSample";
 import { MicropipetteP2Model } from "~/Models/MicropipetteP2";
@@ -13,8 +13,8 @@ const MicropipetteLabSchema: LabSchema = [
     directions: "Introduction to the lab",
     user_instructions: "",
     labObjects: [{
-        name: "MicropipetteTipBoxP200",
-        model: MicropipetteTipBoxP200Model,
+        name: "MicropipetteTipBoxP20",
+        model: MicropipetteTipBoxP20Model,
         actions: [
           {
             actionName: "move",
