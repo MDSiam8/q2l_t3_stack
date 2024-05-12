@@ -1,8 +1,14 @@
 import { BeakerModel } from "~/Models/BeakerModel"; // Make sure to replace with the correct import path for your models
-import { MicropipetteTipBoxP20Model } from "~/Models/MicropipetteTipBoxP20";
 import { LabSchema } from "~/utils/types/types";
 import CustomStepSample from "./CustomSteps/CustomStepSample";
 import { MicropipetteP2Model } from "~/Models/MicropipetteP2";
+import { MicropipetteP20Model } from "~/Models/MicropipetteP20";
+import { MicropipetteP200Model } from "~/Models/MicropipetteP200";
+import { MicropipetteP1000Model } from "~/Models/MicropipetteP1000";
+import { MicropipetteTipBoxP2Model } from "~/Models/MicropipetteTipBoxP2";
+import { MicropipetteTipBoxP20Model } from "~/Models/MicropipetteTipBoxP20";
+import { MicropipetteTipBoxP200Model } from "~/Models/MicropipetteTipBoxP200";
+import { MicropipetteTipBoxP1000Model } from "~/Models/MicropipetteTipBoxP1000";
 import SetVolumeCustomStep from "./CustomSteps/SetVolumeCustomStep";
 
 const MicropipetteLabSchema: LabSchema = [
@@ -12,55 +18,7 @@ const MicropipetteLabSchema: LabSchema = [
       "Welcome to the pipetting lab. In this lab, we will practice proper micropipetting techniques.",
     directions: "Introduction to the lab",
     user_instructions: "",
-    labObjects: [{
-        name: "MicropipetteTipBoxP20",
-        model: MicropipetteTipBoxP20Model,
-        actions: [
-          {
-            actionName: "move",
-            hitbox: {
-              position: [0, 1, 2],
-              scale: 1,
-            },
-            timeline: {
-              defaults: {}, // should typically be empty; can use it to pass in parameters to gsap.timeline() if needed
-              sequence: [
-                { props: { y: "+=1", duration: 1 } } // Moves the beaker upwards
-              ],
-            },
-            auto: false
-          },
-        ],
-        modelProps: {
-          startingPosition: [0, 0, 0],
-          scale: 5,
-          opacity: 1,
-          rotation: [0, 0, 0],
-        },
-      },
-    {
-      name: "Beaker",
-      model: BeakerModel,
-      modelProps: {
-        scale: 5,
-        opacity: 0.9,
-        rotation: [0, 0, 0],
-        startingPosition: [0, 0, 0],
-      },
-      actions: [
-        {
-          actionName: "move",
-          auto: true,
-          timeline: {
-            defaults: {},
-            sequence: [
-              { props: { duration: 4 }, },
-              { props: { y: "+=1", z: "+=2", duration: 1 }, },
-            ],
-          }
-        }
-      ]
-    }],
+    labObjects: [],
     interactiveElements: []
   },
   {
@@ -69,7 +27,52 @@ const MicropipetteLabSchema: LabSchema = [
     directions:
       "Our first task will be to select the appropriate micropipette.",
     user_instructions: "",
-    labObjects: [],
+    labObjects: [
+      {
+        name: "MicropipetteP2",
+        model: MicropipetteP2Model,
+        actions: [],
+        modelProps: {
+          startingPosition: [-5, 0, 0],
+          scale: 5,
+          opacity: 1,
+          rotation: [0, 0, 0],
+        },
+      },
+      {
+        name: "MicropipetteP20",
+        model: MicropipetteP20Model,
+        actions: [],
+        modelProps: {
+          startingPosition: [0, 0, 0],
+          scale: 5,
+          opacity: 1,
+          rotation: [0, 0, 0],
+        },
+      },
+      {
+        name: "MicropipetteP200",
+        model: MicropipetteP200Model,
+        actions: [],
+        modelProps: {
+          startingPosition: [5, 0, 0],
+          scale: 5,
+          opacity: 1,
+          rotation: [0, 0, 0],
+        },
+      },
+      {
+        name: "MicropipetteP1000",
+        model: MicropipetteP1000Model,
+        actions: [],
+        modelProps: {
+          startingPosition: [10, 0, 0],
+          scale: 5,
+          opacity: 1,
+          rotation: [0, 0, 0],
+        },
+      }
+    ],
     interactiveElements: [],
   },
   {
