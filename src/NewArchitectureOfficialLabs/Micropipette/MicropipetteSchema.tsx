@@ -10,6 +10,11 @@ import { MicropipetteTipBoxP20Model } from "~/Models/MicropipetteTipBoxP20";
 import { MicropipetteTipBoxP200Model } from "~/Models/MicropipetteTipBoxP200";
 import { MicropipetteTipBoxP1000Model } from "~/Models/MicropipetteTipBoxP1000";
 import SetVolumeCustomStep from "./CustomSteps/SetVolumeCustomStep";
+import { Html } from '@react-three/drei';
+import SetPipetteTypeCustomStep from "./CustomSteps/SetPipetteTypeCustomStep";
+import SelectPipetteCustomStep from "./CustomSteps/SelectPipetteCustomStep";
+import SelectTipBoxStep from "./CustomSteps/SelectTipBoxStep";
+import AttachTipStep from "./CustomSteps/AttachTipStep";
 
 const MicropipetteLabSchema: LabSchema = [
   {
@@ -18,7 +23,52 @@ const MicropipetteLabSchema: LabSchema = [
       "Welcome to the pipetting lab. In this lab, we will practice proper micropipetting techniques.",
     directions: "Introduction to the lab",
     user_instructions: "",
-    labObjects: [],
+    labObjects: [
+      {
+        name: "MicropipetteP2",
+        model: MicropipetteP2Model,
+        actions: [],
+        modelProps: {
+          startingPosition: [0, 2, 3],
+          scale: 5,
+          opacity: 1,
+          rotation: [0, 3.14 * 180 / 180, 0],
+        },
+      },
+      {
+        name: "MicropipetteP20",
+        model: MicropipetteP20Model,
+        actions: [],
+        modelProps: {
+          startingPosition: [0, 2, 1],
+          scale: 5,
+          opacity: 1,
+          rotation: [0, 3.14 * 180 / 180, 0],
+        },
+      },
+      {
+        name: "MicropipetteP200",
+        model: MicropipetteP200Model,
+        actions: [],
+        modelProps: {
+          startingPosition: [0, 2, -1],
+          scale: 5,
+          opacity: 1,
+          rotation: [0, 3.14 * 180 / 180, 0],
+        },
+      },
+      {
+        name: "MicropipetteP1000",
+        model: MicropipetteP1000Model,
+        actions: [],
+        modelProps: {
+          startingPosition: [0, 2, -3],
+          scale: 5,
+          opacity: 1,
+          rotation: [0, 3.14 * 180 / 180, 0],
+        },
+      }
+    ],
     interactiveElements: []
   },
   {
@@ -33,10 +83,10 @@ const MicropipetteLabSchema: LabSchema = [
         model: MicropipetteP2Model,
         actions: [],
         modelProps: {
-          startingPosition: [-5, 0, 0],
+          startingPosition: [0, 2, 3],
           scale: 5,
           opacity: 1,
-          rotation: [0, 0, 0],
+          rotation: [0, 3.14 * 180 / 180, 0],
         },
       },
       {
@@ -44,10 +94,10 @@ const MicropipetteLabSchema: LabSchema = [
         model: MicropipetteP20Model,
         actions: [],
         modelProps: {
-          startingPosition: [0, 0, 0],
+          startingPosition: [0, 2, 1],
           scale: 5,
           opacity: 1,
-          rotation: [0, 0, 0],
+          rotation: [0, 3.14 * 180 / 180, 0],
         },
       },
       {
@@ -55,10 +105,10 @@ const MicropipetteLabSchema: LabSchema = [
         model: MicropipetteP200Model,
         actions: [],
         modelProps: {
-          startingPosition: [5, 0, 0],
+          startingPosition: [0, 2, -1],
           scale: 5,
           opacity: 1,
-          rotation: [0, 0, 0],
+          rotation: [0, 3.14 * 180 / 180, 0],
         },
       },
       {
@@ -66,10 +116,10 @@ const MicropipetteLabSchema: LabSchema = [
         model: MicropipetteP1000Model,
         actions: [],
         modelProps: {
-          startingPosition: [10, 0, 0],
+          startingPosition: [0, 2, -3],
           scale: 5,
           opacity: 1,
-          rotation: [0, 0, 0],
+          rotation: [0, 3.14 * 180 / 180, 0],
         },
       }
     ],
@@ -81,7 +131,52 @@ const MicropipetteLabSchema: LabSchema = [
     directions:
       "Micropipettes are calibrated to different ranges. 0.2-2ul for P2 pipettes, 2ul-20ul for P20 pipettes, 20-200ul for P200 pipettes, and 200ul-1000ul for P1000 pipettes.",
     user_instructions: "",
-    labObjects: [],
+    labObjects: [
+      {
+        name: "MicropipetteP2",
+        model: MicropipetteP2Model,
+        actions: [],
+        modelProps: {
+          startingPosition: [0, 2, 3],
+          scale: 5,
+          opacity: 1,
+          rotation: [0, 3.14 * 180 / 180, 0],
+        },
+      },
+      {
+        name: "MicropipetteP20",
+        model: MicropipetteP20Model,
+        actions: [],
+        modelProps: {
+          startingPosition: [0, 2, 1],
+          scale: 5,
+          opacity: 1,
+          rotation: [0, 3.14 * 180 / 180, 0],
+        },
+      },
+      {
+        name: "MicropipetteP200",
+        model: MicropipetteP200Model,
+        actions: [],
+        modelProps: {
+          startingPosition: [0, 2, -1],
+          scale: 5,
+          opacity: 1,
+          rotation: [0, 3.14 * 180 / 180, 0],
+        },
+      },
+      {
+        name: "MicropipetteP1000",
+        model: MicropipetteP1000Model,
+        actions: [],
+        modelProps: {
+          startingPosition: [0, 2, -3],
+          scale: 5,
+          opacity: 1,
+          rotation: [0, 3.14 * 180 / 180, 0],
+        },
+      }
+    ],
     interactiveElements: [],
   },
   {
@@ -91,8 +186,9 @@ const MicropipetteLabSchema: LabSchema = [
       "Now, we'll give you a volume in microliters and you will need to identify which pipette would be appropriate to extract that volume.",
     user_instructions:
       "Hint: the pipette type is always given on the top of the push button.",
-    labObjects: [],
+      labObjects: [],
     interactiveElements: [],
+    customStep: SetPipetteTypeCustomStep
   },
   {
     stepTitle: "Select Right Pipette. USE CUSTOM STEP FOR THIS ONE.",
@@ -102,6 +198,7 @@ const MicropipetteLabSchema: LabSchema = [
       "Hint: Try rotating your camera to view the top of the pipette to see their volume!",
     labObjects: [],
     interactiveElements: [],
+    customStep: SelectPipetteCustomStep
   },
   {
     stepTitle: "Set Pipette Volume",
@@ -142,7 +239,52 @@ const MicropipetteLabSchema: LabSchema = [
       "Instruct user on how to select the right tip and attach it to the pipette",
     directions:
       "Good Job! Now let us look at identifying the correct tip holder box.",
-    labObjects: [],
+    labObjects: [
+      {
+        name: "MicropipetteTipBoxP2",
+        model: MicropipetteTipBoxP2Model,
+        actions: [],
+        modelProps: {
+          startingPosition: [0, 0, 5.5],
+          scale: 4,
+          opacity: 1,
+          rotation: [0, 0, 0],
+        },
+      },
+      {
+        name: "MicropipetteTipBoxP20",
+        model: MicropipetteTipBoxP20Model,
+        actions: [],
+        modelProps: {
+          startingPosition: [0, 0, 2.5],
+          scale: 4,
+          opacity: 1,
+          rotation: [0, 0, 0],
+        },
+      },
+      {
+        name: "MicropipetteTipBoxP200",
+        model: MicropipetteTipBoxP200Model,
+        actions: [],
+        modelProps: {
+          startingPosition: [0, 0, -0.5],
+          scale: 4,
+          opacity: 1,
+          rotation: [0, 0, 0],
+        },
+      },
+      {
+        name: "MicropipetteTipBoxP1000",
+        model: MicropipetteTipBoxP1000Model,
+        actions: [],
+        modelProps: {
+          startingPosition: [0, 0, -3.5],
+          scale: 4,
+          opacity: 1,
+          rotation: [0, 0, 0],
+        },
+      }
+    ],
     interactiveElements: [],
   },
   {
@@ -156,6 +298,7 @@ const MicropipetteLabSchema: LabSchema = [
       "Please select the appropriate tip. Hint: we selected a P2 micropipette!",
     labObjects: [],
     interactiveElements: [],
+    customStep: SelectTipBoxStep
   },
   {
     stepTitle: "Attach Tip",
@@ -167,13 +310,40 @@ const MicropipetteLabSchema: LabSchema = [
       "Click on the Micropipette to attach the tip to the pipette!",
     labObjects: [],
     interactiveElements: [],
+    customStep: AttachTipStep
   },
   {
     stepTitle: "Extracting Liquid",
     description: "Instruct user on how to extract liquid.",
     directions:
       "Awesome! Now that we have set the volume on the pipette we can now look at extracting the given volume of a reagent.",
-    labObjects: [],
+    labObjects: [
+    {
+      name: "MicropipetteP2",
+      model: MicropipetteP2Model,
+      actions: [],
+      modelProps: {
+        startingPosition: [0, 2.5, 0],
+        scale: 5,
+        opacity: 1,
+        rotation: [0, 3.14 * 180 / 180, 0],
+      },
+    },
+
+    {
+      name: "Beaker",
+      model: BeakerModel,
+      actions: [],
+      modelProps: {
+        startingPosition: [0, 0.5, 1],
+        scale: 4,
+        opacity: 1,
+        rotation: [0, 3.14 * 180 / 180, 0],
+      },
+    },
+
+
+  ],
     interactiveElements: [],
   },
   {
