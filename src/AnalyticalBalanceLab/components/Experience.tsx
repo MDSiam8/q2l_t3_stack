@@ -110,9 +110,7 @@ export default function Experience() {
     if (!userId || labLoading) return;
     const fetchProgress = async () => {
       labRefetch().then((res) => {
-        //console.log(res.data);
         if (res.data) {
-          //console.log("Progress: ", res.data.progress);
           setCurrentStep(res.data.progress);
         }
       }).catch((error) => {
@@ -127,14 +125,13 @@ export default function Experience() {
   const handleNextStep = () => {
     if (currentStep < Object.keys(state).length) {
       setCurrentStep(currentStep + 1);
-      //console.log("Current Step: ", currentStep);
       setNextDisabled(nextButtonRef);
       if (userId) {
         updateProgress({ id: userId+"1", userId: userId, progress: currentStep});
       }
-      
     }
   };
+  
   // setCurrentStep(currentStep); extracted from backend 
   // empty arr as dependency 
 
