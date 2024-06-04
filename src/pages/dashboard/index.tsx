@@ -164,9 +164,18 @@ export default function Dashboard() {
   const { mutate: createLab, isLoading: createLabsLoading } = api.lab.createLab.useMutation();
   const userId = user?.id ?? null;
   const fullName = user?.fullName ?? "new user";
+  // TODO: a placeholder for now
+  const [orgIds, setOrgIds] = useState(['t1', 't2']);
+  const [currentOrgId, setCurrentOrgId] = useState(orgIds[0] || ''); // Track the current org ID to fetch
   const { data: currUser, refetch: userRefetch , isLoading: userLoading } = api.user.getUserById.useQuery({ id: userId });
-  const { data: allLabs, refetch: labsRefetch, isLoading: labsLoading } = api.user.getAllLabs.useQuery({ userId: userId });
+  const { data: allLabs, refetch: labsRefetch, isLoading: labsLoading } = api.user.getAllLabs.useQuery({ userId: userId });  
   
+  const useOrganizationQuery = (orgId: string) => {
+    return api.organization.getOrganizationById.useQuery({ id: orgId });
+  };
+
+  const { data: org, refetch: orgRefetch, isLoading: orgLoading } = useOrganizationQuery(currentOrgId);
+
   useEffect(() => {
     if (!user || createUserLoading || createLabsLoading) {
       return;
@@ -188,19 +197,42 @@ export default function Dashboard() {
   }, [allLabs]);
 
   useEffect(() => {
-    if (!user || userLoading || labsLoading) {
+    if (!user || userLoading || labsLoading || orgLoading) {
       return;
     }
-    //console.log("currUser: ", currUser);
+    // create new user and initial labs in database
     if (!currUser) {
-      createUser({ id: userId, name: fullName });
-      // Create 3 labs for the user, need to update this to create labs based on user's access
-      createLab({ id: `${userId}1`, name: "Analytical Balances", userId: userId });
-      createLab({ id: `${userId}2`, name: "RotoVap", userId: userId });
-      createLab({ id: `${userId}3`, name: "Buchner Funnel", userId: userId });
+      // TODO: dynamically find org IDs to be initialized
+      let newLabs: any[] = [];
+      Promise.all(orgIds.map(async (orgId) => {
+        setCurrentOrgId(orgId);
+        await orgRefetch().then((orgData) => {
+          if (orgData) {
+            newLabs = newLabs.concat(orgData.data);
+          }
+        });
+      })).then(() => {
+        createUser({ id: userId, name: fullName, organizationIds: orgIds });
+        console.log('newLabs:', newLabs);
+        // After all org data is fetched and concatenated into newLabs
+        newLabs.forEach((lab, index) => {
+          console.log('lab:', lab);
+          // Assuming createLab function creates a lab in the database
+          createLab({ id:`${userId}${index}`, name: lab.labs[0], userId: userId });
+        });
+      }).catch((error) => {
+        console.error('Error fetching labs:', error);
+      });
+
+      
     }
   }, [userId, user, userLoading, labsLoading, currUser, createUser, createLab, fullName]);
-
+  // createUser({ id: userId, name: fullName, organizationIds: orgIds });
+  //   createLab({ id:`${userId}${index}`, name: lab, userId: userId });
+        // });
+        // createLab({ id: `${userId}1`, name: "Analytical Balances", userId: userId });
+        // createLab({ id: `${userId}2`, name: "RotoVap", userId: userId });
+        // createLab({ id: `${userId}3`, name: "Buchner Funnel", userId: userId });
   useEffect(() => {
     const fetchLabs = () => {
       if (!labs) {
