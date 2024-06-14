@@ -44,7 +44,7 @@ const Step5TransferProducts = forwardRef<HTMLDivElement, Step2LabTasksProps>(
         />
         <OrganicProductBeakerWithPourAnimation
           onClick={onBeakerClick}
-          position={[0, 5, -2.2]}
+          position={[0, 5, -2.1]}
           rotation-y={(3.14 / 180) * 180}
         />
         <group position={[0.4, 5, -3.8]}>
