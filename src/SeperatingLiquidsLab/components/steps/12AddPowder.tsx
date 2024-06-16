@@ -193,8 +193,8 @@ const Step12AddPowder = forwardRef<HTMLDivElement, Step2LabTasksProps>(
         <group rotation-y={3.14}>
           <SeparatingFunnelHolder position={[0, 5, 0]} />
           <SFunnelWithFillAnimation
-            position={[0, 6, 0.1]}
-            scale={1.75}
+            position={[0, 5.9, 0.17]}
+            scale={[2.7, 2, 2.7]}
             rotation-y={-3.14 / 2}
             startAnimationDelay={999}
           />

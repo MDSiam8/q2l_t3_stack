@@ -51,7 +51,9 @@ const Step6VentAirBeforeMixing = forwardRef<HTMLDivElement, Step2LabTasksProps>(
     return (
       <group>
         <group rotation-y={3.14}>
-          <SeparatingFunnelHolder position={[0, 5, 0]} />
+          <group position={[0, 5, 0]} scale={[1, 1.4, 1]}>
+              <SeparatingFunnelHolder />
+          </group>
           {/* <mesh onClick={handleAnimation}>
             <Box position={[0, 7, 0]}>
               <meshStandardMaterial transparent opacity={0.0} />
@@ -75,7 +77,7 @@ const Step6VentAirBeforeMixing = forwardRef<HTMLDivElement, Step2LabTasksProps>(
           >
             <SFunnelVentAfterMixing
               ref={funnelRef}
-              scale={1.75}
+              scale={2}
               rotation-x={(-30 * Math.PI) / 180}
               // rotation-z={(90 * Math.PI) / 180}
               //   rotation-y={(90 * Math.PI) / 180}

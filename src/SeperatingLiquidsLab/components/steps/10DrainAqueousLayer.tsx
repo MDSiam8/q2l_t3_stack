@@ -76,8 +76,8 @@ const Step10DrainSFunnel = forwardRef<HTMLDivElement, Step2LabTasksProps>(
         <group rotation-y={3.14}>
           <SeparatingFunnelHolder position={[0, 5, 0]} />
           <SFunnelWithDrainAnimation
-            position={[0, 6, 0.1]}
-            scale={1.75}
+            position={[0, 5.9, 0.14]}
+            scale={[2.7, 2, 2.7]}
             rotation-y={-3.14 / 2}
             ref={funnelRef}
             startAnimationDelay={-1}
@@ -85,7 +85,7 @@ const Step10DrainSFunnel = forwardRef<HTMLDivElement, Step2LabTasksProps>(
         </group>
         <Stopper
           ref={stopperRef}
-          position={[0, 9.05, -0.1]}
+          position={[0, 9.33, -0.14]}
           rotation-x={3.14}
           scale={0.3}
           onClick={() => {

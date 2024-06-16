@@ -36,17 +36,19 @@ const Step9MixtureSeparates = forwardRef<HTMLDivElement, Step2LabTasksProps>(
     return (
       <group>
         <group rotation-y={3.14}>
-          <SeparatingFunnelHolder position={[0, 5, 0]} />
+          <group position={[0, 5, 0]} scale={[1, 1.4, 1]}>
+            <SeparatingFunnelHolder />
+          </group>
 
-          <group ref={funnelGroupRef} position={[0, 5.7, 0.1]}>
+          <group ref={funnelGroupRef} position={[0, 6.9, 0.17]}>
             <SFunnelWithTwoLayers
               ref={funnelRef}
               rotation-y={(-90 * 3.14) / 180}
-              scale={1.75}
+              scale={[2.43, 2, 2.43]}
               startAnimationDelay={-1}
             />
             <Stopper
-              position={[0, 3, 0]}
+              position={[0, 3.45, 0]}
               rotation-z={(180 * 3.14) / 180}
               scale={0.4}
             />

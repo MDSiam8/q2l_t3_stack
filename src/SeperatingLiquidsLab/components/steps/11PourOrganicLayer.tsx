@@ -30,7 +30,7 @@ const Step11PourOrganicLayer = forwardRef<HTMLDivElement, Step2LabTasksProps>(
           .timeline()
           .to(funnelGroupRef.current.position, { y: "+=1", duration: 0.7 }) // Move up
           .to(funnelGroupRef.current.position, {
-            z: "+=3.7",
+            z: "+=4.2",
             y: "-=1.7",
             duration: 0.7,
             onComplete: () => {
@@ -53,8 +53,8 @@ const Step11PourOrganicLayer = forwardRef<HTMLDivElement, Step2LabTasksProps>(
           <group ref={funnelGroupRef}>
             <SFunnelPouringOrganicLayer
               ref={funnelRef}
-              position={[0, 6, 0.1]}
-              scale={1.75}
+              position={[0, 5.9, 0.15]}
+              scale={[2.7, 2, 2.7]}
               rotation-y={-3.14 / 2}
               startAnimationDelay={9999}
               onClick={() => {

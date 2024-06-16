@@ -32,9 +32,9 @@ const Step5StopperTheSFunnel = forwardRef<HTMLDivElement, Step2LabTasksProps>(
         // GSAP Animation for the stopper
         gsap
           .timeline()
-          .to(stopper.position, { y: "+=5", duration: 0.5 })
+          .to(stopper.position, { y: "+=6.32", duration: 0.5 })
           .to(stopper.position, { x: "+=1", duration: 0.5 })
-          .to(stopper.position, { z: "-=2.6", duration: 0.5 })
+          .to(stopper.position, { z: "-=2.68", duration: 0.5 })
           .to(stopper.rotation, { x: "3.14", duration: 0.5 })
           .to(stopper.position, { y: "-=.95", duration: 0.5 });
 
@@ -53,10 +53,12 @@ const Step5StopperTheSFunnel = forwardRef<HTMLDivElement, Step2LabTasksProps>(
     return (
       <group>
         <group rotation-y={3.14}>
-          <SeparatingFunnelHolder position={[0, 5, 0]} />
+          <group position={[0, 5, 0]} scale={[1, 1.4, 1]}>
+            <SeparatingFunnelHolder />
+          </group>
           <SFunnelWithDrainAnimation
-            position={[0, 6, 0.1]}
-            scale={1.75}
+          position={[0, 6.9, 0.17]}
+          scale={[2.43, 2, 2.43]}
             rotation-y={-3.14 / 2}
             startAnimationDelay={999}
           />

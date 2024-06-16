@@ -23,13 +23,13 @@ const Step3PourToSeperatingFunnel = forwardRef<
     if (flaskRef.current) {
       const timeline = gsap.timeline({ delay: 1 }); // Delay of 1 second before the animation starts
       timeline
-        .to(flaskRef.current.position, { y: "+=4", duration: 1 }) // Move up
+        .to(flaskRef.current.position, { y: "+=5.5", duration: 1 }) // Move up
         .to(flaskRef.current.position, { x: "+=.2", z: "-=2.6", duration: 1 }) // Move right
         .to(flaskRef.current.position, { duration: 4.5 }) // Move right
         .to(flaskRef.current.position, {
           x: "-=.2",
           z: "+=2.6",
-          y: "-=4",
+          y: "-=5.5",
           duration: 1,
           onComplete: () => {
             setNextEnabled(nextButtonRef);
@@ -41,10 +41,12 @@ const Step3PourToSeperatingFunnel = forwardRef<
   return (
     <group>
       <group rotation-y={3.14}>
-        <SeparatingFunnelHolder position={[0, 5, 0]} />
+        <group position={[0, 5, 0]} scale={[1, 1.4, 1]}>
+          <SeparatingFunnelHolder />
+        </group>
         <SFunnelWithFillAnimation
-          position={[0, 6, 0.1]}
-          scale={1.75}
+          position={[0, 6.9, 0.17]}
+          scale={[2.43, 2, 2.43]}
           rotation-y={-3.14 / 2}
           startAnimationDelay={4}
         />

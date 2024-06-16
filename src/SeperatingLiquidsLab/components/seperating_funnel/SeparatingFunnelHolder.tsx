@@ -9,7 +9,7 @@ export function SeparatingFunnelHolder(props: any) {
     <primitive
       {...props}
       object={clonedScene}
-      scale={.9}
+      scale={1.2}
       opacity={0.9}
     />
   );

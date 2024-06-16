@@ -70,10 +70,12 @@ const Step2InventorySelection = forwardRef<
 
       {selectedItems["Seperating Funnel"] && (
         <group rotation-y={3.14}>
-          <SeparatingFunnelHolder position={[0, 5, 0]} />
+          <group position={[0, 5, 0]} scale={[1, 1.4, 1]}>
+            <SeparatingFunnelHolder />
+          </group>
           <SFunnelWithFillAnimation
-            position={[0, 6, 0.1]}
-            scale={1.75}
+            position={[0, 6.9, 0.17]}
+            scale={[2.43, 2, 2.43]}
             rotation-y={-3.14 / 2}
             startAnimationDelay={999}
           />
