@@ -9,15 +9,15 @@ export const organizationUserRouter = createTRPCRouter({
         }))
         .mutation(async ({ input, ctx }) => {
             // Create a new organizationUser
-            console.log("entered here")
-            console.log(input.userId, input.organizationId)
+            // console.log("entered here")
+            // console.log(input.userId, input.organizationId)
             const organizationUser = await ctx.db.organizationUser.create({
                 data: {
                     userId: input.userId,
                     organizationId: input.organizationId,
                 },
             });
-            console.log(organizationUser)
+            // console.log(organizationUser)
             return organizationUser;
         }),
 

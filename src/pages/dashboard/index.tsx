@@ -50,28 +50,13 @@ const LabCard: React.FC<{ lab: Lab }> = ({ lab }) => {
   return (
     <Link href={lab.link} passHref>
       {/* 'passHref' ensures the href prop is passed to the underlying DOM element */}
-      <Card>
+      <Card className="bg-white h-[350px]">  
         {lab.image !== "none" && <CardImage imageSrc={lab.image} />}
         <CardHeader>
-          <div className="notebook-title">
+          <div className="notebook-title text-ellipsis overflow-hidden">
             <CardTitle>{lab.name}</CardTitle>
           </div>
         </CardHeader>
-        {
-          // <CardContent>
-          //   <div className="completed-status" style={{ color: getStatusColor(notebook.completed) }}>
-          //     <CardDescription>
-          //       {notebook.completed}
-          //     </CardDescription>
-          //   </div>
-          //   {/* <div className="last-updated">
-          //     <CardDescription>
-          //       Last updated: {notebook.updatedAt.toLocaleDateString()}
-          //     </CardDescription>
-          //   </div> */}
-          //   {/* Add additional notebook details here */}
-          // </CardContent>
-        }
       </Card>
     </Link>
   );
@@ -83,7 +68,7 @@ type LabPreviewProps = {
 
 const NotebookPreview: React.FC<LabPreviewProps> = ({ labs }) => {
   return (
-    <div className="grid grid-cols-1 gap-4 p-4 md:grid-cols-4 md:pr-10">
+    <div className="grid grid-cols-1 gap-4 p-4 md:grid-cols-4 sm:grid-cols-2 md:pr-10">
       {labs.map((lab) => (
         <LabCard key={lab.id} lab={lab} />
       ))}
@@ -213,12 +198,17 @@ export default function Dashboard() {
         });
       })).then(() => {
         createUser({ id: userId, name: fullName, organizationIds: orgIds });
-        console.log('newLabs:', newLabs);
+        // console.log('newLabs:', newLabs);
         // After all org data is fetched and concatenated into newLabs
-        newLabs.forEach((lab, index) => {
-          console.log('lab:', lab);
+        newLabs.forEach((lab, labIndex) => {
+          // console.log('lab:', lab);
           // Assuming createLab function creates a lab in the database
-          createLab({ id:`${userId}${index}`, name: lab.labs[0], userId: userId });
+          lab.labs.forEach(
+            (labName, index) => {
+              // console.log('labName:', labName)
+              createLab({ id:`${userId}${labIndex}${index}`, name: labName, userId: userId })
+            }
+          );
         });
       }).catch((error) => {
         console.error('Error fetching labs:', error);
@@ -258,15 +248,15 @@ export default function Dashboard() {
   };
 
   return (
-    <div className="relative h-full bg-dashboard-bg"> {/*Relative H-full not filling the entire page for some reason */}
-      <header className="flex h-14 items-center gap-4 border-b bg-zinc-100/40 px-6 dark:bg-zinc-800/40 lg:h-[60px]">
+    <div className="relative min-h-screen w-full bg-blue-200"> {/*Relative H-full not filling the entire page for some reason */}
+      <header className="flex h-14 items-center gap-4 border-b px-6 bg-blue-600 lg:h-[60px]">
         <div className="ml-auto flex items-center gap-4">
           <div>
             <UserButton afterSignOutUrl="/" />
           </div>
         </div>
       </header>
-      <div className="dashboard flex flex-row">
+      <div className="dashboard flex flex-row ">
         {
           // <div className="w-64 flex-shrink-0">
           //   <Sidebar />

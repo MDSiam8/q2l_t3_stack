@@ -48,7 +48,6 @@ export const organizationRouter = createTRPCRouter({
             const organization = await ctx.db.organization.findUnique({
                 where: { id: input.id },
             });
-            console.log("organization", organization)
             return organization;
         }),
     // getAllOrganizations: publicProcedure.query(async ({ ctx }) => {

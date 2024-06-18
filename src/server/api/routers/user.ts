@@ -45,7 +45,7 @@ export const userRouter = createTRPCRouter({
                 //         data: { id: orgId, name: `Organization ${orgId}` }
                 //     });
                 // }
-                console.log(orgId, organization.id, user.id)
+                // console.log(orgId, organization.id, user.id)
 
                 // create the organizationUser relation
                 await ctx.db.organizationUser.create({
@@ -54,7 +54,6 @@ export const userRouter = createTRPCRouter({
                         organizationId: orgId,
                     }
                 });
-                console.log("entered here")
                 return organization;
             }));
 
