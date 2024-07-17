@@ -18,7 +18,7 @@ interface Hitbox {
 }
 
 
-export type ActionName = "open" | "close" | "move"
+export type ActionName = "open" | "close" | "move" | "FirstStopPush" | "SecondStopPush" | "PullUp" | "PlungerPush" | "PlungerExtract" | "PlungerExpel" | "LiquidExpel" | "LiquidExtract";
 
 // export interface ActionWithHitbox {
 //   // performAction: () => void;
@@ -148,6 +148,14 @@ export interface MicropipetteProps extends ModelProps {
 
 export interface MicropipetteTipBoxProps extends ModelProps {
 
+}
+
+export interface BeakerWithOrangeReagnentProps extends ModelProps {
+  
+}
+
+export interface WasteDisposalBoxProps extends ModelProps {
+  
 }
 
 // Define a union of all specific ModelProps types

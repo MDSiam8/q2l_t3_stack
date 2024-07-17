@@ -24,25 +24,25 @@ export const BeakerModel = forwardRef<BeakerRef, BeakerProps>(
       }  
     };
 
-    // const performAction: BeakerRef["performAction"] = async (
-    //   actionName: ActionName,
-    // ) => {
-    //     const action = animations.actions
-    //     ? animations.actions[actionName]
-    //     : null;
-    //   if (action) {
-    //     animationAction.current = action;
-    //     animationAction.current.setLoop(THREE.LoopOnce, 1);
-    //     animationAction.current.clampWhenFinished = true;
-    //   }
-    //   // Make sure to return a promise, for actions that do not inherently return one, wrap in Promise.resolve()
-    //   return Promise.resolve();
-    // };
+    const performAction: BeakerRef["performAction"] = async (
+      actionName: ActionName,
+    ) => {
+        const action = animations.actions
+        ? animations.actions[actionName]
+        : null;
+      if (action) {
+        animationAction.current = action;
+        animationAction.current.setLoop(THREE.LoopOnce, 1);
+        animationAction.current.clampWhenFinished = true;
+      }
+      // Make sure to return a promise, for actions that do not inherently return one, wrap in Promise.resolve()
+      return Promise.resolve();
+    };
 
     //performAction({beaker.animation, beaker.scene, animationAction}, )
 
     useImperativeHandle(ref, () => ({
-      performAction: actionPerformer,
+      performAction: performAction,
       replayAnimation: handleReplayAnimation,
       ...beaker.scene,
       ...beakerRef.current,

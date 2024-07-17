@@ -1,0 +1,116 @@
+.customSliderContainer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  position: relative;
+  height: 100px; /* Adjust the height as needed */
+}
+
+.customSlider {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 100px; /* Set a fixed width for the slider */
+  height: 10px;
+  background: #ddd; /* Slider track color */
+  outline: none;
+  opacity: 1;
+  transition: opacity 0.2s;
+  position: relative;
+  transform: rotate(90deg);
+}
+
+.customSlider::-webkit-slider-runnable-track {
+  background: #ddd;
+  height: 10px;
+  border-radius: 5px;
+  position: relative;
+}
+
+.customSlider::-webkit-slider-runnable-track::before,
+.customSlider::-webkit-slider-runnable-track::after {
+  content: '';
+  position: absolute;
+  width: 20px; /* Width of the notch */
+  height: 2px; /* Height of the notch */
+  background: #000; /* Color of the notch */
+}
+
+.customSlider::-webkit-slider-runnable-track::before {
+  top: 50%; /* Middle of the track */
+  transform: translateY(-50%);
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.customSlider::-webkit-slider-runnable-track::after {
+  bottom: 0; /* Bottom of the track */
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.customSlider:focus::-webkit-slider-runnable-track,
+.customSlider:hover::-webkit-slider-runnable-track,
+.customSlider:active::-webkit-slider-runnable-track {
+  background: #ddd;
+}
+
+.customSlider::-moz-range-track {
+  background: #ddd;
+  height: 10px;
+  border-radius: 5px;
+}
+
+.customSlider::-ms-track {
+  background: #ddd;
+  height: 10px;
+  border-radius: 5px;
+  border-color: transparent;
+}
+
+.customSlider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 50px;
+  height: 50px;
+  margin-top: -20px; /* Adjust this value to align thumb with the track */
+  background: url('~/public/SliderThumbRevised.png') no-repeat center center;
+  background-size: contain;
+  cursor: pointer;
+  transform: rotate(-90deg);
+}
+
+.customSlider::-moz-range-thumb,
+.customSlider::-ms-thumb {
+  width: 50px;
+  height: 50px;
+  background: url('~/public/SliderThumbRevised.png') no-repeat center center;
+  background-size: contain;
+  cursor: pointer;
+  transform: rotate(-90deg);
+}
+
+.messageBox {
+  margin-left: 16px; /* Increase margin to move the message box to the right */
+  border-radius: 5px;
+  border: 1px solid #3071a9;
+  background-color: #d1ecf1;
+  padding: 8px;
+  color: #0c5460;
+}
+
+/* Notches */
+.notch {
+  position: absolute;
+  width: 20px; /* Width of the notch */
+  height: 2px; /* Height of the notch */
+  background: #000; /* Color of the notch */
+}
+
+.notch.middle {
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.notch.bottom {
+  bottom: 0;
+}

@@ -10,32 +10,35 @@ import { ActionName, RedP2MicropipetteProps } from "~/utils/types/types";
 import  performAction from "~/Models/model-utils";
 import * as THREE from 'three'
 
-const modelPath = "./redP2micropipette.glb"
+const modelPath = "./P2Micropipette-v2.glb"
 
 export const RedP2MicropipetteModel = forwardRef<RedP2MicropipetteRef, RedP2MicropipetteProps>(
     (props: RedP2MicropipetteProps, ref) => {
         const RedP2Micropipette = useGLTF(modelPath);
         const redP2MicropipetteRef = useRef<any>();
 
-        // animations not implemented atm
-        // animations must be implemented for perform action
+        const animations = useAnimations(RedP2Micropipette.animations, RedP2Micropipette.scene)
+        const animationAction = useRef<THREE.AnimationAction | null>(null);
 
-        // const performAction: RedP2MicropipetteRef["performAction"] = async (
-        //   actionName: ActionName,
-        // ) => {
-        //     const action = animations.actions
-        //     ? animations.actions[actionName]
-        //     : null;
-        //   if (action) {
-        //     animationAction.current = action;
-        //     animationAction.current.setLoop(THREE.LoopOnce, 1);
-        //     animationAction.current.clampWhenFinished = true;
-        //   }
+        const performAction: RedP2MicropipetteRef["performAction"] = async (
+          actionName: ActionName,
+        ) => {
+          const action = animations.actions ? animations.actions[actionName] : null;
+          if (action) {
+            console.log("Found Action");
+            animationAction.current = action;
+            animationAction.current.reset();
+            animationAction.current.setLoop(THREE.LoopOnce, 1);
+            animationAction.current.clampWhenFinished = true;
+            animationAction.current.play();
+          } else {
+            console.error(`Animation ${actionName} not found`);
+          }
+        
+          return Promise.resolve();
+        };
 
-        //   return Promise.resolve();
-        // };
-
-        //performAction({RedP2Micropipette.animation, RedP2Micropipette.scene, animationAction}, )
+        // performAction({RedP2Micropipette.animation, RedP2Micropipette.scene, animationAction}, )
 
         useImperativeHandle(ref, () => ({
             performAction: performAction,

@@ -69,6 +69,14 @@ export interface BlueP1000TipBoxRef extends BaseModelRef {
   
 }
 
+export interface BeakerWithOrangeReagnentRef extends BaseModelRef {
+
+}
+
 export interface MicropipetteTipBoxRef extends BaseModelRef {
   // each tank component is an individual layer
+}
+
+export interface WasteDisposalBoxRef extends BaseModelRef {
+
 }

@@ -19,7 +19,7 @@ import VolumeControlOverlay from "./CustomComponents/VolumeControlOverlay";
           rotation={[0, 0, 0]}
           scale={5}
         />
-        <group scale={0.25} rotation-y={3.14 * -90/180} position={[-.1,2.2,0]}>
+        <group scale={0.5} rotation-y={1.55} position={[-.1,2.2,-2]}>
             <VolumeControlOverlay position={overlayPosition}/>
         </group>
 
