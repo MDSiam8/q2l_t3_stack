@@ -32,8 +32,8 @@ const MicropipetteLabSchema: LabSchema = [
           },
         ],
         modelProps: {
-          startingPosition: [0, 0, 0],
-          scale: 5,
+          startingPosition: [-0.4, 5.45, -2.1],
+          scale: 4,
           opacity: 1,
           rotation: [0, 0, 0],
         },

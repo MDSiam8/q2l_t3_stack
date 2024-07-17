@@ -33,6 +33,42 @@ export interface MicropipetteRef extends BaseModelRef {
   // each tank component is an individual layer
 }
 
+export interface YellowP200MicropipetteRef extends BaseModelRef {
+  // no additional functionality atm
+}
+
+export interface RedP2MicropipetteRef extends BaseModelRef {
+  // no additional functionality atm
+}
+
+export interface OrangeP20MicropipetteRef extends BaseModelRef {
+  // no additional functionality atm
+}
+
+export interface BlueP1000MicroPipetteRef extends BaseModelRef {
+  // no additional functionality atm
+}
+
+export interface PipetteStandRef extends BaseModelRef {
+  // no additional functionality atm
+}
+
+export interface YellowP200TipBoxRef extends BaseModelRef {
+
+}
+
+export interface RedP2TipBoxRef extends BaseModelRef {
+
+}
+
+export interface OrangeP20TipBoxRef extends BaseModelRef {
+
+}
+
+export interface BlueP1000TipBoxRef extends BaseModelRef {
+  
+}
+
 export interface MicropipetteTipBoxRef extends BaseModelRef {
   // each tank component is an individual layer
 }

@@ -98,6 +98,42 @@ export interface BeakerProps extends ModelProps {
 
 }
 
+export interface YellowP200MicropipetteProps extends ModelProps {
+
+}
+
+export interface RedP2MicropipetteProps extends ModelProps {
+
+}
+
+export interface OrangeP20MicropipetteProps extends ModelProps {
+
+}
+
+export interface BlueP1000MicroPipetteProps extends ModelProps {
+
+}
+
+export interface PipetteStandProps extends ModelProps {
+
+}
+
+export interface YellowP200TipBoxProps extends ModelProps {
+
+}
+
+export interface RedP2TipBoxProps extends ModelProps {
+
+}
+
+export interface OrangeP20TipBoxProps extends ModelProps {
+
+}
+
+export interface BlueP1000TipBoxProps extends ModelProps {
+
+}
+
 export interface BeakerGlbProps extends ModelProps {
 
 }
@@ -115,7 +151,7 @@ export interface MicropipetteTipBoxProps extends ModelProps {
 }
 
 // Define a union of all specific ModelProps types
-type LabModelProps = AnalyticalBalanceModelProps | MicroscopeModelProps | CentrifugeModelProps | SampleBottleModelProps | BeakerProps | BeakerGlbProps | HorizontalGelTankProps | MicropipetteProps;
+type LabModelProps = AnalyticalBalanceModelProps | MicroscopeModelProps | CentrifugeModelProps | SampleBottleModelProps | BeakerProps;
 
 
 export interface RendererProps {

@@ -39,8 +39,7 @@ export const BeakerModel = forwardRef<BeakerRef, BeakerProps>(
     //   return Promise.resolve();
     // };
 
-    //basically need to wrap the function to change the signature
-    const actionPerformer = createActionPerformer({animations: beaker.animations, scene: beaker.scene, animationAction})
+    //performAction({beaker.animation, beaker.scene, animationAction}, )
 
     useImperativeHandle(ref, () => ({
       performAction: actionPerformer,
