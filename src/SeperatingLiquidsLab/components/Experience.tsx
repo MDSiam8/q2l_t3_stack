@@ -23,6 +23,10 @@ import Step11PourOrganicLayer from "./steps/11PourOrganicLayer";
 import Step12AddPowder from "./steps/12AddPowder";
 import Step13Filter from "./steps/13FilterLiquid";
 import Step14Finish from "./steps/14ObtainedOrganicProduct";
+import Step6VentAir from "./steps/06VentAirBeforeMixing";
+import Step7Mix from "./steps/07Mixing";
+import Step8VentAirAfterMixing from "./steps/08VentAirAfterMixing";
+import Step9SeperateLiquid from "./steps/09SeperateLiquid";
 
 // Interface for the structure of each step in state.json
 interface Step {
@@ -169,18 +173,18 @@ export default function Experience() {
           {currentStep === 5 && (
             <Step5StopperTheSFunnel nextButtonRef={nextButtonRef} />
           )}
-          {/* {currentStep === 6 && (
-            <Step6EmptyCollectionFlask nextButtonRef={nextButtonRef} />
+          {currentStep === 6 && (
+            <Step6VentAir nextButtonRef={nextButtonRef} />
           )}
           {currentStep === 7 && (
-            <Step7TurnOnHotWaterBath nextButtonRef={nextButtonRef} />
+            <Step7Mix nextButtonRef={nextButtonRef} />
           )}
           {currentStep === 8 && (
-            <Step8TurnOnCondensorAndVacuum nextButtonRef={nextButtonRef} />
+            <Step8VentAirAfterMixing nextButtonRef={nextButtonRef} />
           )}
           {currentStep === 9 && (
-            <Step9CloseStopcock nextButtonRef={nextButtonRef} />
-          )} */}
+            <Step9SeperateLiquid nextButtonRef={nextButtonRef} />
+          )}
           {currentStep === 10 && (
             <Step10DrainSFunnel nextButtonRef={nextButtonRef} />
           )}
