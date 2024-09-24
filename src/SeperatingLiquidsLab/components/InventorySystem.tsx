@@ -2,15 +2,16 @@ import React, { useState } from "react";
 import { Html } from "@react-three/drei";
 import ApparatusTab from "./ApparatusTab";
 import ChemicalsTab from "./ChemicalsTab";
-import { Vector3 } from "three";
 import { HtmlProps } from "@react-three/drei/web/Html";
 
 interface InventorySystemProps extends HtmlProps {
   onItemSelect: (item: string) => void;
 }
 
-const InventorySystem: React.FC<InventorySystemProps> = ({ onItemSelect, position, ...props }) => {
-
+const InventorySystem: React.FC<InventorySystemProps> = ({
+  onItemSelect,
+  ...props
+}) => {
   const [activeTab, setActiveTab] = useState("apparatus");
   const [isInventoryVisible, setIsInventoryVisible] = useState(false);
 
@@ -27,10 +28,7 @@ const InventorySystem: React.FC<InventorySystemProps> = ({ onItemSelect, positio
       {/* Button to toggle the inventory visibility */}
       <Html
         zIndexRange={[10, 0]}
-        className="fixed bottom-full left-1/2 -translate-x-1/2 transform select-none"
-        transform
-        rotation-y={(3.14 / 180) * 90}
-        position={position}
+        className="fixed bottom-4 left-1/2 transform -translate-x-1/2 select-none"
         {...props}
       >
         <button
@@ -43,53 +41,77 @@ const InventorySystem: React.FC<InventorySystemProps> = ({ onItemSelect, positio
 
       {/* Inventory panel */}
       {isInventoryVisible && (
-        <Html
-          zIndexRange={[110, 105]}
-          center
-          style={{ width: "100vw", height: "100vh" }}
-        >
+        <Html zIndexRange={[110, 105]} fullscreen>
           <div
-            className="inventory"
+            className="inventory-overlay"
             style={{
-              width: "100%",
-              height: "100%",
+              position: "absolute",
+              top: 0,
+              left: 0,
+              width: "100vw",
+              height: "100vh",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
               background: "rgba(0, 0, 0, 0.5)",
               backdropFilter: "blur(5px)",
             }}
           >
             <div
-              className="inventory-header"
+              className="inventory"
               style={{
+                width: "80%",
+                height: "60%",
+                background: "white",
+                borderRadius: "10px",
                 display: "flex",
-                justifyContent: "space-evenly",
-                padding: "1rem",
+                flexDirection: "column",
+                overflow: "hidden",
               }}
             >
-              <button
-                onClick={() => handleTabChange("apparatus")}
-                style={buttonStyle(activeTab === "apparatus")}
+              <div
+                className="inventory-header"
+                style={{
+                  display: "flex",
+                  justifyContent: "space-between",
+                  padding: "1rem",
+                  background: "#f0f0f0",
+                  borderTopLeftRadius: "10px",
+                  borderTopRightRadius: "10px",
+                }}
               >
-                Apparatus
-              </button>
-              <button
-                onClick={() => handleTabChange("chemicals")}
-                style={buttonStyle(activeTab === "chemicals")}
+                <div>
+                  <button
+                    onClick={() => handleTabChange("apparatus")}
+                    style={buttonStyle(activeTab === "apparatus")}
+                  >
+                    Apparatus
+                  </button>
+                  <button
+                    onClick={() => handleTabChange("chemicals")}
+                    style={buttonStyle(activeTab === "chemicals")}
+                  >
+                    Chemicals
+                  </button>
+                </div>
+                <button
+                  onClick={toggleInventory}
+                  style={closeButtonStyle()}
+                  title="Close"
+                >
+                  &#x2715;
+                </button>
+              </div>
+              <div
+                className="inventory-content"
+                style={{ overflowY: "auto", flex: 1, padding: "1rem" }}
               >
-                Chemicals
-              </button>
-              <button onClick={toggleInventory} style={buttonStyle()}>
-                Close
-              </button>
-            </div>
-            <div
-              className="inventory-content"
-              style={{ overflowY: "auto", height: "calc(100% - 40px)" }}
-            >
-              {activeTab === "apparatus" ? (
-                <ApparatusTab onItemSelect={onItemSelect} />
-              ) : (
-                <ChemicalsTab onItemSelect={onItemSelect} />
-              )}
+                {activeTab === "apparatus" ? (
+                  <ApparatusTab onItemSelect={onItemSelect} />
+                ) : (
+                  <ChemicalsTab onItemSelect={onItemSelect} />
+                )}
+              </div>
             </div>
           </div>
         </Html>
@@ -100,12 +122,29 @@ const InventorySystem: React.FC<InventorySystemProps> = ({ onItemSelect, positio
 
 const buttonStyle = (isActive = false) => ({
   padding: "10px 20px",
-  margin: "0 10px",
+  margin: "0 5px",
   border: "none",
-  background: isActive ? "white" : "gray",
-  color: isActive ? "black" : "white",
+  background: isActive ? "#007bff" : "#ccc",
+  color: isActive ? "white" : "black",
   cursor: "pointer",
   outline: "none",
+  borderRadius: "5px",
+});
+
+const closeButtonStyle = () => ({
+  padding: "10px",
+  margin: "0 5px",
+  border: "none",
+  background: "#ccc",
+  color: "black",
+  cursor: "pointer",
+  outline: "none",
+  borderRadius: "50%",
+  width: "40px",
+  height: "40px",
+  textAlign: "center",
+  lineHeight: "20px",
+  fontSize: "20px",
 });
 
 export default InventorySystem;
