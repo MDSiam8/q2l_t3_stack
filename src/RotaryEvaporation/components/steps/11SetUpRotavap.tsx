@@ -1,15 +1,11 @@
-import React, { useEffect, forwardRef } from "react";
-import { RotavapWithHeatBathAnim } from "../rotavap/RotavapWithHeatOnAnim";
-import { OrganicProductBeaker } from "../BeakerWithSolution";
+import React, { useEffect, useRef, useState, forwardRef } from "react";
 import { setNextEnabled } from "../Experience";
-import { Html } from "next/document";
-import { HundredMLFlask } from "../round-bottom-flasks/100mlRBFlask";
-import { TwentyFiveMLFlask } from "../round-bottom-flasks/25mlRBFlask";
-import { FiftyMLFlask } from "../round-bottom-flasks/50mlRBFlask";
-import { RotavapCloseStopcock } from "../rotavap/RotavapCloseStopcock";
-import Arrow from "../Arrow";
-import { RotavapWithRaiseArmAnim } from "../rotavap/RotavapRaiseArmAnimation";
-import { RotavapWithSetupAnimations } from "../rotavap/RotavapWithSetupAnimations";
+import { Html } from "@react-three/drei";
+import { RotoVap_NoAttachments } from "../rotavap/RotoVap_NoAttachments";
+import { BumpTrap } from "../rotavap/BumpTrap";
+import { KeckClip_BP } from "../rotavap/KeckClip_(BP)";
+import { RB_Flask_TA } from "../rotavap/RBFlask_ToAttach";
+import { KeckClip_RB } from "../rotavap/KeckClip_(RB)";
 
 interface Step2LabTasksProps {
   nextButtonRef: React.RefObject<HTMLButtonElement>;
@@ -17,25 +13,60 @@ interface Step2LabTasksProps {
 
 const Step11SetupRotavp = forwardRef<HTMLDivElement, Step2LabTasksProps>(
   ({ nextButtonRef }, ref) => {
-    useEffect(() => {
-      // Enable the next button after 3 seconds
-      const timer = setTimeout(() => {
-        if (nextButtonRef && nextButtonRef.current) {
-          setNextEnabled(nextButtonRef);
-        }
-      }, 3000);
+    const bumpTrapRef = useRef<any>(null);
+    const keckClipBPRef = useRef<any>(null);
+    const rbFlaskTARef = useRef<any>(null);
+    const keckClipRBRef = useRef<any>(null);
 
-      // Clear the timeout if the component unmounts
-      return () => clearTimeout(timer);
-    }, [nextButtonRef]);
+    const [incorrectOrder, setIncorrectOrder] = useState(false);
 
     return (
       <group>
-        <RotavapWithSetupAnimations position={[0, 5, 0]} scale={0.8} />
-        {/* <HundredMLFlask position={[2.2, 5, -2.2]} /> */}
+        {/* Base Rotovap */}
+        <RotoVap_NoAttachments position={[0, 5, 0]} scale={0.8} />
+
+        {/* Clickable components */}
+        <BumpTrap
+          ref={bumpTrapRef}
+          position={[0, 5, -0.5]}
+          scale={0.5}
+        />
+        <KeckClip_BP
+          ref={keckClipBPRef}
+          position={[0, 5, -2.25]}
+          scale={0.5}
+        />
+        <RB_Flask_TA
+          ref={rbFlaskTARef}
+          position={[0, 5, -3]}
+          scale={0.5}
+        />
+        <KeckClip_RB
+          ref={keckClipRBRef}
+          position={[0, 5, -3.5]}
+          scale={0.5}
+        />
+
+        {/* Incorrect order message */}
+        {incorrectOrder && (
+          <Html center>
+            <div
+              style={{
+                color: "red",
+                backgroundColor: "white",
+                padding: "10px",
+                borderRadius: "5px",
+                position: "absolute",
+                top: "20px",
+              }}
+            >
+              Incorrect order!
+            </div>
+          </Html>
+        )}
       </group>
     );
-  },
+  }
 );
 
 export default Step11SetupRotavp;

@@ -101,10 +101,13 @@
         "objectsInFocus": [
             {
                 "Object": "rotovap",
-                "animation": , 
+                "animation": "Animaiton" 
 
+            },
+            {
+                "Object":"hot_water_bath",
+                "animation": "Animation"
             }
-            "rotovap", "hot_water_bath"
         
         
         ]
