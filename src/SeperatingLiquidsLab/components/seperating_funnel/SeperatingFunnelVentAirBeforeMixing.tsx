@@ -7,7 +7,7 @@ interface BeakerWithWasteFillAnimationProps {
   [key: string]: any; // To allow for other props like position, scale, etc.
 }
 
-export function SeperatingFunnelVentAirBeforeMixing({ startAnimationDelay = 0, ...props }: BeakerWithWasteFillAnimationProps) {
+export function SFunnelVentingAirBeforeMixing({ startAnimationDelay = 0, ...props }: BeakerWithWasteFillAnimationProps) {
   const { scene, animations } = useGLTF("./vent air (before mixing).glb");
   const clonedScene = scene.clone(); // Clone the scene for isolated use
   const { actions } = useAnimations(animations, clonedScene);

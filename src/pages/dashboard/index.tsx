@@ -119,7 +119,9 @@ const notebook4: Notebook = {
   id: "4",
   name: "Micropipette",
   updatedAt: new Date(),
-  link: "/micropipette"
+  link: "/micropipette",
+  image: "buchner.jpeg",
+  completed: "Not Started",
 }
 
 const access_labs = [notebook, notebook2, notebook3, notebook4]

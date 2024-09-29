@@ -1,7 +1,7 @@
 import React, { useEffect, forwardRef, useRef } from "react";
 import { setNextEnabled } from "../Experience";
 import { SeparatingFunnelHolder } from "../seperating_funnel/SeparatingFunnelHolder";
-import { SeperatingFunnelVentAirBeforeMixing } from "../seperating_funnel/SeperatingFunnelVentAirBeforeMixing";
+import { SFunnelVentingAirBeforeMixing } from "../seperating_funnel/SeperatingFunnelVentAirBeforeMixing";
 import gsap from "gsap";
 import * as THREE from "three";
 
@@ -44,7 +44,7 @@ const Step6VentAir = forwardRef<HTMLDivElement, Step2LabTasksProps>(
         <group rotation-y={Math.PI}>
           <SeparatingFunnelHolder position={[0, 5, 0]}>
             <group ref={funnelGroupRef}>
-              <SeperatingFunnelVentAirBeforeMixing
+              <SFunnelVentingAirBeforeMixing
                 position={[0.2, 3, 0.8]}
                 scale={1.75}
                 rotation-y={5}
