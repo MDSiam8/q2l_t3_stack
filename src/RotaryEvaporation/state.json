@@ -142,8 +142,17 @@
         "directions": "Turn off the rotation, then turn off the hot water bath.",
         "user_instructions": "Press the rotation knob to zero and power off. Then repeat for the hot water bath.",
         "objectsInFocus": [
-            "rotovap",
-            "hot_water_bath"
+            {
+                "Object": "rotovap",
+                "animation": "Animaiton" 
+
+            },
+            {
+                "Object":"hot_water_bath",
+                "animation": "Animation"
+            }
+        
+        
         ]
     },
     "16": {
