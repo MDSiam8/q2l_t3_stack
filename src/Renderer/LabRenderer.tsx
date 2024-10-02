@@ -14,7 +14,7 @@ import {
   Action
 } from "~/utils/types/types";
 import { preload } from "react-dom";
-import THREE, { Camera } from "three";
+import * as THREE from "three";
 import Table from "~/AnalyticalBalanceLab/components/Table";
 import gsap from "gsap";
 
