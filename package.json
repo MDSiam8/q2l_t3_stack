@@ -30,11 +30,11 @@
     "@types/three": "^0.158.2",
     "bootstrap-icons": "^1.11.3",
     "class-variance-authority": "^0.7.0",
-    "clerk": "^0.8.3",
+    "clerk": "^0.6.1",
     "clsx": "^2.0.0",
     "gsap": "^3.12.5",
     "leva": "^0.9.35",
-    "lucid": "^2.21.0",
+    "lucid": "^0.0.1",
     "lucide-react": "^0.303.0",
     "next": "^14.0.4",
     "postcss-focus-visible": "^9.0.1",
@@ -49,6 +49,7 @@
     "tunnel": "^0.0.6",
     "tunnel-rat": "^0.1.2",
     "tweenjs": "^1.0.2",
+    "update": "^0.7.4",
     "zod": "^3.22.4"
   },
   "devDependencies": {
