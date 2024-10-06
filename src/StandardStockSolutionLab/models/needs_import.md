@@ -1,0 +1,4 @@
+flask
+distilled_water
+stopper
+stirrer
