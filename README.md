@@ -1,4 +1,4 @@
-# Create T3 App - The incredibly handsome Ihsan
+# Create T3 App - The incredibly handsome Ihsan and the incredibly handsome SIAM
 
 This is a [T3 Stack](https://create.t3.gg/) project bootstrapped with `create-t3-app`.
 
