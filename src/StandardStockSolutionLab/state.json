@@ -207,13 +207,22 @@
   "16": {
     "stepTitle": "Adding Water to Dilute the Solution",
     "description": "User adds distilled water to the flask to dilute the solution",
-    "directions": "Add water until bottom of the miniscus reaches the line on the flask. Notice the white tile in the background to make the line more noticeable!",
+    "directions": "Add water until bottom of the miniscus reaches the line on the flask (do not go over!). Notice the white tile in the background to make the line more noticeable!",
     "objectsInFocus": [
       "flask",
       "distilled_water" 
     ]
   },
   "17": {
+    "stepTitle": "Adding Water With a Dropper",
+    "description": "User adds distilled water to the flask using an eyedropper",
+    "directions": "Add water using a dropper to finish reaching the line.",
+    "objectsInFocus": [
+      "flask",
+      "dropper"
+    ]
+  },
+  "18": {
     "stepTitle": "Adding the Stopper and Mixing the Solution",
     "description": "User adds a stopper and rotates the flask to mix the solution",
     "directions": "Attach the stopper to the flask and rotate the flask to mix the solution.",
@@ -222,7 +231,7 @@
       "stopper" 
     ]
   },
-  "18": {
+  "19": {
     "stepTitle": "The End",
     "description": "This is the ending step, indicating to the user that they have finished the lab.",
     "directions": "Congratulations! You have finished the lab. We hope you enjoyed it!",
