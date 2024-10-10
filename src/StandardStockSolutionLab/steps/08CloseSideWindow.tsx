@@ -25,7 +25,7 @@ interface EighthStepComponentMethods {
   replayAnimation: () => Promise<void>;
 }
 
-const EighthStepComponent = forwardRef<
+const Step8CloseSideWindow = forwardRef<
   EighthStepComponentMethods,
   EighthStepComponentProps
 >(({ setIsAnimating, nextButtonRef }, ref) => {
@@ -103,4 +103,4 @@ const EighthStepComponent = forwardRef<
   );
 });
 
-export default EighthStepComponent;
+export default Step8CloseSideWindow;

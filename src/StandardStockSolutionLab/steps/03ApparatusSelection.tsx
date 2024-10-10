@@ -13,7 +13,7 @@ interface SelectedItems {
 }
 const requiredItems = new Set(["Analytical Balance", "Weighing Paper", "Beaker", "Spatula", "Powder Sample"]);
 
-const ThirdStepComponent = forwardRef<HTMLDivElement, {nextButtonRef: React.RefObject<HTMLButtonElement>}>(({ nextButtonRef }, ref) => {
+const Step3SelectApparatus = forwardRef<HTMLDivElement, {nextButtonRef: React.RefObject<HTMLButtonElement>}>(({ nextButtonRef }, ref) => {
   const [selectedItems, setSelectedItems] = useState<SelectedItems>({});
 
   const handleItemSelection = (itemName: string) => {
@@ -68,4 +68,4 @@ const ThirdStepComponent = forwardRef<HTMLDivElement, {nextButtonRef: React.RefO
   );
 });
 
-export default ThirdStepComponent;
+export default Step3SelectApparatus;

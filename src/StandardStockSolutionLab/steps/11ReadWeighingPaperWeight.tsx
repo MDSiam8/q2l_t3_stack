@@ -19,7 +19,7 @@ interface EleventhStepComponentProps {
   nextButtonRef: React.RefObject<HTMLButtonElement>;
 }
 
-const EleventhStepComponent = forwardRef<
+const Step11ReadPaperWeight = forwardRef<
   THREE.Group,
   EleventhStepComponentProps
 >(({ nextButtonRef }, ref) => {
@@ -94,4 +94,4 @@ const EleventhStepComponent = forwardRef<
   );
 });
 
-export default EleventhStepComponent;
+export default Step11ReadPaperWeight;

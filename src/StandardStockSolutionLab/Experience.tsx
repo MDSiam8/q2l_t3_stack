@@ -6,24 +6,22 @@ import {
   OrbitControls,
   PerspectiveCamera,
 } from "@react-three/drei";
-import FirstStepComponent from "./steps/01IntroduceLabObjectives";
-import SecondStepComponent from "./steps/02ExplainTask";
-import FourthStepComponent from "./steps/04OpenSideWindow";
+import Step1Introduction from "./steps/01IntroduceLabObjectives";
+import Step2ExplainTask from "./steps/02ExplainTask";
+import Step4OpenSideWindow from "./steps/04OpenSideWindow";
 import Table from "./models/Table";
-// ...other necessary imports...
-
 import state from "./state.json";
 import InventorySystem from "./ui_overlay/InventorySystem";
-import ThirdStepComponent from "./steps/03ApparatusSelection";
-import FifthStepComponent from "./steps/05FoldWeighingPaper";
-import SixthStepComponent from "./steps/06PlaceWeighingPaper";
-import SeventhStepComponent from "./steps/07AddPowderSample";
+import Step3SelectApparatus from "./steps/03ApparatusSelection";
+import Step5FoldWeighingPaper from "./steps/05FoldWeighingPaper";
+import Step6PlaceWeighingPaper from "./steps/06PlaceWeighingPaper";
+import Step7AddPowder from "./steps/07AddPowderSample";
 import EightStepComponent from "./steps/08CloseSideWindow";
-import NinthStepComponent from "./steps/09ReadWeightOfSample";
-import TenthStepComponent from "./steps/10TransferSampleToBeaker";
-import EleventhStepComponent from "./steps/11ReadWeighingPaperWeight";
-import TwelvthStepComponent from "./steps/12CalculateSamplePowderWeight";
-import FinishedStepComponent from "./steps/18FinishedStepComponent";
+import Step9ReadWeight from "./steps/09ReadWeightOfSample";
+import Step10TransferSample from "./steps/10TransferSampleToBeaker";
+import Step11ReadPaperWeight from "./steps/11ReadWeighingPaperWeight";
+import Step12CalculateSamplePowderWeight from "./steps/12CalculateSamplePowderWeight";
+import FinishedStepComponent from "./steps/19FinishedStepComponent";
 import { Canvas, useFrame, useThree } from "@react-three/fiber";
 import { CameraAdjuster } from "./utils/CameraAdjuster";
 import { Camera, Vector3 } from "three";
@@ -181,15 +179,15 @@ export default function Experience() {
           </mesh>
 
           {/* Conditional Rendering of Step Components */}
-          {currentStep === 1 && <FirstStepComponent />}
+          {currentStep === 1 && <Step1Introduction />}
           {currentStep === 2 && (
-            <SecondStepComponent nextButtonRef={nextButtonRef} />
+            <Step2ExplainTask nextButtonRef={nextButtonRef} />
           )}
           {currentStep === 3 && (
-            <ThirdStepComponent nextButtonRef={nextButtonRef} />
+            <Step3SelectApparatus nextButtonRef={nextButtonRef} />
           )}
           {currentStep === 4 && (
-            <FourthStepComponent
+            <Step4OpenSideWindow
               ref={(el) => {
                 stepRefs.current[4] = el as StepComponentRef; // Ensure that nothing is returned
               }}
@@ -198,19 +196,19 @@ export default function Experience() {
           )}
 
           {currentStep === 5 && (
-            <FifthStepComponent
+            <Step5FoldWeighingPaper
               ref={(el) => {(stepRefs.current[5] = el as StepComponentRef)}}
               nextButtonRef={nextButtonRef}
             />
           )}
           {currentStep === 6 && (
-            <SixthStepComponent
+            <Step6PlaceWeighingPaper
               ref={(el) => {(stepRefs.current[6] = el as StepComponentRef)}}
               nextButtonRef={nextButtonRef}
             />
           )}
           {currentStep === 7 && (
-            <SeventhStepComponent
+            <Step7AddPowder
               ref={(el) => {(stepRefs.current[7] = el as StepComponentRef)}}
               setIsAnimating={setIsAnimating}
               nextButtonRef={nextButtonRef}
@@ -224,19 +222,19 @@ export default function Experience() {
             />
           )}
           {currentStep === 9 && (
-            <NinthStepComponent nextButtonRef={nextButtonRef} />
+            <Step9ReadWeight nextButtonRef={nextButtonRef} />
           )}
           {currentStep === 10 && (
-            <TenthStepComponent
+            <Step10TransferSample
               ref={(el) =>{ (stepRefs.current[10] = el as StepComponentRef)}}
               nextButtonRef={nextButtonRef}
             />
           )}
           {currentStep === 11 && (
-            <EleventhStepComponent nextButtonRef={nextButtonRef} />
+            <Step11ReadPaperWeight nextButtonRef={nextButtonRef} />
           )}
           {currentStep === 12 && (
-            <TwelvthStepComponent nextButtonRef={nextButtonRef} />
+            <Step12CalculateSamplePowderWeight nextButtonRef={nextButtonRef} />
           )}
           {currentStep === 13 && (
             <FinishedStepComponent nextButtonRef={nextButtonRef} />

@@ -22,7 +22,7 @@ interface WeighingPaperRef {
 interface FifthStepComponentProps {
   nextButtonRef: React.RefObject<HTMLButtonElement>;
 }
-const FifthStepComponent = forwardRef<{}, FifthStepComponentProps>(
+const Step5FoldWeighingPaper = forwardRef<{}, FifthStepComponentProps>(
   ({ nextButtonRef }, ref) => {
   const weighingPaperRef = useRef<WeighingPaperRef>(null);
   const paperGroup = useRef(new THREE.Group());
@@ -112,4 +112,4 @@ const FifthStepComponent = forwardRef<{}, FifthStepComponentProps>(
   );
 });
 
-export default FifthStepComponent;
+export default Step5FoldWeighingPaper;

@@ -8,7 +8,7 @@ interface SecondStepComponentProps {
 }
 
 // Use forwardRef to forward refs to the component
-const SecondStepComponent = forwardRef<HTMLDivElement, SecondStepComponentProps>(
+const Step2ExplainTask = forwardRef<HTMLDivElement, SecondStepComponentProps>(
   ({ nextButtonRef }, ref) => {  const bottleRef = useRef();
   const bottleCapRef = useRef();
 
@@ -33,4 +33,4 @@ const SecondStepComponent = forwardRef<HTMLDivElement, SecondStepComponentProps>
   );
 });
 
-export default SecondStepComponent;
+export default Step2ExplainTask;

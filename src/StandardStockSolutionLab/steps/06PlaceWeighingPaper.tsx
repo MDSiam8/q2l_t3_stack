@@ -27,7 +27,7 @@ interface SixthStepComponentProps {
   nextButtonRef: React.RefObject<HTMLButtonElement>;
 }
 
-const SixthStepComponent = forwardRef<{}, SixthStepComponentProps>(
+const Step6PlaceWeighingPaper = forwardRef<{}, SixthStepComponentProps>(
   ({ nextButtonRef }, ref) => {
 
   const balanceWithAnimationsRef = useRef<BalanceWithAnimationsRef>(null);
@@ -122,4 +122,4 @@ const SixthStepComponent = forwardRef<{}, SixthStepComponentProps>(
   );
 });
 
-export default SixthStepComponent;
+export default Step6PlaceWeighingPaper;
