@@ -65,6 +65,11 @@ interface StepComponentRef {
   replayAnimation?: () => void;
   // other methods or properties
 }
+
+interface SelectedItems {
+  [itemName: string]: boolean;
+}
+
 export const getClassNameForNext = (isDisabled: boolean): string => {
   let str =
     "flex-grow transform rounded-lg bg-gradient-to-r from-blue-400 to-purple-500 px-4 py-2 font-bold text-white transition duration-300 hover:scale-105 ";
@@ -89,6 +94,7 @@ export const setNextEnabled = (
     nextButtonRef.current.className = getClassNameForNext(false);
   }
 };
+
 export default function Experience() {
   const [currentStep, setCurrentStep] = useState<number>(1);
   const key = currentStep.toString() as StateKey;
@@ -100,6 +106,21 @@ export default function Experience() {
 
   const cameraControlsRef = useRef<Camera>(null);
   const [nextButtonTempDisabled, setNextButtonTempDisabled] = useState(false);
+  const requiredItems = new Set([
+    "Analytical Balance",
+    "Weighing Paper",
+    "Beaker",
+    "Spatula",
+    "Powder Sample",
+  ]);
+
+  const [selectedItems, setSelectedItems] = useState<SelectedItems>({});
+
+  const [isInventoryVisible, setIsInventoryVisible] = useState(false);
+
+  const handleToggleInventory = () => {
+    setIsInventoryVisible(!isInventoryVisible);
+  };
 
   const handleNextStep = () => {
     if (currentStep < Object.keys(state).length) {
@@ -110,6 +131,22 @@ export default function Experience() {
       //   setNextButtonTempDisabled(false);
       // }, 2000);
     }
+  };
+
+  const handleItemSelection = (itemName: string, isCorrect: boolean) => {
+    setSelectedItems((prev) => {
+      const newSelectedItems = { ...prev, [itemName]: isCorrect };
+
+      // Check if all required items are selected
+      const allSelected = Array.from(requiredItems).every(
+        (item) => newSelectedItems[item],
+      );
+      if (allSelected && nextButtonRef.current) {
+        setNextEnabled(nextButtonRef);
+      }
+
+      return newSelectedItems;
+    });
   };
 
   const handleReplayAnimation = () => {
@@ -142,6 +179,16 @@ export default function Experience() {
       }
     >
       <div style={{ position: "relative", height: "100vh" }}>
+        {/* Inventory toggle button */}
+        {currentStep === 3 && !isInventoryVisible && (
+          <button
+            onClick={handleToggleInventory}
+            className="absolute left-4 top-4 z-50 m-4 rounded-md bg-blue-500 px-4 py-2 text-white shadow-lg hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-300 focus:ring-opacity-50"
+          >
+            Open Inventory
+          </button>
+        )}
+
         <Canvas
           shadows
           camera={{
@@ -184,7 +231,10 @@ export default function Experience() {
             <Step2ExplainTask nextButtonRef={nextButtonRef} />
           )}
           {currentStep === 3 && (
-            <Step3SelectApparatus nextButtonRef={nextButtonRef} />
+            <Step3SelectApparatus
+              selectedItems={selectedItems}
+              nextButtonRef={nextButtonRef}
+            />
           )}
           {currentStep === 4 && (
             <Step4OpenSideWindow
@@ -194,7 +244,6 @@ export default function Experience() {
               nextButtonRef={nextButtonRef}
             />
           )}
-
           {currentStep === 5 && (
             <Step5FoldWeighingPaper
               ref={(el) => {(stepRefs.current[5] = el as StepComponentRef)}}
@@ -241,6 +290,15 @@ export default function Experience() {
           )}
           {/* ...add more steps as needed... */}
         </Canvas>
+         
+        {currentStep === 3 && (
+          <InventorySystem
+            onItemSelect={handleItemSelection}
+            selectedItems={selectedItems}
+            toggleInventory={handleToggleInventory}
+            isInventoryVisible={isInventoryVisible}
+          />
+        )}
         <div
           style={{
             position: "absolute",
