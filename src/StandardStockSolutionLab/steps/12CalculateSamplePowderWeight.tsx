@@ -23,7 +23,7 @@ interface TwelvthStepComponentProps {
   nextButtonRef: React.RefObject<HTMLButtonElement>;
 }
 
-const TwelvthStepComponent = forwardRef<THREE.Group, TwelvthStepComponentProps>(
+const Step12CalculateSamplePowderWeight = forwardRef<THREE.Group, TwelvthStepComponentProps>(
   ({ nextButtonRef }, ref) => {
     const balanceWithAnimationsRef = useRef<BalanceWithAnimationsHandles>(null);
     const weighingPaperRef = useRef<THREE.Group>(null);
@@ -95,5 +95,5 @@ const TwelvthStepComponent = forwardRef<THREE.Group, TwelvthStepComponentProps>(
     );
   });
   
-  export default TwelvthStepComponent;
+  export default Step12CalculateSamplePowderWeight;
   

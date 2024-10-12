@@ -11,33 +11,18 @@ import { setNextEnabled } from "../Experience";
 interface SelectedItems {
   [itemName: string]: boolean;
 }
-const requiredItems = new Set(["Analytical Balance", "Weighing Paper", "Beaker", "Spatula", "Powder Sample"]);
 
-const ThirdStepComponent = forwardRef<HTMLDivElement, {nextButtonRef: React.RefObject<HTMLButtonElement>}>(({ nextButtonRef }, ref) => {
-  const [selectedItems, setSelectedItems] = useState<SelectedItems>({});
+interface ThirdStepProps {
+  nextButtonRef: React.RefObject<HTMLButtonElement>;
+  selectedItems: SelectedItems;
+}
 
-  const handleItemSelection = (itemName: string) => {
-    setSelectedItems((prev) => {
-      const newSelectedItems = { ...prev, [itemName]: !prev[itemName] };
 
-      // Check if all required items are selected
-      const allSelected = Array.from(requiredItems).every(item => newSelectedItems[item]);
-      if (allSelected && nextButtonRef.current) {
-        // nextButtonRef.current.disabled = false; // Enable the next 
-        setNextEnabled(nextButtonRef);
-      }
-
-      return newSelectedItems;
-    });
-  };
+const Step3SelectApparatus = forwardRef<HTMLDivElement, ThirdStepProps>(
+  ({ nextButtonRef, selectedItems }, ref) => {
 
   return (
     <group>
-      <InventorySystem
-        onItemSelect={handleItemSelection}
-        position={[0, 7.7, 0]}
-        scale={0.6}
-      />
       {selectedItems["Analytical Balance"] && (
         <BalanceWithAnimations position={[0, 4.55, 0]} isOpen={true} />
       )}
@@ -68,4 +53,4 @@ const ThirdStepComponent = forwardRef<HTMLDivElement, {nextButtonRef: React.RefO
   );
 });
 
-export default ThirdStepComponent;
+export default Step3SelectApparatus;

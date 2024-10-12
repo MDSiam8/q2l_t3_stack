@@ -21,7 +21,7 @@ interface FourthStepComponentProps {
   nextButtonRef: React.RefObject<HTMLButtonElement>;
 }
 
-const FourthStepComponent = forwardRef<{}, FourthStepComponentProps>(
+const Step4OpenSideWindow = forwardRef<{}, FourthStepComponentProps>(
   ({ nextButtonRef }, ref) => {
     const balanceWithAnimationsRef = useRef<BalanceWithAnimationsRef>(null);
 
@@ -76,4 +76,4 @@ const FourthStepComponent = forwardRef<{}, FourthStepComponentProps>(
   },
 );
 
-export default FourthStepComponent;
+export default Step4OpenSideWindow;

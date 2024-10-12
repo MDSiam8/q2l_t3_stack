@@ -1,7 +1,7 @@
 import React, { forwardRef } from "react";
 import BalanceWithAnimations from "../models/BalanceWithAnimations";
 
-const FirstStepComponent = forwardRef((props, ref) => {
+const Step1Introduction = forwardRef((props, ref) => {
   return (
     <group>
       {/* The balance is positioned at the same coordinates as specified in the FourthStepComponent */}
@@ -11,4 +11,4 @@ const FirstStepComponent = forwardRef((props, ref) => {
   );
 });
 
-export default FirstStepComponent;
+export default Step1Introduction;

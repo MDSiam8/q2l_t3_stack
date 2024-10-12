@@ -23,7 +23,7 @@ interface NinthStepComponentRef extends Group {
   replayAnimation: () => Promise<void>;
 }
 
-const NinthStepComponent = forwardRef<NinthStepComponentRef, NinthStepComponentProps>(
+const Step9ReadWeight = forwardRef<NinthStepComponentRef, NinthStepComponentProps>(
   ({ nextButtonRef }, ref) => {
     const balanceWithAnimationsRef = useRef<BalanceWithAnimationsHandles>(null);
     const weighingPaperRef = useRef<WeighingPaperRef>(null);
@@ -88,4 +88,4 @@ const NinthStepComponent = forwardRef<NinthStepComponentRef, NinthStepComponentP
   },
 );
 
-export default NinthStepComponent;
+export default Step9ReadWeight;

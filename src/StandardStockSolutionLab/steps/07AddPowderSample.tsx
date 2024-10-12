@@ -29,7 +29,7 @@ interface BalanceWithAnimationsRef {
 interface WeighingPaperRef {
   replayAnimation: () => void;
 }
-const SeventhStepComponent = forwardRef<unknown, SeventhStepComponentProps>(
+const Step7AddPowder = forwardRef<unknown, SeventhStepComponentProps>(
   ({ setIsAnimating, nextButtonRef }, ref) => {
     const balanceWithAnimationsRef = useRef<BalanceWithAnimationsRef>(null);
     const weighingPaperRef = useRef<WeighingPaperRef>(null);
@@ -459,4 +459,4 @@ const SeventhStepComponent = forwardRef<unknown, SeventhStepComponentProps>(
   },
 );
 
-export default SeventhStepComponent;
+export default Step7AddPowder;

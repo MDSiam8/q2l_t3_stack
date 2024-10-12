@@ -27,7 +27,7 @@ export interface TenthStepComponentRef {
   replayAnimation: () => Promise<void>;
 }
 
-const TenthStepComponent = forwardRef<
+const Step10TransferSample = forwardRef<
   TenthStepComponentRef,
   TenthStepComponentProps
 >(({ nextButtonRef }, ref) => {
@@ -179,4 +179,4 @@ const TenthStepComponent = forwardRef<
   );
 });
 
-export default TenthStepComponent;
+export default Step10TransferSample;
