@@ -197,6 +197,8 @@ export default function Experience() {
             // far: 200,
             position: [11.57, 10.1, -0.314],
           }}
+          style={{ background: "#37474f" }} // Subtle light gray background
+
         >
           <CameraAdjuster />
           {/* <CameraControls makeDefault ref={cameraControlsRef} onStart={() => {
@@ -219,11 +221,11 @@ export default function Experience() {
             receiveShadow
             position-y={-1}
             rotation-x={-Math.PI * 0.5}
-            scale={65}
+            scale={605}
           >
             <planeGeometry />
-            <meshStandardMaterial color="greenyellow" />
-          </mesh>
+            <meshStandardMaterial color="#37474f" /> {/* Soft minty green */}
+            </mesh>
 
           {/* Conditional Rendering of Step Components */}
           {currentStep === 1 && <Step1Introduction />}
