@@ -23,7 +23,7 @@ import NinthStepComponent from "./steps/09ReadWeightOfSample";
 import TenthStepComponent from "./steps/10TransferSampleToBeaker";
 import EleventhStepComponent from "./steps/11ReadWeighingPaperWeight";
 import TwelvthStepComponent from "./steps/12CalculateSamplePowderWeight";
-import FinishedStepComponent from "./steps/18FinishedStepComponent";
+import FinishedStepComponent from "./steps/19FinishedStepComponent";
 import { Canvas, useFrame, useThree } from "@react-three/fiber";
 import { CameraAdjuster } from "./utils/CameraAdjuster";
 import { Camera, Vector3 } from "three";

@@ -210,7 +210,8 @@
     "directions": "Add water until bottom of the miniscus reaches the line on the flask (do not go over!). Notice the white tile in the background to make the line more noticeable!",
     "objectsInFocus": [
       "flask",
-      "distilled_water" 
+      "distilled_water",
+      "white_tile"
     ]
   },
   "17": {

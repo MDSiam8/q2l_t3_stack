@@ -3,3 +3,4 @@ distilled_water
 stopper
 stirrer
 dropper
+white_tile
