@@ -1,6 +1,5 @@
 import React, { forwardRef } from "react";
 import BalanceWithAnimations from "../models/BalanceWithAnimations";
-import { Flask } from "../models/Flask";
 
 const Step1Introduction = forwardRef((props, ref) => {
   return (
