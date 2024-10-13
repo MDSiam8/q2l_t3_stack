@@ -25,6 +25,8 @@ import FinishedStepComponent from "./steps/19FinishedStepComponent";
 import { Canvas, useFrame, useThree } from "@react-three/fiber";
 import { CameraAdjuster } from "./utils/CameraAdjuster";
 import { Camera, Vector3 } from "three";
+import Step15CheckBeakerResidue from "./steps/15CheckBeakerResidue";
+import Step16DiluteSolutionInFlask from "./steps/16DiluteSolutionInFlask";
 
 // Interface for the structure of each step in state.json
 interface Step {
@@ -96,7 +98,7 @@ export const setNextEnabled = (
 };
 
 export default function Experience() {
-  const [currentStep, setCurrentStep] = useState<number>(1);
+  const [currentStep, setCurrentStep] = useState<number>(16);
   const key = currentStep.toString() as StateKey;
   const stepData = state[key]; // Safe indexing
   const stepRefs = useRef<Record<number, StepComponentRef>>({});
@@ -291,6 +293,12 @@ export default function Experience() {
             <FinishedStepComponent nextButtonRef={nextButtonRef} />
           )}
           {/* ...add more steps as needed... */}
+          {currentStep === 15 && (
+            <Step15CheckBeakerResidue nextButtonRef={nextButtonRef} />
+          )}
+          {currentStep === 16 && (
+            <Step16DiluteSolutionInFlask nextButtonRef={nextButtonRef} />
+          )}
         </Canvas>
          
         {currentStep === 3 && (
