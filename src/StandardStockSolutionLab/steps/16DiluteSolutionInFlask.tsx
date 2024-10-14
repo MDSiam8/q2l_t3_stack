@@ -2,6 +2,9 @@ import React, { useState, useEffect } from "react";
 import { Html } from "@react-three/drei";
 import { setNextDisabled, setNextEnabled } from "../Experience";
 import { Flask } from "../models/Flask"; // Assuming you have a Flask component similar to Beaker
+import { DistilledWater } from "../models/DistilledWater";
+import WhiteTile from "../models/WhiteTile";
+
 
 interface DiluteSolutionInFlaskProps {
   nextButtonRef: React.RefObject<HTMLButtonElement>;
@@ -33,8 +36,9 @@ const Step16DiluteSolutionInFlask: React.FC<DiluteSolutionInFlaskProps> = ({
 
   return (
     <group>
-      <Flask position={[0, 5, 0]} /> {/* Adjust the position as per your scene */}
-
+      <Flask position={[0, 4.95, 0]} /> {/* Adjust the position as per your scene */}
+      <DistilledWater position={[0, 5, 1.5]} rotation-y={270 * Math.PI / 180}/>
+      <WhiteTile position={[-0.5, 5.8, 0]} transform scale={2.25} rotation-x={90 * Math.PI / 180} rotation-z={90 * Math.PI / 180}/>
       {/* Floating Pour Button */}
       <Html position={[0, 8, 0]} transform scale={0.5} rotation-y={90 * Math.PI / 180}>
         <button
