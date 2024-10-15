@@ -1,14 +1,85 @@
-import React, { forwardRef } from "react";
-import BalanceWithAnimations from "../models/BalanceWithAnimations";
+import React, {
+  useRef,
+  useEffect,
+  useImperativeHandle,
+  forwardRef,
+} from "react";
 
-const Step1Introduction = forwardRef((props, ref) => {
-  return (
-    <group>
-      {/* The balance is positioned at the same coordinates as specified in the FourthStepComponent */}
-      <BalanceWithAnimations position={[0, 4.55, 0]} isOpen={true} />
-      {/* Additional elements specific to the first step can be added here */}
+import { GlassDropper } from "../models/GlassDropper";
+import { Flask } from "../models/Flask";
+import { Stopper } from "../models/Stopper" 
+import * as THREE from "three";
+import * as TWEEN from "@tweenjs/tween.js";
+import { setNextEnabled } from "../Experience";
+
+
+interface StopperRef {
+replayAnimation: () => void;
+}
+
+interface EighteenthStepComponentProps {
+nextButtonRef: React.RefObject<HTMLButtonElement>;
+}
+
+const Step18AttachStopper  = forwardRef<{}, EighteenthStepComponentProps>(
+({ nextButtonRef }, ref) => {
+
+const stopperRef = useRef<StopperRef>(null);
+const stopperGroup = useRef(new THREE.Group());
+const startPos = new THREE.Vector3(0, 1, 0);
+
+useEffect(() => {
+  const animate = () => {
+    requestAnimationFrame(animate);
+    TWEEN.update();
+  };
+  requestAnimationFrame(animate);
+
+  handleReplayAnimation(); // Start the initial animation sequence
+}, []);
+
+const moveStopperDown = () => {
+  return new Promise((resolve) => {
+    const downPosition = new THREE.Vector3(0, -1.55, 0); // Move down by 1 unit
+    const endPosition = stopperGroup.current.position.clone().add(downPosition);
+
+    new TWEEN.Tween(stopperGroup.current.position)
+      .to(endPosition, 1500)
+      .onUpdate(() => {
+        stopperGroup.current.position.copy(stopperGroup.current.position);
+      })
+      .onComplete(() => resolve(0))
+      .start();
+  });
+};
+
+const handleReplayAnimation = async () => {
+  stopperGroup.current.position.copy(startPos); // Reset to start position
+  await moveStopperDown(); // move stopper down
+  setNextEnabled(nextButtonRef);
+};
+
+useImperativeHandle(ref, () => ({
+  replayAnimation: handleReplayAnimation,
+}));
+
+return (
+  <group>
+    <Flask
+      position={[0.15, 5, 0]}
+    />
+    
+    <group ref={stopperGroup}>
+      <Stopper
+        rotation-x={(3.14 / 180) * 180}
+        scale={0.5}
+        ref={stopperRef}
+        position={[0.15, 7.5, 0]}
+      />
     </group>
-  );
+  </group>
+);
 });
 
-export default Step1Introduction;
+
+export default Step18AttachStopper;
