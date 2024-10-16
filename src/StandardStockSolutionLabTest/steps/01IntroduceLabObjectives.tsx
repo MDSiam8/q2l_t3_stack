@@ -1,85 +1,71 @@
-import React, {
-  useRef,
-  useEffect,
-  useImperativeHandle,
-  forwardRef,
-} from "react";
-
+import React, { useRef, useEffect } from "react";
 import { GlassDropper } from "../models/GlassDropper";
 import { Flask } from "../models/Flask";
-import { Stopper } from "../models/Stopper" 
+import { GlassRod } from "../models/GlassRod";
 import * as THREE from "three";
 import * as TWEEN from "@tweenjs/tween.js";
-import { setNextEnabled } from "../Experience";
 
+const Step4OpenSideWindow = () => {
+  const dropperGroup = useRef(new THREE.Group()); // Reference for the glass dropper group
 
-interface StopperRef {
-replayAnimation: () => void;
-}
+  useEffect(() => {
+    const initialDropperPosition = new THREE.Vector3(2.5, 5, 1.5); // Start at the far right of the table
+    const finalDropperPosition = new THREE.Vector3(0.15, 6.9, 0.1); // Final position above the flask
 
-interface EighteenthStepComponentProps {
-nextButtonRef: React.RefObject<HTMLButtonElement>;
-}
+    // Function to animate the dropper
+    const animateGlassDropper = () => {
+      return new Promise((resolve) => {
+        // Move glass dropper up by 1 unit
+        new TWEEN.Tween(dropperGroup.current.position)
+          .to({ y: initialDropperPosition.y + 1 }, 1000)
+          .easing(TWEEN.Easing.Quadratic.Out)
+          .start();
 
-const Step18AttachStopper  = forwardRef<{}, EighteenthStepComponentProps>(
-({ nextButtonRef }, ref) => {
+        // After moving up, rotate the dropper by -75 degrees on the X-axis
+        setTimeout(() => {
+          new TWEEN.Tween(dropperGroup.current.rotation)
+            .to({ x: -(3.14 / 180) * 75 }, 1000) // Rotate to -75 degrees
+            .easing(TWEEN.Easing.Quadratic.Out)
+            .start();
+        }, 1000);
 
-const stopperRef = useRef<StopperRef>(null);
-const stopperGroup = useRef(new THREE.Group());
-const startPos = new THREE.Vector3(0, 1, 0);
+        // Move dropper left and then down to its final position
+        setTimeout(() => {
+          new TWEEN.Tween(dropperGroup.current.position)
+            .to({ x: finalDropperPosition.x, y: finalDropperPosition.y, z: finalDropperPosition.z }, 1000)
+            .easing(TWEEN.Easing.Quadratic.Out)
+            .onComplete(resolve) // Resolve the promise when done
+            .start();
+        }, 2000); // Start after 2 seconds (allow for the upward movement and rotation)
+      });
+    };
 
-useEffect(() => {
-  const animate = () => {
+    // Start the animation when the component mounts
+    const startAnimation = async () => {
+      await animateGlassDropper();
+    };
+
+    startAnimation(); // Trigger the animation
+
+    // Animation loop
+    const animate = (time : number) => {
+      TWEEN.update(time);
+      requestAnimationFrame(animate);
+    };
     requestAnimationFrame(animate);
-    TWEEN.update();
-  };
-  requestAnimationFrame(animate);
+  }, []);
 
-  handleReplayAnimation(); // Start the initial animation sequence
-}, []);
+  return (
+    <group>
+      <Flask position={[0.15, 5, 0]} />
 
-const moveStopperDown = () => {
-  return new Promise((resolve) => {
-    const downPosition = new THREE.Vector3(0, -1.55, 0); // Move down by 1 unit
-    const endPosition = stopperGroup.current.position.clone().add(downPosition);
+      <GlassRod rotation-x={(3.14 / 180) * 15} position={[0.15, 6.5, 0]} />
 
-    new TWEEN.Tween(stopperGroup.current.position)
-      .to(endPosition, 1500)
-      .onUpdate(() => {
-        stopperGroup.current.position.copy(stopperGroup.current.position);
-      })
-      .onComplete(() => resolve(0))
-      .start();
-  });
-};
-
-const handleReplayAnimation = async () => {
-  stopperGroup.current.position.copy(startPos); // Reset to start position
-  await moveStopperDown(); // move stopper down
-  setNextEnabled(nextButtonRef);
-};
-
-useImperativeHandle(ref, () => ({
-  replayAnimation: handleReplayAnimation,
-}));
-
-return (
-  <group>
-    <Flask
-      position={[0.15, 5, 0]}
-    />
-    
-    <group ref={stopperGroup}>
-      <Stopper
-        rotation-x={(3.14 / 180) * 180}
-        scale={0.5}
-        ref={stopperRef}
-        position={[0.15, 7.5, 0]}
-      />
+      <group ref={dropperGroup} position={[2.5, 5, 1.5]} rotation-x={-(Math.PI / 2)}> {/* Initially lying horizontally */}
+        <GlassDropper scale={0.5} />
+      </group>
     </group>
-  </group>
-);
-});
+  );
+};
 
-
-export default Step18AttachStopper;
+export default Step4OpenSideWindow;

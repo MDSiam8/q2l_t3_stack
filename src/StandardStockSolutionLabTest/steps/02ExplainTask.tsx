@@ -1,36 +1,85 @@
-import React, { useEffect, useRef, forwardRef } from "react";
-import { Bottle } from "../models/Bottle";
-import { BottleCap } from "../models/BottleCap";
+import React, {
+  useRef,
+  useEffect,
+  useImperativeHandle,
+  forwardRef,
+} from "react";
+
+import { GlassDropper } from "../models/GlassDropper";
+import { Flask } from "../models/Flask";
+import { Stopper } from "../models/Stopper" 
+import * as THREE from "three";
+import * as TWEEN from "@tweenjs/tween.js";
 import { setNextEnabled } from "../Experience";
 
-interface SecondStepComponentProps {
-  nextButtonRef: React.RefObject<HTMLButtonElement>;
+
+interface StopperRef {
+replayAnimation: () => void;
 }
 
-// Use forwardRef to forward refs to the component
-const Step2ExplainTask = forwardRef<HTMLDivElement, SecondStepComponentProps>(
-  ({ nextButtonRef }, ref) => {  const bottleRef = useRef();
-  const bottleCapRef = useRef();
+interface EighteenthStepComponentProps {
+nextButtonRef: React.RefObject<HTMLButtonElement>;
+}
 
-  useEffect(() => {
-    // Enable the next button after 3 seconds
-    const timer = setTimeout(() => {
-      if (nextButtonRef && nextButtonRef.current) {
-        // nextButtonRef.current.disabled = false;
-        setNextEnabled(nextButtonRef);
-      }
-    }, 3000);
+const Step18AttachStopper  = forwardRef<{}, EighteenthStepComponentProps>(
+({ nextButtonRef }, ref) => {
 
-    // Clear the timeout if the component unmounts
-    return () => clearTimeout(timer);
-  }, [nextButtonRef]);
+const stopperRef = useRef<StopperRef>(null);
+const stopperGroup = useRef(new THREE.Group());
+const startPos = new THREE.Vector3(0, 1, 0);
 
-  return (
-    <group>
-      <Bottle ref={bottleRef} position={[0, 5, 0]} />
-      <BottleCap ref={bottleCapRef} position={[0, 5.1, 0]} />
+useEffect(() => {
+  const animate = () => {
+    requestAnimationFrame(animate);
+    TWEEN.update();
+  };
+  requestAnimationFrame(animate);
+
+  handleReplayAnimation(); // Start the initial animation sequence
+}, []);
+
+const moveStopperDown = () => {
+  return new Promise((resolve) => {
+    const downPosition = new THREE.Vector3(0, -1.55, 0); // Move down by 1 unit
+    const endPosition = stopperGroup.current.position.clone().add(downPosition);
+
+    new TWEEN.Tween(stopperGroup.current.position)
+      .to(endPosition, 1500)
+      .onUpdate(() => {
+        stopperGroup.current.position.copy(stopperGroup.current.position);
+      })
+      .onComplete(() => resolve(0))
+      .start();
+  });
+};
+
+const handleReplayAnimation = async () => {
+  stopperGroup.current.position.copy(startPos); // Reset to start position
+  await moveStopperDown(); // move stopper down
+  setNextEnabled(nextButtonRef);
+};
+
+useImperativeHandle(ref, () => ({
+  replayAnimation: handleReplayAnimation,
+}));
+
+return (
+  <group>
+    <Flask
+      position={[0.15, 5, 0]}
+    />
+    
+    <group ref={stopperGroup}>
+      <Stopper
+        rotation-x={(3.14 / 180) * 180}
+        scale={0.5}
+        ref={stopperRef}
+        position={[0.15, 7.5, 0]}
+      />
     </group>
-  );
+  </group>
+);
 });
 
-export default Step2ExplainTask;
+
+export default Step18AttachStopper;
