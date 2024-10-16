@@ -37,7 +37,7 @@ const Step16DiluteSolutionInFlask: React.FC<DiluteSolutionInFlaskProps> = ({
   return (
     <group>
       <Flask position={[0, 4.95, 0]} /> {/* Adjust the position as per your scene */}
-      <DistilledWater position={[0, 5, 1.5]} rotation-y={270 * Math.PI / 180}/>
+      <DistilledWater position={[0, 6.25, 0.9]} rotation-y={270 * Math.PI / 180} rotation-x={320 * Math.PI / 180}/>
       <WhiteTile position={[-0.5, 5.8, 0]} transform scale={2.25} rotation-x={90 * Math.PI / 180} rotation-z={90 * Math.PI / 180}/>
       {/* Floating Pour Button */}
       <Html position={[0, 8, 0]} transform scale={0.5} rotation-y={90 * Math.PI / 180}>
