@@ -29,14 +29,31 @@ const stopperGroup = useRef(new THREE.Group());
 const startPos = new THREE.Vector3(0, 1, 0);
 
 useEffect(() => {
-  const animate = () => {
-    requestAnimationFrame(animate);
-    TWEEN.update();
-  };
-  requestAnimationFrame(animate);
-
-  handleReplayAnimation(); // Start the initial animation sequence
+  stopperGroup.current.position.copy(startPos); // ensure initial position is start pos
 }, []);
+
+// for starting the animation as soon as the step starts
+// useEffect(() => {
+//   const animate = () => {
+//     requestAnimationFrame(animate);
+//     TWEEN.update();
+//   };
+//   requestAnimationFrame(animate);
+
+//   handleReplayAnimation(); // Start the initial animation sequence
+// }, []);
+
+const handleStopperClick = () => {
+  if (stopperGroup.current) {
+    const animate = () => {
+      requestAnimationFrame(animate);
+      TWEEN.update();
+    };
+    requestAnimationFrame(animate);
+
+    handleReplayAnimation(); 
+  }
+};
 
 const moveStopperDown = () => {
   return new Promise((resolve) => {
@@ -56,7 +73,9 @@ const moveStopperDown = () => {
 const handleReplayAnimation = async () => {
   stopperGroup.current.position.copy(startPos); // Reset to start position
   await moveStopperDown(); // move stopper down
-  setNextEnabled(nextButtonRef);
+  if(stopperRef.current){
+    stopperRef.current.replayAnimation();
+  }
 };
 
 useImperativeHandle(ref, () => ({
@@ -71,10 +90,29 @@ return (
     
     <group ref={stopperGroup}>
       <Stopper
+        capped={false}
         rotation-x={(3.14 / 180) * 180}
         scale={0.5}
         ref={stopperRef}
         position={[0.15, 7.5, 0]}
+        onClick={() => {
+          stopperGroup.current.position.copy(startPos); // Ensure initial position is set
+
+            const animate = () => {
+              requestAnimationFrame(animate);
+              TWEEN.update();
+            };
+            requestAnimationFrame(animate);
+
+            // Start the initial animation sequence
+            moveStopperDown().then(() => {
+              if (stopperRef.current) {
+                stopperRef.current.replayAnimation();
+              }
+            }).then(() => {
+              setNextEnabled(nextButtonRef);
+            });
+        }}
       />
     </group>
   </group>
