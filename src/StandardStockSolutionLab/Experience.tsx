@@ -21,6 +21,7 @@ import Step9ReadWeight from "./steps/09ReadWeightOfSample";
 import Step10TransferSample from "./steps/10TransferSampleToBeaker";
 import Step11ReadPaperWeight from "./steps/11ReadWeighingPaperWeight";
 import Step12CalculateSamplePowderWeight from "./steps/12CalculateSamplePowderWeight";
+import Step16DiluteSolutionInFlask from "./steps/16DiluteSolutionInFlask";
 import FinishedStepComponent from "./steps/19FinishedStepComponent";
 import { Canvas, useFrame, useThree } from "@react-three/fiber";
 import { CameraAdjuster } from "./utils/CameraAdjuster";
@@ -56,6 +57,7 @@ interface State {
   "10": Step;
   "11": Step;
   "12": Step;
+  "16": Step;
 }
 
 type StateKey = keyof State;
@@ -96,7 +98,7 @@ export const setNextEnabled = (
 };
 
 export default function Experience() {
-  const [currentStep, setCurrentStep] = useState<number>(1);
+  const [currentStep, setCurrentStep] = useState<number>(16);
   const key = currentStep.toString() as StateKey;
   const stepData = state[key]; // Safe indexing
   const stepRefs = useRef<Record<number, StepComponentRef>>({});
@@ -286,6 +288,9 @@ export default function Experience() {
           )}
           {currentStep === 12 && (
             <Step12CalculateSamplePowderWeight nextButtonRef={nextButtonRef} />
+          )}
+          {currentStep === 16 && (
+            <Step16DiluteSolutionInFlask nextButtonRef={nextButtonRef} />
           )}
           {currentStep === 13 && (
             <FinishedStepComponent nextButtonRef={nextButtonRef} />
