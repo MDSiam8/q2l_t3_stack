@@ -39,16 +39,6 @@ const Step15CheckBeakerResidue = forwardRef<Group, CheckBeakerResidueProps>(
             position={[2, 0, 0]}
           />
         </group>
-
-
-
-
-
-        {/* <Html>
-          <div style={{ color: "black", backgroundColor: "rgba(255, 255, 255, 0.8)" }}>
-            residue
-          </div>
-        </Html> */}
       </group>
     );
   }
