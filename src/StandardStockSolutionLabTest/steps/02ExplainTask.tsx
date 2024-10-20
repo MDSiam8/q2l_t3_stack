@@ -43,18 +43,6 @@ useEffect(() => {
 //   handleReplayAnimation(); // Start the initial animation sequence
 // }, []);
 
-const handleStopperClick = () => {
-  if (stopperGroup.current) {
-    const animate = () => {
-      requestAnimationFrame(animate);
-      TWEEN.update();
-    };
-    requestAnimationFrame(animate);
-
-    handleReplayAnimation(); 
-  }
-};
-
 const moveStopperDown = () => {
   return new Promise((resolve) => {
     const downPosition = new THREE.Vector3(0, -1.55, 0); // Move down by 1 unit
