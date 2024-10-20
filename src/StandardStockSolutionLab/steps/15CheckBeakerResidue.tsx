@@ -33,12 +33,16 @@ const Step15CheckBeakerResidue = forwardRef<Group, CheckBeakerResidueProps>(
           rotation-y={(-Math.PI / 180) * 45}
         />
 
-        <GlassRod
-          ref={glassRodRef}
-          position={[2, 6, -1.5]}
-          // scale={[1, 100, 1]}
-          rotation={[3.14 / 4, 0, 3.14 / 6]}
-        />
+        <group rotation={[Math.PI / 36, 0, 0]} position={[0, 6, -1.5]}>
+          <GlassRod
+            ref={glassRodRef}
+            position={[2, 0, 0]}
+          />
+        </group>
+
+
+
+
 
         {/* <Html>
           <div style={{ color: "black", backgroundColor: "rgba(255, 255, 255, 0.8)" }}>
