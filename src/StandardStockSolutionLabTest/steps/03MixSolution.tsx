@@ -162,12 +162,12 @@ useEffect(() => {
   }));
   
   return (
-    <group ref={flaskStopperGroup}>
+    <group ref={flaskStopperGroup} position={[0, 0, 0]}>
         <Flask
             position={[0.15, 5, 0]}
             mixed={false}
             ref={flaskRef}
-            rotation-x={(3.14159 / 180) * 90}
+            rotation-x={0}
             onClick={() => {
                 flaskStopperGroup.current.position.copy(startPos); // Ensure initial position is set
     
