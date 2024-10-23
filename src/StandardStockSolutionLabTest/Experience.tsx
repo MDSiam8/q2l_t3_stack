@@ -8,7 +8,7 @@ import {
 } from "@react-three/drei";
 import Step1Introduction from "./steps/01IntroduceLabObjectives";
 import Step2ExplainTask from "./steps/02ExplainTask";
-import Step3MixSolution from "./steps/03MixSolution";
+import Step3MixSolution from "./steps/03MixSolution"
 import Table from "./models/Table";
 import state from "./state.json";
 import InventorySystem from "./ui_overlay/InventorySystem";
@@ -171,14 +171,14 @@ export default function Experience() {
     >
       <div style={{ position: "relative", height: "100vh" }}>
         {/* Inventory toggle button */}
-        {currentStep === 3 && !isInventoryVisible && (
+        {/* {currentStep === 3 && !isInventoryVisible && (
           <button
             onClick={handleToggleInventory}
             className="absolute left-4 top-4 z-50 m-4 rounded-md bg-blue-500 px-4 py-2 text-white shadow-lg hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-300 focus:ring-opacity-50"
           >
             Open Inventory
           </button>
-        )}
+        )} */}
 
         <Canvas
           shadows
@@ -228,14 +228,14 @@ export default function Experience() {
           )}
         </Canvas>
          
-        {currentStep === 3 && (
+        {/* {currentStep === 3 && (
           <InventorySystem
             onItemSelect={handleItemSelection}
             selectedItems={selectedItems}
             toggleInventory={handleToggleInventory}
             isInventoryVisible={isInventoryVisible}
           />
-        )}
+        )} */}
         <div
           style={{
             position: "absolute",
