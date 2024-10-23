@@ -8,6 +8,7 @@ import {
 } from "@react-three/drei";
 import Step1Introduction from "./steps/01IntroduceLabObjectives";
 import Step2ExplainTask from "./steps/02ExplainTask";
+import Step3MixSolution from "./steps/03MixSolution";
 import Table from "./models/Table";
 import state from "./state.json";
 import InventorySystem from "./ui_overlay/InventorySystem";
@@ -221,6 +222,9 @@ export default function Experience() {
           {currentStep === 1 && <Step1Introduction />}
           {currentStep === 2 && (
             <Step2ExplainTask nextButtonRef={nextButtonRef} />
+          )}
+          {currentStep === 3 && (
+            <Step3MixSolution nextButtonRef={nextButtonRef} />
           )}
         </Canvas>
          

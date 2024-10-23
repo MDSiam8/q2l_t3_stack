@@ -5,7 +5,7 @@ import React, {
     forwardRef,
   } from "react";
   
-  import { GlassDropper } from "../models/GlassDropper";
+
   import { Flask } from "../models/Flask";
   import { Stopper } from "../models/Stopper" 
   import * as THREE from "three";
@@ -13,56 +13,147 @@ import React, {
   import { setNextEnabled } from "../Experience";
   
   
-  interface StopperRef {
+  interface FlaskRef {
   replayAnimation: () => void;
   }
   
-  interface EighteenthStepComponentProps {
+  interface NineteenthStepComponentProps {
   nextButtonRef: React.RefObject<HTMLButtonElement>;
   }
   
-  const Step18AttachStopper  = forwardRef<{}, EighteenthStepComponentProps>(
+  const Step19MixSolution  = forwardRef<{}, NineteenthStepComponentProps>(
   ({ nextButtonRef }, ref) => {
   
-  const stopperRef = useRef<StopperRef>(null);
-  const stopperGroup = useRef(new THREE.Group());
-  const startPos = new THREE.Vector3(0, 1, 0);
-  
-  useEffect(() => {
-    stopperGroup.current.position.copy(startPos); // ensure initial position is start pos
-  }, []);
-  
-  // for starting the animation as soon as the step starts
-  // useEffect(() => {
-  //   const animate = () => {
-  //     requestAnimationFrame(animate);
-  //     TWEEN.update();
-  //   };
-  //   requestAnimationFrame(animate);
-  
-  //   handleReplayAnimation(); // Start the initial animation sequence
-  // }, []);
-  
-  const moveStopperDown = () => {
+  const flaskRef = useRef<FlaskRef>(null);
+  const flaskStopperGroup = useRef(new THREE.Group());
+  const startPos = new THREE.Vector3(0, 0, 0);
+ 
+//actual
+//   useEffect(() => {
+//     flaskStopperGroup.current.position.copy(startPos); // ensure initial position is start pos
+//   }, []);
+
+//while coding
+useEffect(() => {
+  const animate = () => {
+    requestAnimationFrame(animate);
+    TWEEN.update();
+  };
+  requestAnimationFrame(animate);
+
+  handleReplayAnimation(); // Start the initial animation sequence
+}, []);
+
+//make all of this into one function like in step 7
+
+    const animateFlask = () => {
+        return new Promise((resolve) => {
+
+            //move flask up
+            const downPosition = new THREE.Vector3(0, 1.55, 0); // Move down by 1 unit
+            const endPosition = flaskStopperGroup.current.position.clone().add(downPosition);
+            new TWEEN.Tween(flaskStopperGroup.current.position)
+            .to(endPosition, 1500)
+            .easing(TWEEN.Easing.Quadratic.Out)
+            .onUpdate(() => {
+            flaskStopperGroup.current.position.copy(flaskStopperGroup.current.position);
+            })
+            //.onComplete(() => resolve(0))
+            .start();
+
+            //rotate flask upside down
+            setTimeout(() =>{
+                new TWEEN.Tween(flaskStopperGroup.current.rotation)
+                .to({ x: -(3.14 / 180) * 180 }, 1500)
+                .easing(TWEEN.Easing.Quadratic.Out)
+                .start();
+            }, 1000);
+
+            setTimeout(() =>{
+                new TWEEN.Tween(flaskStopperGroup.current.position)
+                .to(endPosition, 1500)
+                .easing(TWEEN.Easing.Quadratic.Out)
+                .onUpdate(() => {
+                  flaskStopperGroup.current.position.copy(flaskStopperGroup.current.position);
+                })
+                .onComplete(() => resolve(0))
+                .start();
+            }, 1000);
+        })
+    }
+  const moveFlaskUp = () => {
     return new Promise((resolve) => {
-      const downPosition = new THREE.Vector3(0, -1.55, 0); // Move down by 1 unit
-      const endPosition = stopperGroup.current.position.clone().add(downPosition);
+      const downPosition = new THREE.Vector3(0, 1.55, 0); // Move down by 1 unit
+      const endPosition = flaskStopperGroup.current.position.clone().add(downPosition);
   
-      new TWEEN.Tween(stopperGroup.current.position)
+      new TWEEN.Tween(flaskStopperGroup.current.position)
         .to(endPosition, 1500)
         .onUpdate(() => {
-          stopperGroup.current.position.copy(stopperGroup.current.position);
+          flaskStopperGroup.current.position.copy(flaskStopperGroup.current.position);
         })
         .onComplete(() => resolve(0))
         .start();
     });
   };
   
+  const rotateFlaskDown = () => {
+    return new Promise((resolve) => {
+        new TWEEN.Tween(flaskStopperGroup.current.rotation)
+            .to({ y: -(3.14 / 180) * 90, z: (3.14 / 180) * 180}, 1500)
+            .easing(TWEEN.Easing.Quadratic.Out)
+            .start();
+
+    //   const adjust = new THREE.Vector3(0,11,0); // Move down by 1 unit
+    //   const endPosition = flaskStopperGroup.current.position.clone().add(adjust);
+  
+    //   new TWEEN.Tween(flaskStopperGroup.current.position)
+    //     .to(endPosition, 1500)
+    //     .onUpdate(() => {
+    //       flaskStopperGroup.current.position.copy(flaskStopperGroup.current.position);
+    //     })
+    //     .onComplete(() => resolve(0))
+    //     .start();
+    });
+  };
+
+  const rotateFlaskUp = () => {
+    return new Promise((resolve) => {
+      const downPosition = new THREE.Vector3(0, -1.55, 0); // Move down by 1 unit
+      const endPosition = flaskStopperGroup.current.position.clone().add(downPosition);
+  
+      new TWEEN.Tween(flaskStopperGroup.current.position)
+        .to(endPosition, 1500)
+        .onUpdate(() => {
+          flaskStopperGroup.current.position.copy(flaskStopperGroup.current.position);
+        })
+        .onComplete(() => resolve(0))
+        .start();
+    });
+  };
+
+  const moveFlaskDown = () => {
+    return new Promise((resolve) => {
+      const downPosition = new THREE.Vector3(0, -1.55, 0); // Move down by 1 unit
+      const endPosition = flaskStopperGroup.current.position.clone().add(downPosition);
+  
+      new TWEEN.Tween(flaskStopperGroup.current.position)
+        .to(endPosition, 1500)
+        .onUpdate(() => {
+          flaskStopperGroup.current.position.copy(flaskStopperGroup.current.position);
+        })
+        .onComplete(() => resolve(0))
+        .start();
+    });
+  };
+
   const handleReplayAnimation = async () => {
-    stopperGroup.current.position.copy(startPos); // Reset to start position
-    await moveStopperDown(); // move stopper down
-    if(stopperRef.current){
-      stopperRef.current.replayAnimation();
+    flaskStopperGroup.current.position.copy(startPos); // Reset to start position
+    //await animateFlask;
+    await moveFlaskUp(); 
+    await rotateFlaskDown();
+    //await moveFlaskDown();
+    if(flaskRef.current){
+      flaskRef.current.replayAnimation();
     }
   };
   
@@ -71,42 +162,42 @@ import React, {
   }));
   
   return (
-    <group>
-      <Flask
-        position={[0.15, 5, 0]}
-      />
-      
-      <group ref={stopperGroup}>
-        <Stopper
-          capped={false}
-          rotation-x={(3.14 / 180) * 180}
-          scale={0.5}
-          ref={stopperRef}
-          position={[0.15, 7.5, 0]}
-          onClick={() => {
-            stopperGroup.current.position.copy(startPos); // Ensure initial position is set
-  
-              const animate = () => {
+    <group ref={flaskStopperGroup}>
+        <Flask
+            position={[0.15, 5, 0]}
+            mixed={false}
+            ref={flaskRef}
+            rotation-x={(3.14159 / 180) * 90}
+            onClick={() => {
+                flaskStopperGroup.current.position.copy(startPos); // Ensure initial position is set
+    
+                const animate = () => {
+                    requestAnimationFrame(animate);
+                    TWEEN.update();
+                };
                 requestAnimationFrame(animate);
-                TWEEN.update();
-              };
-              requestAnimationFrame(animate);
-  
-              // Start the initial animation sequence
-              moveStopperDown().then(() => {
-                if (stopperRef.current) {
-                  stopperRef.current.replayAnimation();
-                }
-              }).then(() => {
-                setNextEnabled(nextButtonRef);
-              });
-          }}
+    
+                // Start the initial animation sequence
+                rotateFlaskDown().then(() => rotateFlaskUp())
+                .then(() => {
+                    if (flaskRef.current) {
+                        flaskRef.current.replayAnimation();
+                    }
+                }).then(() => {
+                    setNextEnabled(nextButtonRef);
+                });
+            }}
         />
-      </group>
+        <Stopper
+            capped={true}
+            rotation-x={(3.14 / 180) * 180}
+            scale={0.5}
+            position={[0.15, 6.95, 0]}
+        />
     </group>
   );
   });
   
   
-  export default Step18AttachStopper;
+  export default Step19MixSolution;
   
