@@ -1,22 +1,28 @@
 import React, { useState, useEffect, useRef } from "react";
-import { Html, OrbitControls } from "@react-three/drei";
+import { Html, OrbitControls, PerspectiveCamera } from "@react-three/drei";
 import { setNextDisabled, setNextEnabled } from "../Experience";
 import { Flask } from "../models/Flask"; // Assuming you have a Flask component similar to Beaker
-import { Canvas, useThree } from "@react-three/fiber";
+import { Canvas, useFrame, useThree } from "@react-three/fiber";
 
 interface DiluteSolutionInFlaskProps {
   nextButtonRef: React.RefObject<HTMLButtonElement>;
   // Add other props as necessary
 }
 
+const ObjectsOnTable: React.FC = () => {
+  return (
+    <group>
+      <Flask position={[0, 5, 0]} />
+    </group>
+  );
+};
+
 const ZoomedCanvas: React.FC = () => {
   const { camera, gl } = useThree(); // Just in case i need to access the three.js objects of the zoomed canvas
-  const flaskRef = useRef<THREE.Mesh>(null!);
+  
 
   return (
-    <mesh ref={flaskRef} position={[-3, 1, 1]}>
-      <Flask />
-    </mesh>
+    <ObjectsOnTable />
   );
 };
 
@@ -46,7 +52,7 @@ const Step16DiluteSolutionInFlask: React.FC<DiluteSolutionInFlaskProps> = ({
   return (
     <>
       <group>
-        <Flask position={[0, 5, 0]} /> {/* Adjust the position as per your scene */}
+        <ObjectsOnTable /> {/* Adjust the position as per your scene */}
 
         {/* Floating Pour Button */}
         <Html position={[0, 8, 0]} transform scale={0.5} rotation-y={90 * Math.PI / 180}>
@@ -63,7 +69,12 @@ const Step16DiluteSolutionInFlask: React.FC<DiluteSolutionInFlaskProps> = ({
       <Html position={[3, 10, 0]} transform scale={0.8} rotation-y={Math.PI / 2}>
         <div style={{ width: 300, height: 300, border: "2px solid black" }}>
           <Canvas>
-            {/*<OrbitControls enableZoom={false} />*/}
+            <PerspectiveCamera
+              makeDefault
+              position={[ 0, 0.4, 3 ]}
+              fov={20}
+            />
+            <OrbitControls enableZoom={true} />
             <ambientLight intensity={0.5} />
             <ZoomedCanvas />
           </Canvas>
