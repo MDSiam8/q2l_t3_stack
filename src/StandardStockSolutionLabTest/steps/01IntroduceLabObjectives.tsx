@@ -1,13 +1,19 @@
-import React, { useRef, useEffect, useState } from "react";
+import React, { useRef, useEffect, useState, forwardRef, useImperativeHandle } from "react";
 import { GlassDropper } from "../models/GlassDropper";
 import { Flask } from "../models/Flask";
+import FlaskFill from "../models/FlaskFill_Water"; // Import FlaskFill
 import { GlassRod } from "../models/GlassRod";
 import * as THREE from "three";
 import * as TWEEN from "@tweenjs/tween.js";
 import { Html } from "@react-three/drei";
 
-const Step4OpenSideWindow = () => {
+interface flaskFillRef {
+  replayAnimation: () => Promise<void>;
+}
+
+const Step4OpenSideWindow = forwardRef((props, ref) => {
   const dropperGroup = useRef(new THREE.Group()); // Reference for the glass dropper group
+  const flaskFillRef = useRef<flaskFillRef>(null); // Create a ref for the FlaskFill component
   const [waterLevel, setWaterLevel] = useState(0); // State for water level
   const MAX_WATER_LEVEL = 100; // Maximum water level
 
@@ -43,38 +49,52 @@ const Step4OpenSideWindow = () => {
   };
 
   useEffect(() => {
-    // Start the animation when the component mounts
     const startAnimation = async () => {
       await animateGlassDropper();
     };
 
     startAnimation(); // Trigger the animation
 
-    // Animation loop
-    const animate = (time) => {
+    const animate = (time: number) => {
       TWEEN.update(time);
       requestAnimationFrame(animate);
     };
     requestAnimationFrame(animate);
   }, []);
 
-  // Function to add water
   const addWater = () => {
     if (waterLevel < MAX_WATER_LEVEL) {
-      setWaterLevel(waterLevel + 10); // Increase water level by 10
+      setWaterLevel(waterLevel + 10); // Increase FlaskFill level by 10
     }
   };
 
-  // Function to remove water
   const removeWater = () => {
     if (waterLevel > 0) {
-      setWaterLevel(waterLevel - 10); // Decrease water level by 10
+      setWaterLevel(waterLevel - 10); // Decrease FlaskFill level by 10
     }
   };
+
+  const handleBalanceClick = () => {
+    console.log("Button clicked for replaying animation"); // Debug log
+    if (flaskFillRef.current) {
+      flaskFillRef.current.replayAnimation(); // Call the replayAnimation method on FlaskFill
+    }
+  };
+
+  useImperativeHandle(ref, () => ({
+    replayAnimation: handleBalanceClick,
+  }));
 
   return (
     <group>
-      <Flask position={[0.15, 5, 0]} waterLevel={waterLevel} /> {/* Pass the water level to the Flask component */}
+      <Flask position={[0.15, 5, 0]} /> {/* Render Flask */}
+
+      <FlaskFill
+        ref={flaskFillRef} // Pass the ref to FlaskFill
+        position={[0.15, 5 + (waterLevel / MAX_WATER_LEVEL) * 0.4, 0]} // Adjust height based on independent water level
+        scale={[0.3, (waterLevel / MAX_WATER_LEVEL) * 0.8, 0.3]} // Scale based on independent water level
+        opacity={0.5} // Pass opacity prop
+      />
 
       <GlassRod rotation-x={(3.14 / 180) * 15} position={[0.15, 6.5, 0]} />
 
@@ -95,9 +115,15 @@ const Step4OpenSideWindow = () => {
         >
           Remove Water
         </button>
+        <button
+          className="ml-4 rounded-full p-3 text-sm font-bold text-white shadow-lg transition-transform duration-300 focus:outline-none focus:ring bg-gradient-to-br from-green-300 to-green-500 hover:scale-110"
+          onClick={handleBalanceClick} // Call the replay animation on button click
+        >
+          Replay Animation
+        </button>
       </Html>
     </group>
   );
-};
+});
 
 export default Step4OpenSideWindow;
