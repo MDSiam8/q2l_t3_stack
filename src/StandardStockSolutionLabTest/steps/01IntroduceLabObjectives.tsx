@@ -1,19 +1,19 @@
 import React, { useRef, useEffect, useState, forwardRef, useImperativeHandle } from "react";
 import { GlassDropper } from "../models/GlassDropper";
 import { Flask } from "../models/Flask";
-import FlaskFill from "../models/FlaskFill_Water"; // Import FlaskFill
+import { FlaskFill, FlaskHandles } from "../models/FlaskFill_Water"; // Import FlaskFill
 import { GlassRod } from "../models/GlassRod";
 import * as THREE from "three";
 import * as TWEEN from "@tweenjs/tween.js";
 import { Html } from "@react-three/drei";
 
-interface flaskFillRef {
-  replayAnimation: () => Promise<void>;
-}
+// interface flaskFillRef {
+//   replayAnimation: () => Promise<void>;
+// }
 
 const Step4OpenSideWindow = forwardRef((props, ref) => {
   const dropperGroup = useRef(new THREE.Group()); // Reference for the glass dropper group
-  const flaskFillRef = useRef<flaskFillRef>(null); // Create a ref for the FlaskFill component
+  const flaskFillRef = useRef<FlaskHandles>(null); // Create a ref for the FlaskFill component
   const [waterLevel, setWaterLevel] = useState(0); // State for water level
   const MAX_WATER_LEVEL = 100; // Maximum water level
 
@@ -77,7 +77,7 @@ const Step4OpenSideWindow = forwardRef((props, ref) => {
   const handleBalanceClick = () => {
     console.log("Button clicked for replaying animation"); // Debug log
     if (flaskFillRef.current) {
-      flaskFillRef.current.replayAnimation(); // Call the replayAnimation method on FlaskFill
+      flaskFillRef.current.playAnimation("FillWater"); // Call the replayAnimation method on FlaskFill
     }
   };
 
@@ -93,7 +93,7 @@ const Step4OpenSideWindow = forwardRef((props, ref) => {
         ref={flaskFillRef} // Pass the ref to FlaskFill
         position={[0.15, 5 + (waterLevel / MAX_WATER_LEVEL) * 0.4, 0]} // Adjust height based on independent water level
         scale={[0.3, (waterLevel / MAX_WATER_LEVEL) * 0.8, 0.3]} // Scale based on independent water level
-        opacity={0.5} // Pass opacity prop
+        // opacity={0.5} // Pass opacity prop
       />
 
       <GlassRod rotation-x={(3.14 / 180) * 15} position={[0.15, 6.5, 0]} />

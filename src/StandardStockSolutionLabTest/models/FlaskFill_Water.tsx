@@ -1,61 +1,83 @@
-import React, { forwardRef, useImperativeHandle, useRef, useEffect } from "react";
-import { useGLTF, useAnimations } from "@react-three/drei";
+import React, {
+  useRef,
+  forwardRef,
+  useImperativeHandle,
+  useEffect,
+} from "react";
+import { useGLTF } from "@react-three/drei";
 import * as THREE from "three";
-import { GroupProps } from "@react-three/fiber"; // Import GroupProps
 
-// Define ref types
-export interface FlaskFillHandles {
-  replayAnimation: () => Promise<void>;
+export interface FlaskHandles {
+  playAnimation: (animationName: string, timeScale?: number) => void;
 }
 
-// Add props interface to accept opacity, position, and scale
-interface FlaskFillProps extends GroupProps {
-  opacity?: number;
-}
+export const FlaskFill = forwardRef<
+  FlaskHandles,
+  JSX.IntrinsicElements["group"]
+>((props, ref) => {
+  // Load the GLB model
+  const { scene, animations } = useGLTF("./FlaskFill_Water.glb") as any;
 
-const FlaskFill = forwardRef<FlaskFillHandles, FlaskFillProps>((props, ref) => {
-  const flaskFill = useGLTF("./FlaskFill_Water.glb"); // Load the GLB file
-  const { scene, animations } = flaskFill; 
-  const animationAction = useRef<THREE.AnimationAction | null>(null);
-  const { actions } = useAnimations(animations, scene); // Set up animations
+  // Reference to the AnimationMixer
+  const mixer = useRef<THREE.AnimationMixer>();
 
+  // Initialize the AnimationMixer when the scene and animations are loaded
   useEffect(() => {
-    const action = actions[0];
-    if (action) {
-      animationAction.current = action;
-      animationAction.current.setLoop(THREE.LoopOnce, 1); // Set to loop once
+    if (scene && animations) {
+      mixer.current = new THREE.AnimationMixer(scene);
     }
 
+    // Cleanup on unmount
     return () => {
-      if (animationAction.current) {
-        animationAction.current.fadeOut(0.5); // Clean up on unmount
+      if (mixer.current) {
+        mixer.current.stopAllAction();
       }
     };
-  }, [actions]);
+  }, [scene, animations]);
 
-  const handleReplayAnimation = async () => {
-    if (animationAction.current) {
-      await animationAction.current.reset().fadeIn(0.5).play(); // Play animation
-      animationAction.current.clampWhenFinished = true; // Keep in last frame
-    }
-  };
+  // Animation loop to update the mixer
+  useEffect(() => {
+    const clock = new THREE.Clock();
 
-  // Expose the replayAnimation method to the parent
+    const animate = () => {
+      requestAnimationFrame(animate);
+      if (mixer.current) {
+        mixer.current.update(clock.getDelta());
+      }
+    };
+
+    animate();
+
+    // No cleanup needed for requestAnimationFrame
+  }, []);
+
+  // Expose the playAnimation method via ref
   useImperativeHandle(ref, () => ({
-    replayAnimation: handleReplayAnimation,
+    playAnimation: (animationName: string, timeScale: number = 1) => {
+      if (mixer.current && animations) {
+        const clip = THREE.AnimationClip.findByName(animations, animationName);
+        if (clip) {
+          const action = mixer.current.clipAction(clip, scene);
+          action.reset();
+          action.setLoop(THREE.LoopOnce, 0);
+          action.clampWhenFinished = true;
+          action.enabled = true;
+          action.timeScale = timeScale; // Set the playback speed here
+          action.play();
+        } else {
+          console.warn(`Animation "${animationName}" not found.`);
+        }
+      }
+    },
   }));
 
   return (
-    <group {...props}> {/* Spread props to allow passing of position, scale, etc. */}
-      <primitive
-        object={scene} // Use the loaded scene
-        scale={props.scale || [0.3, 0.3, 0.3]} // Default scale if not provided
-        opacity={props.opacity || 0.8} // Default opacity if not provided
-      />
+    <group {...props}>
+        <primitive object={scene} scale={0.6} opacity={0.5}/>
     </group>
   );
 });
 
-export default FlaskFill;
 
-useGLTF.preload("./FlaskFill_Water.glb"); // Preload the GLB file
+// Preload the GLB file
+useGLTF.preload("./FlaskFill_Water.glb");
