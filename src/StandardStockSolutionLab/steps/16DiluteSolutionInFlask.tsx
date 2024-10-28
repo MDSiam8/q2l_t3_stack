@@ -14,8 +14,8 @@ interface Step16Props {
 const Step16DiluteSolutionInFlask = forwardRef<THREE.Group, Step16Props>(
   ({ nextButtonRef }, ref) => {
     const [waterLevel, setWaterLevel] = useState(0);    
-    const [pourStartTime, setPourStartTime] = useState<number | null>(null); 
-    const distilledWaterRef = useRef<THREE.Group>(null); 
+    // const [pourStartTime, setPourStartTime] = useState<number | null>(null); 
+    const distilledWaterRef = useRef<THREE.Group>(null);
     const waterRef = useRef<THREE.Mesh>(null);          
     const pourInterval = useRef<NodeJS.Timeout | null>(null);  
 
@@ -61,7 +61,7 @@ const Step16DiluteSolutionInFlask = forwardRef<THREE.Group, Step16Props>(
 
     // start filling the water and record the start time
     const startFillingWater = () => {
-      setPourStartTime(Date.now());
+      // setPourStartTime(Date.now());
       if (waterRef.current) {
         pourInterval.current = setInterval(() => {
           setWaterLevel((prevWaterLevel) => {
@@ -69,7 +69,6 @@ const Step16DiluteSolutionInFlask = forwardRef<THREE.Group, Step16Props>(
             if (newLevel <= 1) {
               waterRef.current!.scale.set(0.15, newLevel, 0.15); 
               waterRef.current!.position.set(0, 4.98 + newLevel, 0); // anchor the water level to bottom of flask  
-
               return newLevel;
             } else {
               clearInterval(pourInterval.current!);
@@ -85,18 +84,17 @@ const Step16DiluteSolutionInFlask = forwardRef<THREE.Group, Step16Props>(
         clearInterval(pourInterval.current);
       }
 
-      // compute the elapsed time 
-      const elapsedTime = (Date.now() - (pourStartTime || 0)) / 1000;  
-
-      if (elapsedTime >= 4.75 && elapsedTime <= 5.25) {
+      // setPourStartTime(null);  // reset the pour start time
+       if (waterLevel >= 0.61 && waterLevel <= 0.63) {
+        console.log(waterLevel);
         alert("Success! You filled the water correctly.");
         setNextEnabled(nextButtonRef); 
-      } else {
-        alert(`Try again! You ${elapsedTime < 4.5 ? "underfilled" : "overfilled"} the water.`);
+      } 
+      if(waterLevel > 0.63) {
+        console.log(waterLevel);
+        alert(`Try again! You "overfilled" the water.`);
         resetWater(); // disable the next button and reset the water 
       }
-
-      setPourStartTime(null);  // reset the pour start time
     };
 
     const resetWater = () => {
