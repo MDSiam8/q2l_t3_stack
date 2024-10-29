@@ -50,37 +50,37 @@ export const FlaskFill = forwardRef<FlaskHandles, JSX.IntrinsicElements["group"]
   
           // Define start and end times for each fill level
           let startTime = 0;
-          let endTime = 0;
+          //let endTime = 0;
   
           switch (fillLevel) {
             case 1: 
-              startTime = 0; 
-              endTime = clip.duration * 0.25; 
+              startTime = 0.25; 
+              //endTime = clip.duration * 0.25; 
               break; // 1/4 filled
             case 2: 
-              startTime = clip.duration * 0.25; 
-              endTime = clip.duration * 0.5; 
+              startTime = clip.duration * 0.5; 
+              //endTime = clip.duration * 0.5; 
               break;  // half filled
             case 3: 
-              startTime = clip.duration * 0.5; 
-              endTime = clip.duration * 0.75; 
+              startTime = clip.duration * 0.75; 
+              //endTime = clip.duration * 0.75; 
               break; // 3/4 filled
             case 4: 
-              startTime = clip.duration * 0.75; 
-              endTime = clip.duration; 
+              startTime = clip.duration * 1; 
+              //endTime = clip.duration; 
               break; // fully filled
             default: 
               startTime = 0;
-              endTime = 0; // empty
+              //endTime = 0; // empty
           }
   
-          // Set the animation to the calculated range
+          // Set the animation to start from the last reached level and go to the next level
           action.time = startTime;
-          action.paused = false;
-  
-          // Stop the animation at the end time to control the fill
           action.play();
-          action.setEffectiveTimeScale((endTime - startTime) / clip.duration); // Slow down for visibility
+  
+          // Set the effective time scale so that it stops at the next level's end time
+          //const playDuration = endTime - startTime;
+          //action.setDuration(playDuration / clip.duration); // Normalize based on the portion we want to play
         } else {
           console.warn(`Animation "FillWater" not found.`);
         }
