@@ -1,33 +1,21 @@
-import React, {
-  useRef,
-  forwardRef,
-  useImperativeHandle,
-  useEffect,
-} from "react";
+import React, { useRef, forwardRef, useImperativeHandle, useEffect } from "react";
 import { useGLTF } from "@react-three/drei";
 import * as THREE from "three";
 
 export interface FlaskHandles {
-  playAnimation: (animationName: string, timeScale?: number) => void;
+  playAnimationAtFrame: (fillLevel: number) => void;
+  mixer?: THREE.AnimationMixer;
 }
 
-export const FlaskFill = forwardRef<
-  FlaskHandles,
-  JSX.IntrinsicElements["group"]
->((props, ref) => {
-  // Load the GLB model
+export const FlaskFill = forwardRef<FlaskHandles, JSX.IntrinsicElements["group"]>((props, ref) => {
   const { scene, animations } = useGLTF("./FlaskFill_Water.glb") as any;
-
-  // Reference to the AnimationMixer
   const mixer = useRef<THREE.AnimationMixer>();
 
-  // Initialize the AnimationMixer when the scene and animations are loaded
   useEffect(() => {
     if (scene && animations) {
       mixer.current = new THREE.AnimationMixer(scene);
     }
 
-    // Cleanup on unmount
     return () => {
       if (mixer.current) {
         mixer.current.stopAllAction();
@@ -35,7 +23,6 @@ export const FlaskFill = forwardRef<
     };
   }, [scene, animations]);
 
-  // Animation loop to update the mixer
   useEffect(() => {
     const clock = new THREE.Clock();
 
@@ -47,37 +34,69 @@ export const FlaskFill = forwardRef<
     };
 
     animate();
-
-    // No cleanup needed for requestAnimationFrame
   }, []);
 
-  // Expose the playAnimation method via ref
   useImperativeHandle(ref, () => ({
-    playAnimation: (animationName: string, timeScale: number = 1) => {
+    playAnimationAtFrame: (fillLevel) => {
       if (mixer.current && animations) {
-        const clip = THREE.AnimationClip.findByName(animations, animationName);
+        const clip = THREE.AnimationClip.findByName(animations, "FillWater");
         if (clip) {
           const action = mixer.current.clipAction(clip, scene);
-          action.reset();
+  
+          // Set up the action for loop once and clamp when finished
           action.setLoop(THREE.LoopOnce, 0);
           action.clampWhenFinished = true;
           action.enabled = true;
-          action.timeScale = timeScale; // Set the playback speed here
+  
+          // Define start and end times for each fill level
+          let startTime = 0;
+          let endTime = 0;
+  
+          switch (fillLevel) {
+            case 1: 
+              startTime = 0; 
+              endTime = clip.duration * 0.25; 
+              break; // 1/4 filled
+            case 2: 
+              startTime = clip.duration * 0.25; 
+              endTime = clip.duration * 0.5; 
+              break;  // half filled
+            case 3: 
+              startTime = clip.duration * 0.5; 
+              endTime = clip.duration * 0.75; 
+              break; // 3/4 filled
+            case 4: 
+              startTime = clip.duration * 0.75; 
+              endTime = clip.duration; 
+              break; // fully filled
+            default: 
+              startTime = 0;
+              endTime = 0; // empty
+          }
+  
+          // Set the animation to the calculated range
+          action.time = startTime;
+          action.paused = false;
+  
+          // Stop the animation at the end time to control the fill
           action.play();
+          action.setEffectiveTimeScale((endTime - startTime) / clip.duration); // Slow down for visibility
         } else {
-          console.warn(`Animation "${animationName}" not found.`);
+          console.warn(`Animation "FillWater" not found.`);
         }
       }
     },
+    mixer: mixer.current,
   }));
+  
+  
 
   return (
     <group {...props}>
-        <primitive object={scene} scale={0.6} opacity={0.5}/>
+      <primitive object={scene} scale={0.6} opacity={1} />
     </group>
   );
 });
-
 
 // Preload the GLB file
 useGLTF.preload("./FlaskFill_Water.glb");
