@@ -1,6 +1,7 @@
 import React, { useRef, forwardRef, useImperativeHandle, useEffect } from "react";
 import { useGLTF } from "@react-three/drei";
 import * as THREE from "three";
+import { Pause } from "lucide-react";
 
 export interface FlaskHandles {
   playAnimationAtFrame: (fillLevel: number) => void;
@@ -55,7 +56,7 @@ export const FlaskFill = forwardRef<FlaskHandles, JSX.IntrinsicElements["group"]
   
           switch (fillLevel) {
             case 1: 
-              startTime = 0.25; 
+              startTime = clip.duration * 0.25; 
               //endTime = clip.duration * 0.25; 
               break; // 1/4 filled
             case 2: 
@@ -77,6 +78,7 @@ export const FlaskFill = forwardRef<FlaskHandles, JSX.IntrinsicElements["group"]
   
           // Set the animation to start from the last reached level and go to the next level
           action.time = startTime;
+          action.paused = true;
           action.play();
   
           // Set the effective time scale so that it stops at the next level's end time

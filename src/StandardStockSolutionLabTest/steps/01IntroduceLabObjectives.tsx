@@ -70,20 +70,6 @@ const Step4OpenSideWindow = forwardRef((props, ref) => {
     });
   };
   
-  // Function to remove water by decreasing waterLevel state
-  const removeWater = () => {
-    setWaterLevel(prevLevel => {
-      const newLevel = Math.max(prevLevel - 1, 0); // Ensure min level is 0 (empty)
-      
-      // Null check before calling the method
-      if (flaskFillRef.current) {
-        flaskFillRef.current.playAnimationAtFrame(newLevel); // Display new level animation
-      }
-      
-      return newLevel;
-    });
-  };
-  
 
   return (
     <group>
@@ -99,18 +85,12 @@ const Step4OpenSideWindow = forwardRef((props, ref) => {
         <GlassDropper scale={0.5} />
       </group>
 
-      <Html position={[1, 8, 0]} transform rotation-y={Math.PI / 2}>
+      <Html position={[1, 8.8, 0]} transform rotation-y={Math.PI / 2}>
         <button
           className="rounded-full p-3 text-sm font-bold text-white shadow-lg transition-transform duration-300 focus:outline-none focus:ring bg-gradient-to-br from-blue-300 to-blue-500 hover:scale-110"
           onClick={addWater}
         >
           Add Water
-        </button>
-        <button
-          className="ml-4 rounded-full p-3 text-sm font-bold text-white shadow-lg transition-transform duration-300 focus:outline-none focus:ring bg-gradient-to-br from-red-300 to-red-500 hover:scale-110"
-          onClick={removeWater}
-        >
-          Remove Water
         </button>
       </Html>
     </group>
