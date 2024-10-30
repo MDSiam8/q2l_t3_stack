@@ -23,6 +23,7 @@ export const FlaskFill = forwardRef<FlaskHandles, JSX.IntrinsicElements["group"]
     };
   }, [scene, animations]);
 
+  
   useEffect(() => {
     const clock = new THREE.Clock();
 
