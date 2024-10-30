@@ -1,57 +1,97 @@
-import React, { forwardRef, useImperativeHandle, useRef, useEffect } from "react";
-import { useGLTF, useAnimations } from "@react-three/drei";
+import React, { useRef, forwardRef, useImperativeHandle, useEffect } from "react";
+import { useGLTF } from "@react-three/drei";
 import * as THREE from "three";
-import { GroupProps } from "@react-three/fiber"; // Import GroupProps
 
-// Define ref types
-export interface FlaskFillHandles {
-  replayAnimation: () => Promise<void>;
+export interface FlaskHandles {
+  playAnimationAtFrame: (fillLevel: number) => void;
+  mixer?: THREE.AnimationMixer;
 }
 
-const FlaskFill = forwardRef<FlaskFillHandles, GroupProps>((props, ref) => {
-  const flaskFill = useGLTF("./FlaskFill_Water.glb"); // Load the GLB file
-  const { scene, animations } = flaskFill; // Destructure scene and animations
-  const animationAction = useRef<THREE.AnimationAction | null>(null);
-  const { actions } = useAnimations(animations, scene); // Set up animations
+export const FlaskFill = forwardRef<FlaskHandles, JSX.IntrinsicElements["group"]>((props, ref) => {
+  const { scene, animations } = useGLTF("./FlaskFill_Water.glb") as any;
+  const mixer = useRef<THREE.AnimationMixer>();
 
   useEffect(() => {
-    // Assuming the first animation is the one to play, modify as needed
-    const action = actions[0];
-    if (action) {
-      animationAction.current = action;
-      animationAction.current.setLoop(THREE.LoopOnce, 1); // Set to loop once
+    if (scene && animations) {
+      mixer.current = new THREE.AnimationMixer(scene);
     }
 
     return () => {
-      if (animationAction.current) {
-        animationAction.current.fadeOut(0.5); // Clean up on unmount
+      if (mixer.current) {
+        mixer.current.stopAllAction();
       }
     };
-  }, [actions]);
+  }, [scene, animations]);
 
-  const handleReplayAnimation = async () => {
-    if (animationAction.current) {
-      await animationAction.current.reset().fadeIn(0.5).play(); // Play animation
-      animationAction.current.clampWhenFinished = true; // Keep in last frame
-    }
-  };
+  
+  useEffect(() => {
+    const clock = new THREE.Clock();
 
-  // Expose the replayAnimation method to the parent
+    const animate = () => {
+      requestAnimationFrame(animate);
+      if (mixer.current) {
+        mixer.current.update(clock.getDelta());
+      }
+    };
+
+    animate();
+  }, []);
+
   useImperativeHandle(ref, () => ({
-    replayAnimation: handleReplayAnimation,
+    playAnimationAtFrame: (fillLevel) => {
+      if (mixer.current && animations) {
+        const clip = THREE.AnimationClip.findByName(animations, "FillWater");
+        if (clip) {
+          const action = mixer.current.clipAction(clip, scene);
+  
+          // Set up the action for loop once and clamp when finished
+          action.setLoop(THREE.LoopOnce, 0);
+          action.clampWhenFinished = true;
+          action.enabled = true;
+  
+          // Define start and end times for each fill level
+          let startTime = 0;
+          //let endTime = 0;
+  
+          switch (fillLevel) {
+            case 1: 
+              startTime = clip.duration * 0.25; 
+              break; // 1/4 filled
+            case 2: 
+              startTime = clip.duration * 0.5; 
+              break;  // half filled
+            case 3: 
+              startTime = clip.duration * 0.75; 
+              break; // 3/4 filled
+            case 4: 
+              startTime = clip.duration * 1; 
+              break; // fully filled
+            default: 
+              startTime = 0;
+              //endTime = 0; // empty
+          }
+  
+          // Set the animation to start from the last reached level and go to the next level
+          action.time = startTime;
+          action.paused = true;
+          action.play();
+  
+        } else {
+          console.warn(`Animation "FillWater" not found.`);
+        }
+      }
+    },
+    mixer: mixer.current,
   }));
+  
+  
 
   return (
-    <group {...props}> {/* Spread props to allow passing of position, scale, etc. */}
-      <primitive
-        object={scene} // Use the loaded scene
-        scale={0.3}
-        opacity={0.8}
-      />
+    <group {...props}>
+      <primitive object={scene} scale={0.6} opacity={1} />
     </group>
   );
 });
 
-export default FlaskFill;
-
-useGLTF.preload("./FlaskFill_Water.glb"); // Preload the GLB file
+// Preload the GLB file
+useGLTF.preload("./FlaskFill_Water.glb");

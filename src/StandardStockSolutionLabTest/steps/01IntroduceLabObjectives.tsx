@@ -49,7 +49,7 @@ const Step4OpenSideWindow = forwardRef((props, ref) => {
     
     startAnimation(); // Trigger animation
 
-    const animate = (time) => {
+    const animate = (time : number) => {
       TWEEN.update(time);
       requestAnimationFrame(animate);
     };
