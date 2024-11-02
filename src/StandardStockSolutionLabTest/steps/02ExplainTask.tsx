@@ -8,6 +8,7 @@ import React, {
 import { GlassDropper } from "../models/GlassDropper";
 import { Flask } from "../models/Flask";
 import { Stopper } from "../models/Stopper" 
+import { FlaskFill, FlaskHandles } from "../models/FlaskFill_Water";
 import * as THREE from "three";
 import * as TWEEN from "@tweenjs/tween.js";
 import { setNextEnabled } from "../Experience";
@@ -27,9 +28,16 @@ const Step18AttachStopper  = forwardRef<{}, EighteenthStepComponentProps>(
 const stopperRef = useRef<StopperRef>(null);
 const stopperGroup = useRef(new THREE.Group());
 const startPos = new THREE.Vector3(0, 1, 0);
+const flaskFillRef = useRef<FlaskHandles>(null);
 
 useEffect(() => {
   stopperGroup.current.position.copy(startPos); // ensure initial position is start pos
+}, []);
+
+useEffect(() => {
+  if (flaskFillRef.current) {
+    flaskFillRef.current.playAnimationAtFrame(4); // Set to full (4)
+  }
 }, []);
 
 // for starting the animation as soon as the step starts
@@ -70,10 +78,17 @@ useImperativeHandle(ref, () => ({
   replayAnimation: handleReplayAnimation,
 }));
 
+
 return (
   <group>
     <Flask
       position={[0.15, 5, 0]}
+    />
+    
+    <FlaskFill
+      ref={flaskFillRef}
+      position={[0.15, 5, 0]}
+      scale={[0.5, 0.5, 0.5]}
     />
     
     <group ref={stopperGroup}>

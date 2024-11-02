@@ -3,7 +3,10 @@ import React, {
   useEffect,
   useImperativeHandle,
   forwardRef,
+  useState,
 } from "react";
+import { useLoader } from '@react-three/fiber';
+import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
 
 import { Flask } from "../models/Flask";
 import { Stopper } from "../models/Stopper";
@@ -37,6 +40,8 @@ const Step19MixSolution = forwardRef<{}, NineteenthStepComponentProps>(
     const renderer = new THREE.WebGLRenderer({ antialias: true });
     const scene = new THREE.Scene();
     const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+
+    const [waterLevel, setWaterLevel] = useState(4); 
 
     // Set renderer size and append to document
     renderer.setSize(window.innerWidth, window.innerHeight);
@@ -106,15 +111,30 @@ const Step19MixSolution = forwardRef<{}, NineteenthStepComponentProps>(
       }
     };
 
+    const mixedGLTF = useLoader(GLTFLoader, '/Mixed.glb');
+    const mixedScene = mixedGLTF.scene.clone();
+    
+
     return (
       <group ref={flaskStopperGroup} onClick={handleClick}>
-        <Flask position={[0.15, 5, 0]} />
+        <primitive 
+          object={mixedScene}
+          position={[0.15, 5, 0]}
+          rotation={[0, 0, 0]}
+          scale={0.5}
+        />
         <Stopper
           capped={false}
           rotation-x={(3.14 / 180) * 180} // Set initial rotation (180 degrees in radians)
           scale={0.5}
           position={[0.15, 6.95, 0]}
         />
+      <primitive 
+      object={mixedScene}
+      position={[0.15, 5, 0]}     // Exactly same as flask
+      rotation={[0, 0, 0]}        // Exactly same as flask
+      scale={0.3}                 // Exactly same as flask
+    />
       </group>
     );
   }
