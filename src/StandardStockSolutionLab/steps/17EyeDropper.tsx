@@ -5,11 +5,18 @@ import { GlassRod } from "../models/GlassRod";
 import * as THREE from "three";
 import * as TWEEN from "@tweenjs/tween.js";
 import { Html } from "@react-three/drei";
+import { setNextEnabled } from "../Experience";
 
-const Step4OpenSideWindow = forwardRef((props, ref) => {
-  const dropperGroup = useRef(new THREE.Group());
-  const flaskFillRef = useRef<FlaskHandles>(null);
-  const [waterLevel, setWaterLevel] = useState(0); // waterLevel is a state variable that increments with each click
+// Define the props interface
+interface Step4OpenSideWindowProps {
+  nextButtonRef: React.RefObject<HTMLButtonElement>;
+}
+
+const Step4OpenSideWindow = forwardRef<{}, Step4OpenSideWindowProps>(
+({ nextButtonRef }, ref) => {
+    const dropperGroup = useRef(new THREE.Group());
+    const flaskFillRef = useRef<FlaskHandles>(null);
+    const [waterLevel, setWaterLevel] = useState(0);
 
   // Function to animate the dropper
   const animateGlassDropper = () => {
@@ -64,6 +71,11 @@ const Step4OpenSideWindow = forwardRef((props, ref) => {
       // Null check before calling the method
       if (flaskFillRef.current) {
         flaskFillRef.current.playAnimationAtFrame(newLevel); // Display new level animation
+      }
+
+      // Check if water level is full and enable the "Next Step" button if it is
+      if (waterLevel + 1 === 4) {
+        setNextEnabled(nextButtonRef);
       }
       
       return newLevel;
