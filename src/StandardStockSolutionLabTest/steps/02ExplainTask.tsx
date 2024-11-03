@@ -4,15 +4,15 @@ import React, {
   useImperativeHandle,
   forwardRef,
 } from "react";
+import { useLoader } from '@react-three/fiber';
+import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
 
 import { GlassDropper } from "../models/GlassDropper";
 import { Flask } from "../models/Flask";
 import { Stopper } from "../models/Stopper" 
-import { FlaskFill, FlaskHandles } from "../models/FlaskFill_Water";
 import * as THREE from "three";
 import * as TWEEN from "@tweenjs/tween.js";
 import { setNextEnabled } from "../Experience";
-
 
 interface StopperRef {
 replayAnimation: () => void;
@@ -28,28 +28,14 @@ const Step18AttachStopper  = forwardRef<{}, EighteenthStepComponentProps>(
 const stopperRef = useRef<StopperRef>(null);
 const stopperGroup = useRef(new THREE.Group());
 const startPos = new THREE.Vector3(0, 1, 0);
-const flaskFillRef = useRef<FlaskHandles>(null);
+
+// Load the mixed model
+const mixedGLTF = useLoader(GLTFLoader, '/Mixed.glb');
+const mixedScene = mixedGLTF.scene.clone();
 
 useEffect(() => {
   stopperGroup.current.position.copy(startPos); // ensure initial position is start pos
 }, []);
-
-useEffect(() => {
-  if (flaskFillRef.current) {
-    flaskFillRef.current.playAnimationAtFrame(4); // Set to full (4)
-  }
-}, []);
-
-// for starting the animation as soon as the step starts
-// useEffect(() => {
-//   const animate = () => {
-//     requestAnimationFrame(animate);
-//     TWEEN.update();
-//   };
-//   requestAnimationFrame(animate);
-
-//   handleReplayAnimation(); // Start the initial animation sequence
-// }, []);
 
 const moveStopperDown = () => {
   return new Promise((resolve) => {
@@ -81,21 +67,19 @@ useImperativeHandle(ref, () => ({
 
 return (
   <group>
-    <Flask
-      position={[0.15, 5, 0]}
-    />
-    
-    <FlaskFill
-      ref={flaskFillRef}
-      position={[0.15, 5, 0]}
-      scale={[0.5, 0.5, 0.5]}
+    {/* Match FlaskFill position and scale from Step 1 */}
+    <primitive 
+      object={mixedScene}
+      position={[0.15, 5, 0]}     // Position matches Step 1
+      scale={[0.3, 0.3, 0.3]}     // Scaled down from 0.5 to 0.3
+      rotation={[0, 0, 0]}
     />
     
     <group ref={stopperGroup}>
       <Stopper
         capped={false}
         rotation-x={(3.14 / 180) * 180}
-        scale={0.5}
+        scale={[0.3, 0.3, 0.3]}    // Also scaled down Stopper to match
         ref={stopperRef}
         position={[0.15, 7.5, 0]}
         onClick={() => {

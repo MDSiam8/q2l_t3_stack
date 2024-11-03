@@ -56,14 +56,14 @@ const Step19MixSolution = forwardRef<{}, NineteenthStepComponentProps>(
     }, []);
 
     const handleReplayAnimation = () => {
-      // Animate to target position and rotation
+
       const moveToTarget = new TWEEN.Tween(flaskStopperGroup.current.position)
-        .to(targetPosition, 2000) // Move to target position (x: 0.15, y: 14, z: 0) over 2000ms
+        .to(targetPosition, 1800) // Move to target position (x: 0.15, y: 14, z: 0) over 2000ms
         .easing(TWEEN.Easing.Quadratic.Out)
         .onComplete(() => {
           // Once the first animation completes, move back to the original position and rotation
           const returnToOriginal = new TWEEN.Tween(flaskStopperGroup.current.position)
-            .to(startPos, 2000) // Move back to original position (x: 0, y: 1, z: 0) over 2000ms
+            .to(startPos, 1800) // Move back to original position (x: 0, y: 1, z: 0) over 2000ms
             .easing(TWEEN.Easing.Quadratic.Out);
 
           const rotateBack = new TWEEN.Tween(flaskStopperGroup.current.rotation)
