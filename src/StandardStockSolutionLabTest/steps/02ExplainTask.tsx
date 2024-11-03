@@ -4,8 +4,7 @@ import React, {
   useImperativeHandle,
   forwardRef,
 } from "react";
-import { useLoader } from '@react-three/fiber';
-import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
+
 
 import { GlassDropper } from "../models/GlassDropper";
 import { Flask } from "../models/Flask";
@@ -13,10 +12,12 @@ import { Stopper } from "../models/Stopper"
 import * as THREE from "three";
 import * as TWEEN from "@tweenjs/tween.js";
 import { setNextEnabled } from "../Experience";
+import { MixedFlask} from "../models/MixedFlask";
 
 interface StopperRef {
 replayAnimation: () => void;
 }
+
 
 interface EighteenthStepComponentProps {
 nextButtonRef: React.RefObject<HTMLButtonElement>;
@@ -28,10 +29,6 @@ const Step18AttachStopper  = forwardRef<{}, EighteenthStepComponentProps>(
 const stopperRef = useRef<StopperRef>(null);
 const stopperGroup = useRef(new THREE.Group());
 const startPos = new THREE.Vector3(0, 1, 0);
-
-// Load the mixed model
-const mixedGLTF = useLoader(GLTFLoader, '/Mixed.glb');
-const mixedScene = mixedGLTF.scene.clone();
 
 useEffect(() => {
   stopperGroup.current.position.copy(startPos); // ensure initial position is start pos
@@ -68,8 +65,7 @@ useImperativeHandle(ref, () => ({
 return (
   <group>
     {/* Match FlaskFill position and scale from Step 1 */}
-    <primitive 
-      object={mixedScene}
+    <MixedFlask
       position={[0.15, 5, 0]}     // Position matches Step 1
       scale={[0.3, 0.3, 0.3]}     // Scaled down from 0.5 to 0.3
       rotation={[0, 0, 0]}

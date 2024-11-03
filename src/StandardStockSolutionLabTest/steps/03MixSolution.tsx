@@ -6,13 +6,13 @@ import React, {
   useState,
 } from "react";
 import { useLoader } from '@react-three/fiber';
-import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
 
 import { Flask } from "../models/Flask";
 import { Stopper } from "../models/Stopper";
 import * as THREE from "three";
 import * as TWEEN from "@tweenjs/tween.js";
 import { setNextEnabled } from "../Experience";
+import { MixedFlask} from "../models/MixedFlask";
 
 interface NineteenthStepComponentProps {
   nextButtonRef: React.RefObject<HTMLButtonElement>;
@@ -110,15 +110,11 @@ const Step19MixSolution = forwardRef<{}, NineteenthStepComponentProps>(
         setNextEnabled(nextButtonRef); // Enable the next button after the 4th click
       }
     };
-
-    const mixedGLTF = useLoader(GLTFLoader, '/Mixed.glb');
-    const mixedScene = mixedGLTF.scene.clone();
     
 
     return (
       <group ref={flaskStopperGroup} onClick={handleClick}>
-        <primitive 
-          object={mixedScene}
+        <MixedFlask
           position={[0.15, 5, 0]}
           rotation={[0, 0, 0]}
           scale={0.5}
@@ -129,12 +125,6 @@ const Step19MixSolution = forwardRef<{}, NineteenthStepComponentProps>(
           scale={0.5}
           position={[0.15, 6.95, 0]}
         />
-      <primitive 
-      object={mixedScene}
-      position={[0.15, 5, 0]}     // Exactly same as flask
-      rotation={[0, 0, 0]}        // Exactly same as flask
-      scale={0.3}                 // Exactly same as flask
-    />
       </group>
     );
   }
