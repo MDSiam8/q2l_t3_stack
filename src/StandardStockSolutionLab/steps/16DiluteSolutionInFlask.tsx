@@ -1,10 +1,11 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { Html } from "@react-three/drei";
+import gsap from "gsap";
+import * as THREE from "three";
 import { setNextDisabled, setNextEnabled } from "../Experience";
 import { Flask } from "../models/Flask";
 import { DistilledWater } from "../models/DistilledWater";
 import WhiteTile from "../models/WhiteTile";
-import gsap from "gsap"; // Import GSAP for animations
 
 interface DiluteSolutionInFlaskProps {
   nextButtonRef: React.RefObject<HTMLButtonElement>;
@@ -14,15 +15,13 @@ const Step16DiluteSolutionInFlask: React.FC<DiluteSolutionInFlaskProps> = ({
   nextButtonRef,
 }) => {
   const [hasPoured, setHasPoured] = useState(false);
-  const [needsWashing, setNeedsWashing] = useState(false); // Track if the flask needs washing
+  const [needsWashing, setNeedsWashing] = useState(false);
+  const distilledWaterRef = useRef<THREE.Group>(null); // Reference to distilled water
 
+  // Enable or disable the next button based on pouring status
   useEffect(() => {
     if (nextButtonRef.current) {
-      if (hasPoured) {
-        setNextEnabled(nextButtonRef);
-      } else {
-        setNextDisabled(nextButtonRef);
-      }
+      hasPoured ? setNextEnabled(nextButtonRef) : setNextDisabled(nextButtonRef);
     }
   }, [hasPoured, nextButtonRef]);
 
@@ -31,28 +30,57 @@ const Step16DiluteSolutionInFlask: React.FC<DiluteSolutionInFlaskProps> = ({
   };
 
   const handleWashAgain = () => {
+    if (!distilledWaterRef.current) {
+      console.error("distilledWaterRef is not available");
+      return;
+    }
+
     setNeedsWashing(true);
-    // Trigger washing animations similar to Step 13
+
+    // New GSAP timeline for washing animation
     const tl = gsap.timeline({
       onComplete: () => {
-        setNeedsWashing(false); // Reset after animation completes
+        setNeedsWashing(false); // Reset the washing state after animation completes
       },
     });
 
-    // Add washing animations, adjusting position and rotation as needed
-    tl.to(
-      { /* target element */ },
-      { x: 0.1, y: 5.8, z: 1.7, duration: 2, ease: "power1.inOut" }
-    ).to(
-      { /* rotation target */ },
-      { y: "-=" + Math.PI / 2, x: "-=" + Math.PI / 4, duration: 2, ease: "power1.inOut" }
-    );
+    // Example washing animation - adapt positions and rotations as needed
+    tl.to(distilledWaterRef.current.position, {
+      x: 0.1,
+      y: 5.8,
+      z: 1.7,
+      duration: 2,
+      ease: "power1.inOut",
+    }).to(distilledWaterRef.current.rotation, {
+      x: "-=" + Math.PI / 4,
+      y: "-=" + Math.PI / 2,
+      duration: 2,
+      ease: "power1.inOut",
+    });
+
+    // Return distilled water to initial position after wash
+    tl.to(distilledWaterRef.current.position, {
+      x: 0.1,
+      y: 5.4,
+      z: 2.5,
+      duration: 2,
+      ease: "power1.inOut",
+    }).to(distilledWaterRef.current.rotation, {
+      x: 0,
+      y: 0,
+      duration: 2,
+      ease: "power1.inOut",
+    });
   };
 
   return (
     <group>
       <Flask position={[0, 4.98, 0]} />
-      <DistilledWater position={[0, 5.45, 1.5]} rotation-y={270 * Math.PI / 180} />
+      <DistilledWater
+        ref={distilledWaterRef}
+        position={[0.1, 5.4, 2.5]}
+        rotation-y={270 * Math.PI / 180}
+      />
       <WhiteTile position={[-0.5, 5.8, 0]} transform scale={2.25} rotation-x={90 * Math.PI / 180} rotation-z={90 * Math.PI / 180} />
 
       {/* Pour Button */}
