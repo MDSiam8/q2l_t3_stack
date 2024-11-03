@@ -12,6 +12,7 @@ import Step3MixSolution from "./steps/03MixSolution"
 import Table from "./models/Table";
 import state from "./state.json";
 import InventorySystem from "./ui_overlay/InventorySystem";
+import FirstStepComponent from "./steps/01FirstStepComponent"
 
 import { Canvas, useFrame, useThree } from "@react-three/fiber";
 import { CameraAdjuster } from "./utils/CameraAdjuster";
@@ -219,11 +220,12 @@ export default function Experience() {
             </mesh>
 
           {/* Conditional Rendering of Step Components */}
-          {currentStep === 1 && <Step1Introduction nextButtonRef={nextButtonRef} />}
-          {currentStep === 2 && (
+          {currentStep === 1 && <FirstStepComponent nextButtonRef={nextButtonRef} />}
+          {currentStep === 2 && <Step1Introduction nextButtonRef={nextButtonRef} />}
+          {currentStep === 3 && (
             <Step2ExplainTask nextButtonRef={nextButtonRef} />
           )}
-          {currentStep === 3 && (
+          {currentStep === 4 && (
             <Step3MixSolution nextButtonRef={nextButtonRef} />
           )}
         </Canvas>
