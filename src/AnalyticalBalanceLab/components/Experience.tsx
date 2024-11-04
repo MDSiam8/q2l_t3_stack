@@ -28,6 +28,8 @@ import { Canvas, useFrame, useThree } from "@react-three/fiber";
 import { CameraAdjuster } from "./CameraAdjuster";
 import { Camera, Vector3 } from "three";
 
+import {useNavigate, useParams} from 'react-router-dom';
+
 // Interface for the structure of each step in state.json
 interface Step {
   stepTitle: string;
@@ -97,6 +99,7 @@ export const setNextEnabled = (
   }
 };
 export default function Experience() {
+
   const [currentStep, setCurrentStep] = useState<number>(1);
   const key = currentStep.toString() as StateKey;
   const stepData = state[key]; // Safe indexing
@@ -125,7 +128,8 @@ export default function Experience() {
 
   const handleNextStep = () => {
     if (currentStep < Object.keys(state).length) {
-      setCurrentStep(currentStep + 1);
+      const nextStep = currentStep + 1; // create variable to use in URL
+      setCurrentStep(nextStep);
       setNextDisabled(nextButtonRef);
       // setNextButtonTempDisabled(true);
       // setTimeout(() => {
