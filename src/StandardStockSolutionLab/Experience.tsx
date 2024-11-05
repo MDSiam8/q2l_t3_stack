@@ -5,6 +5,7 @@ import {
   Html,
   OrbitControls,
   PerspectiveCamera,
+  TransformControls,
 } from "@react-three/drei";
 import Step1Introduction from "./steps/01IntroduceLabObjectives";
 import Step2ExplainTask from "./steps/02ExplainTask";
@@ -27,6 +28,7 @@ import { CameraAdjuster } from "./utils/CameraAdjuster";
 import { Camera, Vector3 } from "three";
 import Step15CheckBeakerResidue from "./steps/15CheckBeakerResidue";
 import Step16DiluteSolutionInFlask from "./steps/16DiluteSolutionInFlask";
+import { LabEnvironment } from "./models/LabEnvironment";
 
 // Interface for the structure of each step in state.json
 interface Step {
@@ -98,7 +100,7 @@ export const setNextEnabled = (
 };
 
 export default function Experience() {
-  const [currentStep, setCurrentStep] = useState<number>(16);
+  const [currentStep, setCurrentStep] = useState<number>(15);
   const key = currentStep.toString() as StateKey;
   const stepData = state[key]; // Safe indexing
   const stepRefs = useRef<Record<number, StepComponentRef>>({});
@@ -206,7 +208,7 @@ export default function Experience() {
           {/* <CameraControls makeDefault ref={cameraControlsRef} onStart={() => {
           cameraControlsRef.current?.setFocalOffset(0,-2.5,0, true);
         }}/> */}
-          <OrbitControls minDistance={9} maxDistance={70} />
+          <OrbitControls minDistance={9} maxDistance={700} />
 
           <ambientLight intensity={1.6} />
           <directionalLight
@@ -218,6 +220,10 @@ export default function Experience() {
 
           {/* Common elements like Table */}
           <Table scale={13} position-y={-1} />
+          <TransformControls>
+
+            <LabEnvironment position={[40, -1, 0]}/>
+          </TransformControls>
           {/* Green-yellow plane */}
           <mesh
             receiveShadow
