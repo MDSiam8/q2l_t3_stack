@@ -29,6 +29,8 @@ import { Camera, Vector3 } from "three";
 import Step15CheckBeakerResidue from "./steps/15CheckBeakerResidue";
 import Step16DiluteSolutionInFlask from "./steps/16DiluteSolutionInFlask";
 import { LabEnvironment } from "./models/LabEnvironment";
+import Step13DissolveSample from "./steps/13DissolveSample";
+import Step14TransferSolution from "./steps/14TransferSolutionToFlask";
 
 // Interface for the structure of each step in state.json
 interface Step {
@@ -220,10 +222,10 @@ export default function Experience() {
 
           {/* Common elements like Table */}
           <Table scale={13} position-y={-1} />
-          <TransformControls>
+          {/* <TransformControls>
 
             <LabEnvironment position={[40, -1, 0]}/>
-          </TransformControls>
+          </TransformControls> */}
           {/* Green-yellow plane */}
           <mesh
             receiveShadow
@@ -296,7 +298,10 @@ export default function Experience() {
             <Step12CalculateSamplePowderWeight nextButtonRef={nextButtonRef} />
           )}
           {currentStep === 13 && (
-            <FinishedStepComponent nextButtonRef={nextButtonRef} />
+            <Step13DissolveSample nextButtonRef={nextButtonRef} />
+          )}
+           {currentStep === 14 && (
+            <Step14TransferSolution nextButtonRef={nextButtonRef} />
           )}
           {/* ...add more steps as needed... */}
           {currentStep === 15 && (
