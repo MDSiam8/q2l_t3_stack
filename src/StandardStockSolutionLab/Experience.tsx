@@ -26,6 +26,7 @@ import FinishedStepComponent from "./steps/19FinishedStepComponent";
 import { Canvas, useFrame, useThree } from "@react-three/fiber";
 import { CameraAdjuster } from "./utils/CameraAdjuster";
 import { Camera, Vector3 } from "three";
+import Step14TransferSolution from "./steps/14TransferSolutionToFlask";
 
 // Interface for the structure of each step in state.json
 interface Step {
@@ -58,6 +59,7 @@ interface State {
   "11": Step;
   "12": Step;
   "13": Step;
+  "14": Step;
 }
 
 type StateKey = keyof State;
@@ -128,6 +130,7 @@ export default function Experience() {
     if (currentStep < Object.keys(state).length) {
       setCurrentStep(currentStep + 1);
       setNextDisabled(nextButtonRef);
+      console.log(currentStep);
       // setNextButtonTempDisabled(true);
       // setTimeout(() => {
       //   setNextButtonTempDisabled(false);
@@ -292,7 +295,9 @@ export default function Experience() {
           {currentStep === 13 && (
             <Step13DissolveSample nextButtonRef={nextButtonRef} />
           )}
-          {/* ...add more steps as needed... */}
+          {currentStep === 14 && (
+            <Step14TransferSolution nextButtonRef={nextButtonRef} />
+          )}
         </Canvas>
          
         {currentStep === 3 && (
@@ -330,9 +335,9 @@ export default function Experience() {
             <div className="ml-4 flex flex-col justify-between self-stretch">
               <button
                 onClick={handleNextStep}
-                disabled={currentStep === 13 || nextButtonTempDisabled}
+                disabled={currentStep === 14 || nextButtonTempDisabled}
                 className={`flex-grow transform rounded-lg bg-gradient-to-r from-blue-400 to-purple-500 px-4 py-2 font-bold text-white transition duration-300 hover:scale-105 ${
-                  currentStep === 13 || nextButtonTempDisabled
+                  currentStep === 14 || nextButtonTempDisabled
                     ? "cursor-not-allowed bg-gray-400 opacity-50"
                     : ""
                 }`}
