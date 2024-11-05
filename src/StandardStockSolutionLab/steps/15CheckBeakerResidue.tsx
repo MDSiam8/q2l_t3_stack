@@ -14,7 +14,6 @@ const Step15CheckBeakerResidue = forwardRef<Group, CheckBeakerResidueProps>(
     const glassRodRef = useRef<THREE.Object3D>(null);
     const beakerRef = useRef<THREE.Object3D>(null);
     const flaskRef = useRef<THREE.Object3D>(null);
-    const groupSphereRef = useRef<Group>(null);
 
     useEffect(() => {
 
@@ -26,19 +25,30 @@ const Step15CheckBeakerResidue = forwardRef<Group, CheckBeakerResidueProps>(
           <Beaker
             ref={beakerRef}
             position={[0, 4.95, 2.5]}
-            rotation-y={ 3.14 }
+            rotation-y={3.14}
           />
-          <group ref={groupSphereRef}>
-            <Sphere position={[0, 4.8, -1.5]} scale={.3} />
-            {/* <Sphere position={[0.1, 5.2, -1.5]} scale={0.03} />
-            <Sphere position={[-0.12, 5.3, -1.7]} scale={0.03} />
-            <Sphere position={[0.17, 5.1, -1.6]} scale={0.03} />
-            <Sphere position={[0.1, 5.1, -1.5]} scale={0.03} />
-            <Sphere position={[-0.15, 5.2, -1.7]} scale={0.03} />
-            <Sphere position={[0, 5.1, -1.6]} scale={0.03} /> */}
-          </group>
+          <Sphere
+            position={[0.25, 4.92, 1.9]}
+            scale={[0.3, 0.09, 0.3]}
+          >
+            <meshStandardMaterial
+              color="red"
+              roughness={1}
+            />
+          </Sphere>
         </group>
-        
+
+        <group>
+            <Sphere
+              position={[0, 4.92, -1.5]}
+              scale={[0.3, 0.09, 0.3]}
+            >
+              <meshStandardMaterial
+              color="red"
+              roughness={1}
+            />
+            </Sphere>
+        </group>
 
         <Flask
           ref={flaskRef}
