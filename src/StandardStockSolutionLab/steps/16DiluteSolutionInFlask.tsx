@@ -35,12 +35,6 @@ const Step16DiluteSolutionInFlask: React.FC<DiluteSolutionInFlaskProps> = ({
         setNextDisabled(nextButtonRef);
       }
     }
-    if (cameraRef.current) {
-      // cameraRef.current.position.set(0.2929247093555727, 6.579637219923648, 2.4785378931193676);
-      // cameraRef.current.rotation.set(-0.2026981473988437, -0.22400813895643168, -0.045622541076982395);
-      // cameraRef.current.quaternion.set(-0.09797923174877703, -0.11346085238372462, -0.011244595719363874, 0.9886355568101859);
-      cameraRef.current.lookAt(0, 5, 0);
-    }
   }, [hasPoured, nextButtonRef]);
 
   const handlePour = () => {
@@ -48,10 +42,6 @@ const Step16DiluteSolutionInFlask: React.FC<DiluteSolutionInFlaskProps> = ({
     setHasPoured(true);
     // You can add more stuff here
   };
-
-  useFrame(() => {
-    //console.log(cameraRef.current);
-  });
 
   return (
     <>
@@ -76,12 +66,11 @@ const Step16DiluteSolutionInFlask: React.FC<DiluteSolutionInFlaskProps> = ({
             <PerspectiveCamera
             ref={ cameraRef }
             makeDefault
-            position={ [0.2929247093555727, 6.579637219923648, 2.4785378931193676] }
-            rotation={ [-0.2026981473988437, -0.22400813895643168, -0.045622541076982395] }
-            quaternion={ [-0.09797923174877703, -0.11346085238372462, -0.011244595719363874, 0.9886355568101859] }
+            position={ [5, 6, 0] }
+            onUpdate={self => self.lookAt(0, 6, -1)}
             fov={ 20 }
             />
-            <OrbitControls enableZoom={true} />
+            {/*<OrbitControls enableZoom={true} />*/}
             <ambientLight intensity={0.5} />
             <ObjectsOnTable />
           </Canvas>
