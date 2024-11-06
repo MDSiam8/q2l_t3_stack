@@ -58,13 +58,13 @@ export const FlaskFill = forwardRef<FlaskHandles, JSX.IntrinsicElements["group"]
               startTime = clip.duration * 0.25; 
               break; // 1/4 filled
             case 2: 
-              startTime = clip.duration * 0.5; 
+              startTime = clip.duration * 0.50; 
               break;  // half filled
             case 3: 
               startTime = clip.duration * 0.75; 
               break; // 3/4 filled
             case 4: 
-              startTime = clip.duration * 1; 
+              startTime = clip.duration * 1;  
               break; // fully filled
             default: 
               startTime = 0;
