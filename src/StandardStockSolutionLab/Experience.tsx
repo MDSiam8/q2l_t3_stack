@@ -5,6 +5,7 @@ import {
   Html,
   OrbitControls,
   PerspectiveCamera,
+  TransformControls,
 } from "@react-three/drei";
 import Step1Introduction from "./steps/01IntroduceLabObjectives";
 import Step2ExplainTask from "./steps/02ExplainTask";
@@ -25,6 +26,11 @@ import FinishedStepComponent from "./steps/19FinishedStepComponent";
 import { Canvas, useFrame, useThree } from "@react-three/fiber";
 import { CameraAdjuster } from "./utils/CameraAdjuster";
 import { Camera, Vector3 } from "three";
+import Step15CheckBeakerResidue from "./steps/15CheckBeakerResidue";
+import Step16DiluteSolutionInFlask from "./steps/16DiluteSolutionInFlask";
+import { LabEnvironment } from "./models/LabEnvironment";
+import Step13DissolveSample from "./steps/13DissolveSample";
+import Step14TransferSolution from "./steps/14TransferSolutionToFlask";
 
 // Interface for the structure of each step in state.json
 interface Step {
@@ -96,7 +102,7 @@ export const setNextEnabled = (
 };
 
 export default function Experience() {
-  const [currentStep, setCurrentStep] = useState<number>(1);
+  const [currentStep, setCurrentStep] = useState<number>(15);
   const key = currentStep.toString() as StateKey;
   const stepData = state[key]; // Safe indexing
   const stepRefs = useRef<Record<number, StepComponentRef>>({});
@@ -204,7 +210,7 @@ export default function Experience() {
           {/* <CameraControls makeDefault ref={cameraControlsRef} onStart={() => {
           cameraControlsRef.current?.setFocalOffset(0,-2.5,0, true);
         }}/> */}
-          <OrbitControls minDistance={9} maxDistance={70} />
+          <OrbitControls minDistance={9} maxDistance={700} />
 
           <ambientLight intensity={1.6} />
           <directionalLight
@@ -216,6 +222,10 @@ export default function Experience() {
 
           {/* Common elements like Table */}
           <Table scale={13} position-y={-1} />
+          {/* <TransformControls>
+
+            <LabEnvironment position={[40, -1, 0]}/>
+          </TransformControls> */}
           {/* Green-yellow plane */}
           <mesh
             receiveShadow
@@ -288,9 +298,18 @@ export default function Experience() {
             <Step12CalculateSamplePowderWeight nextButtonRef={nextButtonRef} />
           )}
           {currentStep === 13 && (
-            <FinishedStepComponent nextButtonRef={nextButtonRef} />
+            <Step13DissolveSample nextButtonRef={nextButtonRef} />
+          )}
+           {currentStep === 14 && (
+            <Step14TransferSolution nextButtonRef={nextButtonRef} />
           )}
           {/* ...add more steps as needed... */}
+          {currentStep === 15 && (
+            <Step15CheckBeakerResidue nextButtonRef={nextButtonRef} />
+          )}
+          {currentStep === 16 && (
+            <Step16DiluteSolutionInFlask nextButtonRef={nextButtonRef} />
+          )}
         </Canvas>
          
         {currentStep === 3 && (
