@@ -169,7 +169,7 @@ export default function Experience() {
     >
       <div style={{ position: "relative", height: "100vh" }}>
         {/* Inventory toggle button */}
-        {currentStep === 3 && !isInventoryVisible && (
+        {currentStep === 2 && !isInventoryVisible && (
           <button
             onClick={handleToggleInventory}
             className="absolute left-4 top-4 z-50 m-4 rounded-md bg-blue-500 px-4 py-2 text-white shadow-lg hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-300 focus:ring-opacity-50"
@@ -227,7 +227,7 @@ export default function Experience() {
           {/* ...add more steps as needed... */}
         </Canvas>
          
-        {currentStep === 3 && (
+        {currentStep === 2 && (
           <InventorySystem
             onItemSelect={handleItemSelection}
             selectedItems={selectedItems}

@@ -30,7 +30,7 @@ const ApparatusTab: React.FC<ApparatusTabProps> = ({
     { name: "Weighing Paper", image: weighingPaper, isCorrect: true },
     { name: "Beaker", image: beakerImg, isCorrect: true },
     { name: "Spatula", image: spatulaImg, isCorrect: true },
-    { name: "Eye Dropper", image: eyeDropperImg, isCorrect: false },
+    { name: "Eye Dropper", image: eyeDropperImg, isCorrect: true },
   ];
 
   const handleItemClick = (item: ApparatusItem) => {

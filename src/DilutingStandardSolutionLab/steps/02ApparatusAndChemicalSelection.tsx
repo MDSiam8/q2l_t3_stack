@@ -12,13 +12,13 @@ interface SelectedItems {
   [itemName: string]: boolean;
 }
 
-interface ThirdStepProps {
+interface SecondStepProps {
   nextButtonRef: React.RefObject<HTMLButtonElement>;
   selectedItems: SelectedItems;
 }
 
 
-const Step2SelectApparatus = forwardRef<HTMLDivElement, ThirdStepProps>(
+const Step2SelectApparatus = forwardRef<HTMLDivElement, SecondStepProps>(
   ({ nextButtonRef, selectedItems }, ref) => {
 
   return (

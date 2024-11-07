@@ -18,15 +18,12 @@
         "context": "Equipment setup",
         "correctAnswer": [
           "beaker",
-          "volumetric_flasks",
           "glass_pipette",
-          "distilled_water",
-          "reagent a",
-          "reagent b",
-          "reagent c",
-          "stock_solution",
-          "dropper",
-          "stopper"
+          "glass_dropper",
+          "stopper",
+          "NOTE: everything below this should be in the chemicals tab. Everything ABOVE this should be in the apparatus tab",
+          "volumetric_flask_with_stock_solution",
+          "distilled_water"
         ],
         "category": "selection_mistake",
         "count": 0,
