@@ -49,7 +49,7 @@
   "4": {
     "stepTitle": "Choose a Pipette",
     "description": "Present a dialog menu for users to decide whether to use a glass pipette or a micropipette for transferring the solution.  If users click on micropipette, please show them a dialog saying that glass pipettes are actually better for this usecase, since micropipettes are for much smaller samples.",
-    "directions": "Select either a glass pipette or a micropipette for extracting 7mL of reagent A.",
+    "directions": "Select either a glass pipette or a micropipette for extracting 7mL of of the reagent.",
     "objectsInFocus": [
       "glass_pipette",
       "micropipette"
@@ -59,7 +59,7 @@
   "5": {
     "stepTitle": "Select the Correct Glass Pipette",
     "description": "Select the appropriate glass pipette for extracting 7 mL of reagent A. There should be 3 options: 1ml, 5ml, and 10ml.",
-    "directions": "Choose the correct glass pipette for transferring 7 mL of reagent A.",
+    "directions": "Choose the correct glass pipette for transferring 7 mL of the reagent.",
     "objectsInFocus": [
       "glass_pipette"
     ],
@@ -107,7 +107,7 @@
   },
   "8": {
     "stepTitle": "Transfer Solution to Volumetric Flask",
-    "description": "Transfer the 7mL aliquot from the pipette into a 50 mL volumetric flask.",
+    "description": "Transfer the 7mL sample from the pipette into a 50 mL volumetric flask.",
     "directions": "Dispense the solution from the pipette into the 50 mL volumetric flask.",
     "objectsInFocus": [
       "glass_pipette",
