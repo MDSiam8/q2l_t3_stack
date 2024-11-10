@@ -1,6 +1,6 @@
 import React from "react";
 import Image, { StaticImageData } from "next/image";
-import sampleImg from "../images/powder.png";
+import distilledWaterImg from "../images/distilledwater.png";
 
 type ChemicalItem = {
   name: string;
@@ -22,7 +22,7 @@ const ChemicalsTab: React.FC<ChemicalsTabProps> = ({
   selectedItems,
 }) => {
   const chemicalItems: ChemicalItem[] = [
-    { name: "Distilled Water", image: sampleImg, isCorrect: true },
+    { name: "Distilled Water", image: distilledWaterImg, isCorrect: true },
     // Add more items as needed
   ];
 
