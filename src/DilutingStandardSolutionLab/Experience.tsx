@@ -14,6 +14,7 @@ import Step2SelectApparatus from "./steps/02ApparatusAndChemicalSelection";
 import { Canvas, useFrame, useThree } from "@react-three/fiber";
 import { CameraAdjuster } from "./utils/CameraAdjuster";
 import { Camera, Vector3 } from "three";
+import Step04ChoosePipette from "./steps/04ChoosePipette";
 
 // Interface for the structure of each step in state.json
 interface Step {
@@ -224,6 +225,7 @@ export default function Experience() {
               nextButtonRef={nextButtonRef}
             />
           )}
+          {currentStep === 4 && <Step04ChoosePipette nextButtonRef={nextButtonRef} />}
           {/* ...add more steps as needed... */}
         </Canvas>
          
