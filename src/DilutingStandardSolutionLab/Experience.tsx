@@ -14,7 +14,7 @@ import Step2SelectApparatus from "./steps/02ApparatusAndChemicalSelection";
 import { Canvas, useFrame, useThree } from "@react-three/fiber";
 import { CameraAdjuster } from "./utils/CameraAdjuster";
 import { Camera, Vector3 } from "three";
-import Step4ChoosePipette from './steps/04ChoosePipette';
+import Step5SelectTheCorrectGlassPipette from './steps/05SelectTheCorrectGlassPipette';
 
 // Interface for the structure of each step in state.json
 interface Step {
@@ -86,7 +86,7 @@ export const setNextEnabled = (
 };
 
 export default function Experience() {
-  const [currentStep, setCurrentStep] = useState<number>(4);
+  const [currentStep, setCurrentStep] = useState<number>(5);
   const key = currentStep.toString() as StateKey;
   const stepData = state[key]; // Safe indexing
   const stepRefs = useRef<Record<number, StepComponentRef>>({});
@@ -225,8 +225,8 @@ export default function Experience() {
               nextButtonRef={nextButtonRef}
             />
           )}
-          {currentStep === 4 && (
-            <Step4ChoosePipette
+          {currentStep === 5 && (
+            <Step5SelectTheCorrectGlassPipette
               ref={(el) => {
                 stepRefs.current[4] = el as StepComponentRef;
               }}
