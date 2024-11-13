@@ -112,7 +112,7 @@ function usePersistedState<T>(key: string, defaultValue: T): [T, Dispatch<SetSta
 export default function Experience() {
   const navigate = useNavigate()
   const {step} = useParams()
-  const [currentStep, setCurrentStep] = usePersistedState<number>('currentStep', 1);
+  const [currentStep, setCurrentStep] = usePersistedState<number>('AnalyticalBalanceCurrentStep', 1);
   const key = currentStep.toString() as StateKey;
   const stepData = state[key]; // Safe indexing
   const stepRefs = useRef<Record<number, StepComponentRef>>({});
@@ -139,8 +139,8 @@ export default function Experience() {
     ) {
       localStorage.setItem("currentStep", JSON.stringify(urlStep))
     } else {
-      const savedStep = localStorage.getItem("currentStep");
-      navigate(`/analytical_balance_lab/step/${currentStep}`, {replace: true});
+      const savedStep = localStorage.getItem("AnalyticalBalanceCurrentStep");
+      navigate(`/analytical_balance_lab/step/${savedStep}`, {replace: true});
     }
   }, [step, currentStep, navigate])
   useEffect(() => {

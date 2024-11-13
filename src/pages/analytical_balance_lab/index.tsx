@@ -37,7 +37,7 @@ function MyApp(): JSX.Element | null {
         <BrowserRouter>
         <Routes>
           {/* Define routes without forced redirects */}
-          <Route path="/analytical_balance_lab/step/:step" element={<Experience />} />
+          <Route path="/analytical_balance_lab/step/:AnalyticalBalanceCurrentStep" element={<Experience />} />
           <Route path="/analytical_balance_lab" element={<Experience />} />
           <Route path="/" element={<Experience />} />
           {/* Optionally, handle unmatched paths */}
