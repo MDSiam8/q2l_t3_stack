@@ -35,7 +35,7 @@ function MyApp(): JSX.Element | null {
       root.render(
         <BrowserRouter>
           <Routes>
-            <Route path="/extraction_lab/step/:step" element={<Experience />} />
+            <Route path="/extraction_lab/step/:separatingLiquidCurrentStep" element={<Experience />} />
             <Route path="/extraction_lab" element={<Experience />} />
             <Route path="/" element={<Experience />} />
             <Route path="*"  element={<Experience />} />

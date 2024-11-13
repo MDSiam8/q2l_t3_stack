@@ -112,9 +112,9 @@ function usePersistedState<T>(key: string, defaultValue: T): [T, Dispatch<SetSta
 
 export default function Experience() {
   const navigate = useNavigate()
-  const {step} = useParams()
+  const { step } = useParams()
 
-  const [currentStep, setCurrentStep] = usePersistedState<number>('currentStep', 1);
+  const [currentStep, setCurrentStep] = usePersistedState<number>('standardStockCurrentStep', 1);
   const key = currentStep.toString() as StateKey;
   const stepData = state[key]; // Safe indexing
   const stepRefs = useRef<Record<number, StepComponentRef>>({});
@@ -139,18 +139,20 @@ export default function Experience() {
       urlStep >= 1 &&
       urlStep <= Object.keys(state).length
     ) {
-      localStorage.setItem("currentStep", JSON.stringify(urlStep))
+      localStorage.setItem("standardStockCurrentStep", JSON.stringify(urlStep))
     } else {
-      const savedStep = localStorage.getItem("currentStep");
-      navigate(`/standard_solution_lab/step/${currentStep}`, {replace: true});
+      const savedStep = localStorage.getItem("standardStockCurrentStep");
+      navigate(`/standard_solution_lab/step/${currentStep}`, { replace: true });
     }
   }, [step, currentStep, navigate])
 
   useEffect(() => {
-    if ((step !== currentStep.toString())) {
-      navigate(`/standard_solution_lab/step/${currentStep}`, {replace: true});
+    if (step !== currentStep.toString()) {
+      navigate(`/standard_solution_lab/step/${currentStep}`, { replace: true });
     }
-  })
+  }, [step, currentStep, navigate]);
+
+
 
   const [selectedItems, setSelectedItems] = useState<SelectedItems>({});
 
@@ -265,7 +267,7 @@ export default function Experience() {
           >
             <planeGeometry />
             <meshStandardMaterial color="#37474f" /> {/* Soft minty green */}
-            </mesh>
+          </mesh>
 
           {/* Conditional Rendering of Step Components */}
           {currentStep === 1 && <Step1Introduction />}
@@ -288,26 +290,26 @@ export default function Experience() {
           )}
           {currentStep === 5 && (
             <Step5FoldWeighingPaper
-              ref={(el) => {(stepRefs.current[5] = el as StepComponentRef)}}
+              ref={(el) => { (stepRefs.current[5] = el as StepComponentRef) }}
               nextButtonRef={nextButtonRef}
             />
           )}
           {currentStep === 6 && (
             <Step6PlaceWeighingPaper
-              ref={(el) => {(stepRefs.current[6] = el as StepComponentRef)}}
+              ref={(el) => { (stepRefs.current[6] = el as StepComponentRef) }}
               nextButtonRef={nextButtonRef}
             />
           )}
           {currentStep === 7 && (
             <Step7AddPowder
-              ref={(el) => {(stepRefs.current[7] = el as StepComponentRef)}}
+              ref={(el) => { (stepRefs.current[7] = el as StepComponentRef) }}
               setIsAnimating={setIsAnimating}
               nextButtonRef={nextButtonRef}
             />
           )}
           {currentStep === 8 && (
             <EightStepComponent
-              ref={(el) => {(stepRefs.current[8] = el as StepComponentRef)}}
+              ref={(el) => { (stepRefs.current[8] = el as StepComponentRef) }}
               setIsAnimating={setIsAnimating}
               nextButtonRef={nextButtonRef}
             />
@@ -317,7 +319,7 @@ export default function Experience() {
           )}
           {currentStep === 10 && (
             <Step10TransferSample
-              ref={(el) =>{ (stepRefs.current[10] = el as StepComponentRef)}}
+              ref={(el) => { (stepRefs.current[10] = el as StepComponentRef) }}
               nextButtonRef={nextButtonRef}
             />
           )}
@@ -332,7 +334,7 @@ export default function Experience() {
           )}
           {/* ...add more steps as needed... */}
         </Canvas>
-         
+
         {currentStep === 3 && (
           <InventorySystem
             onItemSelect={handleItemSelection}
@@ -369,11 +371,10 @@ export default function Experience() {
               <button
                 onClick={handleNextStep}
                 disabled={currentStep === 13 || nextButtonTempDisabled}
-                className={`flex-grow transform rounded-lg bg-gradient-to-r from-blue-400 to-purple-500 px-4 py-2 font-bold text-white transition duration-300 hover:scale-105 ${
-                  currentStep === 13 || nextButtonTempDisabled
+                className={`flex-grow transform rounded-lg bg-gradient-to-r from-blue-400 to-purple-500 px-4 py-2 font-bold text-white transition duration-300 hover:scale-105 ${currentStep === 13 || nextButtonTempDisabled
                     ? "cursor-not-allowed bg-gray-400 opacity-50"
                     : ""
-                }`}
+                  }`}
                 ref={nextButtonRef}
               >
                 Next Step
