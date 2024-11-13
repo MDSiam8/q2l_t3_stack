@@ -1,5 +1,5 @@
 import React, { useState, useEffect, forwardRef } from "react";
-import { OrganicProductBeakerWithPourAnimation } from "../models/BeakerWithPourAnimation";
+import { OrganicProductBeakerWithPourAnimation } from "../models/OrganicProductBeakerWithPourAnimation";
 import { GlassRod } from "../models/GlassRod";
 import { DistilledWater } from "../models/DistilledWater";
 import { HundredMLFlaskWithFillAnimation } from "../models/HundredMLFlaskWithFillAnimation";

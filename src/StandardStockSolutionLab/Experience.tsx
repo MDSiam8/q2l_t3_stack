@@ -1,3 +1,5 @@
+"use client";
+
 import React, { Suspense, useEffect, useRef, useState } from "react";
 import {
   CameraControls,
@@ -5,6 +7,7 @@ import {
   Html,
   OrbitControls,
   PerspectiveCamera,
+  TransformControls,
 } from "@react-three/drei";
 import Step1Introduction from "./steps/01IntroduceLabObjectives";
 import Step2ExplainTask from "./steps/02ExplainTask";
@@ -21,11 +24,14 @@ import Step9ReadWeight from "./steps/09ReadWeightOfSample";
 import Step10TransferSample from "./steps/10TransferSampleToBeaker";
 import Step11ReadPaperWeight from "./steps/11ReadWeighingPaperWeight";
 import Step12CalculateSamplePowderWeight from "./steps/12CalculateSamplePowderWeight";
-import Step13DissolveSample from "./steps/13DissolveSample";
-import FinishedStepComponent from "./steps/19FinishedStepComponent";
+import FinishedStepComponent from "./steps/20FinishedStepComponent";
 import { Canvas, useFrame, useThree } from "@react-three/fiber";
 import { CameraAdjuster } from "./utils/CameraAdjuster";
 import { Camera, Vector3 } from "three";
+import Step15CheckBeakerResidue from "./steps/15CheckBeakerResidue";
+import Step16DiluteSolutionInFlask from "./steps/16DiluteSolutionInFlask";
+import { LabEnvironment } from "./models/LabEnvironment";
+import Step13DissolveSample from "./steps/13DissolveSample";
 import Step14TransferSolution from "./steps/14TransferSolutionToFlask";
 
 // Interface for the structure of each step in state.json
@@ -99,8 +105,15 @@ export const setNextEnabled = (
   }
 };
 
-export default function Experience() {
-  const [currentStep, setCurrentStep] = useState<number>(1);
+interface ExperienceProps {
+  currentStep: number;
+  onStepChange: (newStep: number) => void;
+}
+
+export default function Experience({
+  currentStep,
+  onStepChange,
+}: ExperienceProps) {
   const key = currentStep.toString() as StateKey;
   const stepData = state[key]; // Safe indexing
   const stepRefs = useRef<Record<number, StepComponentRef>>({});
@@ -128,13 +141,8 @@ export default function Experience() {
 
   const handleNextStep = () => {
     if (currentStep < Object.keys(state).length) {
-      setCurrentStep(currentStep + 1);
+      onStepChange(currentStep + 1);
       setNextDisabled(nextButtonRef);
-      console.log(currentStep);
-      // setNextButtonTempDisabled(true);
-      // setTimeout(() => {
-      //   setNextButtonTempDisabled(false);
-      // }, 2000);
     }
   };
 
@@ -203,13 +211,12 @@ export default function Experience() {
             position: [11.57, 10.1, -0.314],
           }}
           style={{ background: "#37474f" }} // Subtle light gray background
-
         >
           <CameraAdjuster />
           {/* <CameraControls makeDefault ref={cameraControlsRef} onStart={() => {
           cameraControlsRef.current?.setFocalOffset(0,-2.5,0, true);
         }}/> */}
-          <OrbitControls minDistance={9} maxDistance={70} />
+          <OrbitControls minDistance={9} maxDistance={700} />
 
           <ambientLight intensity={1.6} />
           <directionalLight
@@ -221,6 +228,10 @@ export default function Experience() {
 
           {/* Common elements like Table */}
           <Table scale={13} position-y={-1} />
+          {/* <TransformControls>
+
+            <LabEnvironment position={[40, -1, 0]}/>
+          </TransformControls> */}
           {/* Green-yellow plane */}
           <mesh
             receiveShadow
@@ -230,7 +241,7 @@ export default function Experience() {
           >
             <planeGeometry />
             <meshStandardMaterial color="#37474f" /> {/* Soft minty green */}
-            </mesh>
+          </mesh>
 
           {/* Conditional Rendering of Step Components */}
           {currentStep === 1 && <Step1Introduction />}
@@ -253,26 +264,34 @@ export default function Experience() {
           )}
           {currentStep === 5 && (
             <Step5FoldWeighingPaper
-              ref={(el) => {(stepRefs.current[5] = el as StepComponentRef)}}
+              ref={(el) => {
+                stepRefs.current[5] = el as StepComponentRef;
+              }}
               nextButtonRef={nextButtonRef}
             />
           )}
           {currentStep === 6 && (
             <Step6PlaceWeighingPaper
-              ref={(el) => {(stepRefs.current[6] = el as StepComponentRef)}}
+              ref={(el) => {
+                stepRefs.current[6] = el as StepComponentRef;
+              }}
               nextButtonRef={nextButtonRef}
             />
           )}
           {currentStep === 7 && (
             <Step7AddPowder
-              ref={(el) => {(stepRefs.current[7] = el as StepComponentRef)}}
+              ref={(el) => {
+                stepRefs.current[7] = el as StepComponentRef;
+              }}
               setIsAnimating={setIsAnimating}
               nextButtonRef={nextButtonRef}
             />
           )}
           {currentStep === 8 && (
             <EightStepComponent
-              ref={(el) => {(stepRefs.current[8] = el as StepComponentRef)}}
+              ref={(el) => {
+                stepRefs.current[8] = el as StepComponentRef;
+              }}
               setIsAnimating={setIsAnimating}
               nextButtonRef={nextButtonRef}
             />
@@ -282,7 +301,9 @@ export default function Experience() {
           )}
           {currentStep === 10 && (
             <Step10TransferSample
-              ref={(el) =>{ (stepRefs.current[10] = el as StepComponentRef)}}
+              ref={(el) => {
+                stepRefs.current[10] = el as StepComponentRef;
+              }}
               nextButtonRef={nextButtonRef}
             />
           )}
@@ -293,14 +314,23 @@ export default function Experience() {
             <Step12CalculateSamplePowderWeight nextButtonRef={nextButtonRef} />
           )}
           {currentStep === 13 && (
-            <FinishedStepComponent nextButtonRef={nextButtonRef} />
+            <Step13DissolveSample nextButtonRef={nextButtonRef} />
+          )}
+           {currentStep === 14 && (
+            <Step14TransferSolution nextButtonRef={nextButtonRef} />
           )}
           {currentStep === 14 && (
             <Step14TransferSolution nextButtonRef={nextButtonRef} />
           )}
           {/* ...add more steps as needed... */}
+          {currentStep === 15 && (
+            <Step15CheckBeakerResidue nextButtonRef={nextButtonRef} />
+          )}
+          {currentStep === 16 && (
+            <Step16DiluteSolutionInFlask nextButtonRef={nextButtonRef} />
+          )}
         </Canvas>
-         
+
         {currentStep === 3 && (
           <InventorySystem
             onItemSelect={handleItemSelection}
