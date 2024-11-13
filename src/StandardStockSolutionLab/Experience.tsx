@@ -64,6 +64,8 @@ interface State {
   "10": Step;
   "11": Step;
   "12": Step;
+  "13": Step;
+  "14": Step;
 }
 
 type StateKey = keyof State;
@@ -315,6 +317,9 @@ export default function Experience({
             <Step13DissolveSample nextButtonRef={nextButtonRef} />
           )}
            {currentStep === 14 && (
+            <Step14TransferSolution nextButtonRef={nextButtonRef} />
+          )}
+          {currentStep === 14 && (
             <Step14TransferSolution nextButtonRef={nextButtonRef} />
           )}
           {/* ...add more steps as needed... */}
