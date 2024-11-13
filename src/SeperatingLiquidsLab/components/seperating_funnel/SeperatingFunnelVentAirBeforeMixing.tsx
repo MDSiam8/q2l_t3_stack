@@ -8,7 +8,7 @@ interface BeakerWithWasteFillAnimationProps {
 }
 
 export function SFunnelVentingAirBeforeMixing({ startAnimationDelay = 0, ...props }: BeakerWithWasteFillAnimationProps) {
-  const { scene, animations } = useGLTF("./vent air (before mixing).glb");
+  const { scene, animations } = useGLTF("/vent air (before mixing).glb");
   const clonedScene = scene.clone(); // Clone the scene for isolated use
   const { actions } = useAnimations(animations, clonedScene);
 
@@ -29,4 +29,4 @@ export function SFunnelVentingAirBeforeMixing({ startAnimationDelay = 0, ...prop
   return <primitive {...props} object={clonedScene} />;
 }
 
-useGLTF.preload("./separating funnel draining water.glb");
+useGLTF.preload("/separating funnel draining water.glb");

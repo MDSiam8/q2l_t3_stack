@@ -28,6 +28,10 @@ import Step7Mix from "./steps/07Mixing";
 import Step8VentAirAfterMixing from "./steps/08VentAirAfterMixing";
 import Step9SeperateLiquid from "./steps/09SeperateLiquid";
 
+import { Dispatch, SetStateAction } from "react";
+import { useNavigate, useParams } from 'react-router-dom';
+
+
 // Interface for the structure of each step in state.json
 interface Step {
   stepTitle: string;
@@ -91,8 +95,27 @@ export const setNextEnabled = (
     nextButtonRef.current.className = getClassNameForNext(false);
   }
 };
+
+function usePersistedState<T>(key: string, defaultValue: T): [T, Dispatch<SetStateAction<T>>] {
+  // Initialize state with value from localStorage, or use the default value
+  const [value, setValue] = useState<T>(() => {
+      const savedValue = localStorage.getItem(key);
+      return savedValue !== null ? JSON.parse(savedValue) : defaultValue;
+  });
+
+  useEffect(() => {
+      // Update localStorage whenever the value changes
+      localStorage.setItem(key, JSON.stringify(value));
+  }, [key, value]);
+
+  return [value, setValue];
+}
+
 export default function Experience() {
-  const [currentStep, setCurrentStep] = useState<number>(1);
+  const navigate = useNavigate();
+  const { step } = useParams();
+
+  const [currentStep, setCurrentStep] = usePersistedState<number>("currentStep", 1);
   const key = currentStep.toString() as StateKey;
   const stepData = state[key]; // Safe indexing
   const stepRefs = useRef<Record<number, StepComponentRef>>({});
@@ -105,7 +128,9 @@ export default function Experience() {
 
   const handleNextStep = () => {
     if (currentStep < Object.keys(state).length) {
-      setCurrentStep(currentStep + 1);
+      const nextStep = currentStep + 1;
+      setCurrentStep(nextStep);
+      navigate(`/extraction_lab/step/${nextStep}`);
       // setNextDisabled(nextButtonRef);
 
       // setNextButtonTempDisabled(true);
@@ -114,6 +139,30 @@ export default function Experience() {
       // }, 2000);
     }
   };
+  useEffect(() => {
+    const urlStep = parseInt(step || '');
+    if (
+      !isNaN(urlStep) &&
+      urlStep >= 1 &&
+      urlStep <= Object.keys(state).length
+    ) {
+      // Valid step, store it in local storage
+      localStorage.setItem("currentStep", JSON.stringify(urlStep));
+    } else {
+      // Invalid or missing 'step', navigate to persisted 'currentStep'
+      const savedStep = localStorage.getItem('currentStep');
+      const stepToNavigate = savedStep ? JSON.parse(savedStep) : 1;
+      navigate(`/extraction_lab/step/${stepToNavigate}`, { replace: true });
+    }
+  }, [step, navigate]);
+  
+
+  useEffect(() => {
+    if (step !== currentStep.toString()) {
+      navigate(`/extraction_lab/step/${currentStep}`, { replace: true });
+    }
+  }, [currentStep, navigate, step]);
+
 
   const [loadingMessage, setLoadingMessage] = useState("Loading Resources");
 
@@ -246,3 +295,4 @@ export default function Experience() {
     </Suspense>
   );
 }
+
