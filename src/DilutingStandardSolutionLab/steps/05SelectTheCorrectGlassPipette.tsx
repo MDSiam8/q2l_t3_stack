@@ -9,7 +9,7 @@ interface Step5Props {
 }
 
 const Step5SelectTheCorrectGlassPipette = forwardRef<THREE.Group, Step5Props>(
-    (props, ref) => {
+    (props) => {
         const { nextButtonRef } = props;
 
         useEffect(() => {
@@ -44,8 +44,7 @@ const Step5SelectTheCorrectGlassPipette = forwardRef<THREE.Group, Step5Props>(
         };
 
         return (
-            <group ref={ref}>
-                {/* 1mL Pipette */}
+            <group>
                 <group position={[2.2, 5, -2.2]} scale={0.3}>
                     <GlassPipette />
                     <group rotation-y={Math.PI / 2}>
@@ -60,7 +59,6 @@ const Step5SelectTheCorrectGlassPipette = forwardRef<THREE.Group, Step5Props>(
                     </group>
                 </group>
 
-                {/* 5mL Pipette */}
                 <group position={[2.2, 5, 0]} scale={0.4}>
                     <GlassPipette />
                     <group rotation-y={Math.PI / 2}>
@@ -75,7 +73,6 @@ const Step5SelectTheCorrectGlassPipette = forwardRef<THREE.Group, Step5Props>(
                     </group>
                 </group>
 
-                {/* 10mL Pipette */}
                 <group position={[2.2, 5, 2.2]} scale={0.5}>
                     <GlassPipette />
                     <group rotation-y={Math.PI / 2}>
