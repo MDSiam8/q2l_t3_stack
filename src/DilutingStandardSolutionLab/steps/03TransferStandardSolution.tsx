@@ -4,6 +4,7 @@ import * as THREE from "three";
 import { Flask } from "../models/Flask";
 import { Stopper } from "../models/Stopper";
 import { Beaker } from "../models/Beaker";
+import { BeakerWaterFill } from "../models/BeakerWaterFill";
 import { setNextDisabled, setNextEnabled } from "../Experience";
 
 interface Step03Props {
@@ -14,6 +15,7 @@ const Step03TransferStandardSolution = forwardRef<THREE.Group, Step03Props>(
   ({ nextButtonRef }, ref) => {
     const flaskRef = useRef<THREE.Group>(null);
     const stopperRef = useRef<THREE.Group>(null);
+    const waterRef = useRef<THREE.Mesh>(null); 
     const stopperRemoved = useRef(false);
     const flaskTilted = useRef(false);
 
@@ -29,14 +31,14 @@ const Step03TransferStandardSolution = forwardRef<THREE.Group, Step03Props>(
 
       stopperRemoved.current = true;
       gsap.to(stopperRef.current.position, {
-        y: 8.5, // Move stopper higher up for visibility
+        y: 8.0, // Move stopper higher up for visibility
         x: -0.5, // Slightly shift stopper to the left
         duration: 1,
         ease: "power1.inOut",
       });
     };
 
-    // Handle flask click to move up slightly and tilt
+    // Handle flask click to move up slightly, tilt, and start water fill animation
     const handleFlaskClick = () => {
       if (flaskTilted.current || !stopperRemoved.current || !flaskRef.current) return;
 
@@ -47,6 +49,15 @@ const Step03TransferStandardSolution = forwardRef<THREE.Group, Step03Props>(
 
       const tl = gsap.timeline({
         onComplete: () => {
+          // Start water fill animation after flask tilt
+          if (waterRef.current) {
+            gsap.to(waterRef.current.scale, {
+              y: 0.5, // Fill the water to 1/2 height 
+              duration: 2,
+              ease: "power1.inOut",
+            });
+          }
+
           if (nextButtonRef && nextButtonRef.current) {
             setNextEnabled(nextButtonRef); // Enable the next button after animation
           }
@@ -97,16 +108,25 @@ const Step03TransferStandardSolution = forwardRef<THREE.Group, Step03Props>(
         <group ref={flaskRef} position={[0, 4.94, 1.5]} onClick={handleFlaskClick}>
           <Flask />
         </group>
-        <group ref={stopperRef} position={[0, 6.5, 1.5]} onClick={handleStopperClick}>
+        <group ref={stopperRef} position={[0, 6.6, 1.5]} onClick={handleStopperClick}>
           <Stopper />
         </group>
 
         {/* Beaker */}
-        <Beaker position={[0, 4.94, -1.25]} />
+        <Beaker position={[0.25, 4.94, -1.6]} />
+
+        {/* Water in Beaker */}
+        <mesh
+          ref={waterRef}
+          position={[0, 5, -1]} 
+          scale={[0.15, 0.0, 0.15]}
+        >
+          <cylinderGeometry args={[2, 2, 2, 10]} />
+          <meshStandardMaterial color={"lightblue"} transparent opacity={0.6} />
+        </mesh>
       </group>
     );
   }
 );
 
 export default Step03TransferStandardSolution;
-
