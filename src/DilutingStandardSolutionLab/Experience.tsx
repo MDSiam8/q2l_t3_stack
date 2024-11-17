@@ -14,6 +14,7 @@ import Step2SelectApparatus from "./steps/02ApparatusAndChemicalSelection";
 import { Canvas, useFrame, useThree } from "@react-three/fiber";
 import { CameraAdjuster } from "./utils/CameraAdjuster";
 import { Camera, Vector3 } from "three";
+import Step11AddStopperAndMixSolution from "./steps/11AddStopperAndMixSolution";
 
 // Interface for the structure of each step in state.json
 interface Step {
@@ -215,12 +216,16 @@ export default function Experience() {
             <planeGeometry />
             <meshStandardMaterial color="#37474f" /> {/* Soft minty green */}
             </mesh>
-
           {/* Conditional Rendering of Step Components */}
-          {currentStep === 1 && <Step1Introduction />}
+          {currentStep === 1 && <Step1Introduction nextButtonRef={nextButtonRef} />}
           {currentStep === 2 && (
             <Step2SelectApparatus
               selectedItems={selectedItems}
+              nextButtonRef={nextButtonRef}
+            />
+          )}
+          {currentStep === 11 && (
+            <Step11AddStopperAndMixSolution
               nextButtonRef={nextButtonRef}
             />
           )}
