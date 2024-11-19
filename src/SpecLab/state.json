@@ -3,7 +3,7 @@
     "stepTitle": "Lab Objectives",
     "description": "Introduction to the objectives of the UV-spectrophotometer lab.",
     "directions": "In this lab, you will learn how to use a UV-spectrophotometer to measure the absorbance of various solutions and create a calibration curve.",
-    "user_instructions": "Click the 'Next' button to proceed to the next step.",
+    "user_instructions": "To begin, click on the inventory and select all the necessary items for the lab.",
     "objectsInFocus": [
       "UV_spectrophotometer",
       "cuvette",
