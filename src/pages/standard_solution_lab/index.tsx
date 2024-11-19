@@ -34,8 +34,8 @@ function MyApp(): JSX.Element | null {
     const stepParam = router.query.step;
     const stepNumber = stepParam ? parseInt(stepParam as string, 10) : 1;
 
-    // Validate the step number is within bounds (assuming max 13 steps)
-    if (stepNumber >= 1 && stepNumber <= 13) {
+    // Validate the step number is within bounds (assuming max 20 steps)
+    if (stepNumber >= 1 && stepNumber <= 20) {
       setCurrentStep(stepNumber);
     } else {
       // If the step number is invalid, default to step 1

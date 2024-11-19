@@ -30,9 +30,12 @@ import { CameraAdjuster } from "./utils/CameraAdjuster";
 import { Camera, Vector3 } from "three";
 import Step15CheckBeakerResidue from "./steps/15CheckBeakerResidue";
 import Step16DiluteSolutionInFlask from "./steps/16DiluteSolutionInFlask";
+import Step17EyeDropper from "./steps/17EyeDropper";
 import { LabEnvironment } from "./models/LabEnvironment";
 import Step13DissolveSample from "./steps/13DissolveSample";
 import Step14TransferSolution from "./steps/14TransferSolutionToFlask";
+import Step19MixSolution from "./steps/19MixSolution";
+import Step18AttachStopper from "./steps/18AddStopperAndMix";
 
 // Interface for the structure of each step in state.json
 interface Step {
@@ -66,6 +69,12 @@ interface State {
   "12": Step;
   "13": Step;
   "14": Step;
+  "15": Step;
+  "16": Step;
+  "17": Step;
+  "18": Step;
+  "19": Step;
+  "20": Step;
 }
 
 type StateKey = keyof State;
@@ -319,9 +328,6 @@ export default function Experience({
            {currentStep === 14 && (
             <Step14TransferSolution nextButtonRef={nextButtonRef} />
           )}
-          {currentStep === 14 && (
-            <Step14TransferSolution nextButtonRef={nextButtonRef} />
-          )}
           {/* ...add more steps as needed... */}
           {currentStep === 15 && (
             <Step15CheckBeakerResidue nextButtonRef={nextButtonRef} />
@@ -329,6 +335,12 @@ export default function Experience({
           {currentStep === 16 && (
             <Step16DiluteSolutionInFlask nextButtonRef={nextButtonRef} />
           )}
+          {currentStep === 17 && <Step17EyeDropper nextButtonRef={nextButtonRef} />}
+          {currentStep === 18 && <Step18AttachStopper nextButtonRef={nextButtonRef} />}
+          {currentStep === 19 && <Step19MixSolution nextButtonRef={nextButtonRef} />}
+          {currentStep === 20 && <FinishedStepComponent nextButtonRef={nextButtonRef} />}
+
+          {/* Inventory System */}
         </Canvas>
 
         {currentStep === 3 && (
