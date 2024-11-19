@@ -18,9 +18,9 @@ const Step6AttachPipetteFiller = forwardRef<HTMLDivElement, Step2LabTasksProps>(
       if (bulbRef.current) {
         const timeline = gsap.timeline({ delay: 1 });
         timeline
-        .to(bulbRef.current.position, { y: "+=5.5", z: "-=2.7", duration: 2 })
+        .to(bulbRef.current.position, { y: "+=4.5", z: "-=2.7", duration: 2 })
         .to(bulbRef.current.position, {
-          y: "-=3.0",
+          y: "-=2.0",
           duration: 1,
           onComplete: () => {
             setNextEnabled(nextButtonRef);
