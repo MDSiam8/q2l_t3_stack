@@ -69,11 +69,11 @@ const Step04ChoosePipette = ({ nextButtonRef }: { nextButtonRef: React.RefObject
                   fontSize: "16px",
                   marginRight: "10px",
                   cursor: "pointer",
-                  backgroundColor: "#4CAF50",
                   color: "white",
                   border: "none",
                   borderRadius: "5px",
                 }}
+                className="flex-grow transform rounded-lg bg-gradient-to-r from-green-400 to-yellow-500 px-4 py-2 font-bold text-white transition duration-300 hover:scale-105"
               >
                 Glass Pipette
               </button>
@@ -83,11 +83,11 @@ const Step04ChoosePipette = ({ nextButtonRef }: { nextButtonRef: React.RefObject
                   padding: "10px 20px",
                   fontSize: "16px",
                   cursor: "pointer",
-                  backgroundColor: "#f44336",
                   color: "white",
                   border: "none",
                   borderRadius: "5px",
                 }}
+                className="flex-grow transform rounded-lg bg-gradient-to-r from-orange-400 to-red-500 px-4 py-2 font-bold text-white transition duration-300 hover:scale-105"
               >
                 Micropipette
               </button>
