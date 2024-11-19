@@ -1,0 +1,201 @@
+{
+  "1": {
+    "stepTitle": "Lab Objectives",
+    "description": "Introduction to the objectives of the UV-spectrophotometer lab.",
+    "directions": "In this lab, you will learn how to use a UV-spectrophotometer to measure the absorbance of various solutions and create a calibration curve.",
+    "user_instructions": "Click the 'Next' button to proceed to the next step.",
+    "objectsInFocus": [
+      "UV_spectrophotometer",
+      "cuvette",
+      "solution_bottles"
+    ]
+  },
+  "2": {
+    "stepTitle": "Adjusting the Spectrophotometer Settings",
+    "description": "Setting up the spectrophotometer by adjusting its initial settings.",
+    "directions": "Adjust the value of the spectrophotometer by typing the desired wavelength number.",
+    "user_instructions": "Use the number pad to input the wavelength value.",
+    "objectsInFocus": [
+      "UV_spectrophotometer",
+      "number_pad"
+    ],
+    "mistakes": [
+      {
+        "mistakeDescription": "Entered incorrect wavelength value",
+        "context": "Spectrophotometer settings",
+        "correctAnswer": "Specify the correct wavelength, e.g., 280 nm",
+        "category": "input_mistake",
+        "count": 0,
+        "userAnswers": []
+      }
+    ]
+  },
+  "3": {
+    "stepTitle": "Retrieving a Cuvette",
+    "description": "Taking the appropriate cuvette from the cabinet.",
+    "directions": "Navigate to the inventory and select the correct cuvette from the cabinet.",
+    "user_instructions": "Click on the cabinet and choose the right cuvette.",
+    "objectsInFocus": [
+      "cabinet",
+      "cuvette",
+      "inventory_system"
+    ],
+    "mistakes": [
+      {
+        "mistakeDescription": "Selected incorrect cuvette",
+        "context": "Cuvette selection",
+        "correctAnswer": "Correct cuvette type, e.g., quartz cuvette for UV measurements",
+        "category": "selection_mistake",
+        "count": 0,
+        "userAnswers": []
+      }
+    ]
+  },
+  "4": {
+    "stepTitle": "Washing the Cuvette with Water",
+    "description": "Cleaning the cuvette by rinsing it with distilled water.",
+    "directions": "Rinse the cuvette thoroughly with distilled water to remove any contaminants.",
+    "user_instructions": "Use the water tap to rinse the cuvette.",
+    "objectsInFocus": [
+      "cuvette",
+      "distilled_water",
+      "water_tap"
+    ]
+  },
+  "5": {
+    "stepTitle": "Washing the Cuvette with Sample Solution",
+    "description": "Cleaning the cuvette with the solution to be measured.",
+    "directions": "Rinse the cuvette with the sample solution to ensure it's free from water residues.",
+    "user_instructions": "Use the sample bottle to rinse the cuvette.",
+    "objectsInFocus": [
+      "cuvette",
+      "sample_solution",
+      "sample_bottle"
+    ]
+  },
+  "6": {
+    "stepTitle": "Filling the Cuvette with Solution",
+    "description": "Filling the cuvette to 2/3 of its capacity with the sample solution.",
+    "directions": "Fill the cuvette to the 2/3 mark with the solution.",
+    "user_instructions": "Use the measuring lines on the cuvette to ensure accurate filling.",
+    "objectsInFocus": [
+      "cuvette",
+      "solution_bottle",
+      "measuring_lines"
+    ],
+    "mistakes": [
+      {
+        "mistakeDescription": "Overfilled or underfilled the cuvette",
+        "context": "Solution measurement",
+        "correctAnswer": "Filled to 2/3 of the cuvette",
+        "category": "measurement_mistake",
+        "count": 0,
+        "userAnswers": []
+      }
+    ]
+  },
+  "7": {
+    "stepTitle": "Cleaning the Cuvette Surface",
+    "description": "Ensuring the cuvette is clean by wiping its surface.",
+    "directions": "Use a wiping paper to clean the outer surface of the cuvette by rotating it 90° and wiping each side.",
+    "user_instructions": "Click and drag the wiping paper around the cuvette.",
+    "objectsInFocus": [
+      "cuvette",
+      "wiping_paper"
+    ]
+  },
+  "8": {
+    "stepTitle": "Attaching the Cuvette Cap",
+    "description": "Securing the cuvette by attaching its cap.",
+    "directions": "Place the cap on the cuvette to prevent any spillage during measurement.",
+    "user_instructions": "Click on the cap and attach it to the cuvette.",
+    "objectsInFocus": [
+      "cuvette",
+      "cuvette_cap"
+    ]
+  },
+  "9": {
+    "stepTitle": "Inserting the Cuvette into the Spectrophotometer",
+    "description": "Placing the prepared cuvette into the spectrophotometer.",
+    "directions": "Now that we have seen how to prepare a cuvette, let's identify which cuvette sample to put into the spectrophotometer.",
+    "user_instructions": "Select which cuvette sample to put into the machine.",
+    "objectsInFocus": [
+      "UV_spectrophotometer",
+      "cuvette"
+    ]
+  },
+  "10": {
+    "stepTitle": "Inserting the Cuvette into the Spectrophotometer",
+    "description": "Placing the prepared cuvette into the spectrophotometer.",
+    "directions": "Insert the blank solution cuvette into the spectrophotometer, ensuring the clear side is aligned correctly for light passage. The blank solution will perform the calibration to cancel out background signals.",
+    "user_instructions": "Drag and drop the cuvette into the spectrophotometer slot.",
+    "objectsInFocus": [
+      "UV_spectrophotometer",
+      "cuvette"
+    ],
+    "mistakes": [
+      {
+        "mistakeDescription": "Incorrect orientation of the cuvette",
+        "context": "Cuvette placement",
+        "correctAnswer": "Clear side facing the light source",
+        "category": "orientation_mistake",
+        "count": 0,
+        "userAnswers": []
+      }
+    ]
+  },
+  "11": {
+    "stepTitle": "Measuring Absorbance of Sample Solutions",
+    "description": "Measuring the absorbance of different sample solutions.",
+    "directions": "Now close the chamber, start the measurement process, and await for the results. Then repeat for all the other solutions.",
+    "user_instructions": "Click on the chamber door to close it and start the measurement process.",
+    "objectsInFocus": [
+      "UV_spectrophotometer",
+      "cuvette",
+      "sample_solutions",
+      "absorbance_display"
+    ],
+    "mistakes": [
+      {
+        "mistakeDescription": "Incorrect absorbance reading",
+        "context": "Measurement accuracy",
+        "correctAnswer": "Ensure the reading matches the display accurately",
+        "category": "measurement_mistake",
+        "count": 0,
+        "userAnswers": []
+      }
+    ]
+  },
+  "12": {
+    "stepTitle": "Creating the Calibration Curve",
+    "description": "Plotting the calibration curve based on absorbance readings.",
+    "directions": "We will use the recorded absorbance values to plot a calibration curve. First, identify the x and y axis parameters.",
+    "user_instructions": "Input the absorbance and concentration values into the answer box.",
+    "objectsInFocus": [
+      "calibration_graph",
+      "number_pad",
+      "graphing_tool"
+    ]
+  },
+  "13": {
+    "stepTitle": "Analyzing the Calibration Curve",
+    "description": "Interpreting the calibration curve to determine sample concentrations.",
+    "directions": "Use the calibration curve to determine the concentrations of unknown samples based on their absorbance.",
+    "user_instructions": "Complete the quiz dialog using the calibration curve graph.",
+    "objectsInFocus": [
+      "calibration_graph",
+      "unknown_samples",
+      "absorbance_display"
+    ]
+  },
+  "14": {
+    "stepTitle": "The End",
+    "description": "Completion of the UV-spectrophotometer lab.",
+    "directions": "Congratulations! You have successfully completed the UV-spectrophotometer lab. Review your results and ensure all data is recorded accurately.",
+    "objectsInFocus": [
+      "UV_spectrophotometer",
+      "calibration_graph",
+      "completed_lab_report"
+    ]
+  }
+}
