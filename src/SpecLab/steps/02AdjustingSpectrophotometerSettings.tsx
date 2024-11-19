@@ -18,7 +18,7 @@ interface SecondStepProps {
 }
 
 
-const Step2SelectApparatus = forwardRef<HTMLDivElement, SecondStepProps>(
+const Step2AdjustingSpectrophotometerSettings = forwardRef<HTMLDivElement, SecondStepProps>(
   ({ nextButtonRef, selectedItems }, ref) => {
 
   return (
@@ -53,4 +53,4 @@ const Step2SelectApparatus = forwardRef<HTMLDivElement, SecondStepProps>(
   );
 });
 
-export default Step2SelectApparatus;
+export default Step2AdjustingSpectrophotometerSettings;

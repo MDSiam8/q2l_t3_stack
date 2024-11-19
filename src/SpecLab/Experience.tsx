@@ -10,7 +10,7 @@ import Step1Introduction from "./steps/01IntroduceLabObjectives";
 import Table from "./models/Table";
 import state from "./state.json";
 import InventorySystem from "./ui_overlay/InventorySystem";
-import Step2SelectApparatus from "./steps/02ApparatusAndChemicalSelection";
+import Step2SelectApparatus from "./steps/02AdjustingSpectrophotometerSettings";
 import { Canvas, useFrame, useThree } from "@react-three/fiber";
 import { CameraAdjuster } from "./utils/CameraAdjuster";
 import { Camera, Vector3 } from "three";
