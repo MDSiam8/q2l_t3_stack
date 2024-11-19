@@ -120,7 +120,7 @@ export default function Experience() {
   const { step } = useParams();
 
   // Use usePersistedState to persist currentStep
-  const [currentStep, setCurrentStep] = usePersistedState<number>('currentStep', 1);
+  const [currentStep, setCurrentStep] = usePersistedState<number>('robtovapCurrentStep', 1);
   const key = currentStep.toString() as StateKey;
   const stepData = state[key]; // Safe indexing
   const stepRefs = useRef<Record<number, StepComponentRef>>({});
@@ -139,10 +139,10 @@ export default function Experience() {
       urlStep <= Object.keys(state).length
     ) {
       // valid step, store it in local storage
-      localStorage.setItem("currentStep", JSON.stringify(urlStep))
+      localStorage.setItem("robtovapCurrentStep", JSON.stringify(urlStep))
     } else {
       // Invalid or missing 'step', navigate to persisted 'currentStep'
-      const savedStep = localStorage.getItem('currentStep');
+      const savedStep = localStorage.getItem('robtovapCurrentStep');
       const stepToNavigate = savedStep ? JSON.parse(savedStep) : 1;
       navigate(`/rotovap-lab/step/${currentStep}`, { replace: true });
     }
