@@ -3,12 +3,15 @@ import { Html } from "@react-three/drei";
 import { setNextDisabled, setNextEnabled } from "../Experience";
 import { GlassPipette } from "../models/GlassPipette";
 import { PipetteBulb } from "../models/PipetteBulb";
+import { set } from "zod";
 
 const Step04ChoosePipette = ({ nextButtonRef }: { nextButtonRef: React.RefObject<HTMLButtonElement> }) => {
   const [showDialog, setShowDialog] = useState(true); // Show initial dialog
   const [showMicropipetteWarning, setShowMicropipetteWarning] = useState(false); // Show warning for micropipette
+  const [pipetteSelection, setPipetteSelection] = useState<"glass" | "micropipette" | null >(null);
 
   const handlePipetteSelection = (selection: "glass" | "micropipette") => {
+    setPipetteSelection(selection);
     if (selection === "micropipette") {
       setShowMicropipetteWarning(true);
     } else {
@@ -27,11 +30,13 @@ const Step04ChoosePipette = ({ nextButtonRef }: { nextButtonRef: React.RefObject
 
   return (
     <group>
-      <group>
-        <GlassPipette position={[0, 5.5, 0]} />
-        <PipetteBulb position={[0, 8, 0]} />
-      </group>
-      {showDialog && (
+      {pipetteSelection === "glass" && (
+        <group>
+          <GlassPipette position={[0, 5.5, 0]} />
+          {/* <PipetteBulb position={[0, 8, 0]} /> */}
+        </group>
+      )}
+      {showDialog && !showMicropipetteWarning && (
         <Html
           transform
           rotation-y={Math.PI / 2}
@@ -130,7 +135,10 @@ const Step04ChoosePipette = ({ nextButtonRef }: { nextButtonRef: React.RefObject
             </h2>
             <div style={{ marginTop: "20px" }}>
               <button
-                onClick={() => setShowMicropipetteWarning(false)}
+                onClick={() => {setShowMicropipetteWarning(false)
+                  setShowDialog(true);
+                  setPipetteSelection(null); 
+                }}
                 style={{
                   padding: "10px 20px",
                   fontSize: "16px",
