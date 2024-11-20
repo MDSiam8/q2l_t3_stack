@@ -96,8 +96,15 @@ export const setNextEnabled = (
     nextButtonRef.current.className = getClassNameForNext(false);
   }
 };
-export default function Experience() {
-  const [currentStep, setCurrentStep] = useState<number>(1);
+interface ExperienceProps {
+  currentStep: number;
+  onStepChange: (newStep: number) => void;
+}
+
+export default function Experience({
+  currentStep,
+  onStepChange,
+}: ExperienceProps) { 
   const key = currentStep.toString() as StateKey;
   const stepData = state[key]; // Safe indexing
   const stepRefs = useRef<Record<number, StepComponentRef>>({});
@@ -125,7 +132,6 @@ export default function Experience() {
 
   const handleNextStep = () => {
     if (currentStep < Object.keys(state).length) {
-      setCurrentStep(currentStep + 1);
       setNextDisabled(nextButtonRef);
       // setNextButtonTempDisabled(true);
       // setTimeout(() => {
@@ -239,32 +245,42 @@ export default function Experience() {
           )}
           {currentStep === 4 && (
             <FourthStepComponent
-              ref={(el) => (stepRefs.current[4] = el as StepComponentRef)}
+              ref={(el) => {
+                stepRefs.current[4] = el as StepComponentRef; // Ensure that nothing is returned
+              }}
               nextButtonRef={nextButtonRef}
             />
           )}
           {currentStep === 5 && (
             <FifthStepComponent
-              ref={(el) => (stepRefs.current[5] = el as StepComponentRef)}
+              ref={(el) => {
+                stepRefs.current[5] = el as StepComponentRef;
+              }}
               nextButtonRef={nextButtonRef}
             />
           )}
           {currentStep === 6 && (
             <SixthStepComponent
-              ref={(el) => (stepRefs.current[6] = el as StepComponentRef)}
+              ref={(el) => {
+                stepRefs.current[6] = el as StepComponentRef;
+              }}
               nextButtonRef={nextButtonRef}
             />
           )}
           {currentStep === 7 && (
             <SeventhStepComponent
-              ref={(el) => (stepRefs.current[7] = el as StepComponentRef)}
+              ref={(el) => {
+                stepRefs.current[7] = el as StepComponentRef;
+              }}
               setIsAnimating={setIsAnimating}
               nextButtonRef={nextButtonRef}
             />
           )}
           {currentStep === 8 && (
             <EightStepComponent
-              ref={(el) => (stepRefs.current[8] = el as StepComponentRef)}
+              ref={(el) => {
+                stepRefs.current[8] = el as StepComponentRef;
+              }}
               setIsAnimating={setIsAnimating}
               nextButtonRef={nextButtonRef}
             />
@@ -274,7 +290,9 @@ export default function Experience() {
           )}
           {currentStep === 10 && (
             <TenthStepComponent
-              ref={(el) => (stepRefs.current[10] = el as StepComponentRef)}
+              ref={(el) => {
+                stepRefs.current[10] = el as StepComponentRef;
+              }}
               nextButtonRef={nextButtonRef}
             />
           )}
@@ -289,7 +307,7 @@ export default function Experience() {
           )}
           {/* ...add more steps as needed... */}
         </Canvas>
-        
+
         {currentStep === 3 && (
           <InventorySystem
             onItemSelect={handleItemSelection}
