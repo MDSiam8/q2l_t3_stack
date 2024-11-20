@@ -1,9 +1,12 @@
 import Image, { StaticImageData } from "next/image";
 import React from "react";
-import beakerImg from "../images/beaker2.png";
-import dropperImg from "../images/dropper.png";
-import pipetteImg from "../images/pipette.png";
-import stopperImg from "../images/stopper.png";
+import beakerImg from "../images/beaker2.jpg";
+import balanceImg from "../images/balance2.jpg";
+import dropperImg from "../images/dropper.jpg";
+import paperImg from "../images/paper2.jpg";
+import pipetteImg from "../images/pipette.jpg";
+import stopperImg from "../images/stopper.jpg";
+import spatulaImg from "../images/spatula2.jpg";
 
 type ApparatusItem = {
   name: string;
@@ -26,9 +29,12 @@ const ApparatusTab: React.FC<ApparatusTabProps> = ({
 }) => {
   const apparatusItems: ApparatusItem[] = [
     { name: "Beaker", image: beakerImg, isCorrect: true },
+    { name: "Balance", image: balanceImg, isCorrect: false },
     { name: "Glass Pipette", image: pipetteImg, isCorrect: true },
     { name: "Glass Dropper", image: dropperImg, isCorrect: true },
+    { name: "Paper", image: paperImg, isCorrect: false },
     { name: "Stopper", image: stopperImg, isCorrect: true },
+    { name: "Spatula", image: spatulaImg, isCorrect: false },
   ];
 
   const handleItemClick = (item: ApparatusItem) => {
