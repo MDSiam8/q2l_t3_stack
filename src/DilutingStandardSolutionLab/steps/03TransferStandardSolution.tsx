@@ -6,6 +6,7 @@ import { Stopper } from "../models/Stopper";
 import { Beaker } from "../models/Beaker";
 import { BeakerWaterFill } from "../models/BeakerWaterFill";
 import { setNextDisabled, setNextEnabled } from "../Experience";
+import { BeakerStockSolutionFill } from "../models/BeakerWithOrangeFillAnim";
 
 interface Step03Props {
   nextButtonRef: React.RefObject<HTMLButtonElement>;
@@ -18,6 +19,12 @@ const Step03TransferStandardSolution = forwardRef<THREE.Group, Step03Props>(
     const waterRef = useRef<THREE.Mesh>(null); 
     const stopperRemoved = useRef(false);
     const flaskTilted = useRef(false);
+    const beakerFillRef = useRef<any>(null);
+    useEffect(() => {
+      if (beakerFillRef.current) {
+        beakerFillRef.current.playAnimation("Animation");
+      }
+    }, []);
 
     useEffect(() => {
       if (nextButtonRef && nextButtonRef.current) {
@@ -111,6 +118,8 @@ const Step03TransferStandardSolution = forwardRef<THREE.Group, Step03Props>(
         <group ref={stopperRef} position={[0, 6.6, 1.5]} onClick={handleStopperClick}>
           <Stopper />
         </group>
+
+        <BeakerStockSolutionFill ref={beakerFillRef} position={[4, 5, 0]} />
 
         {/* Beaker */}
         <Beaker position={[0.25, 4.94, -1.6]} />
