@@ -225,7 +225,7 @@ export default function Experience() {
               nextButtonRef={nextButtonRef}
             />
           )}
-          {currentStep === 7 && <Step7FillThePipette />}
+          {currentStep === 7 && <Step7FillThePipette nextButtonRef={nextButtonRef} />}
           {/* ...add more steps as needed... */}
         </Canvas>
          

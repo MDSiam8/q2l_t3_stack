@@ -1,12 +1,17 @@
-import React, { forwardRef, useRef, useState } from "react";
+import React, { forwardRef, useEffect, useRef, useState } from "react";
 import { GlassPipette } from "../models/GlassPipette";
 import { PipetteBulb } from "../models/PipetteBulb";
 import * as THREE from "three";
 import { Html, PerspectiveCamera } from "@react-three/drei";
 import { BeakerStockSolutionFill } from "../models/BeakerWithOrangeFillAnim";
 import { Canvas } from "@react-three/fiber";
+import { setNextDisabled, setNextEnabled } from "../Experience";
 
-const Step7FillThePipette = forwardRef((props, ref) => {
+interface Step7Props {
+  nextButtonRef: React.RefObject<HTMLButtonElement>;
+}
+
+const Step7FillThePipette = forwardRef<THREE.Group, Step7Props>(({nextButtonRef}, ref) => {
 
   const initialBeakerWaterLevel = 1;
   const initialPipetteWaterLevel = 0;
@@ -17,7 +22,26 @@ const Step7FillThePipette = forwardRef((props, ref) => {
 
   const beakerWaterRef = useRef<THREE.Mesh>(null);
   const pipetteWaterRef = useRef<THREE.Mesh>(null);
+  const zoomedPipetteWaterRef = useRef<THREE.Mesh>(null);
   const extractionInterval = useRef<NodeJS.Timeout | null>(null);
+
+  // Disable the next button initially
+  useEffect(() => {
+    if (nextButtonRef && nextButtonRef.current) {
+      setNextDisabled(nextButtonRef);
+    }
+  }, [nextButtonRef]);
+
+  // Enable the next button based on extracting success
+  useEffect(() => {
+    if (nextButtonRef.current) {
+      if (hasExtracted) {
+        setNextEnabled(nextButtonRef);
+      } else {
+        setNextDisabled(nextButtonRef);
+      }
+    }
+  }, [hasExtracted, nextButtonRef]);
 
   // Start filling the water
   const startExtractingWater = () => {
@@ -25,16 +49,16 @@ const Step7FillThePipette = forwardRef((props, ref) => {
       extractionInterval.current = setInterval(() => {
         // Lower water level in the beaker
         setBeakerWaterLevel((prevWaterLevel) => {
-          const newLevel = prevWaterLevel - 0.0125;
+          const newLevel = prevWaterLevel - 0.001;
           if (newLevel <= 0) {
             beakerWaterRef.current!.scale.set(1, 0, 1);
             const newVerticalPos = beakerWaterRef.current!.position.y - ((prevWaterLevel * 0.7) * 0.5);
-            beakerWaterRef.current!.position.set(0, newVerticalPos, 0.58); // Anchor to bottom of flask
+            beakerWaterRef.current!.position.set(0, newVerticalPos, 0.58); // Anchor to bottom of beaker
             return 0;
           } else if (newLevel <= 1) {
             beakerWaterRef.current!.scale.set(1, newLevel, 1);
             const newVerticalPos = beakerWaterRef.current!.position.y - ((prevWaterLevel * 0.7 - newLevel * 0.7) * 0.5);
-            beakerWaterRef.current!.position.set(0, newVerticalPos, 0.58); // Anchor to bottom of flask
+            beakerWaterRef.current!.position.set(0, newVerticalPos, 0.58); // Anchor to bottom of beaker
             return newLevel;
           } else {
             clearInterval(extractionInterval.current!);
@@ -44,7 +68,7 @@ const Step7FillThePipette = forwardRef((props, ref) => {
 
         // Raise water level in the pipette
         setPipetteWaterLevel((prevWaterLevel) => {
-          const newLevel = prevWaterLevel + 0.05;
+          const newLevel = prevWaterLevel + 0.02;
           if (newLevel >= 1.25) {
             pipetteWaterRef.current!.scale.set(1, 1.25, 1);
             const newVerticalPos = pipetteWaterRef.current!.position.y - ((prevWaterLevel * 2) * 0.5);
@@ -52,8 +76,11 @@ const Step7FillThePipette = forwardRef((props, ref) => {
             return 1.25;
           } else if (newLevel < 1.25) {
             pipetteWaterRef.current!.scale.set(1, newLevel, 1);
-            const newVerticalPos = pipetteWaterRef.current!.position.y - ((prevWaterLevel * 2 - newLevel * 2) * 0.5);
-            pipetteWaterRef.current!.position.set(0, newVerticalPos, 0.58);
+            zoomedPipetteWaterRef.current!.scale.set(1, newLevel, 1);
+            const newVerticalPos1 = pipetteWaterRef.current!.position.y - ((prevWaterLevel * 2 - newLevel * 2) * 0.5);
+            const newVerticalPos2 = zoomedPipetteWaterRef.current!.position.y - ((prevWaterLevel * 2 - newLevel * 2) * 0.5);
+            pipetteWaterRef.current!.position.set(0, newVerticalPos1, 0.58);
+            zoomedPipetteWaterRef.current!.position.set(-1, newVerticalPos2, 0.1);
             return newLevel;
           } else {
             clearInterval(extractionInterval.current!);
@@ -71,11 +98,11 @@ const Step7FillThePipette = forwardRef((props, ref) => {
       clearInterval(extractionInterval.current);
     }
 
-    if (pipetteWaterLevel >= 0.9 && pipetteWaterLevel <= 1.1) {
+    if (pipetteWaterLevel >= 0.98 && pipetteWaterLevel <= 1.02) {
       console.log(pipetteWaterLevel);
       alert("Success! You filled the water correctly.");
       setHasExtracted(true);
-    } else if (pipetteWaterLevel > 1.1) {
+    } else if (pipetteWaterLevel > 1.02) {
       console.log(pipetteWaterLevel);
       alert(`Try again! You "overfilled" the water.`);
       resetWater();
@@ -96,17 +123,22 @@ const Step7FillThePipette = forwardRef((props, ref) => {
       pipetteWaterRef.current!.scale.set(1, initialPipetteWaterLevel, 1);
       pipetteWaterRef.current!.position.set(0, 5.55, 0.58);
     }
+
+    if (zoomedPipetteWaterRef.current) {
+      zoomedPipetteWaterRef.current!.scale.set(1, initialPipetteWaterLevel, 1);
+      zoomedPipetteWaterRef.current!.position.set(-1, 0.05, 0.1);
+    }
     setHasExtracted(false);
-    /*
+    
     if (nextButtonRef.current) {
       setNextDisabled(nextButtonRef);
     }
-    */
+
   };
 
   // Handle the main pour action
   const handleExtraction = () => {
-    startExtractingWater(); // Start the water filling animation
+    startExtractingWater(); // Start the water extracting animation
   };
 
   return (
@@ -157,12 +189,20 @@ const Step7FillThePipette = forwardRef((props, ref) => {
         <div style={{ width: 100, height: 70, border: "1px solid black" }}>
           <Canvas>
             <PerspectiveCamera
-            makeDefault
-            position={ [0, 0, 0] }
-            onUpdate={self => self.lookAt(0, 6, -1)}
-            fov={ 20 }
-            />
+              makeDefault
+              position={ [0, 1.98, 0] }
+              onUpdate={self => self.lookAt(-1, 1.98, 0)}
+              fov={ 15 }            />
             <ambientLight intensity={0.5} />
+            <GlassPipette position={[-1, 0, 0.1]} />
+            <mesh
+              ref={zoomedPipetteWaterRef}
+              position={[-1, 0.05, 0.1]}
+              scale={[1, pipetteWaterLevel, 1]} // Dynamic height based on fill
+            >
+              <cylinderGeometry args={[0.017, 0.017, 2, 32]} />
+              <meshStandardMaterial color={ new THREE.Color(0x74cdee) } transparent opacity={0.6} />
+            </mesh>
           </Canvas>
         </div>
       </Html>
