@@ -3,6 +3,7 @@
     "stepTitle": "Lab Objectives",
     "description": "Simply a starting page describing what we'll do in this lab",
     "directions": "In this lab, you will learn how to use an analytical balance to prepare a standard stock solution",
+    "user_instructions": "Click the 'Next' button to proceed to the next step.",
     "objectsInFocus": [
       "analytical_balance"
     ]
@@ -211,7 +212,7 @@
     "objectsInFocus": [
       "flask",
       "distilled_water",
-      "white_tile"
+      "white_tile (create a super thin box to position behind the flask)"
     ]
   },
   "17": {
@@ -233,6 +234,15 @@
     ]
   },
   "19": {
+    "stepTitle": "Invert the flask to mix the solution",
+    "description": "User mixes the solution by inverting the flask several times",
+    "directions": "Click on the flask to invert it. The flask should be mixed 5-10 times to ensure even mixture, but here you can mix it 4 times.",
+    "objectsInFocus": [
+      "flask",
+      "stopper" 
+    ]
+  },
+  "20": {
     "stepTitle": "The End",
     "description": "This is the ending step, indicating to the user that they have finished the lab.",
     "directions": "Congratulations! You have finished the lab. We hope you enjoyed it!",

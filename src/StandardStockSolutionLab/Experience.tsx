@@ -1,10 +1,13 @@
 import React, { Dispatch, SetStateAction, Suspense, useEffect, useRef, useState } from "react";
+"use client";
+        
 import {
   CameraControls,
   CameraControlsProps,
   Html,
   OrbitControls,
   PerspectiveCamera,
+  TransformControls,
 } from "@react-three/drei";
 import Step1Introduction from "./steps/01IntroduceLabObjectives";
 import Step2ExplainTask from "./steps/02ExplainTask";
@@ -21,10 +24,18 @@ import Step9ReadWeight from "./steps/09ReadWeightOfSample";
 import Step10TransferSample from "./steps/10TransferSampleToBeaker";
 import Step11ReadPaperWeight from "./steps/11ReadWeighingPaperWeight";
 import Step12CalculateSamplePowderWeight from "./steps/12CalculateSamplePowderWeight";
-import FinishedStepComponent from "./steps/19FinishedStepComponent";
+import FinishedStepComponent from "./steps/20FinishedStepComponent";
 import { Canvas, useFrame, useThree } from "@react-three/fiber";
 import { CameraAdjuster } from "./utils/CameraAdjuster";
 import { Camera, Vector3 } from "three";
+import Step15CheckBeakerResidue from "./steps/15CheckBeakerResidue";
+import Step16DiluteSolutionInFlask from "./steps/16DiluteSolutionInFlask";
+import Step17EyeDropper from "./steps/17EyeDropper";
+import { LabEnvironment } from "./models/LabEnvironment";
+import Step13DissolveSample from "./steps/13DissolveSample";
+import Step14TransferSolution from "./steps/14TransferSolutionToFlask";
+import Step19MixSolution from "./steps/19MixSolution";
+import Step18AttachStopper from "./steps/18AddStopperAndMix";
 
 import { useNavigate, useNavigationType, useParams } from 'react-router-dom';
 
@@ -58,6 +69,14 @@ interface State {
   "10": Step;
   "11": Step;
   "12": Step;
+  "13": Step;
+  "14": Step;
+  "15": Step;
+  "16": Step;
+  "17": Step;
+  "18": Step;
+  "19": Step;
+  "20": Step;
 }
 
 type StateKey = keyof State;
@@ -115,6 +134,12 @@ export default function Experience() {
   const { step } = useParams()
 
   const [currentStep, setCurrentStep] = usePersistedState<number>('standardStockCurrentStep', 1);
+      
+interface ExperienceProps {
+  currentStep: number;
+  onStepChange: (newStep: number) => void;
+}
+
   const key = currentStep.toString() as StateKey;
   const stepData = state[key]; // Safe indexing
   const stepRefs = useRef<Record<number, StepComponentRef>>({});
@@ -168,10 +193,6 @@ export default function Experience() {
       setCurrentStep(nextStep);
       navigate(`/standard_solution_lab/step/${currentStep}`)
       setNextDisabled(nextButtonRef);
-      // setNextButtonTempDisabled(true);
-      // setTimeout(() => {
-      //   setNextButtonTempDisabled(false);
-      // }, 2000);
     }
   };
 
@@ -240,13 +261,12 @@ export default function Experience() {
             position: [11.57, 10.1, -0.314],
           }}
           style={{ background: "#37474f" }} // Subtle light gray background
-
         >
           <CameraAdjuster />
           {/* <CameraControls makeDefault ref={cameraControlsRef} onStart={() => {
           cameraControlsRef.current?.setFocalOffset(0,-2.5,0, true);
         }}/> */}
-          <OrbitControls minDistance={9} maxDistance={70} />
+          <OrbitControls minDistance={9} maxDistance={700} />
 
           <ambientLight intensity={1.6} />
           <directionalLight
@@ -258,6 +278,10 @@ export default function Experience() {
 
           {/* Common elements like Table */}
           <Table scale={13} position-y={-1} />
+          {/* <TransformControls>
+
+            <LabEnvironment position={[40, -1, 0]}/>
+          </TransformControls> */}
           {/* Green-yellow plane */}
           <mesh
             receiveShadow
@@ -330,9 +354,24 @@ export default function Experience() {
             <Step12CalculateSamplePowderWeight nextButtonRef={nextButtonRef} />
           )}
           {currentStep === 13 && (
-            <FinishedStepComponent nextButtonRef={nextButtonRef} />
+            <Step13DissolveSample nextButtonRef={nextButtonRef} />
+          )}
+           {currentStep === 14 && (
+            <Step14TransferSolution nextButtonRef={nextButtonRef} />
           )}
           {/* ...add more steps as needed... */}
+          {currentStep === 15 && (
+            <Step15CheckBeakerResidue nextButtonRef={nextButtonRef} />
+          )}
+          {currentStep === 16 && (
+            <Step16DiluteSolutionInFlask nextButtonRef={nextButtonRef} />
+          )}
+          {currentStep === 17 && <Step17EyeDropper nextButtonRef={nextButtonRef} />}
+          {currentStep === 18 && <Step18AttachStopper nextButtonRef={nextButtonRef} />}
+          {currentStep === 19 && <Step19MixSolution nextButtonRef={nextButtonRef} />}
+          {currentStep === 20 && <FinishedStepComponent nextButtonRef={nextButtonRef} />}
+
+          {/* Inventory System */}
         </Canvas>
 
         {currentStep === 3 && (
