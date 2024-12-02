@@ -25,6 +25,7 @@ export const FillToLine = forwardRef((props: any, ref) => {
     <primitive
       {...props}
       object={scene}
+      scale={0.5}
     />
   );
 });
