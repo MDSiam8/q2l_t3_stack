@@ -1,9 +1,8 @@
-import React, { useEffect, useState, useRef } from "react";
+// index.tsx
+import React, { useEffect, useState } from "react";
 import ReactDOM from "react-dom/client";
-import { Canvas, useFrame, useThree } from "@react-three/fiber";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Experience from "../../RotaryEvaporation/components/Experience";
-// import Experience from "../../../AnalyticalBalanceLab/components/Experience";
-import * as THREE from "three";
 
 type RootType = ReactDOM.Root | null;
 
@@ -22,20 +21,22 @@ function MyApp(): JSX.Element | null {
     }
 
     return () => {
-      // Cleanup function to handle component unmount
       if (root) {
         root.unmount();
       }
-      
     };
   }, [root]);
 
   useEffect(() => {
     if (root) {
       root.render(
-        <>
-          <Experience />
-        </>,
+        <BrowserRouter>
+          <Routes>
+            <Route path="/rotovap-lab/step/:step" element={<Experience />} />
+            <Route path="/rotovap-lab" element={<Experience />} />
+            <Route path="*" element={<Experience />} />
+          </Routes>
+        </BrowserRouter>
       );
     }
   }, [root]);

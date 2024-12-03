@@ -1,14 +1,10 @@
 import React, { useEffect, useState } from "react";
 import ReactDOM from "react-dom/client";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Experience from "../../StandardStockSolutionLab/Experience";
-import { useRouter } from "next/router";
-
-type RootType = ReactDOM.Root | null;
 
 function MyApp(): JSX.Element | null {
-  const [root, setRoot] = useState<RootType>(null);
-  const [currentStep, setCurrentStep] = useState<number>(1);
-  const router = useRouter();
+  const [root, setRoot] = useState<ReactDOM.Root | null>(null);
 
   useEffect(() => {
     const rootElement = document.querySelector("#root") as HTMLElement;

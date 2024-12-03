@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import ReactDOM from "react-dom/client";
+
 import Experience from "~/AnalyticalBalanceLab/components/Experience"; // Update import path if necessary
 import { useRouter } from "next/router";
 
@@ -35,7 +36,7 @@ function MyApp(): JSX.Element | null {
     const stepNumber = stepParam ? parseInt(stepParam as string, 10) : 1;
 
     // Validate the step number is within bounds (assuming max 10 steps for Analytical Balance Lab)
-    if (stepNumber >= 1 && stepNumber <= 10) {
+    if (stepNumber >= 1 && stepNumber <= 13) {
       setCurrentStep(stepNumber);
     } else {
       // If the step number is invalid, default to step 1
@@ -57,18 +58,18 @@ function MyApp(): JSX.Element | null {
       root.render(
         <>
           <Experience
-            currentStep={currentStep}
-            onStepChange={(newStep: number) => {
-              setCurrentStep(newStep);
-              router.replace(
-                {
-                  pathname: router.pathname,
-                  query: { ...router.query, step: newStep },
-                },
-                undefined,
-                { shallow: true },
-              );
-            }}
+            // currentStep={currentStep}
+            // onStepChange={(newStep: number) => {
+            //   setCurrentStep(newStep);
+            //   router.replace(
+            //     {
+            //       pathname: router.pathname,
+            //       query: { ...router.query, step: newStep },
+            //     },
+            //     undefined,
+            //     { shallow: true },
+            //   );
+            // }}
           />
         </>,
       );
