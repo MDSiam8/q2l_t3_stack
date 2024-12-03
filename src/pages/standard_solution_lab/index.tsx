@@ -1,7 +1,5 @@
 import React, { useEffect, useState } from "react";
 import ReactDOM from "react-dom/client";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
-import { Canvas, useFrame, useThree } from "@react-three/fiber";
 import Experience from "../../StandardStockSolutionLab/Experience";
 import { useRouter } from "next/router";
 
@@ -57,13 +55,9 @@ function MyApp(): JSX.Element | null {
   useEffect(() => {
     if (root) {
       root.render(
-        <BrowserRouter>
-          <Routes>
-            <Route path = "/standard_solution_lab/step/:standardStockCurrentStep" element = {<Experience />} />
-            <Route path = "/standard_solution_lab" element = {<Experience />} />
-            <Route path="*" element={<Experience />} />
-          </Routes>
-        </BrowserRouter>
+        <>
+          <Experience />
+        </>,
       );
     }
   }, [root, currentStep, router]);

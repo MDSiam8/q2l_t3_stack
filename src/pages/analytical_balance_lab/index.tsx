@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import ReactDOM from "react-dom/client";
-import Experience from "../../AnalyticalBalanceLab/components/Experience"; // Update import path if necessary
+import Experience from "~/AnalyticalBalanceLab/components/Experience"; // Update import path if necessary
 import { useRouter } from "next/router";
 
 type RootType = ReactDOM.Root | null;
