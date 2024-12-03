@@ -15,6 +15,7 @@ const Step16DiluteSolutionInFlask = forwardRef<THREE.Group, Step16Props>(
   ({ nextButtonRef }, ref) => {
     const [waterLevel, setWaterLevel] = useState(0);
     const [hasPoured, setHasPoured] = useState(false);
+    const [pouredAtLeastOnce, setPouredAtLeastOnce] = useState(false); // Keep track if usuer has clicked the pour button at least once.
 
     const distilledWaterRef = useRef<THREE.Group>(null);
     const waterRef = useRef<THREE.Mesh>(null);
@@ -124,7 +125,10 @@ const Step16DiluteSolutionInFlask = forwardRef<THREE.Group, Step16Props>(
 
     // Handle the main pour action
     const handlePour = () => {
-      handleDistilledWaterClick(); // Animate the distilled water
+      if (!pouredAtLeastOnce) {
+        setPouredAtLeastOnce(true);
+        handleDistilledWaterClick(); // Animate the distilled water
+      }
       startFillingWater(); // Start the water filling animation
     };
 
