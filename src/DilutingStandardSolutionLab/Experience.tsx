@@ -15,6 +15,7 @@ import Step2SelectApparatus from "./steps/02ApparatusAndChemicalSelection";
 import { Canvas, useFrame, useThree } from "@react-three/fiber";
 import { CameraAdjuster } from "./utils/CameraAdjuster";
 import { Camera, Vector3 } from "three";
+import Step04ChoosePipette from "./steps/04ChoosePipette";
 import Step03TransferStandardSolution from "./steps/03TransferStandardSolution";
 import Step5SelectTheCorrectGlassPipette from './steps/05SelectTheCorrectGlassPipette';
 import Step6AttachPipetteFiller from './steps/06AttachPipetteFiller';
@@ -226,6 +227,7 @@ export default function Experience() {
               nextButtonRef={nextButtonRef}
             />
           )}
+          {currentStep === 4 && <Step04ChoosePipette nextButtonRef={nextButtonRef} />}
           {currentStep === 3 && <Step03TransferStandardSolution nextButtonRef={nextButtonRef} />}
           {currentStep === 5 && (
             <Step5SelectTheCorrectGlassPipette nextButtonRef={nextButtonRef} />
