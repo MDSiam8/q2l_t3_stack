@@ -12,8 +12,10 @@ interface StopperProps extends GroupProps {
 }
 
 export const Stopper = forwardRef<THREE.Object3D, StopperProps>((props, ref) => {
-  const beaker = useGLTF("./stopper_1003.gltf"); // Load the model
+  const beaker = useGLTF("/stopper_1003.gltf"); // Load the model
   const clonedScene = beaker.scene.clone(); // Clone the scene for isolated use
+  console.log(beaker);
+
 
   return (
     <primitive
@@ -24,4 +26,4 @@ export const Stopper = forwardRef<THREE.Object3D, StopperProps>((props, ref) => 
   );
 });
 
-useGLTF.preload("./stopper_1003.gltf");
+useGLTF.preload("/stopper_1003.gltf");

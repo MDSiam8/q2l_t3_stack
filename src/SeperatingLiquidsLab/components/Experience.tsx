@@ -1,32 +1,31 @@
 import React, { Suspense, useEffect, useRef, useState } from "react";
 import {
-  CameraControls,
-  CameraControlsProps,
   Html,
   OrbitControls,
-  PerspectiveCamera,
 } from "@react-three/drei";
 import Table from "./Table";
-// ...other necessary imports...
 
 import state from "../state.json";
-import { Canvas, useFrame, useThree } from "@react-three/fiber";
+import { Canvas } from "@react-three/fiber";
 import { CameraAdjuster } from "./CameraAdjuster";
-import { Camera, Vector3 } from "three";
+import { Camera } from "three";
 import Step1LabObjectives from "./steps/01LabObjectives";
 import Step2InventorySelection from "./steps/02SelectFromInventory";
 import Step3PourToSeperatingFunnel from "./steps/03PourMixtureToSepFunnel";
 import Step4PourWaterToSeperatingFunnel from "./steps/04PourWaterIntoSFunnel";
 import Step5StopperTheSFunnel from "./steps/05PutStopper";
+import Step6VentAir from "./steps/06VentAirBeforeMixing";
+import Step7Mix from "./steps/07Mixing";
+import Step8VentAirAfterMixing from "./steps/08VentAirAfterMixing";
+import Step9SeperateLiquid from "./steps/09SeperateLiquid";
 import Step10DrainSFunnel from "./steps/10DrainAqueousLayer";
 import Step11PourOrganicLayer from "./steps/11PourOrganicLayer";
 import Step12AddPowder from "./steps/12AddPowder";
 import Step13Filter from "./steps/13FilterLiquid";
 import Step14Finish from "./steps/14ObtainedOrganicProduct";
-import Step6VentAir from "./steps/06VentAirBeforeMixing";
-import Step7Mix from "./steps/07Mixing";
-import Step8VentAirAfterMixing from "./steps/08VentAirAfterMixing";
-import Step9SeperateLiquid from "./steps/09SeperateLiquid";
+
+import { Dispatch, SetStateAction } from "react";
+import { useNavigate, useParams } from 'react-router-dom';
 
 // Interface for the structure of each step in state.json
 interface Step {
@@ -45,7 +44,7 @@ interface Step {
   }[];
 }
 
-interface State {
+interface StateType {
   "1": Step;
   "2": Step;
   "3": Step;
@@ -58,15 +57,18 @@ interface State {
   "10": Step;
   "11": Step;
   "12": Step;
+  "13": Step; 
+  "14": Step; 
 }
 
-type StateKey = keyof State;
+type StateKey = keyof StateType;
 
 // Correctly type your step component refs if they have specific methods or properties
 interface StepComponentRef {
   replayAnimation?: () => void;
   // other methods or properties
 }
+
 export const getClassNameForNext = (isDisabled: boolean): string => {
   let str =
     "flex-grow transform rounded-lg bg-gradient-to-r from-blue-400 to-purple-500 px-4 py-2 font-bold text-white transition duration-300 hover:scale-105 ";
@@ -91,8 +93,18 @@ export const setNextEnabled = (
     nextButtonRef.current.className = getClassNameForNext(false);
   }
 };
+
+
+
 export default function Experience() {
-  const [currentStep, setCurrentStep] = useState<number>(1);
+  const navigate = useNavigate();
+  const { step } = useParams<{ step?: string }>();
+
+  // Initialize currentStep from URL parameter
+  const parsedStep = parseInt(step || '1', 10);
+  const validStep = !isNaN(parsedStep) && parsedStep >= 1 && parsedStep <= 14 ? parsedStep : 1; // Assuming 14 steps
+
+  const [currentStep, setCurrentStep] = useState<number>(validStep);
   const key = currentStep.toString() as StateKey;
   const stepData = state[key]; // Safe indexing
   const stepRefs = useRef<Record<number, StepComponentRef>>({});
@@ -103,15 +115,25 @@ export default function Experience() {
   const cameraControlsRef = useRef<Camera>(null);
   const [nextButtonTempDisabled, setNextButtonTempDisabled] = useState(false);
 
-  const handleNextStep = () => {
-    if (currentStep < Object.keys(state).length) {
-      setCurrentStep(currentStep + 1);
-      // setNextDisabled(nextButtonRef);
+  // Synchronize `currentStep` with URL parameter
+  useEffect(() => {
+    if (validStep !== currentStep) {
+      setCurrentStep(validStep);
+    }
+  }, [validStep, currentStep]);
 
-      // setNextButtonTempDisabled(true);
-      // setTimeout(() => {
-      //   setNextButtonTempDisabled(false);
-      // }, 2000);
+  // Ensure URL reflects the currentStep
+  useEffect(() => {
+    if (validStep !== currentStep) {
+      navigate(`/extraction_lab/step/${currentStep}`, { replace: true });
+    }
+  }, [currentStep, navigate, validStep]);
+
+  const handleNextStep = () => {
+    if (currentStep < 14) { // Assuming 14 is the last step
+      const nextStep = currentStep + 1;
+      navigate(`/extraction_lab/step/${nextStep}`);
+      // The useEffect will handle updating `currentStep` based on URL
     }
   };
 
@@ -124,7 +146,7 @@ export default function Experience() {
           <div className="rounded-lg border border-transparent bg-black bg-opacity-30 p-6 shadow-lg backdrop-blur-lg backdrop-filter">
             <p className="text-lg font-thin text-white">{loadingMessage}</p>
             <img
-              src="loadingQ2L.svg"
+              src="/loadingQ2L.svg"
               alt="Loading"
               className="w-20 h-20 m-auto" />
           </div>
@@ -229,12 +251,11 @@ export default function Experience() {
             <div className="ml-4 flex flex-col justify-between self-stretch">
               <button
                 onClick={handleNextStep}
-                disabled={currentStep === 21 || nextButtonTempDisabled}
-                className={`mb-0 flex-grow transform rounded-lg bg-gradient-to-r from-blue-400 to-purple-500 px-4 py-2 font-bold text-white transition duration-300 hover:scale-105 ${
-                  currentStep === 13 || nextButtonTempDisabled
+                disabled={currentStep === 14 || nextButtonTempDisabled}
+                className={`mb-0 flex-grow transform rounded-lg bg-gradient-to-r from-blue-400 to-purple-500 px-4 py-2 font-bold text-white transition duration-300 hover:scale-105 ${(currentStep === 14 || nextButtonTempDisabled)
                     ? "cursor-not-allowed bg-gray-400 opacity-50"
                     : ""
-                }`}
+                  }`}
                 ref={nextButtonRef}
               >
                 Next Step
