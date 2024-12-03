@@ -35,7 +35,8 @@ function MyApp(): JSX.Element | null {
         <BrowserRouter>
           <Routes>
             {/* Define routes without forced redirects */}
-            <Route path="/rotovap-lab/step/:robtovapCurrentStep" element={<Experience />} />
+            <Route path="/rotovap-lab/step/:step" element={<Experience />} />
+
             <Route path="/rotovap-lab" element={<Experience />} />
             <Route path="/" element={<Experience />} />
             {/* Optionally, handle unmatched paths */}

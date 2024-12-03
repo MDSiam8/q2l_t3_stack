@@ -1,4 +1,4 @@
-import React, { Suspense, useEffect, useRef, useState } from "react";
+import React, { Dispatch, SetStateAction, Suspense, useEffect, useRef, useState } from "react";
 import {
   CameraControls,
   CameraControlsProps,
@@ -27,6 +27,7 @@ import FinishedStepComponent from "./steps/FinishedStepComponent";
 import { Canvas, useFrame, useThree } from "@react-three/fiber";
 import { CameraAdjuster } from "./CameraAdjuster";
 import { Camera, Vector3 } from "three";
+import { useNavigate, useNavigationType, useParams } from 'react-router-dom';
 
 import {useNavigate, useParams} from 'react-router-dom';
 
@@ -98,9 +99,23 @@ export const setNextEnabled = (
     nextButtonRef.current.className = getClassNameForNext(false);
   }
 };
-export default function Experience() {
 
-  const [currentStep, setCurrentStep] = useState<number>(1);
+function usePersistedState<T>(key: string, defaultValue: T): [T, Dispatch<SetStateAction<T>>] {
+  const [analyticalBalanceValue, setAnalyticalBalanceValue] = useState<T>(() => {
+    const savedValue = localStorage.getItem(key);
+    return savedValue !== null ? JSON.parse(savedValue) : defaultValue;
+  })
+  useEffect(() => {
+    localStorage.setItem(key, JSON.stringify(analyticalBalanceValue));
+  }, [key, analyticalBalanceValue])
+  return [analyticalBalanceValue, setAnalyticalBalanceValue]
+}
+
+export default function Experience() {
+  const navigate = useNavigate()
+  const {step} = useParams()
+  const [currentStep, setCurrentStep] = usePersistedState<number>('AnalyticalBalanceCurrentStep', 1);
+
   const key = currentStep.toString() as StateKey;
   const stepData = state[key]; // Safe indexing
   const stepRefs = useRef<Record<number, StepComponentRef>>({});
@@ -118,6 +133,25 @@ export default function Experience() {
     "Powder Sample",
   ]);
 
+  useEffect(() => {
+    const urlStep = parseInt(step || '');
+    if (
+      !isNaN(urlStep) &&
+      urlStep >= 1 &&
+      urlStep <= Object.keys(state).length
+    ) {
+      localStorage.setItem("currentStep", JSON.stringify(urlStep))
+    } else {
+      const savedStep = localStorage.getItem("AnalyticalBalanceCurrentStep");
+      navigate(`/analytical_balance_lab/step/${savedStep}`, {replace: true});
+    }
+  }, [step, currentStep, navigate])
+  useEffect(() => {
+    if ((step !== currentStep.toString())) {
+      navigate(`/analytical_balance_lab/step/${currentStep}`, {replace: true});
+    }
+  })
+
   const [selectedItems, setSelectedItems] = useState<SelectedItems>({});
 
   const [isInventoryVisible, setIsInventoryVisible] = useState(false);
@@ -128,8 +162,9 @@ export default function Experience() {
 
   const handleNextStep = () => {
     if (currentStep < Object.keys(state).length) {
-      const nextStep = currentStep + 1; // create variable to use in URL
+      const nextStep = currentStep + 1;
       setCurrentStep(nextStep);
+      navigate(`/analytical_balance_lab/step/${currentStep}`)
       setNextDisabled(nextButtonRef);
       // setNextButtonTempDisabled(true);
       // setTimeout(() => {

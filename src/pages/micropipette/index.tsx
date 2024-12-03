@@ -3,6 +3,7 @@ import ReactDOM from "react-dom/client";
 import { Canvas, useFrame, useThree } from "@react-three/fiber";
 import Experience from "../../NewArchitectureOfficialLabs/Micropipette/MicropipetteLabRenderer";
 import * as THREE from "three";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 
 type RootType = ReactDOM.Root | null;
 
@@ -32,9 +33,19 @@ function MyApp(): JSX.Element | null {
   useEffect(() => {
     if (root) {
       root.render(
-        <>
-          <Experience />
-        </>,
+        <BrowserRouter>
+          <Routes>
+            {/* Define routes without forced redirects */}
+            <Route
+              path="/micropipette_lab/step/:MicropipetteCurrentStep"
+              element={<Experience />}
+            />
+            <Route path="/micropipette_lab" element={<Experience />} />
+            <Route path="/" element={<Experience />} />
+            {/* Optionally, handle unmatched paths */}
+            <Route path="*" element={<Experience />} />
+          </Routes>
+        </BrowserRouter>,
       );
     }
   }, [root]);

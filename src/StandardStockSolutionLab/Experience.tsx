@@ -1,5 +1,6 @@
 "use client";
 
+
 import React, { Dispatch, SetStateAction, Suspense, useEffect, useRef, useState } from "react";
 import {
   CameraControls,
@@ -131,9 +132,10 @@ function usePersistedState<T>(key: string, defaultValue: T): [T, Dispatch<SetSta
 
 export default function Experience() {
   const navigate = useNavigate()
-  const { step } = useParams()
+  const {step} = useParams()
 
-  const [currentStep, setCurrentStep] = usePersistedState<number>('standardStockCurrentStep', 1);
+  const [currentStep, setCurrentStep] = usePersistedState<number>('currentStep', 1);
+
       
 interface ExperienceProps {
   currentStep: number;
@@ -164,19 +166,19 @@ interface ExperienceProps {
       urlStep >= 1 &&
       urlStep <= Object.keys(state).length
     ) {
-      localStorage.setItem("standardStockCurrentStep", JSON.stringify(urlStep))
+      localStorage.setItem("currentStep", JSON.stringify(urlStep))
     } else {
-      const savedStep = localStorage.getItem("standardStockCurrentStep");
-      navigate(`/standard_solution_lab/step/${currentStep}`, { replace: true });
+      const savedStep = localStorage.getItem("currentStep");
+      navigate(`/standard_solution_lab/step/${currentStep}`, {replace: true});
+
     }
   }, [step, currentStep, navigate])
 
   useEffect(() => {
-    if (step !== currentStep.toString()) {
-      navigate(`/standard_solution_lab/step/${currentStep}`, { replace: true });
+    if ((step !== currentStep.toString())) {
+      navigate(`/standard_solution_lab/step/${currentStep}`, {replace: true});
     }
-  }, [step, currentStep, navigate]);
-
+  })
 
 
   const [selectedItems, setSelectedItems] = useState<SelectedItems>({});

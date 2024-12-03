@@ -59,7 +59,8 @@ function MyApp(): JSX.Element | null {
       root.render(
         <BrowserRouter>
           <Routes>
-            <Route path = "/standard_solution_lab/step/:standardStockCurrentStep" element = {<Experience />} />
+            <Route path = "/standard_solution_lab/step/:step" element = {<Experience />} />
+
             <Route path = "/standard_solution_lab" element = {<Experience />} />
             <Route path="*" element={<Experience />} />
           </Routes>
