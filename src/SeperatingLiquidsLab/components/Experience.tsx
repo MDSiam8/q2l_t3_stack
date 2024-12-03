@@ -1,3 +1,5 @@
+"use client";
+
 import React, { Suspense, useEffect, useRef, useState } from "react";
 import {
   Html,
@@ -102,40 +104,29 @@ export default function Experience() {
 
   // Initialize currentStep from URL parameter
   const parsedStep = parseInt(step || '1', 10);
-  const validStep = !isNaN(parsedStep) && parsedStep >= 1 && parsedStep <= 14 ? parsedStep : 1; // Assuming 14 steps
+  const validStep = !isNaN(parsedStep) && parsedStep >= 1 && parsedStep <= 14 ? parsedStep : 1;
 
   const [currentStep, setCurrentStep] = useState<number>(validStep);
   const key = currentStep.toString() as StateKey;
-  const stepData = state[key]; // Safe indexing
+  const stepData = state[key];
   const stepRefs = useRef<Record<number, StepComponentRef>>({});
   const [isAnimating, setIsAnimating] = useState<boolean>(false);
   const nextButtonRef = useRef<HTMLButtonElement>(null);
-  // const replayButtonRef = useRef<HTMLButtonElement>(null);
-
   const cameraControlsRef = useRef<Camera>(null);
   const [nextButtonTempDisabled, setNextButtonTempDisabled] = useState(false);
 
   // Synchronize `currentStep` with URL parameter
   useEffect(() => {
-    if (validStep !== currentStep) {
-      setCurrentStep(validStep);
-    }
-  }, [validStep, currentStep]);
-
-  // Ensure URL reflects the currentStep
-  useEffect(() => {
-    if (validStep !== currentStep) {
-      navigate(`/extraction_lab/step/${currentStep}`, { replace: true });
-    }
-  }, [currentStep, navigate, validStep]);
+    setCurrentStep(validStep);
+  }, [validStep]);
 
   const handleNextStep = () => {
-    if (currentStep < 14) { // Assuming 14 is the last step
+    if (currentStep < 14) {
       const nextStep = currentStep + 1;
       navigate(`/extraction_lab/step/${nextStep}`);
-      // The useEffect will handle updating `currentStep` based on URL
     }
   };
+
 
   const [loadingMessage, setLoadingMessage] = useState("Loading Resources");
 

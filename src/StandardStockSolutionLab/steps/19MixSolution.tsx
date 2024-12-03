@@ -126,7 +126,6 @@ import React, {
             position={[0, 1.95, 0]}
           />
         </group>
-      </group>
     );
   }
 );
