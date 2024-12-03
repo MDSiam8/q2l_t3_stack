@@ -7,6 +7,7 @@ import {
   PerspectiveCamera,
 } from "@react-three/drei";
 import Step1Introduction from "./steps/01IntroduceLabObjectives";
+import Step7FillThePipette from "./steps/07FillThePipette";
 import Table from "./models/Table";
 import state from "./state.json";
 import InventorySystem from "./ui_overlay/InventorySystem";
@@ -16,8 +17,10 @@ import { CameraAdjuster } from "./utils/CameraAdjuster";
 import { Camera, Vector3 } from "three";
 import Step8TransferToFlask from "./steps/08TransferSolutionToVolumetricFlask";
 
-import { Dispatch, SetStateAction } from "react";
-import { useNavigate, useParams } from 'react-router-dom';
+import Step04ChoosePipette from "./steps/04ChoosePipette";
+import Step03TransferStandardSolution from "./steps/03TransferStandardSolution";
+import Step5SelectTheCorrectGlassPipette from './steps/05SelectTheCorrectGlassPipette';
+import Step6AttachPipetteFiller from './steps/06AttachPipetteFiller';
 
 // Interface for the structure of each step in state.json
 interface Step {
@@ -32,7 +35,7 @@ interface Step {
     correctAnswer: string[];
     category: string;
     count: number;
-    userAnswers: string[]; // Adjust as needed for dynamic content
+    userAnswers: string[];
   }[];
 }
 
@@ -53,10 +56,8 @@ interface State {
 
 type StateKey = keyof State;
 
-// Correctly type your step component refs if they have specific methods or properties
 interface StepComponentRef {
   replayAnimation?: () => void;
-  // other methods or properties
 }
 
 interface SelectedItems {
@@ -102,12 +103,10 @@ function usePersistedState<T>(key: string, defaultValue: T): [T, Dispatch<SetSta
 }
 
 export default function Experience() {
-  const navigate = useNavigate();
-  const { step } = useParams<{ step?: string }>();
 
-  const [currentStep, setCurrentStep] = usePersistedState<number>("DilutingCurrentStep", 1);
+  const [currentStep, setCurrentStep] = useState<number>(3);
   const key = currentStep.toString() as StateKey;
-  const stepData = state[key]; // Safe indexing
+  const stepData = state[key];
   const stepRefs = useRef<Record<number, StepComponentRef>>({});
   const [isAnimating, setIsAnimating] = useState<boolean>(false);
   const nextButtonRef = useRef<HTMLButtonElement>(null);
@@ -116,11 +115,11 @@ export default function Experience() {
   const cameraControlsRef = useRef<Camera>(null);
   const [nextButtonTempDisabled, setNextButtonTempDisabled] = useState(false);
   const requiredItems = new Set([
-    "Analytical Balance",
-    "Weighing Paper",
     "Beaker",
-    "Spatula",
-    "Powder Sample",
+    "Glass Pipette",
+    "Glass Dropper",
+    "Stopper",
+    "Distilled Water"
   ]);
 
   const [selectedItems, setSelectedItems] = useState<SelectedItems>({});
@@ -276,6 +275,16 @@ export default function Experience() {
               nextButtonRef={nextButtonRef}
             />
           }
+          {currentStep === 4 && <Step04ChoosePipette nextButtonRef={nextButtonRef} />}
+          {currentStep === 3 && <Step03TransferStandardSolution nextButtonRef={nextButtonRef} />}
+          {currentStep === 5 && (
+            <Step5SelectTheCorrectGlassPipette nextButtonRef={nextButtonRef} />
+          )}
+          {currentStep === 6 && (
+            <Step6AttachPipetteFiller nextButtonRef={nextButtonRef} />
+          )}
+          {currentStep === 7 && <Step7FillThePipette nextButtonRef={nextButtonRef} />}
+          {/* ...add more steps as needed... */}
         </Canvas>
          
         {currentStep === 2 && (
