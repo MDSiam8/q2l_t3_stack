@@ -66,6 +66,5 @@ import React, {
       <primitive object={scene} {...props} scale={10} opacity={0.8} />
     );
   });
-  
+    
   useGLTF.preload("./beaker filling with orange solution.glb");
-  
