@@ -11,16 +11,12 @@ import { setNextEnabled } from "../Experience";
 interface SelectedItems {
   [itemName: string]: boolean;
 }
-
 interface SecondStepProps {
   nextButtonRef: React.RefObject<HTMLButtonElement>;
   selectedItems: SelectedItems;
 }
-
-
 const Step2SelectApparatus = forwardRef<HTMLDivElement, SecondStepProps>(
   ({ nextButtonRef, selectedItems }, ref) => {
-
   return (
     <group>
       {selectedItems["Beaker"] && (
@@ -64,5 +60,4 @@ const Step2SelectApparatus = forwardRef<HTMLDivElement, SecondStepProps>(
     </group>
   );
 });
-
 export default Step2SelectApparatus;
