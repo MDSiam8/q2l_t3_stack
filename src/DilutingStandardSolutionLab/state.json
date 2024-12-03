@@ -1,0 +1,180 @@
+{
+  "1": {
+    "stepTitle": "Lab Objectives",
+    "description": "An overview of the lab activities. Show users ",
+    "directions": "In this lab, you will dilute a standard solution to prepare solutions of different concentrations, including a blank solution.",
+    "objectsInFocus": []
+  },
+  "2": {
+    "stepTitle": "Apparatus and Chemical Selection",
+    "description": "Select all the required apparatus and chemicals from the cabinet.",
+    "directions": "First, take out all the apparatus and chemicals needed for the lab from the cabinet.",
+    "objectsInFocus": [
+      "inventory"
+    ],
+    "mistakes": [
+      {
+        "mistakeDescription": "Selected incorrect items from cabinet",
+        "context": "Equipment setup",
+        "correctAnswer": [
+          "beaker",
+          "glass_pipette",
+          "glass_dropper",
+          "stopper",
+          "NOTE: everything below this should be in the chemicals tab. Everything ABOVE this should be in the apparatus tab",
+          "volumetric_flask_with_stock_solution",
+          "distilled_water"
+        ],
+        "category": "selection_mistake",
+        "count": 0,
+        "userAnswers": []
+      }
+    ]
+  },
+  "3": {
+    "stepTitle": "Transfer Standard Solution",
+    "description": "Remove the stopper and transfer a small amount of the standard solution from the volumetric flask to a clean beaker.",
+    "directions": "Remove the stopper and pour a small amount of standard solution from the volumetric flask into a clean beaker for pipetting.",
+    "objectsInFocus": [
+      "volumetric_flask",
+      "stopper",
+      "beaker"
+    ],
+    "user_instructions": "Click on the stopper to remove it."
+
+  },
+  "4": {
+    "stepTitle": "Choose a Pipette",
+    "description": "Present a dialog menu for users to decide whether to use a glass pipette or a micropipette for transferring the solution.  If users click on micropipette, please show them a dialog saying that glass pipettes are actually better for this usecase, since micropipettes are for much smaller samples.",
+    "directions": "Select either a glass pipette or a micropipette for extracting 7mL of of the reagent.",
+    "objectsInFocus": [
+      "glass_pipette",
+      "micropipette"
+    ],
+    "user_instructions": "Click on either the glass pipette or the micropipette to select it."
+  },
+  "5": {
+    "stepTitle": "Select the Correct Glass Pipette",
+    "description": "Select the appropriate glass pipette for extracting 7 mL of reagent A. There should be 3 options: 1ml, 5ml, and 10ml.",
+    "directions": "Choose the correct glass pipette for transferring 7 mL of the reagent.",
+    "objectsInFocus": [
+      "glass_pipette"
+    ],
+    "user_instructions": "Click on the appropriate glass pipette.",
+    "mistakes": [
+      {
+        "mistakeDescription": "Selected incorrect pipette size",
+        "context": "Pipette selection",
+        "correctAnswer": "10 mL glass pipette",
+        "category": "selection_mistake",
+        "count": 0,
+        "userAnswers": []
+      }
+    ]
+  },
+  "6": {
+    "stepTitle": "Attach Pipette Filler",
+    "description": "Attach a suction device to the glass pipette.",
+    "directions": "Attach the pipette filler to the glass pipette.",
+    "objectsInFocus": [
+      "glass_pipette",
+      "pipette_filler"
+    ]
+  },
+  "7": {
+    "stepTitle": "Fill the Pipette",
+    "description": "Use the pipette filler to draw up 7 mL of the solution.",
+    "directions": "Use the pipette filler to draw the solution into the pipette until the bottom of the meniscus reaches the 7 mL calibration mark.",
+    "objectsInFocus": [
+      "glass_pipette",
+      "pipette_filler",
+      "beaker"
+    ],
+    "user_instructions": "Use the pipette filler controls to draw the solution to the 7 mL mark, observing the meniscus in the second camera view.",
+    "mistakes": [
+      {
+        "mistakeDescription": "Incorrect pipetting technique",
+        "context": "Pipetting",
+        "correctAnswer": "Meniscus at 10 mL calibration mark",
+        "category": "input_mistake",
+        "count": 0,
+        "userAnswers": []
+      }
+    ]
+  },
+  "8": {
+    "stepTitle": "Transfer Solution to Volumetric Flask",
+    "description": "Transfer the 7mL sample from the pipette into a 50 mL volumetric flask.",
+    "directions": "Dispense the solution from the pipette into the 50 mL volumetric flask.",
+    "objectsInFocus": [
+      "glass_pipette",
+      "volumetric_flask_50ml"
+    ],
+    "user_instructions": "Allow the pipette to drain completely into the volumetric flask.",
+    "mistakes": [
+      {
+        "mistakeDescription": "Did not allow pipette to drain completely",
+        "context": "Pipetting",
+        "correctAnswer": "Let pipette drain completely without blowing out",
+        "category": "procedure_mistake",
+        "count": 0,
+        "userAnswers": []
+      }
+    ]
+  },
+  "9": {
+    "stepTitle": "Add Water to Volumetric Flask",
+    "description": "Add distilled water to the volumetric flask up to the calibration mark.",
+    "directions": "Add distilled water to the volumetric flask until the bottom of the meniscus reaches the calibration mark.",
+    "objectsInFocus": [
+      "volumetric_flask_50ml",
+      "distilled_water"
+    ],
+    "user_instructions": "Pour distilled water carefully, then use the dropper to adjust the level precisely.",
+    "mistakes": [
+      {
+        "mistakeDescription": "Overfilled or underfilled flask",
+        "context": "Volume adjustment",
+        "correctAnswer": "Meniscus at calibration mark",
+        "category": "input_mistake",
+        "count": 0,
+        "userAnswers": []
+      }
+    ]
+  },
+  "10": {
+    "stepTitle": "Use Dropper to Adjust Volume",
+    "description": "Use a dropper to add water dropwise to reach the calibration mark precisely.",
+    "directions": "Use the dropper to add water until the bottom of the meniscus reaches the calibration mark.",
+    "objectsInFocus": [
+      "volumetric_flask_50ml",
+      "dropper"
+    ],
+    "user_instructions": "Add water dropwise while observing the meniscus in the second camera view."
+  },
+  "11": {
+    "stepTitle": "Add Stopper and Mix Solution",
+    "description": "Place a stopper on the volumetric flask and mix the solution by gentle inversion.",
+    "directions": "Place the stopper on the flask and mix the solution by inverting the flask gently several times.",
+    "objectsInFocus": [
+      "volumetric_flask_50ml",
+      "stopper"
+    ],
+    "user_instructions": "Click on the stopper to place it on the flask, then click the flask to mix the solution."
+  },
+  "12": {
+    "stepTitle": "Prepare Additional Dilutions",
+    "description": "Repeat the dilution process to prepare solutions of different concentrations. Maybe give the user a quiz like question format to help them understand what pipette they should use, etc.",
+    "directions": "Repeat the steps to prepare additional solutions with different volumes of stock solution according to the provided data set.",
+    "objectsInFocus": [],
+    "user_instructions": "Follow the same procedure to prepare solutions of varying concentrations."
+  },
+  "13": {
+    "stepTitle": "Completion",
+    "description": "This step should show the gradient of all the concentrations.",
+    "directions": "Once you've followed the steps in this lab, you should have a blank solution and a set of standards in different concentrations prepared.",
+    "objectsInFocus": [
+      "volumetric_flasks"
+    ]
+  }
+}
