@@ -38,9 +38,10 @@ const Step03TransferStandardSolution = forwardRef<THREE.Group, Step03Props>(
 
       stopperRemoved.current = true;
       gsap.to(stopperRef.current.position, {
-        y: 8.0, // Move stopper higher up for visibility
-        x: -0.5, // Slightly shift stopper to the left
-        duration: 1,
+        y: 5.25, 
+        x: 1.0,
+        z: -0.7,
+        duration: 2,
         ease: "power1.inOut",
       });
     };
@@ -51,8 +52,10 @@ const Step03TransferStandardSolution = forwardRef<THREE.Group, Step03Props>(
 
       flaskTilted.current = true;
 
-      const upPosition = new THREE.Vector3(0, 6, 1.5); // Position for upward movement
-      const tiltPosition = new THREE.Vector3(0, 6, 1.2); // Final tilted position towards beaker
+      // Starting position: 0.3, 4.94, 0
+
+      const upPosition = new THREE.Vector3(0.3, 6, 0); // Position for upward movement
+      const tiltPosition = new THREE.Vector3(0.3, 6, 0.5); // Final tilted position towards beaker
 
       const tl = gsap.timeline({
         onComplete: () => {
@@ -78,7 +81,7 @@ const Step03TransferStandardSolution = forwardRef<THREE.Group, Step03Props>(
           x: upPosition.x,
           y: upPosition.y,
           z: upPosition.z,
-          duration: 1,
+          duration: 1.5,
           ease: "power1.inOut",
         },
         0
@@ -91,7 +94,7 @@ const Step03TransferStandardSolution = forwardRef<THREE.Group, Step03Props>(
           x: tiltPosition.x,
           y: tiltPosition.y,
           z: tiltPosition.z,
-          duration: 2,
+          duration: 1.5,
           ease: "power1.inOut",
         },
         "+=0.2" // Short delay after moving up
@@ -100,9 +103,8 @@ const Step03TransferStandardSolution = forwardRef<THREE.Group, Step03Props>(
       tl.to(
         flaskRef.current.rotation,
         {
-          x: "-=" + Math.PI / 4, // Tilt flask by 45 degrees forward
-          z: "+=" + Math.PI / 8, // Slight rotation on z-axis to align toward the beaker
-          duration: 2,
+          x: "-=" + Math.PI / 3, // Tilt flask by 45 degrees forward
+          duration: 1.5,
           ease: "power1.inOut",
         },
         "<" // Start with position change for synchronous tilt
@@ -112,22 +114,19 @@ const Step03TransferStandardSolution = forwardRef<THREE.Group, Step03Props>(
     return (
       <group ref={ref}>
         {/* Flask and Stopper */}
-        <group ref={flaskRef} position={[0, 4.94, 1.5]} onClick={handleFlaskClick}>
+        <group ref={flaskRef} position={[0.3, 4.94, 0]} onClick={handleFlaskClick}>
           <Flask />
         </group>
-        <group ref={stopperRef} position={[0, 6.6, 1.5]} onClick={handleStopperClick}>
+        <group ref={stopperRef} position={[0.3, 6.92, 0]} rotation={[Math.PI, 0, 0]} onClick={handleStopperClick}>
           <Stopper />
         </group>
 
-        <BeakerStockSolutionFill ref={beakerFillRef} position={[4, 5, 0]} />
-
-        {/* Beaker */}
-        <Beaker position={[0.25, 4.94, -1.6]} />
+        <BeakerStockSolutionFill ref={beakerFillRef} position={[0.25, 4.9, -1.6]} />
 
         {/* Water in Beaker */}
         <mesh
           ref={waterRef}
-          position={[0, 5, -1]} 
+          position={[0.25, 5.2, -1.6]} 
           scale={[0.15, 0.0, 0.15]}
         >
           <cylinderGeometry args={[2, 2, 2, 10]} />
