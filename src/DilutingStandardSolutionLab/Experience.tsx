@@ -20,8 +20,10 @@ import Step8TransferToFlask from "./steps/08TransferSolutionToVolumetricFlask";
 
 import Step04ChoosePipette from "./steps/04ChoosePipette";
 import Step03TransferStandardSolution from "./steps/03TransferStandardSolution";
-import Step5SelectTheCorrectGlassPipette from './steps/05SelectTheCorrectGlassPipette';
-import Step6AttachPipetteFiller from './steps/06AttachPipetteFiller';
+import Step5SelectTheCorrectGlassPipette from "./steps/05SelectTheCorrectGlassPipette";
+import Step6AttachPipetteFiller from "./steps/06AttachPipetteFiller";
+import Step12PrepareAdditionalDilutions from "./steps/12PrepareAdditionalDilutions";
+import PrepareBlankSolution from "./steps/13PrepareBlankSolution";
 
 // Interface for the structure of each step in state.json
 interface Step {
@@ -91,7 +93,7 @@ export const setNextEnabled = (
 };
 
 export default function Experience() {
-  const [currentStep, setCurrentStep] = useState<number>(7);
+  const [currentStep, setCurrentStep] = useState<number>(1);
   const key = currentStep.toString() as StateKey;
   const stepData = state[key];
   const stepRefs = useRef<Record<number, StepComponentRef>>({});
@@ -106,7 +108,7 @@ export default function Experience() {
     "Glass Pipette",
     "Glass Dropper",
     "Stopper",
-    "Distilled Water"
+    "Distilled Water",
   ]);
 
   const [selectedItems, setSelectedItems] = useState<SelectedItems>({});
@@ -180,7 +182,6 @@ export default function Experience() {
             position: [11.57, 10.1, -0.314],
           }}
           style={{ background: "#37474f" }} // Subtle light gray background
-
         >
           <CameraAdjuster />
           {/* <CameraControls makeDefault ref={cameraControlsRef} onStart={() => {
@@ -207,9 +208,11 @@ export default function Experience() {
           >
             <planeGeometry />
             <meshStandardMaterial color="#37474f" /> {/* Soft minty green */}
-            </mesh>
+          </mesh>
           {/* Conditional Rendering of Step Components */}
-          {currentStep === 1 && <Step1Introduction nextButtonRef={nextButtonRef} />}
+          {currentStep === 1 && (
+            <Step1Introduction />
+          )}
           {currentStep === 2 && (
             <Step2SelectApparatus
               selectedItems={selectedItems}
@@ -217,28 +220,35 @@ export default function Experience() {
             />
           )}
           {currentStep === 11 && (
-            <Step11AddStopperAndMixSolution
-              nextButtonRef={nextButtonRef}
-            />
+            <Step11AddStopperAndMixSolution nextButtonRef={nextButtonRef} />
           )}
-          {currentStep === 8 && 
+          {currentStep === 12 && (
+            <Step12PrepareAdditionalDilutions nextButtonRef={nextButtonRef} />
+          )}
+          {currentStep === 8 && (
             <Step8TransferToFlask
               selectedItems={selectedItems}
               nextButtonRef={nextButtonRef}
             />
-          }
-          {currentStep === 4 && <Step04ChoosePipette nextButtonRef={nextButtonRef} />}
-          {currentStep === 3 && <Step03TransferStandardSolution nextButtonRef={nextButtonRef} />}
+          )}
+          {currentStep === 4 && (
+            <Step04ChoosePipette nextButtonRef={nextButtonRef} />
+          )}
+          {currentStep === 3 && (
+            <Step03TransferStandardSolution nextButtonRef={nextButtonRef} />
+          )}
           {currentStep === 5 && (
             <Step5SelectTheCorrectGlassPipette nextButtonRef={nextButtonRef} />
           )}
           {currentStep === 6 && (
             <Step6AttachPipetteFiller nextButtonRef={nextButtonRef} />
           )}
-          {currentStep === 7 && <Step7FillThePipette nextButtonRef={nextButtonRef} />}
+          {currentStep === 7 && (
+            <Step7FillThePipette nextButtonRef={nextButtonRef} />
+          )}
           {/* ...add more steps as needed... */}
         </Canvas>
-         
+
         {currentStep === 2 && (
           <InventorySystem
             onItemSelect={handleItemSelection}

@@ -35,7 +35,7 @@ const Step12PrepareAdditionalDilutions = forwardRef<{}, Step12ComponentProps>(
       correctAnswers: ["6.00 mL", "6 mL", "6", "6.00", "6mL", "6.00mL"],
     },
     {
-      question: "How many mL of 0.1M stock solution is needed for a standard solution of 0.86M in a 10mL flask? ",
+      question: "How many mL of 0.1M stock solution is needed for a standard solution of 0.08M in a 10mL flask? ",
       correctAnswers: ["8.00 mL", "8 mL", "8", "8.00", "8mL", "8.00mL"],
     },
 
