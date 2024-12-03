@@ -15,6 +15,7 @@ import Step2SelectApparatus from "./steps/02ApparatusAndChemicalSelection";
 import { Canvas, useFrame, useThree } from "@react-three/fiber";
 import { CameraAdjuster } from "./utils/CameraAdjuster";
 import { Camera, Vector3 } from "three";
+import Step03TransferStandardSolution from "./steps/03TransferStandardSolution";
 import Step5SelectTheCorrectGlassPipette from './steps/05SelectTheCorrectGlassPipette';
 import Step6AttachPipetteFiller from './steps/06AttachPipetteFiller';
 
@@ -86,7 +87,7 @@ export const setNextEnabled = (
 };
 
 export default function Experience() {
-  const [currentStep, setCurrentStep] = useState<number>(6);
+  const [currentStep, setCurrentStep] = useState<number>(3);
   const key = currentStep.toString() as StateKey;
   const stepData = state[key];
   const stepRefs = useRef<Record<number, StepComponentRef>>({});
@@ -225,6 +226,7 @@ export default function Experience() {
               nextButtonRef={nextButtonRef}
             />
           )}
+          {currentStep === 3 && <Step03TransferStandardSolution nextButtonRef={nextButtonRef} />}
           {currentStep === 5 && (
             <Step5SelectTheCorrectGlassPipette nextButtonRef={nextButtonRef} />
           )}
