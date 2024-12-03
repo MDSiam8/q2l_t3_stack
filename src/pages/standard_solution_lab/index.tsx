@@ -56,7 +56,20 @@ function MyApp(): JSX.Element | null {
     if (root) {
       root.render(
         <>
-          <Experience />
+          <Experience
+            currentStep={currentStep}
+            onStepChange={(newStep: number) => {
+              setCurrentStep(newStep);
+              router.replace(
+                {
+                  pathname: router.pathname,
+                  query: { ...router.query, step: newStep },
+                },
+                undefined,
+                { shallow: true },
+              );
+            }}
+          />
         </>,
       );
     }
