@@ -19,7 +19,7 @@ const Step5SelectTheCorrectGlassPipette = forwardRef<THREE.Group, Step5Props>(
         const [dialogue, setDialogue] = useState({
             show: false,
             message: "",
-            position: new THREE.Vector3(),
+            position: new THREE.Vector3(0,0,0),
         });
 
         const handlePipetteClick = (
@@ -88,7 +88,7 @@ const Step5SelectTheCorrectGlassPipette = forwardRef<THREE.Group, Step5Props>(
                 </group>
 
                 {dialogue.show && (
-                    <Html position={dialogue.position} transform scale={0.3} rotation-y={Math.PI / 2}>
+                    <Html position={dialogue.position} position-x={dialogue.position.x + .1} transform scale={0.3} rotation-y={Math.PI / 2}>
                         <div
                             className={`rounded-lg p-6 text-sm shadow-lg ${dialogue.message.startsWith("Correct")
                                     ? "border-green-500 bg-green-100 text-green-900"
