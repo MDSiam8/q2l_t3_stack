@@ -120,7 +120,16 @@ const notebook4: Notebook = {
   name: "Micropipette",
   updatedAt: new Date(),
   link: "/micropipette",
-  image: "buchner.jpeg",
+  image: "micro.jpg",
+  completed: "Not Started",
+}
+
+const notebook5: Notebook = {
+  id: "5",
+  name: "Standard Solution",
+  updatedAt: new Date(),
+  link: "/standard_solution_lab",
+  image: "standard_solution.jpeg",
   completed: "Not Started",
 }
 
@@ -135,6 +144,7 @@ const notebook6: Notebook = {
 
 const access_labs = [notebook, notebook2, notebook3, notebook4, notebook6]
 
+
 export default function Dashboard() {
   const [notebooks, setNotebooks] = useState<Notebook[]>([]);
   const [isLoading, setIsLoading] = useState(true);
@@ -147,6 +157,7 @@ export default function Dashboard() {
       // setIsLoading(false);
       // notebooks will be fetched from the backend in the future
       setNotebooks([notebook, notebook2, notebook3, notebook6]);
+      setNotebooks([notebook, notebook2, notebook3, notebook4, notebook5]);
       setIsLoading(false);
     };
     if (typeof window !== "undefined") {

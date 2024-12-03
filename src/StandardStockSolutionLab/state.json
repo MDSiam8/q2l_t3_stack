@@ -234,6 +234,15 @@
     ]
   },
   "19": {
+    "stepTitle": "Invert the flask to mix the solution",
+    "description": "User mixes the solution by inverting the flask several times",
+    "directions": "Click on the flask to invert it. The flask should be mixed 5-10 times to ensure even mixture, but here you can mix it 4 times.",
+    "objectsInFocus": [
+      "flask",
+      "stopper" 
+    ]
+  },
+  "20": {
     "stepTitle": "The End",
     "description": "This is the ending step, indicating to the user that they have finished the lab.",
     "directions": "Congratulations! You have finished the lab. We hope you enjoyed it!",

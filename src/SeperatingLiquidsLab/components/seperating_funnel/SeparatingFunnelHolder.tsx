@@ -2,7 +2,7 @@ import React, { useRef } from "react";
 import { useFBX, useGLTF } from "@react-three/drei";
 
 export function SeparatingFunnelHolder(props: any) {
-  const beaker = useGLTF("./separating funnel holder.gltf"); // This needs to be replaced by the correct model.
+  const beaker = useGLTF("/separating funnel holder.gltf"); // This needs to be replaced by the correct model.
   const clonedScene = beaker.scene.clone(); // Clone the scene for isolated use
 
   return (
@@ -15,4 +15,4 @@ export function SeparatingFunnelHolder(props: any) {
   );
 }
 
-useGLTF.preload("./separating funnel holder.gltf");
+useGLTF.preload("/separating funnel holder.gltf");

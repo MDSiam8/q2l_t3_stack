@@ -1,3 +1,5 @@
+"use client";
+
 import React, { Suspense, useEffect, useRef, useState } from "react";
 import {
   CameraControls,
@@ -22,15 +24,18 @@ import Step9ReadWeight from "./steps/09ReadWeightOfSample";
 import Step10TransferSample from "./steps/10TransferSampleToBeaker";
 import Step11ReadPaperWeight from "./steps/11ReadWeighingPaperWeight";
 import Step12CalculateSamplePowderWeight from "./steps/12CalculateSamplePowderWeight";
-import FinishedStepComponent from "./steps/19FinishedStepComponent";
+import FinishedStepComponent from "./steps/20FinishedStepComponent";
 import { Canvas, useFrame, useThree } from "@react-three/fiber";
 import { CameraAdjuster } from "./utils/CameraAdjuster";
 import { Camera, Vector3 } from "three";
 import Step15CheckBeakerResidue from "./steps/15CheckBeakerResidue";
 import Step16DiluteSolutionInFlask from "./steps/16DiluteSolutionInFlask";
+import Step17EyeDropper from "./steps/17EyeDropper";
 import { LabEnvironment } from "./models/LabEnvironment";
 import Step13DissolveSample from "./steps/13DissolveSample";
 import Step14TransferSolution from "./steps/14TransferSolutionToFlask";
+import Step19MixSolution from "./steps/19MixSolution";
+import Step18AttachStopper from "./steps/18AddStopperAndMix";
 
 // Interface for the structure of each step in state.json
 interface Step {
@@ -62,6 +67,14 @@ interface State {
   "10": Step;
   "11": Step;
   "12": Step;
+  "13": Step;
+  "14": Step;
+  "15": Step;
+  "16": Step;
+  "17": Step;
+  "18": Step;
+  "19": Step;
+  "20": Step;
 }
 
 type StateKey = keyof State;
@@ -101,8 +114,15 @@ export const setNextEnabled = (
   }
 };
 
-export default function Experience() {
-  const [currentStep, setCurrentStep] = useState<number>(1);
+interface ExperienceProps {
+  currentStep: number;
+  onStepChange: (newStep: number) => void;
+}
+
+export default function Experience({
+  currentStep,
+  onStepChange,
+}: ExperienceProps) {
   const key = currentStep.toString() as StateKey;
   const stepData = state[key]; // Safe indexing
   const stepRefs = useRef<Record<number, StepComponentRef>>({});
@@ -130,12 +150,8 @@ export default function Experience() {
 
   const handleNextStep = () => {
     if (currentStep < Object.keys(state).length) {
-      setCurrentStep(currentStep + 1);
+      onStepChange(currentStep + 1);
       setNextDisabled(nextButtonRef);
-      // setNextButtonTempDisabled(true);
-      // setTimeout(() => {
-      //   setNextButtonTempDisabled(false);
-      // }, 2000);
     }
   };
 
@@ -204,7 +220,6 @@ export default function Experience() {
             position: [11.57, 10.1, -0.314],
           }}
           style={{ background: "#37474f" }} // Subtle light gray background
-
         >
           <CameraAdjuster />
           {/* <CameraControls makeDefault ref={cameraControlsRef} onStart={() => {
@@ -235,7 +250,7 @@ export default function Experience() {
           >
             <planeGeometry />
             <meshStandardMaterial color="#37474f" /> {/* Soft minty green */}
-            </mesh>
+          </mesh>
 
           {/* Conditional Rendering of Step Components */}
           {currentStep === 1 && <Step1Introduction />}
@@ -258,26 +273,34 @@ export default function Experience() {
           )}
           {currentStep === 5 && (
             <Step5FoldWeighingPaper
-              ref={(el) => {(stepRefs.current[5] = el as StepComponentRef)}}
+              ref={(el) => {
+                stepRefs.current[5] = el as StepComponentRef;
+              }}
               nextButtonRef={nextButtonRef}
             />
           )}
           {currentStep === 6 && (
             <Step6PlaceWeighingPaper
-              ref={(el) => {(stepRefs.current[6] = el as StepComponentRef)}}
+              ref={(el) => {
+                stepRefs.current[6] = el as StepComponentRef;
+              }}
               nextButtonRef={nextButtonRef}
             />
           )}
           {currentStep === 7 && (
             <Step7AddPowder
-              ref={(el) => {(stepRefs.current[7] = el as StepComponentRef)}}
+              ref={(el) => {
+                stepRefs.current[7] = el as StepComponentRef;
+              }}
               setIsAnimating={setIsAnimating}
               nextButtonRef={nextButtonRef}
             />
           )}
           {currentStep === 8 && (
             <EightStepComponent
-              ref={(el) => {(stepRefs.current[8] = el as StepComponentRef)}}
+              ref={(el) => {
+                stepRefs.current[8] = el as StepComponentRef;
+              }}
               setIsAnimating={setIsAnimating}
               nextButtonRef={nextButtonRef}
             />
@@ -287,7 +310,9 @@ export default function Experience() {
           )}
           {currentStep === 10 && (
             <Step10TransferSample
-              ref={(el) =>{ (stepRefs.current[10] = el as StepComponentRef)}}
+              ref={(el) => {
+                stepRefs.current[10] = el as StepComponentRef;
+              }}
               nextButtonRef={nextButtonRef}
             />
           )}
@@ -310,8 +335,14 @@ export default function Experience() {
           {currentStep === 16 && (
             <Step16DiluteSolutionInFlask nextButtonRef={nextButtonRef} />
           )}
+          {currentStep === 17 && <Step17EyeDropper nextButtonRef={nextButtonRef} />}
+          {currentStep === 18 && <Step18AttachStopper nextButtonRef={nextButtonRef} />}
+          {currentStep === 19 && <Step19MixSolution nextButtonRef={nextButtonRef} />}
+          {currentStep === 20 && <FinishedStepComponent nextButtonRef={nextButtonRef} />}
+
+          {/* Inventory System */}
         </Canvas>
-         
+
         {currentStep === 3 && (
           <InventorySystem
             onItemSelect={handleItemSelection}
@@ -347,9 +378,8 @@ export default function Experience() {
             <div className="ml-4 flex flex-col justify-between self-stretch">
               <button
                 onClick={handleNextStep}
-                disabled={currentStep === 13 || nextButtonTempDisabled}
-                className={`flex-grow transform rounded-lg bg-gradient-to-r from-blue-400 to-purple-500 px-4 py-2 font-bold text-white transition duration-300 hover:scale-105 ${
-                  currentStep === 13 || nextButtonTempDisabled
+                disabled={nextButtonTempDisabled}
+                className={`flex-grow transform rounded-lg bg-gradient-to-r from-blue-400 to-purple-500 px-4 py-2 font-bold text-white transition duration-300 hover:scale-105 ${nextButtonTempDisabled
                     ? "cursor-not-allowed bg-gray-400 opacity-50"
                     : ""
                 }`}

@@ -1,4 +1,4 @@
-import React, { Suspense, useEffect, useRef, useState } from "react";
+import React, { SetStateAction, Dispatch, Suspense, useEffect, useRef, useState } from "react";
 import {
   CameraControls,
   CameraControlsProps,
@@ -33,6 +33,8 @@ import Step17TurnOffCondensorAndVacuum from "./steps/17TurnOffVacAndCond";
 import Step18RemoveItems from "./steps/18RemoveRotavapItems";
 import Step19RemoveBumpTrap from "./steps/19RemovingBumpTrap";
 import Step20Conclusion from "./steps/20Conclusion";
+
+import { useNavigate, useParams } from 'react-router-dom';
 
 // Interface for the structure of each step in state.json
 interface Step {
@@ -97,8 +99,30 @@ export const setNextEnabled = (
     nextButtonRef.current.className = getClassNameForNext(false);
   }
 };
+
+function usePersistedState<T>(key: string, defaultValue: T): [T, Dispatch<SetStateAction<T>>] {
+  // Initialize state with value from localStorage, or use the default value
+  const [value, setValue] = useState<T>(() => {
+      const savedValue = localStorage.getItem(key);
+      return savedValue !== null ? JSON.parse(savedValue) : defaultValue;
+  });
+
+  useEffect(() => {
+      // Update localStorage whenever the value changes
+      localStorage.setItem(key, JSON.stringify(value));
+  }, [key, value]);
+
+  return [value, setValue];
+}
+
 export default function Experience() {
-  const [currentStep, setCurrentStep] = useState<number>(1);
+  const navigate = useNavigate();
+  const { step } = useParams<{ step: string }>();
+
+  const parsedStep = parseInt(step || '1', 10);
+  const validStep = !isNaN(parsedStep) && parsedStep >= 1 && parsedStep <= 20 ? parsedStep : 1;
+
+  const [currentStep, setCurrentStep] = useState<number>(validStep);
   const key = currentStep.toString() as StateKey;
   const stepData = state[key]; // Safe indexing
   const stepRefs = useRef<Record<number, StepComponentRef>>({});
@@ -109,17 +133,31 @@ export default function Experience() {
   const cameraControlsRef = useRef<Camera>(null);
   const [nextButtonTempDisabled, setNextButtonTempDisabled] = useState(false);
 
-  const handleNextStep = () => {
-    if (currentStep < Object.keys(state).length) {
-      setCurrentStep(currentStep + 1);
-      // setNextDisabled(nextButtonRef);
+  // Remove usePersistedState logic
 
-      // setNextButtonTempDisabled(true);
-      // setTimeout(() => {
-      //   setNextButtonTempDisabled(false);
-      // }, 2000);
+  useEffect(() => {
+    // If the URL step is valid, set it as currentStep
+    if (validStep !== currentStep) {
+      setCurrentStep(validStep);
+    }
+  }, [validStep, currentStep]);
+
+  useEffect(() => {
+    // If the URL step differs from currentStep, navigate to the correct step
+    if (validStep !== currentStep) {
+      navigate(`/rotovap-lab/step/${validStep}`, { replace: true });
+    }
+  }, [validStep, currentStep, navigate]);
+
+  const handleNextStep = () => {
+    if (currentStep < 20) { // Assuming 20 is the last step
+      const nextStep = currentStep + 1;
+      setCurrentStep(nextStep);
+      navigate(`/rotovap-lab/step/${nextStep}`);
+      setNextDisabled(nextButtonRef);
     }
   };
+
 
   const [loadingMessage, setLoadingMessage] = useState("Loading Resources");
 
@@ -130,7 +168,7 @@ export default function Experience() {
           <div className="rounded-lg border border-transparent bg-black bg-opacity-30 p-6 shadow-lg backdrop-blur-lg backdrop-filter">
             <p className="text-lg font-thin text-white">{loadingMessage}</p>
             <img
-              src="loadingQ2L.svg"
+              src="/loadingQ2L.svg"
               alt="Loading"
               className="w-20 h-20 m-auto" />
           </div>

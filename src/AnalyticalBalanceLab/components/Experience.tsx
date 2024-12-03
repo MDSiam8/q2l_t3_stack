@@ -28,6 +28,8 @@ import { Canvas, useFrame, useThree } from "@react-three/fiber";
 import { CameraAdjuster } from "./CameraAdjuster";
 import { Camera, Vector3 } from "three";
 
+import {useNavigate, useParams} from 'react-router-dom';
+
 // Interface for the structure of each step in state.json
 interface Step {
   stepTitle: string;
@@ -97,6 +99,7 @@ export const setNextEnabled = (
   }
 };
 export default function Experience() {
+
   const [currentStep, setCurrentStep] = useState<number>(1);
   const key = currentStep.toString() as StateKey;
   const stepData = state[key]; // Safe indexing
@@ -125,8 +128,9 @@ export default function Experience() {
 
   const handleNextStep = () => {
     if (currentStep < Object.keys(state).length) {
-      setCurrentStep(currentStep + 1);
-      setNextDisabled(nextButtonRef);
+      const nextStep = currentStep + 1; // create variable to use in URL
+      setCurrentStep(nextStep);
+        setNextDisabled(nextButtonRef);
       // setNextButtonTempDisabled(true);
       // setTimeout(() => {
       //   setNextButtonTempDisabled(false);
@@ -171,7 +175,7 @@ export default function Experience() {
               {"Loading Resources"}
             </p>
             <img
-              src="loadingQ2L.svg"
+              src="/loadingQ2L.svg"
               alt="Loading"
               className="m-auto h-20 w-20"
             />
@@ -239,32 +243,34 @@ export default function Experience() {
           )}
           {currentStep === 4 && (
             <FourthStepComponent
-              ref={(el) => (stepRefs.current[4] = el as StepComponentRef)}
+              ref={(el) => {(stepRefs.current[4] = el as StepComponentRef)}}
+
               nextButtonRef={nextButtonRef}
             />
           )}
           {currentStep === 5 && (
             <FifthStepComponent
-              ref={(el) => (stepRefs.current[5] = el as StepComponentRef)}
+              ref={(el) => {(stepRefs.current[5] = el as StepComponentRef)}}
+
               nextButtonRef={nextButtonRef}
             />
           )}
           {currentStep === 6 && (
             <SixthStepComponent
-              ref={(el) => (stepRefs.current[6] = el as StepComponentRef)}
+              ref={(el) => {(stepRefs.current[6] = el as StepComponentRef)}}
               nextButtonRef={nextButtonRef}
             />
           )}
           {currentStep === 7 && (
             <SeventhStepComponent
-              ref={(el) => (stepRefs.current[7] = el as StepComponentRef)}
+              ref={(el) => {(stepRefs.current[7] = el as StepComponentRef)}}
               setIsAnimating={setIsAnimating}
               nextButtonRef={nextButtonRef}
             />
           )}
           {currentStep === 8 && (
             <EightStepComponent
-              ref={(el) => (stepRefs.current[8] = el as StepComponentRef)}
+              ref={(el) => {(stepRefs.current[8] = el as StepComponentRef)}}
               setIsAnimating={setIsAnimating}
               nextButtonRef={nextButtonRef}
             />
@@ -274,7 +280,7 @@ export default function Experience() {
           )}
           {currentStep === 10 && (
             <TenthStepComponent
-              ref={(el) => (stepRefs.current[10] = el as StepComponentRef)}
+              ref={(el) => {(stepRefs.current[10] = el as StepComponentRef)}}
               nextButtonRef={nextButtonRef}
             />
           )}
@@ -289,7 +295,7 @@ export default function Experience() {
           )}
           {/* ...add more steps as needed... */}
         </Canvas>
-        
+
         {currentStep === 3 && (
           <InventorySystem
             onItemSelect={handleItemSelection}

@@ -36,7 +36,7 @@ const SecondaryCamera: React.FC<SecondaryCameraProps> = ({ onClose }) => {
         makeDefault={false}
         fov={50}
         position={[0, 0, 5]} // Adjust position for zoom
-        lookAt={[0, 0, 0]} // Ensure it looks at the Flask
+        // lookAt={[0, 0, 0]} // Ensure it looks at the Flask
       />
 
       {/* Plane to Display the Rendered Texture */}
