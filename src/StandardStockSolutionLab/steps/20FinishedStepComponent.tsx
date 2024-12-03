@@ -37,7 +37,7 @@ const FinishedStepComponent: React.FC<FinishedStepComponentProps> = ({ nextButto
         rotation={[0, Math.PI / 2, 0]} // Rotated 90 degrees on Y axis
         fontSize={1.5}
         color="#7e38b7" // Cute purple color
-        font="/Righteous-Regular.ttf" // Path to your 3D font file
+        font="Righteous-Regular.ttf" // Path to your 3D font file
       >
         Lab Completed!
       </Text>
