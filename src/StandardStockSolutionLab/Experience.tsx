@@ -378,9 +378,8 @@ export default function Experience({
             <div className="ml-4 flex flex-col justify-between self-stretch">
               <button
                 onClick={handleNextStep}
-                disabled={currentStep === 13 || nextButtonTempDisabled}
-                className={`flex-grow transform rounded-lg bg-gradient-to-r from-blue-400 to-purple-500 px-4 py-2 font-bold text-white transition duration-300 hover:scale-105 ${
-                  currentStep === 13 || nextButtonTempDisabled
+                disabled={nextButtonTempDisabled}
+                className={`flex-grow transform rounded-lg bg-gradient-to-r from-blue-400 to-purple-500 px-4 py-2 font-bold text-white transition duration-300 hover:scale-105 ${nextButtonTempDisabled
                     ? "cursor-not-allowed bg-gray-400 opacity-50"
                     : ""
                 }`}
