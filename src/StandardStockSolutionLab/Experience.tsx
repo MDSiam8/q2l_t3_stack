@@ -1,6 +1,7 @@
 "use client";
 
 import React, { Dispatch, SetStateAction, Suspense, useEffect, useRef, useState } from "react";
+
 import {
   CameraControls,
   CameraControlsProps,
@@ -116,29 +117,16 @@ export const setNextEnabled = (
   }
 };
 
-function usePersistedState<T>(key: string, defaultValue: T): [T, Dispatch<SetStateAction<T>>] {
-  const [standardSolutionValue, setStandardSolutionValue] = useState<T>(() => {
-    const savedValue = localStorage.getItem(key);
-    return savedValue !== null ? JSON.parse(savedValue) : defaultValue;
-  })
 
-  useEffect(() => {
-    localStorage.setItem(key, JSON.stringify(standardSolutionValue));
-  }, [key, standardSolutionValue])
-
-  return [standardSolutionValue, setStandardSolutionValue]
+interface ExperienceProps {
+  currentStep: number;
+  onStepChange: (newStep: number) => void;
 }
-export default function Experience() {
-  const navigate = useNavigate();
-  const { step } = useParams<{ step?: string }>();
 
-  let currentStep = parseInt(step || '1', 10);
-
-  if (isNaN(currentStep) || currentStep < 1 || currentStep > 20) {
-    currentStep = 1;
-    navigate(`/standard_solution_lab/step/1`, { replace: true });
-  }
-
+export default function Experience({
+  currentStep,
+  onStepChange,
+}: ExperienceProps) {
   const key = currentStep.toString() as StateKey;
   const stepData = state[key];
 
@@ -187,10 +175,8 @@ export default function Experience() {
   };
 
   const handleNextStep = () => {
-    const totalSteps = Object.keys(state).length;
-    if (currentStep < totalSteps) {
-      const nextStep = currentStep + 1;
-      navigate(`/standard_solution_lab/step/${nextStep}`);
+    if (currentStep < Object.keys(state).length) {
+      onStepChange(currentStep + 1);
       setNextDisabled(nextButtonRef);
     }
   };

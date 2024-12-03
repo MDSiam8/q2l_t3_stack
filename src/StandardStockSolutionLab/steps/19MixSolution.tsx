@@ -121,14 +121,14 @@ import React, {
           />
           <Stopper
             capped={false}
-            rotation-x={(3.14 / 180) * 180} // Set initial rotation (180 degrees in radians)
+            rotation-x={(3.14 / 180) * 180}
             scale={0.5}
-            position={[0.15, 6.95, 0]}
+            position={[0, 1.95, 0]}
           />
         </group>
-      );
-    }
-  );
-  
-  export default Step19MixSolution;
-  
+      </group>
+    );
+  }
+);
+
+export default Step19MixSolution;  

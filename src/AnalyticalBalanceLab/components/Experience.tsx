@@ -130,7 +130,7 @@ export default function Experience() {
     if (currentStep < Object.keys(state).length) {
       const nextStep = currentStep + 1; // create variable to use in URL
       setCurrentStep(nextStep);
-      setNextDisabled(nextButtonRef);
+        setNextDisabled(nextButtonRef);
       // setNextButtonTempDisabled(true);
       // setTimeout(() => {
       //   setNextButtonTempDisabled(false);
@@ -244,12 +244,14 @@ export default function Experience() {
           {currentStep === 4 && (
             <FourthStepComponent
               ref={(el) => {(stepRefs.current[4] = el as StepComponentRef)}}
+
               nextButtonRef={nextButtonRef}
             />
           )}
           {currentStep === 5 && (
             <FifthStepComponent
               ref={(el) => {(stepRefs.current[5] = el as StepComponentRef)}}
+
               nextButtonRef={nextButtonRef}
             />
           )}
@@ -293,7 +295,7 @@ export default function Experience() {
           )}
           {/* ...add more steps as needed... */}
         </Canvas>
-        
+
         {currentStep === 3 && (
           <InventorySystem
             onItemSelect={handleItemSelection}
