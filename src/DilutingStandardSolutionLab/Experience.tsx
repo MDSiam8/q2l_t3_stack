@@ -89,22 +89,8 @@ export const setNextEnabled = (
   }
 };
 
-function usePersistedState<T>(key: string, defaultValue: T): [T, Dispatch<SetStateAction<T>>] {
-  const [dValue, setdValue] = useState<T>(() => {
-    const savedDValue = localStorage.getItem(key);
-    return savedDValue != null ? JSON.parse(savedDValue) : defaultValue;
-  });
-
-  useEffect(() => {
-    localStorage.setItem(key, JSON.stringify(dValue));
-  }, [key, dValue])
-
-  return [dValue, setdValue];
-}
-
 export default function Experience() {
-
-  const [currentStep, setCurrentStep] = useState<number>(3);
+  const [currentStep, setCurrentStep] = useState<number>(7);
   const key = currentStep.toString() as StateKey;
   const stepData = state[key];
   const stepRefs = useRef<Record<number, StepComponentRef>>({});
@@ -132,9 +118,7 @@ export default function Experience() {
 
   const handleNextStep = () => {
     if (currentStep < Object.keys(state).length) {
-      const nextStep = currentStep + 1;
-      setCurrentStep(nextStep);
-      navigate(`/diluting_lab/step/${nextStep}`);
+      setCurrentStep(currentStep + 1);
       setNextDisabled(nextButtonRef);
       // setNextButtonTempDisabled(true);
       // setTimeout(() => {
@@ -142,7 +126,6 @@ export default function Experience() {
       // }, 2000);
     }
   };
-
   const handleItemSelection = (itemName: string, isCorrect: boolean) => {
     setSelectedItems((prev) => {
       const newSelectedItems = { ...prev, [itemName]: isCorrect };
@@ -158,42 +141,6 @@ export default function Experience() {
       return newSelectedItems;
     });
   };
-
-  const handleReplayAnimation = () => {
-    const currentStepRef = stepRefs.current[currentStep];
-    if (currentStepRef && currentStepRef.replayAnimation) {
-      currentStepRef.replayAnimation();
-    }
-  };
-
-  const stepsWithRefs = new Set([4, 5, 6, 7, 8, 10]); // Add other steps as needed
-
-  // Check if the current step has a replay animation
-  const hasReplayAnimation: boolean = stepsWithRefs.has(currentStep);
-
-  // handle URL step param
-  useEffect(() => {
-    const urlStep = parseInt(step || '');
-    if (
-      !isNaN(urlStep) &&
-      urlStep >= 1 && 
-      urlStep <= Object.keys(state).length
-    ) {
-      setCurrentStep(urlStep);
-    } else {
-      // invalid state, use saved value
-      const savedStep = localStorage.getItem('DilutingCurrentStep');
-      const stepToNavigate = savedStep ? JSON.parse(savedStep) : 1;
-      navigate(`/diluting_lab/step/${stepToNavigate}`, {replace: true});
-    }
-  }, [step, navigate, setCurrentStep]);
-
-  // url matches current step
-  useEffect(() => {
-    if (step && parseInt(step) !== currentStep) {
-      navigate(`/diluting_lab/step/${currentStep}`, {replace: true});
-    }
-  }, [currentStep, navigate, step]);
 
   return (
     <Suspense
@@ -269,7 +216,7 @@ export default function Experience() {
               nextButtonRef={nextButtonRef}
             />
           )}
-          {currentStep === 8} {
+          {currentStep === 8 && 
             <Step8TransferToFlask
               selectedItems={selectedItems}
               nextButtonRef={nextButtonRef}

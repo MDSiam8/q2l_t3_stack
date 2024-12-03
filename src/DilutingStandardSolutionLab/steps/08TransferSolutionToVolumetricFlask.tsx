@@ -13,6 +13,7 @@ import { BottleCap } from "../models/BottleCap";
 import { Bottle } from "../models/Bottle";
 import { useGLTF } from "@react-three/drei";
 import { setNextEnabled } from "../Experience";
+import { PipetteBulb } from "../models/PipetteBulb";
 
 interface SelectedItems {
   [itemName: string]: boolean;
@@ -104,6 +105,7 @@ const Step8TransferToFlask = forwardRef<HTMLDivElement, EigthStepProps>(
 
         // Make the spheres disappear after all have dropped
         tl.to(spheresRef.current, { visible: false }, "+=0.5");
+        setNextEnabled(nextButtonRef);
       } else {
         console.warn(
           "pipetteRef.current, spheresRef.current, flaskRef.current, or sphereRefs are not properly initialized"
@@ -119,8 +121,10 @@ const Step8TransferToFlask = forwardRef<HTMLDivElement, EigthStepProps>(
           position={[0, 5, 0]}
           rotation={[0, 0, 0]}
           onClick={handleClick}
+          scale={.8}
         >
           <GlassPipette />
+          <PipetteBulb position={[0,2.4,0]} />
         </group>
 
         {/* Blue spheres coming out of the pipette */}
@@ -145,7 +149,7 @@ const Step8TransferToFlask = forwardRef<HTMLDivElement, EigthStepProps>(
         <group
           ref={flaskRef}
           position={[0, 5, 2]}
-          scale={[0.07, 0.07, 0.07]}
+          scale={[0.033, 0.033, 0.033]}
         >
           <FlaskWaterFill startAnimationDelay = {startFlaskAnimation}/>
         </group>
