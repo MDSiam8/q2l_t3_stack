@@ -253,7 +253,7 @@ export default function Experience({
           </mesh>
 
           {/* Conditional Rendering of Step Components */}
-          {currentStep === 1 && <Step1Introduction nextButtonRef={nextButtonRef} />}
+          {currentStep === 1 && <Step1Introduction />}
           {currentStep === 2 && (
             <Step2ExplainTask nextButtonRef={nextButtonRef} />
           )}
