@@ -1,4 +1,4 @@
-import React, { Suspense, useEffect, useRef, useState } from "react";
+import React, { SetStateAction, Dispatch, Suspense, useEffect, useRef, useState } from "react";
 import {
   CameraControls,
   CameraControlsProps,
@@ -33,6 +33,8 @@ import Step17TurnOffCondensorAndVacuum from "./steps/17TurnOffVacAndCond";
 import Step18RemoveItems from "./steps/18RemoveRotavapItems";
 import Step19RemoveBumpTrap from "./steps/19RemovingBumpTrap";
 import Step20Conclusion from "./steps/20Conclusion";
+
+import { useNavigate, useParams } from 'react-router-dom';
 
 // Interface for the structure of each step in state.json
 interface Step {
@@ -97,8 +99,28 @@ export const setNextEnabled = (
     nextButtonRef.current.className = getClassNameForNext(false);
   }
 };
+
+function usePersistedState<T>(key: string, defaultValue: T): [T, Dispatch<SetStateAction<T>>] {
+  // Initialize state with value from localStorage, or use the default value
+  const [value, setValue] = useState<T>(() => {
+      const savedValue = localStorage.getItem(key);
+      return savedValue !== null ? JSON.parse(savedValue) : defaultValue;
+  });
+
+  useEffect(() => {
+      // Update localStorage whenever the value changes
+      localStorage.setItem(key, JSON.stringify(value));
+  }, [key, value]);
+
+  return [value, setValue];
+}
+
 export default function Experience() {
-  const [currentStep, setCurrentStep] = useState<number>(1);
+  const navigate = useNavigate();
+  const { step } = useParams();
+
+  // Use usePersistedState to persist currentStep
+  const [currentStep, setCurrentStep] = usePersistedState<number>('robtovapCurrentStep', 1);
   const key = currentStep.toString() as StateKey;
   const stepData = state[key]; // Safe indexing
   const stepRefs = useRef<Record<number, StepComponentRef>>({});
@@ -108,16 +130,36 @@ export default function Experience() {
 
   const cameraControlsRef = useRef<Camera>(null);
   const [nextButtonTempDisabled, setNextButtonTempDisabled] = useState(false);
+  
+  useEffect(() => {
+    const urlStep = parseInt(step || '');
+    if (
+      !isNaN(urlStep) &&
+      urlStep >= 1 &&
+      urlStep <= Object.keys(state).length
+    ) {
+      // valid step, store it in local storage
+      localStorage.setItem("robtovapCurrentStep", JSON.stringify(urlStep))
+    } else {
+      // Invalid or missing 'step', navigate to persisted 'currentStep'
+      const savedStep = localStorage.getItem('robtovapCurrentStep');
+      const stepToNavigate = savedStep ? JSON.parse(savedStep) : 1;
+      navigate(`/rotovap-lab/step/${currentStep}`, { replace: true });
+    }
+  }, [step, currentStep, navigate]);
+
+  useEffect(() => {
+    if (step !== currentStep.toString()) {
+      navigate(`/rotovap-lab/step/${currentStep}`, { replace: true });
+    }
+  }, [currentStep, navigate, step]);
 
   const handleNextStep = () => {
     if (currentStep < Object.keys(state).length) {
-      setCurrentStep(currentStep + 1);
-      // setNextDisabled(nextButtonRef);
-
-      // setNextButtonTempDisabled(true);
-      // setTimeout(() => {
-      //   setNextButtonTempDisabled(false);
-      // }, 2000);
+      const nextStep = currentStep + 1;
+      setCurrentStep(nextStep);
+      navigate(`/rotovap-lab/step/${nextStep}`)
+      // Navigation will be handled by useEffect
     }
   };
 

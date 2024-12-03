@@ -1,9 +1,9 @@
-import React, { useEffect, useState, useRef } from "react";
+import React, { useEffect, useState } from "react";
 import ReactDOM from "react-dom/client";
-import { Canvas, useFrame, useThree } from "@react-three/fiber";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Experience from "../../RotaryEvaporation/components/Experience";
 // import Experience from "../../../AnalyticalBalanceLab/components/Experience";
-import * as THREE from "three";
+// ...other necessary imports...
 
 type RootType = ReactDOM.Root | null;
 
@@ -26,16 +26,22 @@ function MyApp(): JSX.Element | null {
       if (root) {
         root.unmount();
       }
-      
     };
   }, [root]);
 
   useEffect(() => {
     if (root) {
       root.render(
-        <>
-          <Experience />
-        </>,
+        <BrowserRouter>
+          <Routes>
+            {/* Define routes without forced redirects */}
+            <Route path="/rotovap-lab/step/:robtovapCurrentStep" element={<Experience />} />
+            <Route path="/rotovap-lab" element={<Experience />} />
+            <Route path="/" element={<Experience />} />
+            {/* Optionally, handle unmatched paths */}
+            <Route path="*" element={<Experience />} />
+          </Routes>
+        </BrowserRouter>
       );
     }
   }, [root]);
