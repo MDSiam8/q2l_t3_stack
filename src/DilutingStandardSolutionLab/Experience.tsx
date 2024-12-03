@@ -15,6 +15,8 @@ import Step2SelectApparatus from "./steps/02ApparatusAndChemicalSelection";
 import { Canvas, useFrame, useThree } from "@react-three/fiber";
 import { CameraAdjuster } from "./utils/CameraAdjuster";
 import { Camera, Vector3 } from "three";
+import Step8TransferToFlask from "./steps/08TransferSolutionToVolumetricFlask";
+
 import Step04ChoosePipette from "./steps/04ChoosePipette";
 import Step03TransferStandardSolution from "./steps/03TransferStandardSolution";
 import Step5SelectTheCorrectGlassPipette from './steps/05SelectTheCorrectGlassPipette';
@@ -87,7 +89,21 @@ export const setNextEnabled = (
   }
 };
 
+function usePersistedState<T>(key: string, defaultValue: T): [T, Dispatch<SetStateAction<T>>] {
+  const [dValue, setdValue] = useState<T>(() => {
+    const savedDValue = localStorage.getItem(key);
+    return savedDValue != null ? JSON.parse(savedDValue) : defaultValue;
+  });
+
+  useEffect(() => {
+    localStorage.setItem(key, JSON.stringify(dValue));
+  }, [key, dValue])
+
+  return [dValue, setdValue];
+}
+
 export default function Experience() {
+
   const [currentStep, setCurrentStep] = useState<number>(3);
   const key = currentStep.toString() as StateKey;
   const stepData = state[key];
@@ -116,7 +132,9 @@ export default function Experience() {
 
   const handleNextStep = () => {
     if (currentStep < Object.keys(state).length) {
-      setCurrentStep(currentStep + 1);
+      const nextStep = currentStep + 1;
+      setCurrentStep(nextStep);
+      navigate(`/diluting_lab/step/${nextStep}`);
       setNextDisabled(nextButtonRef);
       // setNextButtonTempDisabled(true);
       // setTimeout(() => {
@@ -152,6 +170,30 @@ export default function Experience() {
 
   // Check if the current step has a replay animation
   const hasReplayAnimation: boolean = stepsWithRefs.has(currentStep);
+
+  // handle URL step param
+  useEffect(() => {
+    const urlStep = parseInt(step || '');
+    if (
+      !isNaN(urlStep) &&
+      urlStep >= 1 && 
+      urlStep <= Object.keys(state).length
+    ) {
+      setCurrentStep(urlStep);
+    } else {
+      // invalid state, use saved value
+      const savedStep = localStorage.getItem('DilutingCurrentStep');
+      const stepToNavigate = savedStep ? JSON.parse(savedStep) : 1;
+      navigate(`/diluting_lab/step/${stepToNavigate}`, {replace: true});
+    }
+  }, [step, navigate, setCurrentStep]);
+
+  // url matches current step
+  useEffect(() => {
+    if (step && parseInt(step) !== currentStep) {
+      navigate(`/diluting_lab/step/${currentStep}`, {replace: true});
+    }
+  }, [currentStep, navigate, step]);
 
   return (
     <Suspense
@@ -227,6 +269,12 @@ export default function Experience() {
               nextButtonRef={nextButtonRef}
             />
           )}
+          {currentStep === 8} {
+            <Step8TransferToFlask
+              selectedItems={selectedItems}
+              nextButtonRef={nextButtonRef}
+            />
+          }
           {currentStep === 4 && <Step04ChoosePipette nextButtonRef={nextButtonRef} />}
           {currentStep === 3 && <Step03TransferStandardSolution nextButtonRef={nextButtonRef} />}
           {currentStep === 5 && (

@@ -14,4 +14,6 @@ export function GlassPipette(props: any) {
   );
 }
 
-useGLTF.preload("./pipet25_1003.glb");
+export default GlassPipette;
+
+useGLTF.preload("./pipet25.glb");

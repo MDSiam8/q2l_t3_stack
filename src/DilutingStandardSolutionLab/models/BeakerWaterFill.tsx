@@ -67,5 +67,6 @@ import React, {
     );
   });
   
+  export default BeakerWaterFill;
   useGLTF.preload("./Beaker_FillAnim.glb");
   
