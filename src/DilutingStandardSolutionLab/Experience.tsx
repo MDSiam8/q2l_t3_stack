@@ -16,6 +16,9 @@ import { CameraAdjuster } from "./utils/CameraAdjuster";
 import { Camera, Vector3 } from "three";
 import Step8TransferToFlask from "./steps/08TransferSolutionToVolumetricFlask";
 
+import { Dispatch, SetStateAction } from "react";
+import { useNavigate, useParams } from 'react-router-dom';
+
 // Interface for the structure of each step in state.json
 interface Step {
   stepTitle: string;
@@ -85,8 +88,24 @@ export const setNextEnabled = (
   }
 };
 
+function usePersistedState<T>(key: string, defaultValue: T): [T, Dispatch<SetStateAction<T>>] {
+  const [dValue, setdValue] = useState<T>(() => {
+    const savedDValue = localStorage.getItem(key);
+    return savedDValue != null ? JSON.parse(savedDValue) : defaultValue;
+  });
+
+  useEffect(() => {
+    localStorage.setItem(key, JSON.stringify(dValue));
+  }, [key, dValue])
+
+  return [dValue, setdValue];
+}
+
 export default function Experience() {
-  const [currentStep, setCurrentStep] = useState<number>(8);
+  const navigate = useNavigate();
+  const { step } = useParams<{ step?: string }>();
+
+  const [currentStep, setCurrentStep] = usePersistedState<number>("DilutingCurrentStep", 1);
   const key = currentStep.toString() as StateKey;
   const stepData = state[key]; // Safe indexing
   const stepRefs = useRef<Record<number, StepComponentRef>>({});
@@ -114,7 +133,9 @@ export default function Experience() {
 
   const handleNextStep = () => {
     if (currentStep < Object.keys(state).length) {
-      setCurrentStep(currentStep + 1);
+      const nextStep = currentStep + 1;
+      setCurrentStep(nextStep);
+      navigate(`/diluting_lab/step/${nextStep}`);
       setNextDisabled(nextButtonRef);
       // setNextButtonTempDisabled(true);
       // setTimeout(() => {
@@ -150,6 +171,30 @@ export default function Experience() {
 
   // Check if the current step has a replay animation
   const hasReplayAnimation: boolean = stepsWithRefs.has(currentStep);
+
+  // handle URL step param
+  useEffect(() => {
+    const urlStep = parseInt(step || '');
+    if (
+      !isNaN(urlStep) &&
+      urlStep >= 1 && 
+      urlStep <= Object.keys(state).length
+    ) {
+      setCurrentStep(urlStep);
+    } else {
+      // invalid state, use saved value
+      const savedStep = localStorage.getItem('DilutingCurrentStep');
+      const stepToNavigate = savedStep ? JSON.parse(savedStep) : 1;
+      navigate(`/diluting_lab/step/${stepToNavigate}`, {replace: true});
+    }
+  }, [step, navigate, setCurrentStep]);
+
+  // url matches current step
+  useEffect(() => {
+    if (step && parseInt(step) !== currentStep) {
+      navigate(`/diluting_lab/step/${currentStep}`, {replace: true});
+    }
+  }, [currentStep, navigate, step]);
 
   return (
     <Suspense
