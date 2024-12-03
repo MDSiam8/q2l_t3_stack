@@ -1,11 +1,6 @@
 import React, { useEffect, useState } from "react";
 import ReactDOM from "react-dom/client";
-import { Canvas, useFrame, useThree } from "@react-three/fiber";
-import Experience from "../../AnalyticalBalanceLab/components/Experience";
-// import Experience from "../../../AnalyticalBalanceLab/components/Experience";
-import * as THREE from "three";
-import { BrowserRouter, Route, Routes } from "react-router-dom"; // Update import path if necessary
-
+import Experience from "../../AnalyticalBalanceLab/components/Experience"; // Update import path if necessary
 import { useRouter } from "next/router";
 
 type RootType = ReactDOM.Root | null;
@@ -60,16 +55,22 @@ function MyApp(): JSX.Element | null {
   useEffect(() => {
     if (root) {
       root.render(
-        <BrowserRouter>
-        <Routes>
-          {/* Define routes without forced redirects */}
-          <Route path="/analytical_balance_lab/step/:AnalyticalBalanceCurrentStep" element={<Experience />} />
-          <Route path="/analytical_balance_lab" element={<Experience />} />
-          <Route path="/" element={<Experience />} />
-          {/* Optionally, handle unmatched paths */}
-          <Route path="*" element={<Experience />} />
-        </Routes>
-      </BrowserRouter>
+        <>
+          <Experience
+            currentStep={currentStep}
+            onStepChange={(newStep: number) => {
+              setCurrentStep(newStep);
+              router.replace(
+                {
+                  pathname: router.pathname,
+                  query: { ...router.query, step: newStep },
+                },
+                undefined,
+                { shallow: true },
+              );
+            }}
+          />
+        </>,
       );
     }
   }, [root, currentStep, router]);
