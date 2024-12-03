@@ -175,7 +175,7 @@ export default function Experience() {
               {"Loading Resources"}
             </p>
             <img
-              src="loadingQ2L.svg"
+              src="/loadingQ2L.svg"
               alt="Loading"
               className="m-auto h-20 w-20"
             />

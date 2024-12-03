@@ -26,7 +26,6 @@ function MyApp(): JSX.Element | null {
       if (root) {
         root.unmount();
       }
-      
     };
   }, [root]);
 
@@ -35,12 +34,12 @@ function MyApp(): JSX.Element | null {
       root.render(
         <BrowserRouter>
           <Routes>
-            <Route path="/extraction_lab/step/:separatingLiquidCurrentStep" element={<Experience />} />
+            <Route path="/extraction_lab/step/:step" element={<Experience />} />
             <Route path="/extraction_lab" element={<Experience />} />
             <Route path="/" element={<Experience />} />
-            <Route path="*"  element={<Experience />} />
+            <Route path="*" element={<Experience />} />
           </Routes>
-        </BrowserRouter>
+        </BrowserRouter>,
       );
     }
   }, [root]);

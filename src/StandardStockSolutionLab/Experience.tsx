@@ -128,20 +128,20 @@ function usePersistedState<T>(key: string, defaultValue: T): [T, Dispatch<SetSta
 
   return [standardSolutionValue, setStandardSolutionValue]
 }
-
 export default function Experience() {
-  const navigate = useNavigate()
-  const { step } = useParams()
+  const navigate = useNavigate();
+  const { step } = useParams<{ step?: string }>();
 
-  const [currentStep, setCurrentStep] = usePersistedState<number>('standardStockCurrentStep', 1);
-      
-interface ExperienceProps {
-  currentStep: number;
-  onStepChange: (newStep: number) => void;
-}
+  let currentStep = parseInt(step || '1', 10);
+
+  if (isNaN(currentStep) || currentStep < 1 || currentStep > 20) {
+    currentStep = 1;
+    navigate(`/standard_solution_lab/step/1`, { replace: true });
+  }
 
   const key = currentStep.toString() as StateKey;
-  const stepData = state[key]; // Safe indexing
+  const stepData = state[key];
+
   const stepRefs = useRef<Record<number, StepComponentRef>>({});
   const [isAnimating, setIsAnimating] = useState<boolean>(false);
   const nextButtonRef = useRef<HTMLButtonElement>(null);
@@ -166,7 +166,6 @@ interface ExperienceProps {
     ) {
       localStorage.setItem("standardStockCurrentStep", JSON.stringify(urlStep))
     } else {
-      const savedStep = localStorage.getItem("standardStockCurrentStep");
       navigate(`/standard_solution_lab/step/${currentStep}`, { replace: true });
     }
   }, [step, currentStep, navigate])
@@ -188,10 +187,10 @@ interface ExperienceProps {
   };
 
   const handleNextStep = () => {
-    if (currentStep < Object.keys(state).length) {
+    const totalSteps = Object.keys(state).length;
+    if (currentStep < totalSteps) {
       const nextStep = currentStep + 1;
-      setCurrentStep(nextStep);
-      navigate(`/standard_solution_lab/step/${currentStep}`)
+      navigate(`/standard_solution_lab/step/${nextStep}`);
       setNextDisabled(nextButtonRef);
     }
   };
@@ -233,7 +232,7 @@ interface ExperienceProps {
               {"Loading Resources"}
             </p>
             <img
-              src="loadingQ2L.svg"
+              src="/loadingQ2L.svg"
               alt="Loading"
               className="m-auto h-20 w-20"
             />

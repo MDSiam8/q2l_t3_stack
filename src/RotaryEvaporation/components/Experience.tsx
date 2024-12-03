@@ -117,10 +117,12 @@ function usePersistedState<T>(key: string, defaultValue: T): [T, Dispatch<SetSta
 
 export default function Experience() {
   const navigate = useNavigate();
-  const { step } = useParams();
+  const { step } = useParams<{ step: string }>();
 
-  // Use usePersistedState to persist currentStep
-  const [currentStep, setCurrentStep] = usePersistedState<number>('robtovapCurrentStep', 1);
+  const parsedStep = parseInt(step || '1', 10);
+  const validStep = !isNaN(parsedStep) && parsedStep >= 1 && parsedStep <= 20 ? parsedStep : 1;
+
+  const [currentStep, setCurrentStep] = useState<number>(validStep);
   const key = currentStep.toString() as StateKey;
   const stepData = state[key]; // Safe indexing
   const stepRefs = useRef<Record<number, StepComponentRef>>({});
@@ -130,38 +132,32 @@ export default function Experience() {
 
   const cameraControlsRef = useRef<Camera>(null);
   const [nextButtonTempDisabled, setNextButtonTempDisabled] = useState(false);
-  
-  useEffect(() => {
-    const urlStep = parseInt(step || '');
-    if (
-      !isNaN(urlStep) &&
-      urlStep >= 1 &&
-      urlStep <= Object.keys(state).length
-    ) {
-      // valid step, store it in local storage
-      localStorage.setItem("robtovapCurrentStep", JSON.stringify(urlStep))
-    } else {
-      // Invalid or missing 'step', navigate to persisted 'currentStep'
-      const savedStep = localStorage.getItem('robtovapCurrentStep');
-      const stepToNavigate = savedStep ? JSON.parse(savedStep) : 1;
-      navigate(`/rotovap-lab/step/${currentStep}`, { replace: true });
-    }
-  }, [step, currentStep, navigate]);
+
+  // Remove usePersistedState logic
 
   useEffect(() => {
-    if (step !== currentStep.toString()) {
-      navigate(`/rotovap-lab/step/${currentStep}`, { replace: true });
+    // If the URL step is valid, set it as currentStep
+    if (validStep !== currentStep) {
+      setCurrentStep(validStep);
     }
-  }, [currentStep, navigate, step]);
+  }, [validStep, currentStep]);
+
+  useEffect(() => {
+    // If the URL step differs from currentStep, navigate to the correct step
+    if (validStep !== currentStep) {
+      navigate(`/rotovap-lab/step/${validStep}`, { replace: true });
+    }
+  }, [validStep, currentStep, navigate]);
 
   const handleNextStep = () => {
-    if (currentStep < Object.keys(state).length) {
+    if (currentStep < 20) { // Assuming 20 is the last step
       const nextStep = currentStep + 1;
       setCurrentStep(nextStep);
-      navigate(`/rotovap-lab/step/${nextStep}`)
-      // Navigation will be handled by useEffect
+      navigate(`/rotovap-lab/step/${nextStep}`);
+      setNextDisabled(nextButtonRef);
     }
   };
+
 
   const [loadingMessage, setLoadingMessage] = useState("Loading Resources");
 
@@ -172,7 +168,7 @@ export default function Experience() {
           <div className="rounded-lg border border-transparent bg-black bg-opacity-30 p-6 shadow-lg backdrop-blur-lg backdrop-filter">
             <p className="text-lg font-thin text-white">{loadingMessage}</p>
             <img
-              src="loadingQ2L.svg"
+              src="/loadingQ2L.svg"
               alt="Loading"
               className="w-20 h-20 m-auto" />
           </div>

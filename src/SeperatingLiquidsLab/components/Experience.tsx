@@ -4,7 +4,6 @@ import {
   OrbitControls,
 } from "@react-three/drei";
 import Table from "./Table";
-// ...other necessary imports...
 
 import state from "../state.json";
 import { Canvas } from "@react-three/fiber";
@@ -95,27 +94,17 @@ export const setNextEnabled = (
   }
 };
 
-// Custom hook to manage persisted state
-function usePersistedState<T>(key: string, defaultValue: T): [T, Dispatch<SetStateAction<T>>] {
-  // Initialize state with value from localStorage, or use the default value
-  const [value, setValue] = useState<T>(() => {
-    const savedValue = localStorage.getItem(key);
-    return savedValue !== null ? JSON.parse(savedValue) : defaultValue;
-  });
 
-  useEffect(() => {
-    // Update localStorage whenever the value changes
-    localStorage.setItem(key, JSON.stringify(value));
-  }, [key, value]);
-
-  return [value, setValue];
-}
 
 export default function Experience() {
   const navigate = useNavigate();
   const { step } = useParams<{ step?: string }>();
 
-  const [currentStep, setCurrentStep] = usePersistedState<number>("separatingLiquidCurrentStep", 1);
+  // Initialize currentStep from URL parameter
+  const parsedStep = parseInt(step || '1', 10);
+  const validStep = !isNaN(parsedStep) && parsedStep >= 1 && parsedStep <= 14 ? parsedStep : 1; // Assuming 14 steps
+
+  const [currentStep, setCurrentStep] = useState<number>(validStep);
   const key = currentStep.toString() as StateKey;
   const stepData = state[key]; // Safe indexing
   const stepRefs = useRef<Record<number, StepComponentRef>>({});
@@ -126,44 +115,27 @@ export default function Experience() {
   const cameraControlsRef = useRef<Camera>(null);
   const [nextButtonTempDisabled, setNextButtonTempDisabled] = useState(false);
 
-  const handleNextStep = () => {
-    if (currentStep < Object.keys(state).length) {
-      const nextStep = currentStep + 1;
-      setCurrentStep(nextStep);
-      navigate(`/extraction_lab/step/${nextStep}`);
-      // setNextDisabled(nextButtonRef);
-
-      // setNextButtonTempDisabled(true);
-      // setTimeout(() => {
-      //   setNextButtonTempDisabled(false);
-      // }, 2000);
-    }
-  };
-
-  // Handle URL step param and synchronize with persisted state
+  // Synchronize `currentStep` with URL parameter
   useEffect(() => {
-    const urlStep = parseInt(step || '');
-    if (
-      !isNaN(urlStep) &&
-      urlStep >= 1 &&
-      urlStep <= Object.keys(state).length
-    ) {
-      // Valid step, update persisted state
-      setCurrentStep(urlStep);
-    } else {
-      // Invalid or missing 'step', navigate to persisted 'currentStep'
-      const savedStep = localStorage.getItem('separatingLiquidCurrentStep');
-      const stepToNavigate = savedStep ? JSON.parse(savedStep) : 1;
-      navigate(`/extraction_lab/step/${stepToNavigate}`, { replace: true });
+    if (validStep !== currentStep) {
+      setCurrentStep(validStep);
     }
-  }, [step, navigate, setCurrentStep]);
+  }, [validStep, currentStep]);
 
-  // Ensure URL step matches the currentStep
+  // Ensure URL reflects the currentStep
   useEffect(() => {
-    if (step && parseInt(step) !== currentStep) {
+    if (validStep !== currentStep) {
       navigate(`/extraction_lab/step/${currentStep}`, { replace: true });
     }
-  }, [currentStep, navigate, step]);
+  }, [currentStep, navigate, validStep]);
+
+  const handleNextStep = () => {
+    if (currentStep < 14) { // Assuming 14 is the last step
+      const nextStep = currentStep + 1;
+      navigate(`/extraction_lab/step/${nextStep}`);
+      // The useEffect will handle updating `currentStep` based on URL
+    }
+  };
 
   const [loadingMessage, setLoadingMessage] = useState("Loading Resources");
 
@@ -174,7 +146,7 @@ export default function Experience() {
           <div className="rounded-lg border border-transparent bg-black bg-opacity-30 p-6 shadow-lg backdrop-blur-lg backdrop-filter">
             <p className="text-lg font-thin text-white">{loadingMessage}</p>
             <img
-              src="loadingQ2L.svg"
+              src="/loadingQ2L.svg"
               alt="Loading"
               className="w-20 h-20 m-auto" />
           </div>
