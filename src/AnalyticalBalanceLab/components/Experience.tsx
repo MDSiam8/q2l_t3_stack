@@ -243,32 +243,32 @@ export default function Experience() {
           )}
           {currentStep === 4 && (
             <FourthStepComponent
-              ref={(el) => (stepRefs.current[4] = el as StepComponentRef)}
+              ref={(el) => {(stepRefs.current[4] = el as StepComponentRef)}}
               nextButtonRef={nextButtonRef}
             />
           )}
           {currentStep === 5 && (
             <FifthStepComponent
-              ref={(el) => (stepRefs.current[5] = el as StepComponentRef)}
+              ref={(el) => {(stepRefs.current[5] = el as StepComponentRef)}}
               nextButtonRef={nextButtonRef}
             />
           )}
           {currentStep === 6 && (
             <SixthStepComponent
-              ref={(el) => (stepRefs.current[6] = el as StepComponentRef)}
+              ref={(el) => {(stepRefs.current[6] = el as StepComponentRef)}}
               nextButtonRef={nextButtonRef}
             />
           )}
           {currentStep === 7 && (
             <SeventhStepComponent
-              ref={(el) => (stepRefs.current[7] = el as StepComponentRef)}
+              ref={(el) => {(stepRefs.current[7] = el as StepComponentRef)}}
               setIsAnimating={setIsAnimating}
               nextButtonRef={nextButtonRef}
             />
           )}
           {currentStep === 8 && (
             <EightStepComponent
-              ref={(el) => (stepRefs.current[8] = el as StepComponentRef)}
+              ref={(el) => {(stepRefs.current[8] = el as StepComponentRef)}}
               setIsAnimating={setIsAnimating}
               nextButtonRef={nextButtonRef}
             />
@@ -278,7 +278,7 @@ export default function Experience() {
           )}
           {currentStep === 10 && (
             <TenthStepComponent
-              ref={(el) => (stepRefs.current[10] = el as StepComponentRef)}
+              ref={(el) => {(stepRefs.current[10] = el as StepComponentRef)}}
               nextButtonRef={nextButtonRef}
             />
           )}
