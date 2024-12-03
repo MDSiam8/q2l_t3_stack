@@ -97,11 +97,11 @@ export default function Experience() {
   const cameraControlsRef = useRef<Camera>(null);
   const [nextButtonTempDisabled, setNextButtonTempDisabled] = useState(false);
   const requiredItems = new Set([
-    "Analytical Balance",
-    "Weighing Paper",
-    "Beaker",
-    "Spatula",
-    "Powder Sample",
+    "beaker",
+    "glass_pipette",
+    "glass_dropper",
+    "stopper",
+    "distilled_water"
   ]);
 
   const [selectedItems, setSelectedItems] = useState<SelectedItems>({});
