@@ -15,6 +15,8 @@ import Step2SelectApparatus from "./steps/02ApparatusAndChemicalSelection";
 import { Canvas, useFrame, useThree } from "@react-three/fiber";
 import { CameraAdjuster } from "./utils/CameraAdjuster";
 import { Camera, Vector3 } from "three";
+import Step5SelectTheCorrectGlassPipette from './steps/05SelectTheCorrectGlassPipette';
+import Step6AttachPipetteFiller from './steps/06AttachPipetteFiller';
 
 // Interface for the structure of each step in state.json
 interface Step {
@@ -29,7 +31,7 @@ interface Step {
     correctAnswer: string[];
     category: string;
     count: number;
-    userAnswers: string[]; // Adjust as needed for dynamic content
+    userAnswers: string[];
   }[];
 }
 
@@ -50,10 +52,8 @@ interface State {
 
 type StateKey = keyof State;
 
-// Correctly type your step component refs if they have specific methods or properties
 interface StepComponentRef {
   replayAnimation?: () => void;
-  // other methods or properties
 }
 
 interface SelectedItems {
@@ -86,9 +86,9 @@ export const setNextEnabled = (
 };
 
 export default function Experience() {
-  const [currentStep, setCurrentStep] = useState<number>(1); // change this back to 1 later
+  const [currentStep, setCurrentStep] = useState<number>(6);
   const key = currentStep.toString() as StateKey;
-  const stepData = state[key]; // Safe indexing
+  const stepData = state[key];
   const stepRefs = useRef<Record<number, StepComponentRef>>({});
   const [isAnimating, setIsAnimating] = useState<boolean>(false);
   const nextButtonRef = useRef<HTMLButtonElement>(null);
@@ -224,6 +224,12 @@ export default function Experience() {
               selectedItems={selectedItems}
               nextButtonRef={nextButtonRef}
             />
+          )}
+          {currentStep === 5 && (
+            <Step5SelectTheCorrectGlassPipette nextButtonRef={nextButtonRef} />
+          )}
+          {currentStep === 6 && (
+            <Step6AttachPipetteFiller nextButtonRef={nextButtonRef} />
           )}
           {currentStep === 7 && <Step7FillThePipette nextButtonRef={nextButtonRef} />}
           {/* ...add more steps as needed... */}
