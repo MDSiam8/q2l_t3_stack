@@ -1,9 +1,8 @@
 import React, { useEffect, useState, useRef } from "react";
 import ReactDOM from "react-dom/client";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
-//import { Canvas, useFrame, useThree } from "@react-three/fiber";
+import { Canvas, useFrame, useThree } from "@react-three/fiber";
 import Experience from "../../SeperatingLiquidsLab/components/Experience";
-//import * as THREE from "three";
+import * as THREE from "three";
 
 type RootType = ReactDOM.Root | null;
 
@@ -26,20 +25,16 @@ function MyApp(): JSX.Element | null {
       if (root) {
         root.unmount();
       }
+      
     };
   }, [root]);
 
   useEffect(() => {
     if (root) {
       root.render(
-        <BrowserRouter>
-          <Routes>
-            <Route path="/extraction_lab/step/:step" element={<Experience />} />
-            <Route path="/extraction_lab" element={<Experience />} />
-            <Route path="/" element={<Experience />} />
-            <Route path="*" element={<Experience />} />
-          </Routes>
-        </BrowserRouter>,
+        <>
+          <Experience />
+        </>,
       );
     }
   }, [root]);
