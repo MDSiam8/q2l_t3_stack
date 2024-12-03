@@ -17,7 +17,6 @@ import * as THREE from "three";
 import Table from "~/AnalyticalBalanceLab/components/Table";
 import gsap from "gsap";
 import MicropipetteLabSchema from "./MicropipetteSchema";
-import { useNavigate, useParams } from "react-router-dom";
 
 const modelPath = "./sample bottle body.gltf";
 
@@ -31,44 +30,13 @@ const modelPath = "./sample bottle body.gltf";
 
 
 export default function Experience() {
-  const navigate = useNavigate();
-  const { step } = useParams<{ step?: string }>();
-
-  // Parse the current step from the URL or default to 0
-  const [currentStepIndex, setCurrentStepIndex] = useState<number>(() => {
-    const savedStep = localStorage.getItem("MicropipetteCurrentStep");
-    return savedStep ? parseInt(savedStep, 10) : 0;
-  });
-
+  const [currentStepIndex, setCurrentStepIndex] = useState(0);
   const currentStep = MicropipetteLabSchema[currentStepIndex];
 
-  // Sync step from the URL or restore from localStorage on component mount
-  useEffect(() => {
-    const urlStep = parseInt(step || ''); // Parse step from URL
-    if (!isNaN(urlStep) && urlStep >= 0 && urlStep < MicropipetteLabSchema.length) {
-      // Valid step from URL, update state and localStorage
-      setCurrentStepIndex(urlStep);
-      localStorage.setItem("MicropipetteCurrentStep", JSON.stringify(urlStep));
-    } else {
-      // Invalid step, redirect to saved or default step
-      const savedStep = localStorage.getItem("MicropipetteCurrentStep") || "0";
-      navigate(`/micropipette_lab/step/${savedStep}`, { replace: true });
-    }
-  }, [step, navigate]);
-  
-  useEffect(() => {
-    // Ensure the step in the URL matches the current state
-    if (step !== currentStepIndex.toString()) {
-      navigate(`/micropipette_lab/step/${currentStepIndex}`, { replace: true });
-    }
-  }, [step, currentStepIndex, navigate]);
-  
-
   const goToNextStep = () => {
-    const nextStep = Math.min(currentStepIndex + 1, MicropipetteLabSchema.length - 1);
-    setCurrentStepIndex(nextStep);
-    localStorage.setItem("MicropipetteCurrentStep", nextStep.toString());
-    navigate(`/micropipette_lab/step/${nextStep}`);
+    setCurrentStepIndex((prevIndex) =>
+      Math.min(prevIndex + 1, MicropipetteLabSchema.length - 1),
+    );
   };
 
   // Placeholder for a function that renders 3D objects based on type or properties
@@ -169,7 +137,6 @@ export default function Experience() {
               onClick={goToNextStep}
               className="mb-2 flex-grow transform rounded-lg bg-gradient-to-r from-blue-400 to-purple-500 px-4 py-2 font-bold text-white transition duration-300 hover:scale-105"
               // ref={nextButtonRef}
-              disabled={currentStepIndex === MicropipetteLabSchema.length - 1}
             >
               Next Step
             </button>
