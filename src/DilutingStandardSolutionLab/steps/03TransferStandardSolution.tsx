@@ -3,8 +3,6 @@ import { gsap } from "gsap";
 import * as THREE from "three";
 import { Flask } from "../models/Flask";
 import { Stopper } from "../models/Stopper";
-import { Beaker } from "../models/Beaker";
-import { BeakerWaterFill } from "../models/BeakerWaterFill";
 import { setNextDisabled, setNextEnabled } from "../Experience";
 import { BeakerStockSolutionFill } from "../models/BeakerWithOrangeFillAnim";
 
@@ -16,15 +14,17 @@ const Step03TransferStandardSolution = forwardRef<THREE.Group, Step03Props>(
   ({ nextButtonRef }, ref) => {
     const flaskRef = useRef<THREE.Group>(null);
     const stopperRef = useRef<THREE.Group>(null);
-    const waterRef = useRef<THREE.Mesh>(null); 
+    const waterRef = useRef<THREE.Mesh>(null);
     const stopperRemoved = useRef(false);
     const flaskTilted = useRef(false);
     const beakerFillRef = useRef<any>(null);
-    useEffect(() => {
-      if (beakerFillRef.current) {
-        beakerFillRef.current.playAnimation("Animation");
-      }
-    }, []);
+
+    // Removed the initial beaker animation call
+    // useEffect(() => {
+    //   if (beakerFillRef.current) {
+    //     beakerFillRef.current.playAnimation("Animation");
+    //   }
+    // }, []);
 
     useEffect(() => {
       if (nextButtonRef && nextButtonRef.current) {
@@ -47,22 +47,28 @@ const Step03TransferStandardSolution = forwardRef<THREE.Group, Step03Props>(
 
     // Handle flask click to move up slightly, tilt, and start water fill animation
     const handleFlaskClick = () => {
-      if (flaskTilted.current || !stopperRemoved.current || !flaskRef.current) return;
+      if (flaskTilted.current || !stopperRemoved.current || !flaskRef.current)
+        return;
 
       flaskTilted.current = true;
 
       const upPosition = new THREE.Vector3(0, 6, 1.5); // Position for upward movement
-      const tiltPosition = new THREE.Vector3(0, 6, 1.2); // Final tilted position towards beaker
+      const tiltPosition = new THREE.Vector3(0, 6, -0.1); // Final tilted position towards beaker
 
       const tl = gsap.timeline({
         onComplete: () => {
           // Start water fill animation after flask tilt
           if (waterRef.current) {
             gsap.to(waterRef.current.scale, {
-              y: 0.5, // Fill the water to 1/2 height 
+              y: 0.5, // Fill the water to 1/2 height
               duration: 2,
               ease: "power1.inOut",
             });
+          }
+
+          // Start beaker fill animation after flask tilt
+          if (beakerFillRef.current) {
+            beakerFillRef.current.playAnimation("Animation");
           }
 
           if (nextButtonRef && nextButtonRef.current) {
@@ -101,7 +107,6 @@ const Step03TransferStandardSolution = forwardRef<THREE.Group, Step03Props>(
         flaskRef.current.rotation,
         {
           x: "-=" + Math.PI / 4, // Tilt flask by 45 degrees forward
-          z: "+=" + Math.PI / 8, // Slight rotation on z-axis to align toward the beaker
           duration: 2,
           ease: "power1.inOut",
         },
@@ -112,27 +117,28 @@ const Step03TransferStandardSolution = forwardRef<THREE.Group, Step03Props>(
     return (
       <group ref={ref}>
         {/* Flask and Stopper */}
-        <group ref={flaskRef} position={[0, 4.94, 1.5]} onClick={handleFlaskClick}>
+        <group
+          ref={flaskRef}
+          position={[0, 4.94, 1.5]}
+          onClick={handleFlaskClick}
+        >
           <Flask />
         </group>
-        <group ref={stopperRef} position={[0, 6.6, 1.5]} onClick={handleStopperClick}>
+        <group
+          ref={stopperRef}
+          position={[0, 6.9, 1.5]}
+          onClick={handleStopperClick}
+          rotation-z={3.14}
+        >
           <Stopper />
         </group>
 
-        <BeakerStockSolutionFill ref={beakerFillRef} position={[4, 5, 0]} />
+        {/* Replaced the Beaker with BeakerStockSolutionFill */}
+        <BeakerStockSolutionFill
+          ref={beakerFillRef}
+          position={[0.25, 4.94, -1.6]}
+        />
 
-        {/* Beaker */}
-        <Beaker position={[0.25, 4.94, -1.6]} />
-
-        {/* Water in Beaker */}
-        <mesh
-          ref={waterRef}
-          position={[0, 5, -1]} 
-          scale={[0.15, 0.0, 0.15]}
-        >
-          <cylinderGeometry args={[2, 2, 2, 10]} />
-          <meshStandardMaterial color={"lightblue"} transparent opacity={0.6} />
-        </mesh>
       </group>
     );
   }
