@@ -7,6 +7,7 @@ import {
   PerspectiveCamera,
 } from "@react-three/drei";
 import Step1Introduction from "./steps/01IntroduceLabObjectives";
+import Step7FillThePipette from "./steps/07FillThePipette";
 import Table from "./models/Table";
 import state from "./state.json";
 import InventorySystem from "./ui_overlay/InventorySystem";
@@ -96,11 +97,11 @@ export default function Experience() {
   const cameraControlsRef = useRef<Camera>(null);
   const [nextButtonTempDisabled, setNextButtonTempDisabled] = useState(false);
   const requiredItems = new Set([
-    "Analytical Balance",
-    "Weighing Paper",
     "Beaker",
-    "Spatula",
-    "Powder Sample",
+    "Glass Pipette",
+    "Glass Dropper",
+    "Stopper",
+    "Distilled Water"
   ]);
 
   const [selectedItems, setSelectedItems] = useState<SelectedItems>({});
@@ -230,6 +231,7 @@ export default function Experience() {
           {currentStep === 6 && (
             <Step6AttachPipetteFiller nextButtonRef={nextButtonRef} />
           )}
+          {currentStep === 7 && <Step7FillThePipette nextButtonRef={nextButtonRef} />}
           {/* ...add more steps as needed... */}
         </Canvas>
          
