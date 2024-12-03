@@ -86,7 +86,7 @@ export const setNextEnabled = (
 };
 
 export default function Experience() {
-  const [currentStep, setCurrentStep] = useState<number>(7); // change this back to 1 later
+  const [currentStep, setCurrentStep] = useState<number>(1); // change this back to 1 later
   const key = currentStep.toString() as StateKey;
   const stepData = state[key]; // Safe indexing
   const stepRefs = useRef<Record<number, StepComponentRef>>({});
@@ -97,11 +97,11 @@ export default function Experience() {
   const cameraControlsRef = useRef<Camera>(null);
   const [nextButtonTempDisabled, setNextButtonTempDisabled] = useState(false);
   const requiredItems = new Set([
-    "beaker",
-    "glass_pipette",
-    "glass_dropper",
-    "stopper",
-    "distilled_water"
+    "Beaker",
+    "Glass Pipette",
+    "Glass Dropper",
+    "Stopper",
+    "Distilled Water"
   ]);
 
   const [selectedItems, setSelectedItems] = useState<SelectedItems>({});
