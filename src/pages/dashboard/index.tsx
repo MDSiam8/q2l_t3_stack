@@ -156,8 +156,8 @@ export default function Dashboard() {
       // setNotebooks(body.notebooks);
       // setIsLoading(false);
       // notebooks will be fetched from the backend in the future
-      setNotebooks([notebook, notebook2, notebook3, notebook6]);
-      setNotebooks([notebook, notebook2, notebook3, notebook4, notebook5]);
+      // setNotebooks([notebook, notebook2, notebook3, notebook6]);
+      setNotebooks([notebook, notebook2, notebook3, notebook4, notebook5, notebook6]);
       setIsLoading(false);
     };
     if (typeof window !== "undefined") {
