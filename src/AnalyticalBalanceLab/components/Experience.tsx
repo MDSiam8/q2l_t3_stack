@@ -29,6 +29,8 @@ import { CameraAdjuster } from "./CameraAdjuster";
 import { Camera, Vector3 } from "three";
 import { useNavigate, useNavigationType, useParams } from 'react-router-dom';
 
+import {useNavigate, useParams} from 'react-router-dom';
+
 // Interface for the structure of each step in state.json
 interface Step {
   stepTitle: string;
@@ -113,6 +115,7 @@ export default function Experience() {
   const navigate = useNavigate()
   const {step} = useParams()
   const [currentStep, setCurrentStep] = usePersistedState<number>('AnalyticalBalanceCurrentStep', 1);
+
   const key = currentStep.toString() as StateKey;
   const stepData = state[key]; // Safe indexing
   const stepRefs = useRef<Record<number, StepComponentRef>>({});
@@ -275,32 +278,32 @@ export default function Experience() {
           )}
           {currentStep === 4 && (
             <FourthStepComponent
-              ref={(el) => (stepRefs.current[4] = el as StepComponentRef)}
+              ref={(el) => {(stepRefs.current[4] = el as StepComponentRef)}}
               nextButtonRef={nextButtonRef}
             />
           )}
           {currentStep === 5 && (
             <FifthStepComponent
-              ref={(el) => (stepRefs.current[5] = el as StepComponentRef)}
+              ref={(el) => {(stepRefs.current[5] = el as StepComponentRef)}}
               nextButtonRef={nextButtonRef}
             />
           )}
           {currentStep === 6 && (
             <SixthStepComponent
-              ref={(el) => (stepRefs.current[6] = el as StepComponentRef)}
+              ref={(el) => {(stepRefs.current[6] = el as StepComponentRef)}}
               nextButtonRef={nextButtonRef}
             />
           )}
           {currentStep === 7 && (
             <SeventhStepComponent
-              ref={(el) => (stepRefs.current[7] = el as StepComponentRef)}
+              ref={(el) => {(stepRefs.current[7] = el as StepComponentRef)}}
               setIsAnimating={setIsAnimating}
               nextButtonRef={nextButtonRef}
             />
           )}
           {currentStep === 8 && (
             <EightStepComponent
-              ref={(el) => (stepRefs.current[8] = el as StepComponentRef)}
+              ref={(el) => {(stepRefs.current[8] = el as StepComponentRef)}}
               setIsAnimating={setIsAnimating}
               nextButtonRef={nextButtonRef}
             />
@@ -310,7 +313,7 @@ export default function Experience() {
           )}
           {currentStep === 10 && (
             <TenthStepComponent
-              ref={(el) => (stepRefs.current[10] = el as StepComponentRef)}
+              ref={(el) => {(stepRefs.current[10] = el as StepComponentRef)}}
               nextButtonRef={nextButtonRef}
             />
           )}

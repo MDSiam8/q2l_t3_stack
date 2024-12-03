@@ -143,6 +143,7 @@ export default function Experience() {
     } else {
       // Invalid or missing 'step', navigate to persisted 'currentStep'
       const savedStep = localStorage.getItem('currentStep');
+
       const stepToNavigate = savedStep ? JSON.parse(savedStep) : 1;
       navigate(`/rotovap-lab/step/${currentStep}`, { replace: true });
     }

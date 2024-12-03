@@ -5,6 +5,7 @@ import Experience from "../../AnalyticalBalanceLab/components/Experience";
 // import Experience from "../../../AnalyticalBalanceLab/components/Experience";
 import * as THREE from "three";
 import { BrowserRouter, Route, Routes } from "react-router-dom"; // Update import path if necessary
+
 import { useRouter } from "next/router";
 
 type RootType = ReactDOM.Root | null;
@@ -39,7 +40,7 @@ function MyApp(): JSX.Element | null {
     const stepNumber = stepParam ? parseInt(stepParam as string, 10) : 1;
 
     // Validate the step number is within bounds (assuming max 10 steps for Analytical Balance Lab)
-    if (stepNumber >= 1 && stepNumber <= 10) {
+    if (stepNumber >= 1 && stepNumber <= 13) {
       setCurrentStep(stepNumber);
     } else {
       // If the step number is invalid, default to step 1

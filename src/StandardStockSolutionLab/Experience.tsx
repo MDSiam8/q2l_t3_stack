@@ -1,6 +1,7 @@
-import React, { Dispatch, SetStateAction, Suspense, useEffect, useRef, useState } from "react";
 "use client";
-        
+
+
+import React, { Dispatch, SetStateAction, Suspense, useEffect, useRef, useState } from "react";
 import {
   CameraControls,
   CameraControlsProps,
@@ -134,6 +135,7 @@ export default function Experience() {
   const {step} = useParams()
 
   const [currentStep, setCurrentStep] = usePersistedState<number>('currentStep', 1);
+
       
 interface ExperienceProps {
   currentStep: number;
@@ -168,6 +170,7 @@ interface ExperienceProps {
     } else {
       const savedStep = localStorage.getItem("currentStep");
       navigate(`/standard_solution_lab/step/${currentStep}`, {replace: true});
+
     }
   }, [step, currentStep, navigate])
 
@@ -176,6 +179,7 @@ interface ExperienceProps {
       navigate(`/standard_solution_lab/step/${currentStep}`, {replace: true});
     }
   })
+
 
   const [selectedItems, setSelectedItems] = useState<SelectedItems>({});
 
@@ -312,34 +316,26 @@ interface ExperienceProps {
           )}
           {currentStep === 5 && (
             <Step5FoldWeighingPaper
-              ref={(el) => {
-                stepRefs.current[5] = el as StepComponentRef;
-              }}
+              ref={(el) => { (stepRefs.current[5] = el as StepComponentRef) }}
               nextButtonRef={nextButtonRef}
             />
           )}
           {currentStep === 6 && (
             <Step6PlaceWeighingPaper
-              ref={(el) => {
-                stepRefs.current[6] = el as StepComponentRef;
-              }}
+              ref={(el) => { (stepRefs.current[6] = el as StepComponentRef) }}
               nextButtonRef={nextButtonRef}
             />
           )}
           {currentStep === 7 && (
             <Step7AddPowder
-              ref={(el) => {
-                stepRefs.current[7] = el as StepComponentRef;
-              }}
+              ref={(el) => { (stepRefs.current[7] = el as StepComponentRef) }}
               setIsAnimating={setIsAnimating}
               nextButtonRef={nextButtonRef}
             />
           )}
           {currentStep === 8 && (
             <EightStepComponent
-              ref={(el) => {
-                stepRefs.current[8] = el as StepComponentRef;
-              }}
+              ref={(el) => { (stepRefs.current[8] = el as StepComponentRef) }}
               setIsAnimating={setIsAnimating}
               nextButtonRef={nextButtonRef}
             />
@@ -349,9 +345,7 @@ interface ExperienceProps {
           )}
           {currentStep === 10 && (
             <Step10TransferSample
-              ref={(el) => {
-                stepRefs.current[10] = el as StepComponentRef;
-              }}
+              ref={(el) => { (stepRefs.current[10] = el as StepComponentRef) }}
               nextButtonRef={nextButtonRef}
             />
           )}
@@ -417,12 +411,11 @@ interface ExperienceProps {
             <div className="ml-4 flex flex-col justify-between self-stretch">
               <button
                 onClick={handleNextStep}
-                disabled={currentStep === 13 || nextButtonTempDisabled}
-                className={`flex-grow transform rounded-lg bg-gradient-to-r from-blue-400 to-purple-500 px-4 py-2 font-bold text-white transition duration-300 hover:scale-105 ${
-                  currentStep === 13 || nextButtonTempDisabled
+                disabled={nextButtonTempDisabled}
+                className={`flex-grow transform rounded-lg bg-gradient-to-r from-blue-400 to-purple-500 px-4 py-2 font-bold text-white transition duration-300 hover:scale-105 ${currentStep === 13 || nextButtonTempDisabled
                     ? "cursor-not-allowed bg-gray-400 opacity-50"
                     : ""
-                }`}
+                  }`}
                 ref={nextButtonRef}
               >
                 Next Step
