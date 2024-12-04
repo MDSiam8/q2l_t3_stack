@@ -1,21 +1,22 @@
 import React, { useRef, useEffect, useState, forwardRef } from "react";
 import { GlassRod } from "../models/GlassRod";
-import { HundredMLFlaskWithFillAnimation } from "../models/HundredMLFlaskWithFillAnimation";
+import { FlaskHandles, HundredMLFlaskWithFillAnimation } from "../models/newHundredMLFlaskWithFillAnimation";
 import * as THREE from "three";
 import * as TWEEN from "@tweenjs/tween.js";
 import { Html } from "@react-three/drei";
 import { setNextEnabled } from "../Experience";
 import { DistilledWater } from "../models/DistilledWater";
+import { Group } from 'three';
 
 interface PrepareBlankSolutionProps {
   nextButtonRef: React.RefObject<HTMLButtonElement>;
 }
 
-const PrepareBlankSolution = forwardRef<{}, PrepareBlankSolutionProps>(
-({ nextButtonRef }, ref) => {
-  const dropperGroup = useRef(new THREE.Group());
-  const [waterLevel, setWaterLevel] = useState(0);
-  const flaskRef = useRef<any>(null);
+const PrepareBlankSolution = forwardRef<Group, PrepareBlankSolutionProps>(
+  ({ nextButtonRef }, ref) => {
+    const dropperGroup = useRef(new THREE.Group());
+    const [fillLevel, setFillLevel] = useState(0);
+    const flaskRef = useRef<FlaskHandles>(null);
 
   // Function to animate the dropper (simplified for now)
   const animateGlassDropper = () => {
@@ -60,8 +61,13 @@ const PrepareBlankSolution = forwardRef<{}, PrepareBlankSolutionProps>(
   }, []);
 
   const addWater = () => {
-    setWaterLevel(prevLevel => {
+    setFillLevel(prevLevel => {
       const newLevel = Math.min(prevLevel + 1, 4);
+      
+      // Play animation for new level
+      if (flaskRef.current) {
+        flaskRef.current.playAnimationAtFrame(newLevel);
+      }
       
       // Enable next button when flask is full
       if (newLevel === 4) {
@@ -73,7 +79,7 @@ const PrepareBlankSolution = forwardRef<{}, PrepareBlankSolutionProps>(
   };
 
   return (
-    <group>
+    <group ref={ref}>
       <HundredMLFlaskWithFillAnimation
         ref={flaskRef}
         position={[0.15, 5, 3.1]}
