@@ -24,19 +24,39 @@ const Step12PrepareAdditionalDilutions = forwardRef<{}, Step12ComponentProps>(
   const questions = [
     {
       question: "How many mL of 0.1M stock solution is needed for a standard solution of 0.02M in a 10mL flask? ",
-      correctAnswers: ["2.00 mL", "2 mL", "2", "2.00", "2mL", "2.00mL"],
+      choices: [
+        { id: "a", text: "Add solute first, then fill with solvent" },
+        { id: "b", text: "Fill completely with solvent, then add solute" },
+        { id: "c", text: "Add solute, partially fill with solvent, mix, then fill to mark" }
+      ],
+      correctAnswers: "c",
     },
     {
       question: "How many mL of 0.1M stock solution is needed for a standard solution of 0.04M in a 10mL flask? ",
-      correctAnswers: ["4.00 mL", "4 mL", "4", "4.00", "4mL", "4.00mL"],
+      choices: [
+        { id: "a", text: "Add solute first, then fill with solvent" },
+        { id: "b", text: "Fill completely with solvent, then add solute" },
+        { id: "c", text: "Add solute, partially fill with solvent, mix, then fill to mark" }
+      ],
+      correctAnswers: "c",
     },
     {
       question: "How many mL of 0.1M stock solution is needed for a standard solution of 0.06M in a 10mL flask? ",
-      correctAnswers: ["6.00 mL", "6 mL", "6", "6.00", "6mL", "6.00mL"],
+      choices: [
+        { id: "a", text: "Add solute first, then fill with solvent" },
+        { id: "b", text: "Fill completely with solvent, then add solute" },
+        { id: "c", text: "Add solute, partially fill with solvent, mix, then fill to mark" }
+      ],
+      correctAnswers: "c",
     },
     {
       question: "How many mL of 0.1M stock solution is needed for a standard solution of 0.86M in a 10mL flask? ",
-      correctAnswers: ["8.00 mL", "8 mL", "8", "8.00", "8mL", "8.00mL"],
+      choices: [
+        { id: "a", text: "Add solute first, then fill with solvent" },
+        { id: "b", text: "Fill completely with solvent, then add solute" },
+        { id: "c", text: "Add solute, partially fill with solvent, mix, then fill to mark" }
+      ],
+      correctAnswers: "c",
     },
 
   ]
@@ -98,7 +118,8 @@ const Step12PrepareAdditionalDilutions = forwardRef<{}, Step12ComponentProps>(
           {questions[currentQuestion] && (
             <AnswerBox
               question={questions[currentQuestion].question}
-              correctAnswers={questions[currentQuestion].correctAnswers}
+              choices={questions[currentQuestion].choices}
+              correctAnswer={questions[currentQuestion].correctAnswers}
               onCorrectAnswer={onCorrectAnswer}
             />
           )}
