@@ -33,8 +33,8 @@
   "3": {
     "stepTitle": "Washing the Cuvette with Water",
     "description": "Cleaning the cuvette by rinsing it with distilled water.",
-    "directions": "Rinse the cuvette thoroughly with distilled water to remove any contaminants.",
-    "user_instructions": "Use the water tap to rinse the cuvette.",
+    "directions": "Rinse the cuvette thoroughly with distilled water to remove any contaminants. Then dump it in the sink.",
+    "user_instructions": "Use the Distilled Water to rinse the cuvette.",
     "objectsInFocus": [
       "cuvette",
       "distilled_water",
@@ -44,7 +44,7 @@
   "4": {
     "stepTitle": "Washing the Cuvette with Sample Solution",
     "description": "Cleaning the cuvette with the solution to be measured.",
-    "directions": "Rinse the cuvette with the sample solution using an eye dropper to ensure it's free from water residues.",
+    "directions": "Rinse the cuvette with the sample solution using an eye dropper to ensure it's free from water residues. Then dump it in the sink.",
     "user_instructions": "Use the eye dropper to rinse the cuvette.",
     "objectsInFocus": [
       "cuvette",
