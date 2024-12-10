@@ -1,16 +1,11 @@
 import React, { Suspense, useEffect, useRef, useState } from "react";
 import {
-  CameraControls,
-  CameraControlsProps,
-  Html,
   OrbitControls,
-  PerspectiveCamera,
 } from "@react-three/drei";
 import Step1Introduction from "./steps/01IntroduceLabObjectives";
 import Table from "./models/Table";
 import state from "./state.json";
 import InventorySystem from "./ui_overlay/InventorySystem";
-import Step2SelectApparatus from "./steps/02AdjustingSpectrophotometerSettings";
 import { Canvas, useFrame, useThree } from "@react-three/fiber";
 import { CameraAdjuster } from "./utils/CameraAdjuster";
 import { Camera, Vector3 } from "three";
@@ -46,7 +41,6 @@ interface State {
   "11": Step;
   "12": Step;
   "13": Step;
-  "14": Step;
 }
 
 type StateKey = keyof State;
@@ -171,7 +165,7 @@ export default function Experience() {
     >
       <div style={{ position: "relative", height: "100vh" }}>
         {/* Inventory toggle button */}
-        {currentStep === 2 && !isInventoryVisible && (
+        {currentStep === 1 && !isInventoryVisible && (
           <button
             onClick={handleToggleInventory}
             className="absolute left-4 top-4 z-50 m-4 rounded-md bg-blue-500 px-4 py-2 text-white shadow-lg hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-300 focus:ring-opacity-50"
@@ -220,16 +214,11 @@ export default function Experience() {
 
           {/* Conditional Rendering of Step Components */}
           {currentStep === 1 && <Step1Introduction />}
-          {currentStep === 2 && (
-            <Step2SelectApparatus
-              selectedItems={selectedItems}
-              nextButtonRef={nextButtonRef}
-            />
-          )}
+          
           {/* ...add more steps as needed... */}
         </Canvas>
          
-        {currentStep === 2 && (
+        {currentStep === 1 && (
           <InventorySystem
             onItemSelect={handleItemSelection}
             selectedItems={selectedItems}
