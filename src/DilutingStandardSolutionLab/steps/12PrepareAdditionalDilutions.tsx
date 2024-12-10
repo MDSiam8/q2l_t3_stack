@@ -23,38 +23,56 @@ const Step12PrepareAdditionalDilutions = forwardRef<{}, Step12ComponentProps>(
 
   const questions = [
     {
-      question: "How many mL of 0.1M stock solution is needed for a standard solution of 0.02M in a 10mL flask? ",
+      question: "Why is it important to pour the standard solution into a clean beaker before pipetting?",
       choices: [
-        { id: "a", text: "Add solute first, then fill with solvent" },
-        { id: "b", text: "Fill completely with solvent, then add solute" },
-        { id: "c", text: "Add solute, partially fill with solvent, mix, then fill to mark" }
+        { id: "a", text: "To prevent contamination from the stock bottle" },
+        { id: "b", text: "To measure the volume more accurately" },
+        { id: "c", text: "It's not necessary; you can pipette directly from the volumetric flask" }
+      ],
+      correctAnswers: "a",
+    },
+    {
+      question: "Which pipette is most suitable for transferring 7 mL of solution?",
+      choices: [
+        { id: "a", text: "Micropipette" },
+        { id: "b", text: "5 mL glass pipette" },
+        { id: "c", text: "10 mL glass pipette" }
       ],
       correctAnswers: "c",
     },
     {
-      question: "How many mL of 0.1M stock solution is needed for a standard solution of 0.04M in a 10mL flask? ",
+      question: "At which point should the bottom of the meniscus align when measuring liquid in a pipette?",
       choices: [
-        { id: "a", text: "Add solute first, then fill with solvent" },
-        { id: "b", text: "Fill completely with solvent, then add solute" },
-        { id: "c", text: "Add solute, partially fill with solvent, mix, then fill to mark" }
+        { id: "a", text: "Above the calibration mark" },
+        { id: "b", text: "At the calibration mark" },
+        { id: "c", text: "Below the calibration mark" }
       ],
-      correctAnswers: "c",
+      correctAnswers: "b",
     },
     {
-      question: "How many mL of 0.1M stock solution is needed for a standard solution of 0.06M in a 10mL flask? ",
+      question: "Why should you allow the pipette to drain completely without blowing out the remaining liquid?",
       choices: [
-        { id: "a", text: "Add solute first, then fill with solvent" },
-        { id: "b", text: "Fill completely with solvent, then add solute" },
-        { id: "c", text: "Add solute, partially fill with solvent, mix, then fill to mark" }
+        { id: "a", text: "To ensure all liquid is transferred" },
+        { id: "b", text: "Blowing out can introduce air bubbles, affecting volume accuracy" },
+        { id: "c", text: "It's faster to let it drain naturally" }
       ],
-      correctAnswers: "c",
+      correctAnswers: "b",
     },
     {
-      question: "How many mL of 0.1M stock solution is needed for a standard solution of 0.86M in a 10mL flask? ",
+      question: "What's the best method to ensure the volumetric flask is filled exactly to the calibration mark?",
       choices: [
-        { id: "a", text: "Add solute first, then fill with solvent" },
-        { id: "b", text: "Fill completely with solvent, then add solute" },
-        { id: "c", text: "Add solute, partially fill with solvent, mix, then fill to mark" }
+        { id: "a", text: "Fill to just below the mark, then use a dropper to add water dropwise" },
+        { id: "b", text: "Pour distilled water quickly until it reaches the mark" },
+        { id: "c", text: "Overfill the flask and remove excess water" }
+      ],
+      correctAnswers: "a",
+    },
+    {
+      question: "What's the proper way to mix the solution in a volumetric flask?",
+      choices: [
+        { id: "a", text: "Shake it vigorously up and down" },
+        { id: "b", text: "Stir the solution with a glass rod" },
+        { id: "c", text: "Gently invert the flask several times" }
       ],
       correctAnswers: "c",
     },
@@ -78,7 +96,7 @@ const Step12PrepareAdditionalDilutions = forwardRef<{}, Step12ComponentProps>(
       setIsAnimationPlaying(false); // End animation
       setIsCorrect(false); // Reset correctness
       setCurrentQuestion((prev) => prev + 1); // Load next question
-    }, 5000); // Adjust duration to match the actual animation time
+    }, 700); // Adjust duration to match the actual animation time
   };
   
 
