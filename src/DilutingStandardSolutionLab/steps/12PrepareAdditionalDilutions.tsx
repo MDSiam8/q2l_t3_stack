@@ -14,6 +14,17 @@ interface Step12ComponentProps {
   nextButtonRef: React.RefObject<HTMLButtonElement>;
 }
 
+interface MCQuestionChoice {
+  id: string,
+  text: string,
+}
+
+interface MCQuestion {
+  question: string,
+  choices: MCQuestionChoice[],
+  correctAnswers: string,
+}
+
 const Step12PrepareAdditionalDilutions = forwardRef<{}, Step12ComponentProps>(
   ({ nextButtonRef }, ref) => {
   
@@ -21,7 +32,7 @@ const Step12PrepareAdditionalDilutions = forwardRef<{}, Step12ComponentProps>(
   const stopperGroup = useRef(new THREE.Group());
   const stopperRef = useRef<StopperRef>(null);
 
-  const questions = [
+  const questions: MCQuestion[] = [
     {
       question: "Why is it important to pour the standard solution into a clean beaker before pipetting?",
       choices: [
