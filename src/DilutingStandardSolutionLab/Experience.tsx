@@ -92,8 +92,15 @@ export const setNextEnabled = (
   }
 };
 
-export default function Experience() {
-  const [currentStep, setCurrentStep] = useState<number>(1);
+interface ExperienceProps {
+  currentStep: number;
+  onStepChange: (newStep: number) => void;
+}
+
+export default function Experience({
+  currentStep,
+  onStepChange,
+}: ExperienceProps) {
   const key = currentStep.toString() as StateKey;
   const stepData = state[key];
   const stepRefs = useRef<Record<number, StepComponentRef>>({});
@@ -121,14 +128,11 @@ export default function Experience() {
 
   const handleNextStep = () => {
     if (currentStep < Object.keys(state).length) {
-      setCurrentStep(currentStep + 1);
+      onStepChange(currentStep + 1);
       setNextDisabled(nextButtonRef);
-      // setNextButtonTempDisabled(true);
-      // setTimeout(() => {
-      //   setNextButtonTempDisabled(false);
-      // }, 2000);
     }
   };
+
   const handleItemSelection = (itemName: string, isCorrect: boolean) => {
     setSelectedItems((prev) => {
       const newSelectedItems = { ...prev, [itemName]: isCorrect };
@@ -144,6 +148,18 @@ export default function Experience() {
       return newSelectedItems;
     });
   };
+
+  const handleReplayAnimation = () => {
+    const currentStepRef = stepRefs.current[currentStep];
+    if (currentStepRef && currentStepRef.replayAnimation) {
+      currentStepRef.replayAnimation();
+    }
+  };
+
+  const stepsWithRefs = new Set([4, 5, 6, 7, 8, 10]); // Add other steps as needed
+
+  // Check if the current step has a replay animation
+  const hasReplayAnimation: boolean = stepsWithRefs.has(currentStep);
 
   return (
     <Suspense
