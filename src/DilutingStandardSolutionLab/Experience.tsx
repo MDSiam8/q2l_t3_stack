@@ -17,11 +17,11 @@ import { CameraAdjuster } from "./utils/CameraAdjuster";
 import { Camera, Vector3 } from "three";
 import Step11AddStopperAndMixSolution from "./steps/11AddStopperAndMixSolution";
 import Step8TransferToFlask from "./steps/08TransferSolutionToVolumetricFlask";
-
 import Step04ChoosePipette from "./steps/04ChoosePipette";
 import Step03TransferStandardSolution from "./steps/03TransferStandardSolution";
 import Step5SelectTheCorrectGlassPipette from './steps/05SelectTheCorrectGlassPipette';
 import Step6AttachPipetteFiller from './steps/06AttachPipetteFiller';
+import Step12PrepareAdditionalDilutions from './steps/12PrepareAdditionalDilutions'
 
 // Interface for the structure of each step in state.json
 interface Step {
@@ -236,7 +236,7 @@ export default function Experience() {
             <Step6AttachPipetteFiller nextButtonRef={nextButtonRef} />
           )}
           {currentStep === 7 && <Step7FillThePipette nextButtonRef={nextButtonRef} />}
-          {/* ...add more steps as needed... */}
+          {currentStep === 12 && <Step12PrepareAdditionalDilutions nextButtonRef={nextButtonRef} />}
         </Canvas>
          
         {currentStep === 2 && (
