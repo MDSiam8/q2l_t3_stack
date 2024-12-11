@@ -1,4 +1,11 @@
-import React, { SetStateAction, Dispatch, Suspense, useEffect, useRef, useState } from "react";
+import React, {
+  SetStateAction,
+  Dispatch,
+  Suspense,
+  useEffect,
+  useRef,
+  useState,
+} from "react";
 import {
   CameraControls,
   CameraControlsProps,
@@ -34,8 +41,6 @@ import Step18RemoveItems from "./steps/18RemoveRotavapItems";
 import Step19RemoveBumpTrap from "./steps/19RemovingBumpTrap";
 import Step20Conclusion from "./steps/20Conclusion";
 
-import { useNavigate, useParams } from 'react-router-dom';
-
 // Interface for the structure of each step in state.json
 interface Step {
   stepTitle: string;
@@ -70,11 +75,11 @@ interface State {
 
 type StateKey = keyof State;
 
-// Correctly type your step component refs if they have specific methods or properties
 interface StepComponentRef {
   replayAnimation?: () => void;
   // other methods or properties
 }
+
 export const getClassNameForNext = (isDisabled: boolean): string => {
   let str =
     "flex-grow transform rounded-lg bg-gradient-to-r from-blue-400 to-purple-500 px-4 py-2 font-bold text-white transition duration-300 hover:scale-105 ";
@@ -100,66 +105,30 @@ export const setNextEnabled = (
   }
 };
 
-function usePersistedState<T>(key: string, defaultValue: T): [T, Dispatch<SetStateAction<T>>] {
-  // Initialize state with value from localStorage, or use the default value
-  const [value, setValue] = useState<T>(() => {
-      const savedValue = localStorage.getItem(key);
-      return savedValue !== null ? JSON.parse(savedValue) : defaultValue;
-  });
-
-  useEffect(() => {
-      // Update localStorage whenever the value changes
-      localStorage.setItem(key, JSON.stringify(value));
-  }, [key, value]);
-
-  return [value, setValue];
+interface ExperienceProps {
+  currentStep: number;
+  onStepChange: (newStep: number) => void;
 }
 
-export default function Experience() {
-  const navigate = useNavigate();
-  const { step } = useParams<{ step: string }>();
-
-  const parsedStep = parseInt(step || '1', 10);
-  const validStep = !isNaN(parsedStep) && parsedStep >= 1 && parsedStep <= 20 ? parsedStep : 1;
-
-  const [currentStep, setCurrentStep] = useState<number>(validStep);
+export default function Experience({ currentStep, onStepChange }: ExperienceProps) {
   const key = currentStep.toString() as StateKey;
   const stepData = state[key]; // Safe indexing
   const stepRefs = useRef<Record<number, StepComponentRef>>({});
   const [isAnimating, setIsAnimating] = useState<boolean>(false);
   const nextButtonRef = useRef<HTMLButtonElement>(null);
-  // const replayButtonRef = useRef<HTMLButtonElement>(null);
 
   const cameraControlsRef = useRef<Camera>(null);
   const [nextButtonTempDisabled, setNextButtonTempDisabled] = useState(false);
 
-  // Remove usePersistedState logic
-
-  useEffect(() => {
-    // If the URL step is valid, set it as currentStep
-    if (validStep !== currentStep) {
-      setCurrentStep(validStep);
-    }
-  }, [validStep, currentStep]);
-
-  useEffect(() => {
-    // If the URL step differs from currentStep, navigate to the correct step
-    if (validStep !== currentStep) {
-      navigate(`/rotovap-lab/step/${validStep}`, { replace: true });
-    }
-  }, [validStep, currentStep, navigate]);
+  const [loadingMessage, setLoadingMessage] = useState("Loading Resources");
 
   const handleNextStep = () => {
-    if (currentStep < 20) { // Assuming 20 is the last step
-      const nextStep = currentStep + 1;
-      setCurrentStep(nextStep);
-      navigate(`/rotovap-lab/step/${nextStep}`);
+    // Maintain same logic as in original snippet for next step
+    if (currentStep < 20) {
+      onStepChange(currentStep + 1);
       setNextDisabled(nextButtonRef);
     }
   };
-
-
-  const [loadingMessage, setLoadingMessage] = useState("Loading Resources");
 
   return (
     <Suspense
@@ -170,7 +139,8 @@ export default function Experience() {
             <img
               src="/loadingQ2L.svg"
               alt="Loading"
-              className="w-20 h-20 m-auto" />
+              className="w-20 h-20 m-auto"
+            />
           </div>
         </div>
       }
@@ -194,9 +164,7 @@ export default function Experience() {
             shadow-normalBias={0.04}
           />
 
-          {/* Common elements like Table */}
           <Table scale={13} position-y={-1} />
-          {/* Green-yellow plane */}
           <mesh
             receiveShadow
             position-y={-1}
@@ -207,7 +175,6 @@ export default function Experience() {
             <meshStandardMaterial color="gray" />
           </mesh>
 
-          {/* Conditional Rendering of Step Components */}
           {currentStep === 1 && <Step1LabObjectives />}
           {currentStep === 2 && <Step2LabTasks nextButtonRef={nextButtonRef} />}
           {currentStep === 3 && (
@@ -238,7 +205,6 @@ export default function Experience() {
           {currentStep === 12 && (
             <Step12TurnOnRotation nextButtonRef={nextButtonRef} />
           )}
-
           {currentStep === 13 && (
             <Step13SubmergeFlask nextButtonRef={nextButtonRef} />
           )}
@@ -257,7 +223,6 @@ export default function Experience() {
           {currentStep === 18 && (
             <Step18RemoveItems nextButtonRef={nextButtonRef} />
           )}
-
           {currentStep === 19 && (
             <Step19RemoveBumpTrap nextButtonRef={nextButtonRef} />
           )}
@@ -271,7 +236,7 @@ export default function Experience() {
             bottom: 0,
             left: 0,
             right: 0,
-            background: "rgba(0, 0, 0, 0.2)", // Semi-transparent background
+            background: "rgba(0, 0, 0, 0.2)",
             padding: "20px",
             display: "flex",
             justifyContent: "center",
@@ -292,7 +257,7 @@ export default function Experience() {
             <div className="ml-4 flex flex-col justify-between self-stretch">
               <button
                 onClick={handleNextStep}
-                disabled={currentStep === 21 || nextButtonTempDisabled}
+                disabled={currentStep === 20 || nextButtonTempDisabled}
                 className={`mb-0 flex-grow transform rounded-lg bg-gradient-to-r from-blue-400 to-purple-500 px-4 py-2 font-bold text-white transition duration-300 hover:scale-105 ${
                   currentStep === 13 || nextButtonTempDisabled
                     ? "cursor-not-allowed bg-gray-400 opacity-50"
