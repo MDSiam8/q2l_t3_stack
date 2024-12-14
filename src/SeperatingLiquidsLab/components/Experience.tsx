@@ -71,6 +71,10 @@ interface StepComponentRef {
   // other methods or properties
 }
 
+interface SelectedItems {
+  [itemName: string]: boolean;
+}
+
 export const getClassNameForNext = (isDisabled: boolean): string => {
   let str =
     "flex-grow transform rounded-lg bg-gradient-to-r from-blue-400 to-purple-500 px-4 py-2 font-bold text-white transition duration-300 hover:scale-105 ";
@@ -96,39 +100,35 @@ export const setNextEnabled = (
   }
 };
 
+interface ExperienceProps {
+  currentStep: number,
+  onStepChange: (newStep: number) => void;
+}
 
-
-export default function Experience() {
-  const navigate = useNavigate();
-  const { step } = useParams<{ step?: string }>();
-
-  // Initialize currentStep from URL parameter
-  const parsedStep = parseInt(step || '1', 10);
-  const validStep = !isNaN(parsedStep) && parsedStep >= 1 && parsedStep <= 14 ? parsedStep : 1;
-
-  const [currentStep, setCurrentStep] = useState<number>(validStep);
+export default function Experience({currentStep, onStepChange,}: ExperienceProps) {
   const key = currentStep.toString() as StateKey;
   const stepData = state[key];
   const stepRefs = useRef<Record<number, StepComponentRef>>({});
   const [isAnimating, setIsAnimating] = useState<boolean>(false);
   const nextButtonRef = useRef<HTMLButtonElement>(null);
+
   const cameraControlsRef = useRef<Camera>(null);
   const [nextButtonTempDisabled, setNextButtonTempDisabled] = useState(false);
 
-  // Synchronize `currentStep` with URL parameter
-  useEffect(() => {
-    setCurrentStep(validStep);
-  }, [validStep]);
+  const [selectedItems, setSelectedItems] = useState<SelectedItems>({});
+  const [isInventoryVisible, setIsInventoryVisible] = useState(false);
+  const [loadingMessage, setLoadingMessage] = useState("Loading Resources");
 
-  const handleNextStep = () => {
-    if (currentStep < 14) {
-      const nextStep = currentStep + 1;
-      navigate(`/extraction_lab/step/${nextStep}`);
-    }
+  const handleToggleInventory = () => {
+    setIsInventoryVisible(!isInventoryVisible);
   };
 
-
-  const [loadingMessage, setLoadingMessage] = useState("Loading Resources");
+  const handleNextStep = () => {
+    if (currentStep < Object.keys(state).length) {
+      onStepChange(currentStep + 1);
+      setNextDisabled(nextButtonRef);
+    }
+  };
 
   return (
     <Suspense
