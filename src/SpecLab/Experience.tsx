@@ -10,6 +10,7 @@ import { Canvas, useFrame, useThree } from "@react-three/fiber";
 import { CameraAdjuster } from "./utils/CameraAdjuster";
 import { Camera, Vector3 } from "three";
 import Step4WashCuvette from "./steps/04WashingCuvetteWithSampleSolution";
+import Step5FillTheCuvette from "./steps/05FillingCuvetteWithSolution";
 
 // Interface for the structure of each step in state.json
 interface Step {
@@ -82,7 +83,7 @@ export const setNextEnabled = (
 };
 
 export default function Experience() {
-  const [currentStep, setCurrentStep] = useState<number>(4);
+  const [currentStep, setCurrentStep] = useState<number>(5);
   const key = currentStep.toString() as StateKey;
   const stepData = state[key]; // Safe indexing
   const stepRefs = useRef<Record<number, StepComponentRef>>({});
@@ -216,6 +217,7 @@ export default function Experience() {
           {/* Conditional Rendering of Step Components */}
           {currentStep === 1 && <Step1Introduction />}
           {currentStep === 4 && <Step4WashCuvette nextButtonRef={nextButtonRef} />}
+          {currentStep === 5 && <Step5FillTheCuvette nextButtonRef={nextButtonRef} />}
           
           {/* ...add more steps as needed... */}
         </Canvas>
