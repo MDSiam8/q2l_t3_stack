@@ -1,23 +1,54 @@
-import React, { forwardRef } from "react";
-import { GlassPipette } from "../models/GlassPipette";
-import { PipetteBulb } from "../models/PipetteBulb";
-import { WipingPaper } from "../models/WipingPaper";
-import { Spectrophotometer } from "../models/Spectrophotometer";
-import { Cuvette } from "../models/Cuvette";
-import { CuvetteCap } from "../models/CuvetteCap";
+import React, { forwardRef, useState } from "react";
+import BalanceWithAnimations from "../models/BalanceWithAnimations";
+import InventorySystem from "../ui_overlay/InventorySystem";
+import WeighingPaper from "../models/WeighingPaper";
+import { Beaker } from "../models/Beaker";
+import { Spatula } from "../models/Spatula";
+import { BottleCap } from "../models/BottleCap";
+import { Bottle } from "../models/Bottle";
+import { useGLTF } from "@react-three/drei";
+import { setNextEnabled } from "../Experience";
+interface SelectedItems {
+  [itemName: string]: boolean;
+}
 
-const Step1Introduction = forwardRef((props, ref) => {
+interface InventoryStepProps {
+  nextButtonRef: React.RefObject<HTMLButtonElement>;
+  selectedItems: SelectedItems;
+}
+
+
+const Step1Introduction = forwardRef<HTMLDivElement, InventoryStepProps>(
+  ({ nextButtonRef, selectedItems }, ref) => {
+
   return (
     <group>
-      { <Cuvette position={[-.3, 5.4, -.55]} /> }
-      { <CuvetteCap position={[-.53, 6.25, -.55]} rotation-x={3.14} /> }
-      {/* <WipingPaper position={[0, 6, 0]} /> */}
-      {/* <Spectrophotometer position={[0, 6, 0]} /> */}
-      {/* The balance is positioned at the same coordinates as specified in the FourthStepComponent */}
-      {/* <GlassPipette position={[0, 5.5, 0]} /> */}
-      {/* Additional elements specific to the first step can be added here */}
-      {/* <PipetteBulb position={[0, 8, 0]} /> */}
-      { <Spectrophotometer position={[0, 5, 0]} /> }
+      {selectedItems["Analytical Balance"] && (
+        <BalanceWithAnimations position={[0, 4.55, 0]} isOpen={true} />
+      )}
+      {selectedItems["Weighing Paper"] && (
+        <WeighingPaper
+          folded={false}
+          rotation-y={(3.14 / 180) * 180}
+          position={[0, 5, -3]}
+        />
+      )}
+      {selectedItems["Beaker"] && (
+        <Beaker rotation-y={(-3.14 / 180) * 90} position={[2.6, 4.9, -3]} />
+      )}
+      {selectedItems["Spatula"] && (
+        <Spatula
+          rotation-y={(3.14 / 180) * 90}
+          scale={0.5}
+          position={[2.5, 5, 0]}
+        />
+      )}
+      {selectedItems["Powder Sample"] && (
+        <group>
+          <BottleCap position={[2, 5.1, -2]} />
+          <Bottle position={[2, 5, -2]} />
+        </group>
+      )}
     </group>
   );
 });
