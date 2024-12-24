@@ -3,30 +3,26 @@ import gsap from "gsap";
 import { Cuvette } from "../models/Cuvette";
 import { GlassDropper } from "../models/GlassDropper";
 import * as THREE from "three";
-import { Html, PerspectiveCamera } from "@react-three/drei";
-import { Canvas } from "@react-three/fiber";
+import { Html } from "@react-three/drei";
 import { setNextDisabled, setNextEnabled } from "../Experience";
 
 interface Step4Props {
   nextButtonRef: React.RefObject<HTMLButtonElement>;
 }
 
+// Color of the solution for easy changing later
 let solutionColor = new THREE.Color( 0x1777e7 );
-
 
 const Step4WashCuvette = forwardRef<THREE.Group, Step4Props>(({nextButtonRef}, ref) => {
 
-  const [cuvetteWaterLevel, setCuvetteWaterLevel] = useState(0);
-  const [dropperWaterLevel, setDropperWaterLevel] = useState(1);
-
+  // useState to track status of the animation
   const [animationComplete, setAnimationStatus] = useState(false);
 
+  // 
   const cuvetteWaterRef = useRef<THREE.Mesh>(null);
   const dropperWaterRef = useRef<THREE.Mesh>(null);
   const cuvetteRef = useRef<THREE.Group>(null);
   const cuvetteAndWaterRef = useRef<THREE.Group>(null);
-
-  const transferInterval = useRef<NodeJS.Timeout | null>(null);
   
   // Disable the next button initially
   useEffect(() => {
@@ -35,18 +31,22 @@ const Step4WashCuvette = forwardRef<THREE.Group, Step4Props>(({nextButtonRef}, r
     }
   }, [nextButtonRef]);
 
+  // Run the animation to wash the cuvette
   const transferSolution = () => {
 
+    // Check if the ref components are not null
     if (!dropperWaterRef.current || !cuvetteWaterRef.current || !cuvetteRef.current || !cuvetteAndWaterRef.current) {
       return;
     }
 
+    // Creating the gsap timeline
     const masterTl = gsap.timeline({
       onComplete: () => {
         console.log("All animations completed.");
       },
     });
 
+    // Time interval for each portion of the animation for easy changing
     const transferWaterInterval = 1;
     const moveCuvetteInterval = 1;
     const moveCuvetteInterval2 = 1;
@@ -56,11 +56,11 @@ const Step4WashCuvette = forwardRef<THREE.Group, Step4Props>(({nextButtonRef}, r
     const moveCuvetteInterval3 = 1;
     const moveCuvetteInterval4 = 1;
 
+    // Parameters for the shaking animation
     const stirRadius = 0.2;
     const stirDuration = 2;
     const centerX = cuvetteAndWaterRef.current.position.x;
     const centerZ = cuvetteAndWaterRef.current.position.z;
-
     let theta = 0;
 
     masterTl
@@ -182,10 +182,12 @@ const Step4WashCuvette = forwardRef<THREE.Group, Step4Props>(({nextButtonRef}, r
         "moveCuvette4"
       )
 
+      // Set animationComplete to true so that animation will not run again and enable next button
       setAnimationStatus(true);
       setNextEnabled(nextButtonRef);
   }
 
+  // Function that runs when Wash Cuvette button is clicked
   const handleAnimation = () => {
     if (!animationComplete) {
       transferSolution();
@@ -195,8 +197,10 @@ const Step4WashCuvette = forwardRef<THREE.Group, Step4Props>(({nextButtonRef}, r
   
   return(
     <group>
+      {/* Model for the glass dropper */}
       <GlassDropper position={[0, 6, 0]} />
 
+      {/* Group contatining the model for the cuvette as well as the cuvette solution mesh */}
       <group
         ref={cuvetteAndWaterRef}
         position={[0, 4.96, 0]}
@@ -210,23 +214,24 @@ const Step4WashCuvette = forwardRef<THREE.Group, Step4Props>(({nextButtonRef}, r
         <mesh
           ref={cuvetteWaterRef}
           position={[0, 0.35 - (0.7 * 0.5), 0]}
-          scale={[1, cuvetteWaterLevel, 1]}
+          scale={[1, 0, 1]}
         >
           <boxGeometry args={[0.12, 0.7, 0.12, 32]} />
           <meshStandardMaterial color={solutionColor} />
         </mesh>
       </group>
       
-
+      {/* Mesh for solution in the dropper */}
       <mesh
         ref={dropperWaterRef}
         position={[0, 6.5, 0]}
-        scale={[1, dropperWaterLevel, 1]}
+        scale={[1, 1, 1]}
       >
         <cylinderGeometry args={[0.02, 0.02, 0.5, 32]} />
         <meshStandardMaterial color={solutionColor} />
       </mesh>
-
+      
+      {/* Mesh for the grey box representing the sink */}
       <mesh
         position={[0, 4, 8.3]}
       >
@@ -234,6 +239,7 @@ const Step4WashCuvette = forwardRef<THREE.Group, Step4Props>(({nextButtonRef}, r
         <meshStandardMaterial color='grey' />
       </mesh>
 
+      {/* Button to trigger the animation to wash the cuvette */}
       <Html
         position={[0, 7, -1.5]}
         transform

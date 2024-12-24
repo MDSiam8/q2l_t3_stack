@@ -15,12 +15,15 @@ let solutionColor = new THREE.Color( 0x1777e7 );
 
 const Step5FillTheCuvette = forwardRef<THREE.Group, Step5Props>(({nextButtonRef}, ref) => {
 
+  // useState to keep track of the status of the task
   const [taskComplete, setTaskComplete] = useState(false);
 
+  // ref components to access necessary meshes
   const cuvetteWaterRef = useRef<THREE.Mesh>(null);
   const dropperWaterRef = useRef<THREE.Mesh>(null);
   const zoomedWaterRef = useRef<THREE.Mesh>(null);
 
+  // NodeJS useRef object to allow for continuous filling of the cuvette
   const addSolutionInterval = useRef<NodeJS.Timeout | null>(null);
 
   // Disable the next button initially
@@ -41,6 +44,7 @@ const Step5FillTheCuvette = forwardRef<THREE.Group, Step5Props>(({nextButtonRef}
     }
   }, [taskComplete, nextButtonRef]);
 
+  // Function  that is called to reset the scene to its initial state
   const resetSolution = () => {
     if (cuvetteWaterRef.current) {
       cuvetteWaterRef.current.scale.set(1, 0, 1);
@@ -58,6 +62,7 @@ const Step5FillTheCuvette = forwardRef<THREE.Group, Step5Props>(({nextButtonRef}
     }
   }
 
+  // Triggers the animation to transfer solution from the dropper to the cuvette
   const startAddingSolution = () => {
     if (cuvetteWaterRef.current && dropperWaterRef.current && zoomedWaterRef.current) {
       addSolutionInterval.current = setInterval(() => {
@@ -70,9 +75,9 @@ const Step5FillTheCuvette = forwardRef<THREE.Group, Step5Props>(({nextButtonRef}
           zoomedWaterRef.current!.position.y = 0.46 + (0.45 * 0.5 * 0.3);
         } else {
           cuvetteWaterRef.current!.scale.y = newCuvetteLevel;
-          cuvetteWaterRef.current!.position.y += 0.45 * 0.5 * 0.001;
+          cuvetteWaterRef.current!.position.y += 0.45 * 0.5 * 0.002;
           zoomedWaterRef.current!.scale.y = newCuvetteLevel;
-          zoomedWaterRef.current!.position.y += 0.45 * 0.5 * 0.001;
+          zoomedWaterRef.current!.position.y += 0.45 * 0.5 * 0.002;
         }
 
         // Lower water level inside dropper
@@ -82,12 +87,13 @@ const Step5FillTheCuvette = forwardRef<THREE.Group, Step5Props>(({nextButtonRef}
           dropperWaterRef.current!.position.y = 6.5 - (0.5 * 0.5);
         } else {
           dropperWaterRef.current!.scale.y = newDropperLevel;
-          dropperWaterRef.current!.position.y -= 0.5 * 0.5 * 0.0007;
+          dropperWaterRef.current!.position.y -= 0.5 * 0.5 * 0.0014;
         }
       });
     }
   }
 
+  // Stops the animation and checks the current amount of solution in the cuvette
   const stopAddingSolution = () => {
     if (addSolutionInterval.current) {
       clearInterval(addSolutionInterval.current);
@@ -103,6 +109,7 @@ const Step5FillTheCuvette = forwardRef<THREE.Group, Step5Props>(({nextButtonRef}
     }
   }
 
+  // Function called when the Add Solution button is clicked
   const handleAddSolution = () => {
     if (!taskComplete) {
       console.log(taskComplete);
@@ -112,9 +119,11 @@ const Step5FillTheCuvette = forwardRef<THREE.Group, Step5Props>(({nextButtonRef}
 
   return (
     <group>
+      {/* Models for the cuvette and dropper */}
       <Cuvette position={[0, 4.96, 0]} />
       <GlassDropper position={[0, 6, 0]} />
 
+      {/* Mesh for the solution in the dropper */}
       <mesh
         ref={dropperWaterRef}
         position={[0, 6.5, 0]}
@@ -124,6 +133,7 @@ const Step5FillTheCuvette = forwardRef<THREE.Group, Step5Props>(({nextButtonRef}
         <meshStandardMaterial color={solutionColor} />
       </mesh>
 
+      {/* Mesh for the solution in the cuvette */}
       <mesh
         ref={cuvetteWaterRef}
         position={[0, 5.22 - (0.45 * 0.5), 0]}
@@ -133,6 +143,7 @@ const Step5FillTheCuvette = forwardRef<THREE.Group, Step5Props>(({nextButtonRef}
         <meshStandardMaterial color={solutionColor} />
       </mesh>
 
+      {/* Button to trigger transferring solution to the cuvette from the dropper */}
       <Html
         position={[0, 6.5, -1.2]}
         transform
@@ -148,7 +159,7 @@ const Step5FillTheCuvette = forwardRef<THREE.Group, Step5Props>(({nextButtonRef}
         </button>
       </Html>
 
-      {/*0.3900000000*/}
+      {/* Canvas that displays a zoomed view of the cuvette and the amount of solution in it */}
       <Html position={[0, 6.0, 2.0]} transform scale={1} rotation-y={Math.PI / 2}>
         <div style={{ width: 100, height: 70, border: "1px solid black" }}>
           <Canvas>
