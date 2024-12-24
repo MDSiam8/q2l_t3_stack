@@ -5,6 +5,7 @@ import {
 import Step1Introduction from "./steps/01IntroduceLabObjectives";
 import Table from "./models/Table";
 import state from "./state.json";
+import Step8SelectingCuvette from "./steps/08SelectingCuvetteToInsert";
 import InventorySystem from "./ui_overlay/InventorySystem";
 import { Canvas, useFrame, useThree } from "@react-three/fiber";
 import { CameraAdjuster } from "./utils/CameraAdjuster";
@@ -81,7 +82,7 @@ export const setNextEnabled = (
 };
 
 export default function Experience() {
-  const [currentStep, setCurrentStep] = useState<number>(1);
+  const [currentStep, setCurrentStep] = useState<number>(8);
   const key = currentStep.toString() as StateKey;
   const stepData = state[key]; // Safe indexing
   const stepRefs = useRef<Record<number, StepComponentRef>>({});
@@ -214,6 +215,7 @@ export default function Experience() {
 
           {/* Conditional Rendering of Step Components */}
           {currentStep === 1 && <Step1Introduction />}
+          {currentStep === 8 && <Step8SelectingCuvette nextButtonRef={nextButtonRef}/>}
           
           {/* ...add more steps as needed... */}
         </Canvas>
@@ -225,7 +227,7 @@ export default function Experience() {
             toggleInventory={handleToggleInventory}
             isInventoryVisible={isInventoryVisible}
           />
-        )}
+        )} 
         <div
           style={{
             position: "absolute",
