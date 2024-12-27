@@ -3,13 +3,13 @@ import {
   OrbitControls,
 } from "@react-three/drei";
 import Step1Introduction from "./steps/01IntroduceLabObjectives";
+import Step2AdjustSpectrophotometerSettings from "./steps/02AdjustingSpectrophotometerSettings";
 import Table from "./models/Table";
 import state from "./state.json";
 import InventorySystem from "./ui_overlay/InventorySystem";
 import { Canvas, useFrame, useThree } from "@react-three/fiber";
 import { CameraAdjuster } from "./utils/CameraAdjuster";
 import { Camera, Vector3 } from "three";
-
 // Interface for the structure of each step in state.json
 interface Step {
   stepTitle: string;
@@ -81,7 +81,7 @@ export const setNextEnabled = (
 };
 
 export default function Experience() {
-  const [currentStep, setCurrentStep] = useState<number>(1);
+  const [currentStep, setCurrentStep] = useState<number>(2);
   const key = currentStep.toString() as StateKey;
   const stepData = state[key]; // Safe indexing
   const stepRefs = useRef<Record<number, StepComponentRef>>({});
@@ -214,6 +214,7 @@ export default function Experience() {
 
           {/* Conditional Rendering of Step Components */}
           {currentStep === 1 && <Step1Introduction />}
+          {currentStep === 2 && <Step2AdjustSpectrophotometerSettings nextButtonRef={nextButtonRef} />}
           
           {/* ...add more steps as needed... */}
         </Canvas>
