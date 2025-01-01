@@ -52,8 +52,9 @@ const Step2AdjustSpectrophotometerSettings = forwardRef<THREE.Group, Step2Props>
                                 value={wavelength}
                                 readOnly
                                 placeholder="Choose a wavelength"
+                                style={{ marginRight: '4px' }}
                             />
-                            <span>nm</span>
+                            <span style={{ backgroundColor: 'white', padding: '4px 4px', borderRadius: '2px', boxShadow: '0 2px 4px rgba(0,0,0,0.1)'}}>nm</span>
                         </div>
                     </Html>
 
@@ -103,9 +104,17 @@ const Step2AdjustSpectrophotometerSettings = forwardRef<THREE.Group, Step2Props>
 
                     {/* Feedback Message */}
                     {isCorrect !== null && (
-                        <Html position={[0, 5, 0]} transform scale={0.3}>
-                            <div className={`message ${isCorrect ? "correct" : "incorrect"}`}>
-                                {isCorrect ? "Correct wavelength!" : "Incorrect wavelength, try again."}
+                        <Html position={[0, 5, 0]} transform scale={1}>
+                            <div 
+                                className={`message ${isCorrect ? "correct" : "incorrect"}`}
+                                style={{
+                                    backgroundColor: 'white',
+                                    padding: '5px 6px',
+                                    borderRadius: '2px',
+                                    boxShadow: '0 2px 4px rgba(0,0,0,0.1)'
+                                }}
+                            >
+                                {isCorrect ? "Correct wavelength!" : "Entered incorrect wavelength value"}
                             </div>
                         </Html>
                     )}
