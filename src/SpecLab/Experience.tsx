@@ -4,6 +4,7 @@ import {
 } from "@react-three/drei";
 import Step1Introduction from "./steps/01IntroduceLabObjectives";
 import Step2AdjustSpectrophotometerSettings from "./steps/02AdjustingSpectrophotometerSettings";
+import Step7AttachingCuvetteCap from "./steps/07AttachingCuvetteCap";
 import Table from "./models/Table";
 import state from "./state.json";
 import InventorySystem from "./ui_overlay/InventorySystem";
@@ -81,7 +82,7 @@ export const setNextEnabled = (
 };
 
 export default function Experience() {
-  const [currentStep, setCurrentStep] = useState<number>(2);
+  const [currentStep, setCurrentStep] = useState<number>(7);
   const key = currentStep.toString() as StateKey;
   const stepData = state[key]; // Safe indexing
   const stepRefs = useRef<Record<number, StepComponentRef>>({});
@@ -215,6 +216,7 @@ export default function Experience() {
           {/* Conditional Rendering of Step Components */}
           {currentStep === 1 && <Step1Introduction />}
           {currentStep === 2 && <Step2AdjustSpectrophotometerSettings nextButtonRef={nextButtonRef} />}
+          {currentStep === 7 && <Step7AttachingCuvetteCap nextButtonRef={nextButtonRef} />}
           
           {/* ...add more steps as needed... */}
         </Canvas>
