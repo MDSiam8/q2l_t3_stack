@@ -2,8 +2,12 @@ import React, { forwardRef, useState } from "react";
 import BalanceWithAnimations from "../models/BalanceWithAnimations";
 import InventorySystem from "../ui_overlay/InventorySystem";
 import WeighingPaper from "../models/WeighingPaper";
+import { WipingPaper } from "../models/WipingPaper";
+import { Cuvette } from "../models/Cuvette";
+
 import { Beaker } from "../models/Beaker";
 import { Spatula } from "../models/Spatula";
+import { Spectrophotometer } from "../models/Spectrophotometer";
 import { BottleCap } from "../models/BottleCap";
 import { Bottle } from "../models/Bottle";
 import { useGLTF } from "@react-three/drei";
@@ -23,31 +27,21 @@ const Step1Introduction = forwardRef<HTMLDivElement, InventoryStepProps>(
 
   return (
     <group>
-      {selectedItems["Analytical Balance"] && (
-        <BalanceWithAnimations position={[0, 4.55, 0]} isOpen={true} />
+      {selectedItems["Wiping Paper"] && (
+        <WipingPaper position={[0, 5, 0]}
+          rotation-x={(-3.14 / 180) * 270}
+          rotation-y={(-3.14 / 180) * 270}
+        />
       )}
-      {selectedItems["Weighing Paper"] && (
-        <WeighingPaper
-          folded={false}
-          rotation-y={(3.14 / 180) * 180}
+      {selectedItems["Spectrophotometer"] && (
+        <Spectrophotometer
           position={[0, 5, -3]}
         />
       )}
-      {selectedItems["Beaker"] && (
-        <Beaker rotation-y={(-3.14 / 180) * 90} position={[2.6, 4.9, -3]} />
-      )}
-      {selectedItems["Spatula"] && (
-        <Spatula
-          rotation-y={(3.14 / 180) * 90}
-          scale={0.5}
-          position={[2.5, 5, 0]}
+      {selectedItems["Cuvette"] && (
+        <Cuvette
+          position={[0, 5, 2]}
         />
-      )}
-      {selectedItems["Powder Sample"] && (
-        <group>
-          <BottleCap position={[2, 5.1, -2]} />
-          <Bottle position={[2, 5, -2]} />
-        </group>
       )}
     </group>
   );
