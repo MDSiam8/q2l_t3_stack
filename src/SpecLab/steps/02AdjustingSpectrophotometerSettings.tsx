@@ -63,7 +63,11 @@ const Step2AdjustSpectrophotometerSettings = forwardRef<THREE.Group, Step2Props>
 
                         {/* Keypad */}
                         {[1, 2, 3, 4, 5, 6, 7, 8, 9].map((num) => (
-                            <Html key={num} position={[num % 3 - 1, Math.floor((num - 1) / 3), 0]} transform scale={1}>
+                            <Html key={num} position={[
+                                ((num - 1) % 3) - 1,
+                                2 - (Math.floor((num - 1) / 3)),
+                                0
+                            ]} transform scale={1}>
                                 <div
                                     className="bg-white rounded px-2 py-1 text-center cursor-pointer"
                                     onClick={() => handleNumberClick(num.toString())}
