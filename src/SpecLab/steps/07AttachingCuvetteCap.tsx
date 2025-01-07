@@ -12,10 +12,13 @@ interface Step7Props {
 const Step7AttachingCuvetteCap = forwardRef<HTMLDivElement, Step7Props>(
     ({ nextButtonRef }, ref) => {
         const capRef = useRef<Group>(null);
+        const [isAnimating, setIsAnimating] = useState(false);
+        
+        setNextDisabled(nextButtonRef);
 
-        useEffect(() => {
-            if (capRef.current) {
-                setNextDisabled(nextButtonRef);
+        const handleCapClick = () => {
+            if (capRef.current && !isAnimating) {
+                setIsAnimating(true);
 
                 const timeline = gsap.timeline();
                 timeline
@@ -32,12 +35,12 @@ const Step7AttachingCuvetteCap = forwardRef<HTMLDivElement, Step7Props>(
                         }
                     });
             }
-        }, []);
+        };
 
         return (
             <group>
                 <Cuvette position={[0, 5, 0]} />
-                <group ref={capRef}>
+                <group ref={capRef} onClick={handleCapClick}>
                     <CuvetteCap position={[-.24, 4.85, 1.5]} />
                 </group>
             </group>
