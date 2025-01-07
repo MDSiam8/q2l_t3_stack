@@ -10,6 +10,7 @@ import InventorySystem from "./ui_overlay/InventorySystem";
 import { Canvas, useFrame, useThree } from "@react-three/fiber";
 import { CameraAdjuster } from "./utils/CameraAdjuster";
 import { Camera, Vector3 } from "three";
+import Step9CalibratingWithBlankSolution from "./steps/09CalibratingWithBlankSolution";
 
 // Interface for the structure of each step in state.json
 interface Step {
@@ -217,6 +218,9 @@ export default function Experience() {
           {currentStep === 1 && <Step1Introduction />}
           {currentStep === 8 && <Step8SelectingCuvette nextButtonRef={nextButtonRef}/>}
           
+          {currentStep === 9 && <Step9CalibratingWithBlankSolution 
+            nextButtonRef={nextButtonRef}
+          />}
           {/* ...add more steps as needed... */}
         </Canvas>
          
