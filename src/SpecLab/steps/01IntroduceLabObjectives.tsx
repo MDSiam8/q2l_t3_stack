@@ -1,17 +1,10 @@
 import React, { forwardRef, useState } from "react";
-import BalanceWithAnimations from "../models/BalanceWithAnimations";
-import InventorySystem from "../ui_overlay/InventorySystem";
-import WeighingPaper from "../models/WeighingPaper";
 import { WipingPaper } from "../models/WipingPaper";
 import { Cuvette } from "../models/Cuvette";
-
-import { Beaker } from "../models/Beaker";
-import { Spatula } from "../models/Spatula";
+import { DistilledWater } from "../models/DistilledWater";
 import { Spectrophotometer } from "../models/Spectrophotometer";
-import { BottleCap } from "../models/BottleCap";
-import { Bottle } from "../models/Bottle";
-import { useGLTF } from "@react-three/drei";
-import { setNextEnabled } from "../Experience";
+import { OrganicProductBeaker } from "~/RotaryEvaporation/components/BeakerWithSolution";
+
 interface SelectedItems {
   [itemName: string]: boolean;
 }
@@ -28,7 +21,7 @@ const Step1Introduction = forwardRef<HTMLDivElement, InventoryStepProps>(
   return (
     <group>
       {selectedItems["Wiping Paper"] && (
-        <WipingPaper position={[0, 5, 0]}
+        <WipingPaper position={[0, 5, -0.5]}
           rotation-x={(-3.14 / 180) * 270}
           rotation-y={(-3.14 / 180) * 270}
         />
@@ -41,6 +34,16 @@ const Step1Introduction = forwardRef<HTMLDivElement, InventoryStepProps>(
       {selectedItems["Cuvette"] && (
         <Cuvette
           position={[0, 5, 2]}
+        />
+      )}
+      {selectedItems["Distilled Water"] && (
+        <DistilledWater
+          position={[0, 5, 1]}
+        />
+      )}
+      {selectedItems["Sample Solution"] && (
+        <OrganicProductBeaker
+          position={[0, 5, 3]}
         />
       )}
     </group>

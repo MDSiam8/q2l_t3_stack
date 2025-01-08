@@ -3,7 +3,6 @@ import Image, { StaticImageData } from "next/image";
 import uraniumImg from "../images/uranium.jpg";
 import sampleImg from "../images/powder2.jpg";
 import distilledWaterImg from "../images/distilledwater.jpg";
-import diWaterImg from "../images/di water.jpg";
 import sampleSolImg from "../images/sample solution.jpg";
 
 type ChemicalItem = {
@@ -26,8 +25,7 @@ const ChemicalsTab: React.FC<ChemicalsTabProps> = ({
   selectedItems,
 }) => {
   const chemicalItems: ChemicalItem[] = [
-    { name: "Distilled Water", image: distilledWaterImg, isCorrect: false },
-    { name: "Deionized Water", image: diWaterImg, isCorrect: true },
+    { name: "Distilled Water", image: distilledWaterImg, isCorrect: true },
     { name: "Powder Sample", image: sampleImg, isCorrect: false },
     { name: "Sample Solution", image: sampleSolImg, isCorrect: true },
     { name: "Uranium", image: uraniumImg, isCorrect: false },

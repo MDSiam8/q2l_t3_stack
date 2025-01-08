@@ -95,7 +95,7 @@ export default function Experience() {
     "Wiping Paper",
     "Spectrophotometer",
     "Cuvette",
-    "DI Water",
+    "Distilled Water",
     "Sample Solution",
   ]);
 
