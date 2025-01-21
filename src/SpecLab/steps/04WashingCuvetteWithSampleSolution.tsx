@@ -11,18 +11,18 @@ interface Step4Props {
 }
 
 // Color of the solution for easy changing later
-let solutionColor = new THREE.Color( 0x1777e7 );
+let solutionColor = new THREE.Color( 0xf1e829 );
 
 const Step4WashCuvette = forwardRef<THREE.Group, Step4Props>(({nextButtonRef}, ref) => {
 
   // useState to track status of the animation
   const [animationComplete, setAnimationStatus] = useState(false);
 
-  // 
-  const cuvetteWaterRef = useRef<THREE.Mesh>(null);
-  const dropperWaterRef = useRef<THREE.Mesh>(null);
+  // References for the meshes of the solution and cuvette.
+  const cuvetteSolutionRef = useRef<THREE.Mesh>(null);
+  const dropperSolutionRef = useRef<THREE.Mesh>(null);
   const cuvetteRef = useRef<THREE.Group>(null);
-  const cuvetteAndWaterRef = useRef<THREE.Group>(null);
+  const cuvetteAndWaterRef = useRef<THREE.Group>(null); // This reference encompases two meshes to make them easier to move together.
   
   // Disable the next button initially
   useEffect(() => {
@@ -35,7 +35,7 @@ const Step4WashCuvette = forwardRef<THREE.Group, Step4Props>(({nextButtonRef}, r
   const transferSolution = () => {
 
     // Check if the ref components are not null
-    if (!dropperWaterRef.current || !cuvetteWaterRef.current || !cuvetteRef.current || !cuvetteAndWaterRef.current) {
+    if (!dropperSolutionRef.current || !cuvetteSolutionRef.current || !cuvetteRef.current || !cuvetteAndWaterRef.current) {
       return;
     }
 
@@ -65,7 +65,7 @@ const Step4WashCuvette = forwardRef<THREE.Group, Step4Props>(({nextButtonRef}, r
 
     masterTl
       .to(
-        dropperWaterRef.current.scale,
+        dropperSolutionRef.current.scale,
         {
           x: 1,
           y: 0,
@@ -75,7 +75,7 @@ const Step4WashCuvette = forwardRef<THREE.Group, Step4Props>(({nextButtonRef}, r
         "start"
       )
       .to(
-        dropperWaterRef.current.position,
+        dropperSolutionRef.current.position,
         {
           x: 0,
           y: 6.25,
@@ -85,7 +85,7 @@ const Step4WashCuvette = forwardRef<THREE.Group, Step4Props>(({nextButtonRef}, r
         "start"
       )
       .to(
-        cuvetteWaterRef.current.scale,
+        cuvetteSolutionRef.current.scale,
         {
           x: 1,
           y: 1,
@@ -95,10 +95,10 @@ const Step4WashCuvette = forwardRef<THREE.Group, Step4Props>(({nextButtonRef}, r
         "start"
       )
       .to(
-        cuvetteWaterRef.current.position,
+        cuvetteSolutionRef.current.position,
         {
           x: 0,
-          y: cuvetteWaterRef.current.position.y + 0.35,
+          y: cuvetteSolutionRef.current.position.y + 0.35,
           z: 0,
           duration: transferWaterInterval
         },
@@ -148,10 +148,10 @@ const Step4WashCuvette = forwardRef<THREE.Group, Step4Props>(({nextButtonRef}, r
         "tiltCuvette"
       )
       .to(
-        cuvetteWaterRef.current.scale,
+        cuvetteSolutionRef.current.scale,
         {
-          x: cuvetteWaterRef.current.scale.x,
-          y: cuvetteWaterRef.current.scale.y,
+          x: cuvetteSolutionRef.current.scale.x,
+          y: cuvetteSolutionRef.current.scale.y,
           z: 0,
           duration: pourSolutionInterval
         },
@@ -212,7 +212,7 @@ const Step4WashCuvette = forwardRef<THREE.Group, Step4Props>(({nextButtonRef}, r
           <Cuvette />
         </group>
         <mesh
-          ref={cuvetteWaterRef}
+          ref={cuvetteSolutionRef}
           position={[0, 0.35 - (0.7 * 0.5), 0]}
           scale={[1, 0, 1]}
         >
@@ -223,7 +223,7 @@ const Step4WashCuvette = forwardRef<THREE.Group, Step4Props>(({nextButtonRef}, r
       
       {/* Mesh for solution in the dropper */}
       <mesh
-        ref={dropperWaterRef}
+        ref={dropperSolutionRef}
         position={[0, 6.5, 0]}
         scale={[1, 1, 1]}
       >
