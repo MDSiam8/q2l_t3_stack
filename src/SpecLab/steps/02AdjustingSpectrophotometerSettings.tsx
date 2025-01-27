@@ -14,6 +14,10 @@ const Step2AdjustSpectrophotometerSettings = forwardRef<THREE.Group, Step2Props>
 
         const [wavelength, setWavelength] = useState("");
         const [isCorrect, setIsCorrect] = useState<boolean | null>(null);
+        const [dialog, setDialog] = useState<{ message: string; position: [number, number, number] }>({ 
+            message: "", 
+            position: [0, 5, 0] 
+        });
 
         useEffect(() => {
             setNextDisabled(nextButtonRef);
@@ -29,8 +33,11 @@ const Step2AdjustSpectrophotometerSettings = forwardRef<THREE.Group, Step2Props>
         const handleEnter = () => {
             if (wavelength === "280") {
                 setIsCorrect(true);
+                setDialog({ message: "Correct wavelength!", position: [0, 5, 0] });
+                setNextEnabled(nextButtonRef);
             } else {
                 setIsCorrect(false);
+                setDialog({ message: "Entered incorrect wavelength value", position: [0, 5, 0] });
             }
         };
 
@@ -50,7 +57,12 @@ const Step2AdjustSpectrophotometerSettings = forwardRef<THREE.Group, Step2Props>
                             <input
                                 type="text"
                                 value={wavelength}
-                                readOnly
+                                onChange={(e) => setWavelength(e.target.value)}
+                                onKeyDown={(e) => {
+                                    if (e.key === 'Enter') {
+                                        handleEnter();
+                                    }
+                                }}
                                 placeholder="Choose a wavelength"
                                 style={{ marginRight: '4px' }}
                             />
@@ -107,18 +119,15 @@ const Step2AdjustSpectrophotometerSettings = forwardRef<THREE.Group, Step2Props>
                     </group>
 
                     {/* Feedback Message */}
-                    {isCorrect !== null && (
-                        <Html position={[0, 5, 0]} transform scale={1}>
-                            <div 
-                                className={`message ${isCorrect ? "correct" : "incorrect"}`}
-                                style={{
-                                    backgroundColor: 'white',
-                                    padding: '5px 6px',
-                                    borderRadius: '2px',
-                                    boxShadow: '0 2px 4px rgba(0,0,0,0.1)'
-                                }}
+                    {dialog.message && (
+                        <Html position={dialog.position} transform scale={1}>
+                            <div
+                                className={`rounded-lg py-2 px-6 text-sm shadow-lg ${dialog.message.startsWith("Correct")
+                                    ? "border-green-500 bg-green-100 text-green-900"
+                                    : "border-red-500 bg-red-100 text-red-900"
+                                } max-w-[350px] min-w-[120px] border select-none`}
                             >
-                                {isCorrect ? "Correct wavelength!" : "Entered incorrect wavelength value"}
+                                {dialog.message}
                             </div>
                         </Html>
                     )}
