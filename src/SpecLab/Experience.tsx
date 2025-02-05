@@ -3,17 +3,19 @@ import {
   OrbitControls,
 } from "@react-three/drei";
 import Step1Introduction from "./steps/01IntroduceLabObjectives";
+import Step2AdjustSpectrophotometerSettings from "./steps/02AdjustingSpectrophotometerSettings";
+import Step7AttachingCuvetteCap from "./steps/07AttachingCuvetteCap";
 import Table from "./models/Table";
 import state from "./state.json";
 import InventorySystem from "./ui_overlay/InventorySystem";
 import { Canvas, useFrame, useThree } from "@react-three/fiber";
 import { CameraAdjuster } from "./utils/CameraAdjuster";
 import { Camera, Vector3 } from "three";
+
 import Step06CleaningCuvetteSurface from "./steps/06CleaningCuvetteSurface";
 import Step4WashCuvette from "./steps/04WashingCuvetteWithSampleSolution";
 import Step5FillTheCuvette from "./steps/05FillingCuvetteWithSolution";
 import Step3WashCuvetteWithWater from "./steps/03WashingCuvetteWithWater";
-
 // Interface for the structure of each step in state.json
 interface Step {
   stepTitle: string;
@@ -85,7 +87,7 @@ export const setNextEnabled = (
 };
 
 export default function Experience() {
-  const [currentStep, setCurrentStep] = useState<number>(1);
+  const [currentStep, setCurrentStep] = useState<number>(2);
   const key = currentStep.toString() as StateKey;
   const stepData = state[key]; // Safe indexing
   const stepRefs = useRef<Record<number, StepComponentRef>>({});
@@ -219,6 +221,8 @@ export default function Experience() {
             </mesh>
 
           {/* Conditional Rendering of Step Components */}
+          {currentStep === 2 && <Step2AdjustSpectrophotometerSettings nextButtonRef={nextButtonRef} />}
+          {currentStep === 7 && <Step7AttachingCuvetteCap nextButtonRef={nextButtonRef} />}
           {currentStep === 6 && (
           <Step06CleaningCuvetteSurface nextButtonRef={nextButtonRef} />
           )}
