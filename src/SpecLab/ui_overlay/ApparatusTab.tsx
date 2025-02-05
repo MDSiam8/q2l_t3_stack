@@ -1,10 +1,13 @@
 import Image, { StaticImageData } from "next/image";
 import React from "react";
-import balanceImg from "../images/balance.png";
-import weighingPaper from "../images/paper.png";
-import beakerImg from "../images/beaker.png";
-import spatulaImg from "../images/spatula.png";
-import eyeDropperImg from "../images/eyedropper.png";
+import balanceImg from "../images/balance2.jpg";
+import wipingPaper from "../images/wiping paper.jpg";
+import beakerImg from "../images/beaker2.jpg";
+import cuvetteImg from "../images/cuvette.jpg";
+import spatulaImg from "../images/spatula2.jpg";
+import eyeDropperImg from "../images/dropper.jpg";
+import stopperImg from "../images/stopper.jpg";
+import spectrophotometerImg from "../images/spectrophotometer.jpg";
 
 type ApparatusItem = {
   name: string;
@@ -26,11 +29,14 @@ const ApparatusTab: React.FC<ApparatusTabProps> = ({
   selectedItems,
 }) => {
   const apparatusItems: ApparatusItem[] = [
-    { name: "Analytical Balance", image: balanceImg, isCorrect: true },
-    { name: "Weighing Paper", image: weighingPaper, isCorrect: true },
-    { name: "Beaker", image: beakerImg, isCorrect: true },
-    { name: "Spatula", image: spatulaImg, isCorrect: true },
-    { name: "Eye Dropper", image: eyeDropperImg, isCorrect: true },
+    { name: "Analytical Balance", image: balanceImg, isCorrect: false },
+    { name: "Beaker", image: beakerImg, isCorrect: false },
+    { name: "Cuvette", image: cuvetteImg, isCorrect: true },
+    { name: "Eye Dropper", image: eyeDropperImg, isCorrect: false },
+    { name: "Spatula", image: spatulaImg, isCorrect: false },
+    { name: "Spectrophotometer", image: spectrophotometerImg, isCorrect: true },
+    { name: "Stopper", image: stopperImg, isCorrect: false },
+    { name: "Wiping Paper", image: wipingPaper, isCorrect: true },
   ];
 
   const handleItemClick = (item: ApparatusItem) => {
