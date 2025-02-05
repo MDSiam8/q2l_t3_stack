@@ -1,9 +1,7 @@
-import React, { useEffect, useState, useRef } from "react";
+import React, { useEffect, useState } from "react";
 import ReactDOM from "react-dom/client";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-//import { Canvas, useFrame, useThree } from "@react-three/fiber";
 import Experience from "../../SeperatingLiquidsLab/components/Experience";
-//import * as THREE from "three";
 
 type RootType = ReactDOM.Root | null;
 
@@ -22,7 +20,6 @@ function MyApp(): JSX.Element | null {
     }
 
     return () => {
-      // Cleanup function to handle component unmount
       if (root) {
         root.unmount();
       }
@@ -32,14 +29,16 @@ function MyApp(): JSX.Element | null {
   useEffect(() => {
     if (root) {
       root.render(
-        <BrowserRouter>
+        // Set the basename to match your folder structure:
+        <BrowserRouter basename="/extraction_lab">
           <Routes>
-            <Route path="/extraction_lab/step/:step" element={<Experience />} />
-            <Route path="/extraction_lab" element={<Experience />} />
+            {/* Now the step route is relative to /extraction_lab */}
+            <Route path="/step/:step" element={<Experience />} />
+            {/* Fallback routes */}
             <Route path="/" element={<Experience />} />
             <Route path="*" element={<Experience />} />
           </Routes>
-        </BrowserRouter>,
+        </BrowserRouter>
       );
     }
   }, [root]);

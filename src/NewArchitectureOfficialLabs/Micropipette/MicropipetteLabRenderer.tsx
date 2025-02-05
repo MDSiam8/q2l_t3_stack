@@ -1,120 +1,129 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef, useState, Suspense } from "react";
 import { Canvas } from "@react-three/fiber";
-import {
-  Box,
-  Html,
-  OrbitControls,
-  useAnimations,
-  useGLTF,
-} from "@react-three/drei";
-import {
-  InteractiveElement,
-  LabObject,
-  Action
-} from "~/utils/types/types";
-import { preload } from "react-dom";
+import { Box, OrbitControls, useGLTF } from "@react-three/drei";
 import * as THREE from "three";
 import Table from "~/AnalyticalBalanceLab/components/Table";
 import gsap from "gsap";
 import MicropipetteLabSchema from "./MicropipetteSchema";
+import { useParams, useNavigate } from "react-router-dom";
+import Cookies from "js-cookie";
 
+// Preload the model (ensure the path is correct)
 const modelPath = "./sample bottle body.gltf";
+useGLTF.preload(modelPath);
 
-// function isActionWithHitbox(action: Action): action is Action {
-//   return "hitbox" in action;
-// }
-
-// function isActionWithTimeline(action: Action): action is ActionWithTimeline {
-//   return "timeline" in action;
-// }
-
+// Log the schema so we know it’s being imported
+console.log("MicropipetteLabSchema:", MicropipetteLabSchema);
 
 export default function Experience() {
+  console.log("Experience component mounted");
+  const { step } = useParams<{ step?: string }>();
+  const navigate = useNavigate();
+
+  // If the schema is empty, MAX_STEP will be 0
+  const MAX_STEP =
+    MicropipetteLabSchema && MicropipetteLabSchema.length > 0
+      ? MicropipetteLabSchema.length - 1
+      : 0;
+
   const [currentStepIndex, setCurrentStepIndex] = useState(0);
-  const currentStep = MicropipetteLabSchema[currentStepIndex];
+
+  // Set the step index from the URL parameter or from a cookie
+  useEffect(() => {
+    const urlStep = step ? parseInt(step, 10) : NaN;
+    const cookieValue = Cookies.get("micropipetteLabLastStep");
+    const cookieStep = cookieValue ? parseInt(cookieValue, 10) : NaN;
+    let newStepIndex = 0;
+
+    if (!isNaN(urlStep) && urlStep >= 0 && urlStep <= MAX_STEP) {
+      newStepIndex = urlStep;
+    } else if (!isNaN(cookieStep) && cookieStep >= 0 && cookieStep <= MAX_STEP) {
+      newStepIndex = cookieStep;
+    }
+
+    console.log("Setting currentStepIndex to:", newStepIndex);
+    setCurrentStepIndex(newStepIndex);
+
+    if (urlStep !== newStepIndex) {
+      navigate(`/step/${newStepIndex}`, { replace: true });
+    }
+    Cookies.set("micropipetteLabLastStep", String(newStepIndex));
+  }, [step, navigate, MAX_STEP]);
 
   const goToNextStep = () => {
-    setCurrentStepIndex((prevIndex) =>
-      Math.min(prevIndex + 1, MicropipetteLabSchema.length - 1),
-    );
+    if (currentStepIndex < MAX_STEP) {
+      const nextStep = currentStepIndex + 1;
+      setCurrentStepIndex(nextStep);
+      Cookies.set("micropipetteLabLastStep", String(nextStep));
+      navigate(`/step/${nextStep}`);
+    }
   };
 
-  // Placeholder for a function that renders 3D objects based on type or properties
+  const currentStep = MicropipetteLabSchema && MicropipetteLabSchema[currentStepIndex];
 
-  // export default ModelRenderer;
-
-  // console.log(object.actions[0]?);
-
-  // A placeholder function to demonstrate concept
-  function renderInteractiveElement(element: InteractiveElement) {
-    switch (element.type) {
-      case "textinput":
-      case "image":
-      case "quiz":
-      // Handle other types of interactive elements as needed
-      // return <TextualInteractiveComponent {...element} />;
-      default:
-        return null;
-    }
+  if (!currentStep) {
+    return (
+      <div style={{ height: "100vh", backgroundColor: "#333", color: "white" }}>
+        <h1>No steps defined in MicropipetteLabSchema.</h1>
+      </div>
+    );
   }
 
   return (
-    <div style={{ height: "100vh" }}>
-      <Canvas
-        camera={{
-          fov: 45,
-          // near: 0.1,
-          // far: 200,
-          position: [11.57, 10.1, -0.314],
-        }}
-      >
-        <OrbitControls />
-        <ambientLight intensity={0.5} />
-        <directionalLight position={[0, 6, 0]} intensity={1} />
-
-        {/* Render 3D models */}
-        {!currentStep?.customStep &&
-          currentStep?.labObjects.map((object, index) => (
-            <React.Fragment key={index}>
-              <ModelRenderer object={object} index={index} />
-            </React.Fragment>
-          ))}
-
-        {/* // Check for custom step */}
-        {currentStep?.customStep && <currentStep.customStep />}
-     
-        {/* Render other interactive elements */}
-        {currentStep?.interactiveElements?.map(
-          (
-            element: InteractiveElement,
-            index: React.Key | null | undefined,
-          ) => (
-            <React.Fragment key={index}>
-              {renderInteractiveElement(element)}
-            </React.Fragment>
-          ),
-        )}
-
-        {/* Common elements like Table */}
-        <Table scale={13} position-y={-5.42} />
-        {/* Green-yellow plane */}
-        <mesh
-          receiveShadow
-          position-y={-5.56}
-          rotation-x={-Math.PI * 0.5}
-          scale={65}
+    <div style={{ height: "100vh", position: "relative", backgroundColor: "#222" }}>
+      <Suspense fallback={<div style={{ color: "white", textAlign: "center", paddingTop: "20vh" }}>Loading 3D scene...</div>}>
+        <Canvas
+          camera={{ fov: 45, position: [11.57, 10.1, -0.314] }}
+          style={{ background: "#404040" }}
         >
-          <planeGeometry />
-          <meshStandardMaterial color="greenyellow" />
-        </mesh>
-      </Canvas>
+          {/* Ensure the canvas background is set */}
+          <color attach="background" args={["#404040"]} />
+          <OrbitControls />
+          <ambientLight intensity={0.5} />
+          <directionalLight position={[0, 6, 0]} intensity={1} />
+
+          {/* Render lab objects if there is no custom step component */}
+          {!currentStep.customStep &&
+            currentStep.labObjects &&
+            currentStep.labObjects.map((object: any, index: number) => (
+              <React.Fragment key={index}>
+                <ModelRenderer object={object} index={index} />
+              </React.Fragment>
+            ))
+          }
+
+          {/* Render the custom step component if defined */}
+          {currentStep.customStep && <currentStep.customStep />}
+
+          {/* Render any interactive elements (currently a placeholder) */}
+          {currentStep.interactiveElements &&
+            currentStep.interactiveElements.map((element: any, index: number) => (
+              <React.Fragment key={index}>
+                {renderInteractiveElement(element)}
+              </React.Fragment>
+            ))
+          }
+
+          {/* Common scene elements */}
+          <Table scale={13} position-y={-5.42} />
+          <mesh
+            receiveShadow
+            position-y={-5.56}
+            rotation-x={-Math.PI * 0.5}
+            scale={65}
+          >
+            <planeGeometry />
+            <meshStandardMaterial color="greenyellow" />
+          </mesh>
+        </Canvas>
+      </Suspense>
       <div
         style={{
           position: "absolute",
           bottom: 0,
           left: 0,
           right: 0,
-          background: "rgba(0, 0, 0, 0.2)",
+          background: "rgba(0,0,0,0.2)",
           padding: "20px",
           display: "flex",
           justifyContent: "center",
@@ -122,21 +131,31 @@ export default function Experience() {
           userSelect: "none",
         }}
       >
-        <div className="flex items-stretch justify-center">
-          <div className="w-lg rounded-lg bg-gray-700 bg-opacity-80 p-6 text-center backdrop-blur-sm">
-            <h1 className="mb-2 text-lg text-white">
-              {currentStep?.stepTitle}
+        <div style={{ display: "flex", alignItems: "stretch", justifyContent: "center" }}>
+          <div style={{ width: "20rem", borderRadius: "0.5rem", backgroundColor: "rgba(55,55,55,0.8)", padding: "1.5rem", textAlign: "center", backdropFilter: "blur(5px)" }}>
+            <h1 style={{ marginBottom: "0.5rem", fontSize: "1.125rem", color: "white" }}>
+              {currentStep.stepTitle}
             </h1>
-            <p className="text-white">{currentStep?.directions}</p>
-            <p className="pt-2 font-mono text-xs font-extralight text-fuchsia-300">
-              {currentStep?.user_instructions ?? ""}
+            <p style={{ color: "white" }}>{currentStep.directions}</p>
+            <p style={{ paddingTop: "0.5rem", fontFamily: "monospace", fontSize: "0.75rem", color: "fuchsia" }}>
+              {currentStep.user_instructions || ""}
             </p>
           </div>
-          <div className="ml-4 flex flex-col justify-between self-stretch">
+          <div style={{ marginLeft: "1rem", display: "flex", flexDirection: "column", justifyContent: "space-between" }}>
             <button
               onClick={goToNextStep}
-              className="mb-2 flex-grow transform rounded-lg bg-gradient-to-r from-blue-400 to-purple-500 px-4 py-2 font-bold text-white transition duration-300 hover:scale-105"
-              // ref={nextButtonRef}
+              style={{
+                marginBottom: "0.5rem",
+                flexGrow: 1,
+                transform: "scale(1)",
+                borderRadius: "0.5rem",
+                background: "linear-gradient(to right, #3b82f6, #8b5cf6)",
+                padding: "0.5rem 1rem",
+                fontWeight: "bold",
+                color: "white",
+                transition: "transform 0.3s",
+                cursor: "pointer"
+              }}
             >
               Next Step
             </button>
@@ -147,8 +166,20 @@ export default function Experience() {
   );
 }
 
+// Placeholder for interactive elements rendering
+function renderInteractiveElement(element: any) {
+  switch (element.type) {
+    case "textinput":
+    case "image":
+    case "quiz":
+      return null;
+    default:
+      return null;
+  }
+}
+
 type ModelRendererProps = {
-  object: LabObject;
+  object: any;
   index: React.Key;
 };
 
@@ -158,40 +189,18 @@ const ModelRenderer: React.FC<ModelRendererProps> = ({ object }) => {
   const handleClick = () => {
     if (
       modelRef.current &&
-      "performAction" in modelRef.current &&
-      object.actions?.[0]
+      object.actions &&
+      object.actions[0]
     ) {
-      console.log("modelRef.current position ", modelRef.current.position);
-
-      // Special condition if it is move animation
+      console.log("Model clicked at position:", modelRef.current.position);
       if (object.actions[0].actionName === "move") {
-        const innerModelRef = modelRef.current;
-        console.log("current model ref", innerModelRef);
-        console.log("modelRef", modelRef);
-        console.log("modelRef position", modelRef.current.position);
-        // console.log
-        // Add timeline here?
-        if (modelRef.current) {
-          // const tl = gsap.timeline({ delay: 0 });
-          // tl.to(modelRef.current.position, { y: "+=4", duration: 1 }).to(
-          //   modelRef.current.position,
-          //   { x: "+=.2", z: "-=2.6", duration: 1 },
-          // );
-          console.log(object.actions[0].timeline);
-          const tl = gsap.timeline(object!.actions[0].timeline!.defaults);
-          const animations = object!.actions[0].timeline!.sequence
-          animations.forEach(animation => {
+        const tl = gsap.timeline(object.actions[0].timeline?.defaults);
+        const animations = object.actions[0].timeline?.sequence;
+        animations &&
+          animations.forEach((animation: any) => {
             tl.to(modelRef.current!.position, animation.props);
           });
-          // const tl = gsap.timeline({ delay: 0 });
-          // tl.to(modelRef.current.position, { y: "+=4", duration: 1 }).to(
-          //   modelRef.current.position,
-          //   { x: "+=.2", z: "-=2.6", duration: 1 },
-          // );
-        }
-      }
-      // Otherwise, let it do its custom animation
-      else {
+      } else {
         (modelRef.current as any).performAction(object.actions[0].actionName);
       }
     }
@@ -199,63 +208,38 @@ const ModelRenderer: React.FC<ModelRendererProps> = ({ object }) => {
 
   useEffect(() => {
     if (
-      object.actions?.[0] &&
-      // isActionWithTimeline(object.actions[0]) &&
       modelRef.current &&
-      object.actions?.[0].auto
+      object.actions &&
+      object.actions[0] &&
+      object.actions[0].auto
     ) {
-      // const timeline = gsap.timeline({ delay: 1 });
-      // const animations = [
-      //   {
-      //     target: modelRef.current.position,
-      //     params: { y: "+=4", duration: 1 }
-      //   },
-      //   {
-      //     target: modelRef.current.position,
-      //     params: { x: "+=.2", z: "-=2.6", duration: 1 }
-      //   }
-      // ];
-
-      const tl = gsap.timeline(object!.actions[0].timeline!.defaults);
-      const animations = object!.actions[0].timeline!.sequence;
-      animations.forEach((animation) => {
-        tl.to(modelRef.current!.position, animation.props);
-      });
-
-      // timeline
-      //   .to(modelRef.current.position, { y: "+=4", duration: 1 })
-      //   .to(modelRef.current.position, {
-      //     x: "+=.2",
-      //     z: "-=2.6",
-      //     duration: 1,
-      //   });
+      const tl = gsap.timeline(object.actions[0].timeline?.defaults);
+      const animations = object.actions[0].timeline?.sequence;
+      animations &&
+        animations.forEach((animation: any) => {
+          tl.to(modelRef.current!.position, animation.props);
+        });
     }
   }, [object.actions]);
 
   return (
     <>
-      {(object.actions?.[0] && !object.actions[0].auto) ? (
+      {object.actions && object.actions[0] && !object.actions[0].auto ? (
         <>
           <Box
-            position={object.actions[0].hitbox?.position ?? [0, 0, 0]}
-            scale={object.actions[0].hitbox?.scale ?? [1, 1, 1]}
+            position={object.actions[0].hitbox?.position || [0, 0, 0]}
+            scale={object.actions[0].hitbox?.scale || [1, 1, 1]}
             onClick={handleClick}
           >
             <meshStandardMaterial />
           </Box>
           <object.model ref={modelRef} {...object.modelProps} />
-          {/* <group ref={modelRef}>
-            <object.model {...object.modelProps} />
-          </group> */}
         </>
       ) : (
         <object.model ref={modelRef} {...object.modelProps} />
       )}
     </>
   );
-  // <group ref={modelRef}>
-  //   <object.model {...object.modelProps} />
-  // </group>
 };
 
-useGLTF.preload(modelPath);
+export {};

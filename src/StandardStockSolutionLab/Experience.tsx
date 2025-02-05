@@ -37,7 +37,7 @@ import Step14TransferSolution from "./steps/14TransferSolutionToFlask";
 import Step19MixSolution from "./steps/19MixSolution";
 import Step18AttachStopper from "./steps/18AddStopperAndMix";
 
-// Interface for the structure of each step in state.json
+// Interfaces for steps and state
 interface Step {
   stepTitle: string;
   description: string;
@@ -50,7 +50,7 @@ interface Step {
     correctAnswer: string[];
     category: string;
     count: number;
-    userAnswers: string[]; // Adjust as needed for dynamic content
+    userAnswers: string[];
   }[];
 }
 
@@ -79,10 +79,8 @@ interface State {
 
 type StateKey = keyof State;
 
-// Correctly type your step component refs if they have specific methods or properties
 interface StepComponentRef {
   replayAnimation?: () => void;
-  // other methods or properties
 }
 
 interface SelectedItems {
@@ -124,11 +122,10 @@ export default function Experience({
   onStepChange,
 }: ExperienceProps) {
   const key = currentStep.toString() as StateKey;
-  const stepData = state[key]; // Safe indexing
+  const stepData = state[key];
   const stepRefs = useRef<Record<number, StepComponentRef>>({});
   const [isAnimating, setIsAnimating] = useState<boolean>(false);
   const nextButtonRef = useRef<HTMLButtonElement>(null);
-  // const replayButtonRef = useRef<HTMLButtonElement>(null);
 
   const cameraControlsRef = useRef<Camera>(null);
   const [nextButtonTempDisabled, setNextButtonTempDisabled] = useState(false);
@@ -159,7 +156,6 @@ export default function Experience({
     setSelectedItems((prev) => {
       const newSelectedItems = { ...prev, [itemName]: isCorrect };
 
-      // Check if all required items are selected
       const allSelected = Array.from(requiredItems).every(
         (item) => newSelectedItems[item],
       );
@@ -178,9 +174,7 @@ export default function Experience({
     }
   };
 
-  const stepsWithRefs = new Set([4, 5, 6, 7, 8, 10]); // Add other steps as needed
-
-  // Check if the current step has a replay animation
+  const stepsWithRefs = new Set([4, 5, 6, 7, 8, 10]);
   const hasReplayAnimation: boolean = stepsWithRefs.has(currentStep);
 
   return (
@@ -188,9 +182,7 @@ export default function Experience({
       fallback={
         <div className="flex h-screen items-center justify-center bg-gradient-to-r from-blue-400 via-cyan-500 to-green-400">
           <div className="rounded-lg border border-transparent bg-black bg-opacity-30 p-6 shadow-lg backdrop-blur-lg backdrop-filter">
-            <p className="text-lg font-thin text-white">
-              {"Loading Resources"}
-            </p>
+            <p className="text-lg font-thin text-white">Loading Resources</p>
             <img
               src="loadingQ2L.svg"
               alt="Loading"
@@ -201,7 +193,6 @@ export default function Experience({
       }
     >
       <div style={{ position: "relative", height: "100vh" }}>
-        {/* Inventory toggle button */}
         {currentStep === 3 && !isInventoryVisible && (
           <button
             onClick={handleToggleInventory}
@@ -215,16 +206,11 @@ export default function Experience({
           shadows
           camera={{
             fov: 45,
-            // near: 0.1,
-            // far: 200,
             position: [11.57, 10.1, -0.314],
           }}
-          style={{ background: "#37474f" }} // Subtle light gray background
+          style={{ background: "#37474f" }}
         >
           <CameraAdjuster />
-          {/* <CameraControls makeDefault ref={cameraControlsRef} onStart={() => {
-          cameraControlsRef.current?.setFocalOffset(0,-2.5,0, true);
-        }}/> */}
           <OrbitControls minDistance={9} maxDistance={700} />
 
           <ambientLight intensity={1.6} />
@@ -235,13 +221,7 @@ export default function Experience({
             shadow-normalBias={0.04}
           />
 
-          {/* Common elements like Table */}
           <Table scale={13} position-y={-1} />
-          {/* <TransformControls>
-
-            <LabEnvironment position={[40, -1, 0]}/>
-          </TransformControls> */}
-          {/* Green-yellow plane */}
           <mesh
             receiveShadow
             position-y={-1}
@@ -249,10 +229,9 @@ export default function Experience({
             scale={605}
           >
             <planeGeometry />
-            <meshStandardMaterial color="#37474f" /> {/* Soft minty green */}
+            <meshStandardMaterial color="#37474f" />
           </mesh>
 
-          {/* Conditional Rendering of Step Components */}
           {currentStep === 1 && <Step1Introduction />}
           {currentStep === 2 && (
             <Step2ExplainTask nextButtonRef={nextButtonRef} />
@@ -266,7 +245,7 @@ export default function Experience({
           {currentStep === 4 && (
             <Step4OpenSideWindow
               ref={(el) => {
-                stepRefs.current[4] = el as StepComponentRef; // Ensure that nothing is returned
+                stepRefs.current[4] = el as StepComponentRef;
               }}
               nextButtonRef={nextButtonRef}
             />
@@ -325,22 +304,27 @@ export default function Experience({
           {currentStep === 13 && (
             <Step13DissolveSample nextButtonRef={nextButtonRef} />
           )}
-           {currentStep === 14 && (
+          {currentStep === 14 && (
             <Step14TransferSolution nextButtonRef={nextButtonRef} />
           )}
-          {/* ...add more steps as needed... */}
           {currentStep === 15 && (
             <Step15CheckBeakerResidue nextButtonRef={nextButtonRef} />
           )}
           {currentStep === 16 && (
             <Step16DiluteSolutionInFlask nextButtonRef={nextButtonRef} />
           )}
-          {currentStep === 17 && <Step17EyeDropper nextButtonRef={nextButtonRef} />}
-          {currentStep === 18 && <Step18AttachStopper nextButtonRef={nextButtonRef} />}
-          {currentStep === 19 && <Step19MixSolution nextButtonRef={nextButtonRef} />}
-          {currentStep === 20 && <FinishedStepComponent nextButtonRef={nextButtonRef} />}
-
-          {/* Inventory System */}
+          {currentStep === 17 && (
+            <Step17EyeDropper nextButtonRef={nextButtonRef} />
+          )}
+          {currentStep === 18 && (
+            <Step18AttachStopper nextButtonRef={nextButtonRef} />
+          )}
+          {currentStep === 19 && (
+            <Step19MixSolution nextButtonRef={nextButtonRef} />
+          )}
+          {currentStep === 20 && (
+            <FinishedStepComponent nextButtonRef={nextButtonRef} />
+          )}
         </Canvas>
 
         {currentStep === 3 && (
@@ -357,7 +341,7 @@ export default function Experience({
             bottom: 0,
             left: 0,
             right: 0,
-            background: "rgba(0, 0, 0, 0.2)", // Semi-transparent background
+            background: "rgba(0, 0, 0, 0.2)",
             padding: "20px",
             display: "flex",
             justifyContent: "center",
@@ -367,9 +351,11 @@ export default function Experience({
         >
           <div className="flex items-stretch justify-center">
             <div className="w-lg rounded-lg bg-gray-700 bg-opacity-80 p-6 text-center backdrop-blur-sm">
-              <h1 className="mb-2 text-lg text-white">{stepData.stepTitle}</h1>
+              <h1 className="mb-2 text-lg text-white">
+                {stepData.stepTitle}
+              </h1>
               <p className="text-white">{stepData.directions}</p>
-              <p className=" pt-2 font-mono text-xs font-extralight text-fuchsia-300">
+              <p className="pt-2 font-mono text-xs font-extralight text-fuchsia-300">
                 {"user_instructions" in stepData
                   ? stepData.user_instructions
                   : null}
@@ -379,7 +365,8 @@ export default function Experience({
               <button
                 onClick={handleNextStep}
                 disabled={nextButtonTempDisabled}
-                className={`flex-grow transform rounded-lg bg-gradient-to-r from-blue-400 to-purple-500 px-4 py-2 font-bold text-white transition duration-300 hover:scale-105 ${nextButtonTempDisabled
+                className={`flex-grow transform rounded-lg bg-gradient-to-r from-blue-400 to-purple-500 px-4 py-2 font-bold text-white transition duration-300 hover:scale-105 ${
+                  nextButtonTempDisabled
                     ? "cursor-not-allowed bg-gray-400 opacity-50"
                     : ""
                 }`}
