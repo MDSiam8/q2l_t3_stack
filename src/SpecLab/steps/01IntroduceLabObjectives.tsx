@@ -1,23 +1,51 @@
-import React, { forwardRef } from "react";
-import { GlassPipette } from "../models/GlassPipette";
-import { PipetteBulb } from "../models/PipetteBulb";
+import React, { forwardRef, useState } from "react";
 import { WipingPaper } from "../models/WipingPaper";
-import { Spectrophotometer } from "../models/Spectrophotometer";
 import { Cuvette } from "../models/Cuvette";
-import { CuvetteCap } from "../models/CuvetteCap";
+import { DistilledWater } from "../models/DistilledWater";
+import { Spectrophotometer } from "../models/Spectrophotometer";
+import { OrganicProductBeaker } from "~/RotaryEvaporation/components/BeakerWithSolution";
 
-const Step1Introduction = forwardRef((props, ref) => {
+interface SelectedItems {
+  [itemName: string]: boolean;
+}
+
+interface InventoryStepProps {
+  nextButtonRef: React.RefObject<HTMLButtonElement>;
+  selectedItems: SelectedItems;
+}
+
+
+const Step1Introduction = forwardRef<HTMLDivElement, InventoryStepProps>(
+  ({ nextButtonRef, selectedItems }, ref) => {
+
   return (
     <group>
-      <Cuvette position={[-.3, 5.4, -.55]} />
-      <CuvetteCap position={[-.53, 6.25, -.55]} rotation-x={3.14} />
-      {/* <WipingPaper position={[0, 6, 0]} /> */}
-      {/* <Spectrophotometer  position={[0, 6, 0]} /> */}
-      {/* The balance is positioned at the same coordinates as specified in the FourthStepComponent */}
-      {/* <GlassPipette position={[0, 5.5, 0]} /> */}
-      {/* Additional elements specific to the first step can be added here */}
-      {/* <PipetteBulb position={[0, 8, 0]} /> */}
-      <Spectrophotometer position={[0, 5, 0]} />
+      {selectedItems["Wiping Paper"] && (
+        <WipingPaper position={[0, 5, -0.5]}
+          rotation-x={(-3.14 / 180) * 270}
+          rotation-y={(-3.14 / 180) * 270}
+        />
+      )}
+      {selectedItems["Spectrophotometer"] && (
+        <Spectrophotometer
+          position={[0, 5, -3]}
+        />
+      )}
+      {selectedItems["Cuvette"] && (
+        <Cuvette
+          position={[0, 5, 2]}
+        />
+      )}
+      {selectedItems["Distilled Water"] && (
+        <DistilledWater
+          position={[0, 5, 1]}
+        />
+      )}
+      {selectedItems["Sample Solution"] && (
+        <OrganicProductBeaker
+          position={[0, 5, 3]}
+        />
+      )}
     </group>
   );
 });
