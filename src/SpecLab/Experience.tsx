@@ -9,6 +9,7 @@ import InventorySystem from "./ui_overlay/InventorySystem";
 import { Canvas, useFrame, useThree } from "@react-three/fiber";
 import { CameraAdjuster } from "./utils/CameraAdjuster";
 import { Camera, Vector3 } from "three";
+import Step06CleaningCuvetteSurface from "./steps/06CleaningCuvetteSurface";
 import Step4WashCuvette from "./steps/04WashingCuvetteWithSampleSolution";
 import Step5FillTheCuvette from "./steps/05FillingCuvetteWithSolution";
 import Step3WashCuvetteWithWater from "./steps/03WashingCuvetteWithWater";
@@ -84,7 +85,7 @@ export const setNextEnabled = (
 };
 
 export default function Experience() {
-  const [currentStep, setCurrentStep] = useState<number>(3);
+  const [currentStep, setCurrentStep] = useState<number>(1);
   const key = currentStep.toString() as StateKey;
   const stepData = state[key]; // Safe indexing
   const stepRefs = useRef<Record<number, StepComponentRef>>({});
@@ -166,6 +167,7 @@ export default function Experience() {
         </div>
       }
     >
+      
       <div style={{ position: "relative", height: "100vh" }}>
         {/* Inventory toggle button */}
         {currentStep === 1 && !isInventoryVisible && (
@@ -176,6 +178,7 @@ export default function Experience() {
             Open Inventory
           </button>
         )}
+        
 
         <Canvas
           shadows
@@ -216,6 +219,9 @@ export default function Experience() {
             </mesh>
 
           {/* Conditional Rendering of Step Components */}
+          {currentStep === 6 && (
+          <Step06CleaningCuvetteSurface nextButtonRef={nextButtonRef} />
+          )}
           {currentStep === 3 && <Step3WashCuvetteWithWater nextButtonRef={nextButtonRef} />}
           {currentStep === 4 && <Step4WashCuvette nextButtonRef={nextButtonRef} />}
           {currentStep === 5 && <Step5FillTheCuvette nextButtonRef={nextButtonRef} />}
