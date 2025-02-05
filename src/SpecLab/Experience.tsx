@@ -95,11 +95,11 @@ export default function Experience() {
   const cameraControlsRef = useRef<Camera>(null);
   const [nextButtonTempDisabled, setNextButtonTempDisabled] = useState(false);
   const requiredItems = new Set([
-    "Analytical Balance",
-    "Weighing Paper",
-    "Beaker",
-    "Spatula",
-    "Powder Sample",
+    "Wiping Paper",
+    "Spectrophotometer",
+    "Cuvette",
+    "Distilled Water",
+    "Sample Solution",
   ]);
 
   const [selectedItems, setSelectedItems] = useState<SelectedItems>({});
@@ -216,10 +216,10 @@ export default function Experience() {
             </mesh>
 
           {/* Conditional Rendering of Step Components */}
-          {currentStep === 1 && <Step1Introduction />}
           {currentStep === 3 && <Step3WashCuvetteWithWater nextButtonRef={nextButtonRef} />}
           {currentStep === 4 && <Step4WashCuvette nextButtonRef={nextButtonRef} />}
           {currentStep === 5 && <Step5FillTheCuvette nextButtonRef={nextButtonRef} />}
+          {currentStep === 1 && <Step1Introduction selectedItems={selectedItems} nextButtonRef={nextButtonRef} />}
           
           {/* ...add more steps as needed... */}
         </Canvas>
