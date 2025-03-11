@@ -92,14 +92,20 @@ export const setNextEnabled = (
   }
 };
 
-export default function Experience() {
-  const [currentStep, setCurrentStep] = useState<number>(1);
+interface ExperienceProps {
+  currentStep: number;
+  onStepChange: (newStep: number) => void;
+}
+
+export default function Experience({
+  currentStep,
+  onStepChange,
+}: ExperienceProps) {
   const key = currentStep.toString() as StateKey;
   const stepData = state[key];
   const stepRefs = useRef<Record<number, StepComponentRef>>({});
   const [isAnimating, setIsAnimating] = useState<boolean>(false);
   const nextButtonRef = useRef<HTMLButtonElement>(null);
-  // const replayButtonRef = useRef<HTMLButtonElement>(null);
 
   const cameraControlsRef = useRef<Camera>(null);
   const [nextButtonTempDisabled, setNextButtonTempDisabled] = useState(false);
@@ -121,14 +127,11 @@ export default function Experience() {
 
   const handleNextStep = () => {
     if (currentStep < Object.keys(state).length) {
-      setCurrentStep(currentStep + 1);
+      onStepChange(currentStep + 1);
       setNextDisabled(nextButtonRef);
-      // setNextButtonTempDisabled(true);
-      // setTimeout(() => {
-      //   setNextButtonTempDisabled(false);
-      // }, 2000);
     }
   };
+
   const handleItemSelection = (itemName: string, isCorrect: boolean) => {
     setSelectedItems((prev) => {
       const newSelectedItems = { ...prev, [itemName]: isCorrect };
@@ -145,14 +148,24 @@ export default function Experience() {
     });
   };
 
+  const handleReplayAnimation = () => {
+    const currentStepRef = stepRefs.current[currentStep];
+    if (currentStepRef && currentStepRef.replayAnimation) {
+      currentStepRef.replayAnimation();
+    }
+  };
+
+  const stepsWithRefs = new Set([4, 5, 6, 7, 8, 10]); // Add other steps as needed
+
+  // Check if the current step has a replay animation
+  const hasReplayAnimation: boolean = stepsWithRefs.has(currentStep);
+
   return (
     <Suspense
       fallback={
         <div className="flex h-screen items-center justify-center bg-gradient-to-r from-blue-400 via-cyan-500 to-green-400">
           <div className="rounded-lg border border-transparent bg-black bg-opacity-30 p-6 shadow-lg backdrop-blur-lg backdrop-filter">
-            <p className="text-lg font-thin text-white">
-              {"Loading Resources"}
-            </p>
+            <p className="text-lg font-thin text-white">{"Loading Resources"}</p>
             <img
               src="loadingQ2L.svg"
               alt="Loading"
@@ -177,16 +190,11 @@ export default function Experience() {
           shadows
           camera={{
             fov: 45,
-            // near: 0.1,
-            // far: 200,
             position: [11.57, 10.1, -0.314],
           }}
-          style={{ background: "#37474f" }} // Subtle light gray background
+          style={{ background: "#37474f" }}
         >
           <CameraAdjuster />
-          {/* <CameraControls makeDefault ref={cameraControlsRef} onStart={() => {
-          cameraControlsRef.current?.setFocalOffset(0,-2.5,0, true);
-        }}/> */}
           <OrbitControls minDistance={9} maxDistance={70} />
 
           <ambientLight intensity={1.6} />
@@ -199,7 +207,6 @@ export default function Experience() {
 
           {/* Common elements like Table */}
           <Table scale={13} position-y={-1} />
-          {/* Green-yellow plane */}
           <mesh
             receiveShadow
             position-y={-1}
@@ -207,12 +214,11 @@ export default function Experience() {
             scale={605}
           >
             <planeGeometry />
-            <meshStandardMaterial color="#37474f" /> {/* Soft minty green */}
+            <meshStandardMaterial color="#37474f" />
           </mesh>
-          {/* Conditional Rendering of Step Components */}
-          {currentStep === 1 && (
-            <Step1Introduction />
-          )}
+
+          {/* Step Components */}
+          {currentStep === 1 && <Step1Introduction />}
           {currentStep === 2 && (
             <Step2SelectApparatus
               selectedItems={selectedItems}
@@ -263,7 +269,7 @@ export default function Experience() {
             bottom: 0,
             left: 0,
             right: 0,
-            background: "rgba(0, 0, 0, 0.2)", // Semi-transparent background
+            background: "rgba(0, 0, 0, 0.2)",
             padding: "20px",
             display: "flex",
             justifyContent: "center",

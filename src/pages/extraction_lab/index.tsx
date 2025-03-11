@@ -1,10 +1,9 @@
-import React, { useEffect, useState, useRef } from "react";
+import React, { useEffect, useState } from "react";
 import ReactDOM from "react-dom/client";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-//import { Canvas, useFrame, useThree } from "@react-three/fiber";
 import Experience from "../../SeperatingLiquidsLab/components/Experience";
 import { useRouter } from "next/router";
-//import * as THREE from "three";
+
 
 type RootType = ReactDOM.Root | null;
 
@@ -25,7 +24,6 @@ function MyApp(): JSX.Element | null {
     }
 
     return () => {
-      // Cleanup function to handle component unmount
       if (root) {
         root.unmount();
       }

@@ -30,7 +30,7 @@ const MicropipetteLabSchema: LabSchema = [
     stepTitle: "Introduction to the lab",
     description:
       "Welcome to the pipetting lab. In this lab, we will practice proper micropipetting techniques.",
-    directions: "Introduction to the lab",
+    directions: "Welcome to the pipetting lab! In this lab, we will practice proper micropipetting techniques. This was developed as a demo using our experimental architecture.",
     user_instructions: "",
     labObjects: [
       {

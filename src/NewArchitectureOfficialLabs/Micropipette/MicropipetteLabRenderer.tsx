@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef, useState, Suspense } from "react";
 import { Canvas } from "@react-three/fiber";
 import {
   Box,
@@ -8,12 +8,17 @@ import {
   useGLTF,
 } from "@react-three/drei";
 import { InteractiveElement, LabObject, Action } from "~/utils/types/types";
+
 import * as THREE from "three";
 import Table from "~/AnalyticalBalanceLab/components/Table";
 import gsap from "gsap";
 import MicropipetteLabSchema from "./MicropipetteSchema";
+import { useParams, useNavigate } from "react-router-dom";
+import Cookies from "js-cookie";
 
+// Preload the model (ensure the path is correct)
 const modelPath = "./sample bottle body.gltf";
+useGLTF.preload(modelPath);
 
 interface ExperienceProps {
   currentStep: number;
@@ -38,8 +43,10 @@ export default function Experience({ currentStep, onStepChange }: ExperienceProp
         // Handle other types if needed
       default:
         return null;
+
     }
-  }
+    Cookies.set("micropipetteLabLastStep", String(newStepIndex));
+  }, [step, navigate, MAX_STEP]);
 
   return (
     <div style={{ height: "100vh" }}>
@@ -69,27 +76,24 @@ export default function Experience({ currentStep, onStepChange }: ExperienceProp
           <React.Fragment key={index}>{renderInteractiveElement(element)}</React.Fragment>
         ))}
 
-        {/* Common elements like Table */}
-        <Table scale={13} position-y={-5.42} />
-        {/* Green-yellow plane */}
-        <mesh
-          receiveShadow
-          position-y={-5.56}
-          rotation-x={-Math.PI * 0.5}
-          scale={65}
+  return (
+    <div style={{ height: "100vh", position: "relative", backgroundColor: "#222" }}>
+      <Suspense fallback={<div style={{ color: "white", textAlign: "center", paddingTop: "20vh" }}>Loading 3D scene...</div>}>
+        <Canvas
+          camera={{ fov: 45, position: [11.57, 10.1, -0.314] }}
+          style={{ background: "#404040" }}
         >
           <planeGeometry />
           <meshStandardMaterial color="greenyellow" />
         </mesh>
       </Canvas>
-
       <div
         style={{
           position: "absolute",
           bottom: 0,
           left: 0,
           right: 0,
-          background: "rgba(0, 0, 0, 0.2)",
+          background: "rgba(0,0,0,0.2)",
           padding: "20px",
           display: "flex",
           justifyContent: "center",
@@ -107,11 +111,10 @@ export default function Experience({ currentStep, onStepChange }: ExperienceProp
               {currentStepData?.user_instructions ?? ""}
             </p>
           </div>
-          <div className="ml-4 flex flex-col justify-between self-stretch">
+          <div style={{ marginLeft: "1rem", display: "flex", flexDirection: "column", justifyContent: "space-between" }}>
             <button
               onClick={goToNextStep}
-              className="mb-2 flex-grow transform rounded-lg bg-gradient-to-r from-blue-400 to-purple-500 px-4 py-2 font-bold text-white transition duration-300 hover:scale-105"
-            >
+              className="mb-2 flex-grow transform rounded-lg bg-gradient-to-r from-blue-400 to-purple-500 px-4 py-2 font-bold text-white transition duration-300 hover:scale-105">
               Next Step
             </button>
           </div>
@@ -121,8 +124,20 @@ export default function Experience({ currentStep, onStepChange }: ExperienceProp
   );
 }
 
+// Placeholder for interactive elements rendering
+function renderInteractiveElement(element: any) {
+  switch (element.type) {
+    case "textinput":
+    case "image":
+    case "quiz":
+      return null;
+    default:
+      return null;
+  }
+}
+
 type ModelRendererProps = {
-  object: LabObject;
+  object: any;
   index: React.Key;
 };
 
@@ -166,8 +181,8 @@ const ModelRenderer: React.FC<ModelRendererProps> = ({ object }) => {
       {object.actions?.[0] && !object.actions[0].auto ? (
         <>
           <Box
-            position={object.actions[0].hitbox?.position ?? [0, 0, 0]}
-            scale={object.actions[0].hitbox?.scale ?? [1, 1, 1]}
+            position={object.actions[0].hitbox?.position || [0, 0, 0]}
+            scale={object.actions[0].hitbox?.scale || [1, 1, 1]}
             onClick={handleClick}
           >
             <meshStandardMaterial />
@@ -181,4 +196,4 @@ const ModelRenderer: React.FC<ModelRendererProps> = ({ object }) => {
   );
 };
 
-useGLTF.preload(modelPath);
+export {};
