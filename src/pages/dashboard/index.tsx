@@ -179,3 +179,8 @@ export default function Dashboard() {
     </div>
   );
 }
+
+
+//Gen UI:
+//render a minicanvas of the new step?
+//export the experience to the canvas

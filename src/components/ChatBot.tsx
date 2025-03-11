@@ -4,6 +4,9 @@ import { useState, useRef, useEffect } from "react";
 import axios from "axios";
 import { MessageCircle, X } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
+import Experience from "~/AnalyticalBalanceLab/components/Experience";
+import ChatCanvas from "./ChatCanvas";
+
 
 interface Message {
   role: "user" | "assistant";
@@ -55,7 +58,7 @@ const Chatbot: React.FC = () => {
   }, [messages]);
 
   return (
-    <div className="fixed bottom-6 right-6">
+    <div className="fixed bottom-6 right-6">      
       {!isOpen && (
         <motion.button
           onClick={() => setIsOpen(true)}
@@ -90,6 +93,11 @@ const Chatbot: React.FC = () => {
 
             {/* Chat Messages */}
             <div className="flex flex-col p-4 h-64 overflow-y-auto">
+              <ChatCanvas 
+                    width="100%" 
+                    height="150px"
+              />
+
               <AnimatePresence initial={false}>
                 {messages.map((msg, index) => (
                   <motion.div
