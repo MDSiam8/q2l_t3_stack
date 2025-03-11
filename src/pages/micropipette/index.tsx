@@ -2,11 +2,16 @@ import React, { useEffect, useState } from "react";
 import ReactDOM from "react-dom/client";
 import { HashRouter, Routes, Route } from "react-router-dom";
 import Experience from "../../NewArchitectureOfficialLabs/Micropipette/MicropipetteLabRenderer";
+import * as THREE from "three";
+import { useRouter } from "next/router";
+
 
 type RootType = ReactDOM.Root | null;
 
 function MyApp(): JSX.Element | null {
   const [root, setRoot] = useState<RootType>(null);
+  const [currentStep, setCurrentStep] = useState<number>(1);
+  const router = useRouter();
 
   useEffect(() => {
     const rootElement = document.getElementById("root");
@@ -25,20 +30,51 @@ function MyApp(): JSX.Element | null {
   }, [root]);
 
   useEffect(() => {
+    if (!router.isReady) return;
+
+    const stepParam = router.query.step;
+    const stepNumber = stepParam ? parseInt(stepParam as string, 10) : 1;
+
+    if (stepNumber >= 1 && stepNumber <= 20) {
+      setCurrentStep(stepNumber);
+    } else {
+      // If the step number is invalid, default to step 1
+      setCurrentStep(1);
+      // Update the URL to reflect the default step
+      router.replace(
+        {
+          pathname: router.pathname,
+          query: { ...router.query, step: 1 },
+        },
+        undefined,
+        { shallow: true },
+      );
+    }
+  }, [router.isReady, router.query.step]);
+
+  useEffect(() => {
     if (root) {
       // Using HashRouter instead of BrowserRouter to avoid server routing issues
       root.render(
-        <HashRouter>
-          <Routes>
-            {/* This route will match URLs like:  http://localhost:3000/#/step/0 */}
-            <Route path="/step/:step" element={<Experience />} />
-            <Route path="/" element={<Experience />} />
-            <Route path="*" element={<Experience />} />
-          </Routes>
-        </HashRouter>
+        <>
+          <Experience
+            currentStep={currentStep}
+            onStepChange={(newStep: number) => {
+              setCurrentStep(newStep);
+              router.replace(
+                {
+                  pathname: router.pathname,
+                  query: { ...router.query, step: newStep },
+                },
+                undefined,
+                { shallow: true },
+              );
+            }}
+          />
+        </>,
       );
     }
-  }, [root]);
+  }, [root, currentStep, router]);
 
   return null;
 }

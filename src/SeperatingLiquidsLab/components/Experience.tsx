@@ -61,62 +61,67 @@ interface StateType {
 
 type StateKey = keyof StateType;
 
-const COOKIE_NAME = "extractionLabLastStep"; // Unique cookie name for this lab
-const MAX_STEP = 14; // Maximum valid step
+// Correctly type your step component refs if they have specific methods or properties
+interface StepComponentRef {
+  replayAnimation?: () => void;
+  // other methods or properties
+}
 
-export default function Experience() {
-  const { step } = useParams<{ step?: string }>();
-  const navigate = useNavigate();
+interface SelectedItems {
+  [itemName: string]: boolean;
+}
 
-  // Local state for the currently displayed step
-  const [currentStep, setCurrentStep] = useState<number>(1);
-  const [nextButtonTempDisabled, setNextButtonTempDisabled] = useState(false);
-  const nextButtonRef = useRef<HTMLButtonElement>(null);
-  const cameraControlsRef = useRef<Camera>(null);
+export const getClassNameForNext = (isDisabled: boolean): string => {
+  let str =
+    "flex-grow transform rounded-lg bg-gradient-to-r from-blue-400 to-purple-500 px-4 py-2 font-bold text-white transition duration-300 hover:scale-105 ";
+  if (isDisabled) str += "cursor-not-allowed bg-gray-400 opacity-50";
+  return str;
+};
 
-  const [loadingMessage, setLoadingMessage] = useState("Loading Resources");
-
-  // This effect checks the URL param and cookie each time the URL parameter changes.
-  useEffect(() => {
-    const urlStep = step ? parseInt(step, 10) : 0;
-    const cookieValue = Cookies.get(COOKIE_NAME);
-    const cookieStep = cookieValue ? parseInt(cookieValue, 10) : 0;
-
-    let newStep = 1; // fallback default
-
-    // Priority 1: Use the URL param if it is a valid step (1..MAX_STEP)
-    if (urlStep >= 1 && urlStep <= MAX_STEP) {
-      newStep = urlStep;
-    }
-    // Priority 2: If the URL param is missing or invalid, try the cookie value
-    else if (cookieStep >= 1 && cookieStep <= MAX_STEP) {
-      newStep = cookieStep;
-    }
-
-    setCurrentStep(newStep);
-
-    // If the URL param was invalid or missing, correct it
-    if (urlStep !== newStep) {
-      navigate(`/extraction_lab/step/${newStep}`, { replace: true });
-    }
-
-    // Update the cookie to match our final choice of newStep
-    Cookies.set(COOKIE_NAME, String(newStep));
-  }, [step, navigate]);
-
-  // Called when the user clicks "Next Step"
-  function handleNextStep() {
-    if (currentStep < MAX_STEP) {
-      const next = currentStep + 1;
-      setCurrentStep(next);
-      Cookies.set(COOKIE_NAME, String(next));
-      navigate(`/extraction_lab/step/${next}`);
-    }
+export const setNextDisabled = (
+  nextButtonRef: React.RefObject<HTMLButtonElement>,
+) => {
+  if (nextButtonRef && nextButtonRef.current) {
+    nextButtonRef.current.disabled = true;
+    nextButtonRef.current.className = getClassNameForNext(true);
   }
+};
 
-  // Grab data for the current step from state.json
+export const setNextEnabled = (
+  nextButtonRef: React.RefObject<HTMLButtonElement>,
+) => {
+  if (nextButtonRef && nextButtonRef.current) {
+    nextButtonRef.current.disabled = false;
+    nextButtonRef.current.className = getClassNameForNext(false);
+  }
+};
+
+interface ExperienceProps {
+  currentStep: number,
+  onStepChange: (newStep: number) => void;
+}
+
+export default function Experience({currentStep, onStepChange,}: ExperienceProps) {
   const key = currentStep.toString() as StateKey;
   const stepData = state[key];
+  const stepRefs = useRef<Record<number, StepComponentRef>>({});
+  const [isAnimating, setIsAnimating] = useState<boolean>(false);
+  const nextButtonRef = useRef<HTMLButtonElement>(null);
+
+  const cameraControlsRef = useRef<Camera>(null);
+
+  const [selectedItems, setSelectedItems] = useState<SelectedItems>({});
+  const [isInventoryVisible, setIsInventoryVisible] = useState(false);
+  const [loadingMessage, setLoadingMessage] = useState("Loading Resources");
+
+  const handleToggleInventory = () => {
+    setIsInventoryVisible(!isInventoryVisible);
+  };
+
+  const handleNextStep = () => {
+    if (currentStep < Object.keys(state).length) {
+      onStepChange(currentStep + 1);
+      setNextDisabled(nextButtonRef);    }
 
   return (
     <Suspense
