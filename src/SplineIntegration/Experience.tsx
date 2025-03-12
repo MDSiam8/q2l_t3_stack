@@ -1,32 +1,37 @@
+"use client";
 import React, { useState } from 'react';
-import Spline from '@splinetool/react-spline';
+import Spline, { SplineEvent, SplineProps } from '@splinetool/react-spline';
 import state from './state.json';
+import { useRef, useEffect } from 'react';
+import { Application } from '@splinetool/runtime';
+import { set } from 'zod';
 
-// Mapping scene numbers to Spline scene URLs. Adjust as needed.
-const sceneUrls = {
-  "1": "https://prod.spline.design/lzqCwgPXt-R17v9O/scene.splinecode",
-  "2": "https://prod.spline.design/lzqCwgPXt-R17v9O/scene.splinecode",
-  // Add more scenes here
-};
+const sceneUrl = "https://prod.spline.design/lzqCwgPXt-R17v9O/scene.splinecode";
 
 export default function App() {
   const [currentScene, setCurrentScene] = useState(1);
   const stateKey = currentScene.toString();
-  const currentSceneUrl = sceneUrls[stateKey] || sceneUrls["1"];
+  const [isLoaded, setIsLoaded] = useState(false); // Track if handleLoad has been called
+
   const stepData = state[stateKey];
 
-  const handleNextScene = () => {
-    const nextScene = currentScene + 1;
+
+  const handleNextScene = (spline: SplineEvent) => {
+    if (spline.target.name === 'nextSceneButton') {
+      const nextScene = currentScene + 1;
     // Only update if there's data for the next scene
-    if (state[nextScene.toString()]) {
-      setCurrentScene(nextScene);
+      if (state[nextScene.toString()]) {
+        setCurrentScene(nextScene);
+        
+      }
     }
   };
 
+
   return (
     <div style={{ position: 'relative', height: '100vh' }}>
-      {/* Spline Scene */}
-      <Spline scene={currentSceneUrl} />
+      <Spline scene={sceneUrl} onSplineMouseDown={handleNextScene}
+        />
 
       {/* Overlay */}
       <div
@@ -55,7 +60,7 @@ export default function App() {
           </div>
           <div className="ml-4 flex flex-col justify-between self-stretch">
             <button
-              onClick={handleNextScene}
+              // onClick={handleNextScene}
               className="mb-0 flex-grow transform rounded-lg bg-gradient-to-r from-blue-400 to-purple-500 px-4 py-2 font-bold text-white transition duration-300 hover:scale-105"
             >
               Next Scene
