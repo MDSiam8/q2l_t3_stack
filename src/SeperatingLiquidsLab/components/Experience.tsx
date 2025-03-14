@@ -96,6 +96,7 @@ export const setNextEnabled = (
   }
 };
 
+
 interface ExperienceProps {
   currentStep: number;
   onStepChange: (newStep: number) => void;

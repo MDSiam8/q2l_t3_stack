@@ -27,10 +27,11 @@ interface Notebook {
   updatedAt: Date;
   completed: string;
   link: string;
+  disabled: boolean;
 }
 
 // Reusable card component to display notebook details
-const NotebookCard: React.FC<{ notebook: Notebook }> = ({ notebook }) => {
+const NotebookCard: React.FC<{ notebook: Notebook; disabled?: boolean }> = ({ notebook, disabled }) => {
   const getStatusColor = (status: string) => {
     switch (status) {
       case 'Not Started':
@@ -45,32 +46,53 @@ const NotebookCard: React.FC<{ notebook: Notebook }> = ({ notebook }) => {
   };
 
   return (
-    <Link href={notebook.link} passHref>
-      {/* 'passHref' ensures the href prop is passed to the underlying DOM element */}
-      <Card>
-        {notebook.image !== "none" && <CardImage imageSrc={notebook.image} />}
-        <CardHeader>
-          <div className="notebook-title">
-            <CardTitle>{notebook.name}</CardTitle>
+    <>
+      {disabled ? (
+        <div className="relative">
+          <div className="absolute z-10 flex items-center justify-center w-full h-full">
+            <div className="rounded-lg py-2 px-6 text-sm shadow-lg border select-none border-red-500 bg-red-100 text-red-900">
+              Under Maintenance
+            </div>
           </div>
-        </CardHeader>
-        {
-        // <CardContent>
-        //   <div className="completed-status" style={{ color: getStatusColor(notebook.completed) }}>
-        //     <CardDescription>
-        //       {notebook.completed}
-        //     </CardDescription>
-        //   </div>
-        //   {/* <div className="last-updated">
-        //     <CardDescription>
-        //       Last updated: {notebook.updatedAt.toLocaleDateString()}
-        //     </CardDescription>
-        //   </div> */}
-        //   {/* Add additional notebook details here */}
-        // </CardContent>
-      }
-      </Card>
-    </Link>
+          <div className="pointer-events-none opacity-50">
+            <Card>
+              {notebook.image !== "none" && <CardImage imageSrc={notebook.image} />}
+              <CardHeader>
+                <div className="notebook-title">
+                  <CardTitle>{notebook.name}</CardTitle>
+                </div>
+              </CardHeader>
+              {
+              // <CardContent>
+              //   <div className="completed-status" style={{ color: getStatusColor(notebook.completed) }}>
+              //     <CardDescription>
+              //       {notebook.completed}
+              //     </CardDescription>
+              //   </div>
+              //   {/* <div className="last-updated">
+              //     <CardDescription>
+              //       Last updated: {notebook.updatedAt.toLocaleDateString()}
+              //     </CardDescription>
+              //   </div> */}
+              //   {/* Add additional notebook details here */}
+              // </CardContent>
+              }
+            </Card>
+          </div>
+        </div>
+      ) : (
+        <Link href={notebook.link} passHref>
+          <Card>
+            {notebook.image !== "none" && <CardImage imageSrc={notebook.image} />}
+            <CardHeader>
+              <div className="notebook-title">
+                <CardTitle>{notebook.name}</CardTitle>
+              </div>
+            </CardHeader>
+          </Card>
+        </Link>
+      )}
+    </>
   );
 };
 
@@ -82,7 +104,11 @@ const NotebookPreview: React.FC<NotebookPreviewProps> = ({ notebooks }) => {
   return (
     <div className="grid grid-cols-1 gap-4 p-4 md:grid-cols-4 md:pr-10">
       {notebooks.map((notebook) => (
-        <NotebookCard key={notebook.id} notebook={notebook} />
+        <NotebookCard 
+          key={notebook.id} 
+          notebook={notebook} 
+          disabled={notebook.disabled}
+        />
       ))}
     </div>
   );
@@ -95,6 +121,7 @@ const notebook: Notebook = {
   updatedAt: new Date(),
   completed: "Not Started",
   link: "/analytical_balance_lab",
+  disabled: false
 };
 
 const notebook2: Notebook = {
@@ -104,6 +131,7 @@ const notebook2: Notebook = {
   completed: "Not Started",
   updatedAt: new Date(),
   link: "/rotovap_lab",
+  disabled: true
 };
 
 const notebook3: Notebook = {
@@ -113,6 +141,7 @@ const notebook3: Notebook = {
   completed: "Not Started",
   updatedAt: new Date(),
   link: "/extraction_lab",
+  disabled: true
 };
 
 const notebook4: Notebook = {
@@ -122,6 +151,7 @@ const notebook4: Notebook = {
   link: "/micropipette",
   image: "micro.jpg",
   completed: "Not Started",
+  disabled: true
 }
 
 const notebook5: Notebook = {
