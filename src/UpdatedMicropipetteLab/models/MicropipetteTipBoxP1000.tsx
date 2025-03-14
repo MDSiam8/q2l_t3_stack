@@ -1,21 +1,21 @@
-// Info about Micropiette hereimport { OrbitControls, useAnimations, useGLTF } from "@react-three/drei";
 import { forwardRef, useImperativeHandle, useRef } from "react";
 import { Props } from "~/BaseComponents";
-import { MicropipetteRef } from "~/utils/types/ref-types";
-import { ActionName, HorizontalGelTankProps, MicropipetteProps } from "~/utils/types/types";
-import performAction from "./model-utils";
+import { MicropipetteTipBoxRef } from "~/utils/types/ref-types";
+import { ActionName, MicropipetteTipBoxProps } from "~/utils/types/types";
+// import performAction from "./model-utils";
 import * as THREE from 'three'
 import { useAnimations, useGLTF } from "@react-three/drei";
 
-const modelPath = "./redP2micropipette.glb";
 
-export const MicropipetteP2Model = forwardRef<MicropipetteRef, MicropipetteProps>(
-  (props: MicropipetteProps, ref) => {
-    const micropipettep2 = useGLTF(modelPath);
+const modelPath = "./blueP1000tipbox.glb";
 
-    const MicropipetteRef = useRef<any>();
+export const MicropipetteTipBoxP1000Model = forwardRef<MicropipetteTipBoxRef, MicropipetteTipBoxProps>(
+  (props: MicropipetteTipBoxProps, ref) => {
+    const micropipettetipboxp1000 = useGLTF(modelPath);
+
+    const MicropipetteTipBoxRef = useRef<any>();
     
-    const animations = useAnimations(micropipettep2.animations, micropipettep2.scene);
+    const animations = useAnimations(micropipettetipboxp1000.animations, micropipettetipboxp1000.scene);
     const animationAction = useRef<THREE.AnimationAction | null>(null);
 
     const handleReplayAnimation = async () => {
@@ -25,7 +25,7 @@ export const MicropipetteP2Model = forwardRef<MicropipetteRef, MicropipetteProps
       }  
     };
 
-    const performAction: MicropipetteRef["performAction"] = async (
+    const performAction: MicropipetteTipBoxRef["performAction"] = async (
       actionName: ActionName,
     ) => {
         const action = animations.actions
@@ -45,14 +45,13 @@ export const MicropipetteP2Model = forwardRef<MicropipetteRef, MicropipetteProps
     useImperativeHandle(ref, () => ({
       performAction: performAction,
       replayAnimation: handleReplayAnimation,
-      ...micropipettep2.scene,
-      ...MicropipetteRef.current,
+      ...micropipettetipboxp1000.scene,
+      ...MicropipetteTipBoxRef.current,
     }));
     
     return (
       <group {...props} position={props.startingPosition}>
-        <primitive object={micropipettep2.scene} scale={(props.scale ?? 1) * (1/3)} />
-
+        <primitive object={micropipettetipboxp1000.scene} scale={props.scale} />
       </group>
     );
   },

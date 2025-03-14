@@ -1,21 +1,19 @@
-// Info about Micropiette hereimport { OrbitControls, useAnimations, useGLTF } from "@react-three/drei";
+import { OrbitControls, useAnimations, useGLTF } from "@react-three/drei";
 import { forwardRef, useImperativeHandle, useRef } from "react";
 import { Props } from "~/BaseComponents";
-import { MicropipetteRef } from "~/utils/types/ref-types";
-import { ActionName, HorizontalGelTankProps, MicropipetteProps } from "~/utils/types/types";
-import performAction from "./model-utils";
+import { BeakerGlbRef } from "~/utils/types/ref-types";
+import { ActionName, BeakerGlbProps } from "~/utils/types/types";
 import * as THREE from 'three'
-import { useAnimations, useGLTF } from "@react-three/drei";
 
-const modelPath = "./redP2micropipette.glb";
+const modelPath = "./beaker.glb";
 
-export const MicropipetteP2Model = forwardRef<MicropipetteRef, MicropipetteProps>(
-  (props: MicropipetteProps, ref) => {
-    const micropipettep2 = useGLTF(modelPath);
+export const BeakerGlbModel = forwardRef<BeakerGlbRef, BeakerGlbProps>(
+  (props: BeakerGlbProps, ref) => {
+    const beakerGlb = useGLTF(modelPath);
 
-    const MicropipetteRef = useRef<any>();
+    const beakerGlbRef = useRef<any>();
     
-    const animations = useAnimations(micropipettep2.animations, micropipettep2.scene);
+    const animations = useAnimations(beakerGlb.animations, beakerGlb.scene);
     const animationAction = useRef<THREE.AnimationAction | null>(null);
 
     const handleReplayAnimation = async () => {
@@ -25,7 +23,7 @@ export const MicropipetteP2Model = forwardRef<MicropipetteRef, MicropipetteProps
       }  
     };
 
-    const performAction: MicropipetteRef["performAction"] = async (
+    const performAction: BeakerGlbRef["performAction"] = async (
       actionName: ActionName,
     ) => {
         const action = animations.actions
@@ -40,19 +38,19 @@ export const MicropipetteP2Model = forwardRef<MicropipetteRef, MicropipetteProps
       return Promise.resolve();
     };
 
-    // performAction({horizontalGelTank.animation, horizontalGelTank.scene, animationAction}, )
+    // performAction({beakerGlb.animation, beakerGlb.scene, animationAction}, )
 
     useImperativeHandle(ref, () => ({
       performAction: performAction,
       replayAnimation: handleReplayAnimation,
-      ...micropipettep2.scene,
-      ...MicropipetteRef.current,
+      ...beakerGlb.scene,
+      ...beakerGlbRef.current,
     }));
     
     return (
       <group {...props} position={props.startingPosition}>
-        <primitive object={micropipettep2.scene} scale={(props.scale ?? 1) * (1/3)} />
-
+        <primitive object={beakerGlb.scene} scale={props.scale} />
+        {/* <BalanceReading ref={balanceReadingRef} /> */}
       </group>
     );
   },

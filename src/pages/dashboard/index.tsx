@@ -148,7 +148,7 @@ const notebook4: Notebook = {
   id: "4",
   name: "Micropipette",
   updatedAt: new Date(),
-  link: "/micropipette",
+  link: "/updated_micropipette_lab",
   image: "micro.jpg",
   completed: "Not Started",
   disabled: false
