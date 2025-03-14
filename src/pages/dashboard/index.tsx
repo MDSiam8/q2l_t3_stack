@@ -51,7 +51,7 @@ const NotebookCard: React.FC<{ notebook: Notebook; disabled?: boolean }> = ({ no
         <div className="relative">
           <div className="absolute z-10 flex items-center justify-center w-full h-full">
             <div className="rounded-lg py-2 px-6 text-sm shadow-lg border select-none border-red-500 bg-red-100 text-red-900">
-              Under Maintenance
+              Currently under maintenance. Will return soon!
             </div>
           </div>
           <div className="pointer-events-none opacity-50">
@@ -131,7 +131,7 @@ const notebook2: Notebook = {
   completed: "Not Started",
   updatedAt: new Date(),
   link: "/rotovap_lab",
-  disabled: true
+  disabled: false
 };
 
 const notebook3: Notebook = {
@@ -151,7 +151,7 @@ const notebook4: Notebook = {
   link: "/micropipette",
   image: "micro.jpg",
   completed: "Not Started",
-  disabled: true
+  disabled: false
 }
 
 const notebook5: Notebook = {
@@ -161,6 +161,7 @@ const notebook5: Notebook = {
   link: "/standard_solution_lab",
   image: "standard_solution.jpeg",
   completed: "Not Started",
+  disabled: false
 }
 
 const notebook6: Notebook = {
@@ -170,6 +171,7 @@ const notebook6: Notebook = {
   link: "/diluting_lab",
   image: "Diluting.jpg",
   completed: "Not Started",
+  disabled: true
 }
 
 const access_labs = [notebook, notebook2, notebook3, notebook4, notebook6]
