@@ -48,30 +48,39 @@ const NotebookCard: React.FC<{ notebook: Notebook; disabled?: boolean }> = ({ no
   return (
     <>
       {disabled ? (
-        <div className="opacity-50 pointer-events-none">
-          <Card>
-            {notebook.image !== "none" && <CardImage imageSrc={notebook.image} />}
-            <CardHeader>
-              <div className="notebook-title">
-                <CardTitle>{notebook.name}</CardTitle>
-              </div>
-            </CardHeader>
-            {
-            // <CardContent>
-            //   <div className="completed-status" style={{ color: getStatusColor(notebook.completed) }}>
-            //     <CardDescription>
-            //       {notebook.completed}
-            //     </CardDescription>
-            //   </div>
-            //   {/* <div className="last-updated">
-            //     <CardDescription>
-            //       Last updated: {notebook.updatedAt.toLocaleDateString()}
-            //     </CardDescription>
-            //   </div> */}
-            //   {/* Add additional notebook details here */}
-            // </CardContent>
-            }
-          </Card>
+        <div className="relative">
+          <div className="absolute z-10 flex items-center justify-center w-full h-full">
+            <div
+              className="rounded-lg py-2 px-6 text-sm shadow-lg border select-none border-red-500 bg-red-100 text-red-900 opacity-100"
+            >
+              Under Maintenance
+            </div>
+          </div>
+          <div className="pointer-events-none opacity-50">
+            <Card>
+              {notebook.image !== "none" && <CardImage imageSrc={notebook.image} />}
+              <CardHeader>
+                <div className="notebook-title">
+                  <CardTitle>{notebook.name}</CardTitle>
+                </div>
+              </CardHeader>
+              {
+              // <CardContent>
+              //   <div className="completed-status" style={{ color: getStatusColor(notebook.completed) }}>
+              //     <CardDescription>
+              //       {notebook.completed}
+              //     </CardDescription>
+              //   </div>
+              //   {/* <div className="last-updated">
+              //     <CardDescription>
+              //       Last updated: {notebook.updatedAt.toLocaleDateString()}
+              //     </CardDescription>
+              //   </div> */}
+              //   {/* Add additional notebook details here */}
+              // </CardContent>
+              }
+            </Card>
+          </div>
         </div>
       ) : (
         <Link href={notebook.link} passHref>
