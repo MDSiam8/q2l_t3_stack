@@ -1,14 +1,16 @@
-import React, { useEffect, useState, useRef } from "react";
+import React, { useEffect, useState } from "react";
 import ReactDOM from "react-dom/client";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-//import { Canvas, useFrame, useThree } from "@react-three/fiber";
 import Experience from "../../SeperatingLiquidsLab/components/Experience";
-//import * as THREE from "three";
+import { useRouter } from "next/router";
+
 
 type RootType = ReactDOM.Root | null;
 
 function MyApp(): JSX.Element | null {
   const [root, setRoot] = useState<RootType>(null);
+  const [currentStep, setCurrentStep] = useState<number>(1);
+  const router = useRouter();
 
   useEffect(() => {
     const rootElement = document.querySelector("#root") as HTMLElement;
@@ -22,7 +24,6 @@ function MyApp(): JSX.Element | null {
     }
 
     return () => {
-      // Cleanup function to handle component unmount
       if (root) {
         root.unmount();
       }
@@ -30,19 +31,50 @@ function MyApp(): JSX.Element | null {
   }, [root]);
 
   useEffect(() => {
-    if (root) {
-      root.render(
-        <BrowserRouter>
-          <Routes>
-            <Route path="/extraction_lab/step/:step" element={<Experience />} />
-            <Route path="/extraction_lab" element={<Experience />} />
-            <Route path="/" element={<Experience />} />
-            <Route path="*" element={<Experience />} />
-          </Routes>
-        </BrowserRouter>,
+    if (!router.isReady) return;
+
+    const stepParam = router.query.step;
+    const stepNumber = stepParam ? parseInt(stepParam as string, 10) : 1;
+
+    if (stepNumber >= 1 && stepNumber <= 20) {
+      setCurrentStep(stepNumber);
+    } else {
+      // If the step number is invalid, default to step 1
+      setCurrentStep(1);
+      // Update the URL to reflect the default step
+      router.replace(
+        {
+          pathname: router.pathname,
+          query: { ...router.query, step: 1 },
+        },
+        undefined,
+        { shallow: true },
       );
     }
-  }, [root]);
+  }, [router.isReady, router.query.step]);
+
+  useEffect(() => {
+    if (root) {
+      root.render(
+        <>
+          <Experience
+            currentStep={currentStep}
+            onStepChange={(newStep: number) => {
+              setCurrentStep(newStep);
+              router.replace(
+                {
+                  pathname: router.pathname,
+                  query: { ...router.query, step: newStep },
+                },
+                undefined,
+                { shallow: true },
+              );
+            }}
+          />
+        </>,
+      );
+    }
+  }, [root, currentStep, router]);
 
   return null;
 }
