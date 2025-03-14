@@ -51,7 +51,7 @@ const NotebookCard: React.FC<{ notebook: Notebook; disabled?: boolean }> = ({ no
         <div className="relative">
           <div className="absolute z-10 flex items-center justify-center w-full h-full">
             <div
-              className="rounded-lg py-2 px-6 text-sm shadow-lg border select-none border-red-500 bg-red-100 text-red-900 opacity-100"
+              className="rounded-lg py-2 px-6 text-sm shadow-lg border select-none border-red-500 bg-red-100 text-red-900"
             >
               Under Maintenance
             </div>
