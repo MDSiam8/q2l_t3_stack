@@ -79,7 +79,7 @@ export const getClassNameForNext = (isDisabled: boolean): string => {
 };
 
 export const setNextDisabled = (
-  nextButtonRef: React.RefObject<HTMLButtonElement>,
+  nextButtonRef: React.RefObject<HTMLButtonElement>
 ) => {
   if (nextButtonRef && nextButtonRef.current) {
     nextButtonRef.current.disabled = true;
@@ -88,7 +88,7 @@ export const setNextDisabled = (
 };
 
 export const setNextEnabled = (
-  nextButtonRef: React.RefObject<HTMLButtonElement>,
+  nextButtonRef: React.RefObject<HTMLButtonElement>
 ) => {
   if (nextButtonRef && nextButtonRef.current) {
     nextButtonRef.current.disabled = false;
@@ -97,11 +97,11 @@ export const setNextEnabled = (
 };
 
 interface ExperienceProps {
-  currentStep: number,
+  currentStep: number;
   onStepChange: (newStep: number) => void;
 }
 
-export default function Experience({currentStep, onStepChange,}: ExperienceProps) {
+export default function Experience({ currentStep, onStepChange }: ExperienceProps) {
   const key = currentStep.toString() as StateKey;
   const stepData = state[key];
   const stepRefs = useRef<Record<number, StepComponentRef>>({});
@@ -113,15 +113,21 @@ export default function Experience({currentStep, onStepChange,}: ExperienceProps
   const [selectedItems, setSelectedItems] = useState<SelectedItems>({});
   const [isInventoryVisible, setIsInventoryVisible] = useState(false);
   const [loadingMessage, setLoadingMessage] = useState("Loading Resources");
+  // nextButtonTempDisabled defaults to false; adjust as needed
+  const [nextButtonTempDisabled, setNextButtonTempDisabled] = useState<boolean>(false);
+
+  const MAX_STEP = Object.keys(state).length;
 
   const handleToggleInventory = () => {
     setIsInventoryVisible(!isInventoryVisible);
   };
 
   const handleNextStep = () => {
-    if (currentStep < Object.keys(state).length) {
+    if (currentStep < MAX_STEP) {
       onStepChange(currentStep + 1);
-      setNextDisabled(nextButtonRef);    }
+      setNextDisabled(nextButtonRef);
+    }
+  };
 
   return (
     <Suspense
@@ -129,11 +135,7 @@ export default function Experience({currentStep, onStepChange,}: ExperienceProps
         <div className="flex h-screen items-center justify-center bg-gradient-to-r from-blue-400 via-cyan-500 to-green-400">
           <div className="rounded-lg border border-transparent bg-black bg-opacity-30 p-6 shadow-lg backdrop-blur-lg backdrop-filter">
             <p className="text-lg font-thin text-white">{loadingMessage}</p>
-            <img
-              src="/loadingQ2L.svg"
-              alt="Loading"
-              className="w-20 h-20 m-auto"
-            />
+            <img src="/loadingQ2L.svg" alt="Loading" className="w-20 h-20 m-auto" />
           </div>
         </div>
       }
@@ -159,57 +161,26 @@ export default function Experience({currentStep, onStepChange,}: ExperienceProps
 
           {/* Common elements like Table & Ground */}
           <Table scale={13} position-y={-1} />
-          <mesh
-            receiveShadow
-            position-y={-1}
-            rotation-x={-Math.PI * 0.5}
-            scale={65}
-          >
+          <mesh receiveShadow position-y={-1} rotation-x={-Math.PI * 0.5} scale={65}>
             <planeGeometry />
             <meshStandardMaterial color="gray" />
           </mesh>
 
           {/* Render step components based on currentStep */}
           {currentStep === 1 && <Step1LabObjectives />}
-          {currentStep === 2 && (
-            <Step2InventorySelection nextButtonRef={nextButtonRef} />
-          )}
-          {currentStep === 3 && (
-            <Step3PourToSeperatingFunnel nextButtonRef={nextButtonRef} />
-          )}
-          {currentStep === 4 && (
-            <Step4PourWaterToSeperatingFunnel nextButtonRef={nextButtonRef} />
-          )}
-          {currentStep === 5 && (
-            <Step5StopperTheSFunnel nextButtonRef={nextButtonRef} />
-          )}
-          {currentStep === 6 && (
-            <Step6VentAir nextButtonRef={nextButtonRef} />
-          )}
-          {currentStep === 7 && (
-            <Step7Mix nextButtonRef={nextButtonRef} />
-          )}
-          {currentStep === 8 && (
-            <Step8VentAirAfterMixing nextButtonRef={nextButtonRef} />
-          )}
-          {currentStep === 9 && (
-            <Step9SeperateLiquid nextButtonRef={nextButtonRef} />
-          )}
-          {currentStep === 10 && (
-            <Step10DrainSFunnel nextButtonRef={nextButtonRef} />
-          )}
-          {currentStep === 11 && (
-            <Step11PourOrganicLayer nextButtonRef={nextButtonRef} />
-          )}
-          {currentStep === 12 && (
-            <Step12AddPowder nextButtonRef={nextButtonRef} />
-          )}
-          {currentStep === 13 && (
-            <Step13Filter nextButtonRef={nextButtonRef} />
-          )}
-          {currentStep === 14 && (
-            <Step14Finish nextButtonRef={nextButtonRef} />
-          )}
+          {currentStep === 2 && <Step2InventorySelection nextButtonRef={nextButtonRef} />}
+          {currentStep === 3 && <Step3PourToSeperatingFunnel nextButtonRef={nextButtonRef} />}
+          {currentStep === 4 && <Step4PourWaterToSeperatingFunnel nextButtonRef={nextButtonRef} />}
+          {currentStep === 5 && <Step5StopperTheSFunnel nextButtonRef={nextButtonRef} />}
+          {currentStep === 6 && <Step6VentAir nextButtonRef={nextButtonRef} />}
+          {currentStep === 7 && <Step7Mix nextButtonRef={nextButtonRef} />}
+          {currentStep === 8 && <Step8VentAirAfterMixing nextButtonRef={nextButtonRef} />}
+          {currentStep === 9 && <Step9SeperateLiquid nextButtonRef={nextButtonRef} />}
+          {currentStep === 10 && <Step10DrainSFunnel nextButtonRef={nextButtonRef} />}
+          {currentStep === 11 && <Step11PourOrganicLayer nextButtonRef={nextButtonRef} />}
+          {currentStep === 12 && <Step12AddPowder nextButtonRef={nextButtonRef} />}
+          {currentStep === 13 && <Step13Filter nextButtonRef={nextButtonRef} />}
+          {currentStep === 14 && <Step14Finish nextButtonRef={nextButtonRef} />}
         </Canvas>
 
         {/* Step Instructions & Next Button Overlay */}
