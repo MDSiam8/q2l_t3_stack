@@ -16,6 +16,7 @@
     "@headlessui/react": "^1.7.19",
     "@heroicons/react": "^2.2.0",
     "@prisma/client": "^5.22.0",
+    "@radix-ui/react-slot": "^1.1.2",
     "@react-three/drei": "^9.122.0",
     "@react-three/fiber": "^8.18.0",
     "@t3-oss/env-nextjs": "^0.7.3",
