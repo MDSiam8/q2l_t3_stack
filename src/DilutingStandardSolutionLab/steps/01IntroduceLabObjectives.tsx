@@ -1,7 +1,6 @@
 import React, { forwardRef } from "react";
 import { GlassPipette } from "../models/GlassPipette";
 import { PipetteBulb } from "../models/PipetteBulb";
-
 const Step1Introduction = forwardRef((props, ref) => {
   return (
     <group>
@@ -12,5 +11,4 @@ const Step1Introduction = forwardRef((props, ref) => {
     </group>
   );
 });
-
 export default Step1Introduction;

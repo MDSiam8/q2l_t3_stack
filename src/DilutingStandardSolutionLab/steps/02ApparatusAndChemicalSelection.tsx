@@ -1,56 +1,63 @@
 import React, { forwardRef, useState } from "react";
 import BalanceWithAnimations from "../models/BalanceWithAnimations";
 import InventorySystem from "../ui_overlay/InventorySystem";
-import WeighingPaper from "../models/WeighingPaper";
 import { Beaker } from "../models/Beaker";
-import { Spatula } from "../models/Spatula";
-import { BottleCap } from "../models/BottleCap";
-import { Bottle } from "../models/Bottle";
+import { GlassPipette } from "../models/GlassPipette";
+import { GlassDropper } from "../models/GlassDropper";
+import { Stopper } from "../models/Stopper";
+import { DistilledWater } from "../models/DistilledWater";
 import { useGLTF } from "@react-three/drei";
 import { setNextEnabled } from "../Experience";
 interface SelectedItems {
   [itemName: string]: boolean;
 }
-
 interface SecondStepProps {
   nextButtonRef: React.RefObject<HTMLButtonElement>;
   selectedItems: SelectedItems;
 }
-
-
 const Step2SelectApparatus = forwardRef<HTMLDivElement, SecondStepProps>(
   ({ nextButtonRef, selectedItems }, ref) => {
-
   return (
     <group>
-      {selectedItems["Analytical Balance"] && (
-        <BalanceWithAnimations position={[0, 4.55, 0]} isOpen={true} />
-      )}
-      {selectedItems["Weighing Paper"] && (
-        <WeighingPaper
-          folded={false}
-          rotation-y={(3.14 / 180) * 180}
-          position={[0, 5, -3]}
-        />
-      )}
       {selectedItems["Beaker"] && (
-        <Beaker rotation-y={(-3.14 / 180) * 90} position={[2.6, 4.9, -3]} />
-      )}
-      {selectedItems["Spatula"] && (
-        <Spatula
-          rotation-y={(3.14 / 180) * 90}
-          scale={0.5}
-          position={[2.5, 5, 0]}
+        <Beaker
+          rotation-y={(-3.14 / 180) * 90}
+          position={[2.5, 4.9, -3]} 
         />
       )}
-      {selectedItems["Powder Sample"] && (
+      {selectedItems["Glass Pipette"] && (
+        <GlassPipette
+          scale={0.5}
+          rotation-x={(-3.14 / 180) * 90}
+          rotation-y={(-3.14 / 180) * 270}
+          rotation-z={0}
+          position={[1.5, 5.05, 4]}
+        />
+      )}
+      {selectedItems["Glass Dropper"] && (
+        <GlassDropper
+          scale={0.5}
+          rotation-x={(-3.14 / 180) * 90}
+          rotation-y={0}
+          rotation-z={0}
+          position={[2, 5, 3]}
+        />
+      )}
+      {selectedItems["Stopper"] && (
+        <Stopper
+          scale={0.5}
+          position={[2, 4.95, 1]}
+        />
+      )}
+      {selectedItems["Distilled Water"] && (
         <group>
-          <BottleCap position={[2, 5.1, -2]} />
-          <Bottle position={[2, 5, -2]} />
+          <DistilledWater
+            position={[2, 5.1, -2]}
+            rotation-y={(-3.14 / 180) * 90}
+          />
         </group>
       )}
     </group>
   );
 });
-
 export default Step2SelectApparatus;

@@ -27,6 +27,7 @@ import state from "./state.json";
 import { Canvas, useFrame, useThree } from "@react-three/fiber";
 // import { CameraAdjuster } from "./CameraAdjuster";
 import { Camera, Vector3 } from "three";
+import { useNavigate, useParams } from 'react-router-dom';
 
 // Interface for the structure of each step in state.json
 interface Step {
@@ -87,7 +88,10 @@ export const setNextEnabled = (nextButtonRef : React.RefObject<HTMLButtonElement
   }
 }
 export default function Experience() {
-  const [currentStep, setCurrentStep] = useState<number>(1);
+  const navigate = useNavigate();
+  const { step } = useParams();
+
+  const [currentStep, setCurrentStep] = useState<number>(parseInt(step || "1"));
   const key = currentStep.toString() as StateKey;
   const stepData = state[key]; // Safe indexing
   const stepRefs = useRef<Record<number, StepComponentRef>>({});
@@ -100,6 +104,7 @@ export default function Experience() {
   
   const handleNextStep = () => {
     if (currentStep < Object.keys(state).length) {
+      navigate(`/step/${currentStep + 1}`);
       setCurrentStep(currentStep + 1);
       setNextDisabled(nextButtonRef);
       // setNextButtonTempDisabled(true);
@@ -108,6 +113,15 @@ export default function Experience() {
       // }, 2000);
     }
   };
+
+  useEffect(() => {
+    const urlStep = parseInt(step || "1");
+    if (isNaN(urlStep) || urlStep < 1 || urlStep > Object.keys(state).length) {
+      navigate(`/gel-electrophoresis/step/1`);
+      return;
+    }
+    setCurrentStep(urlStep);
+  }, [step, navigate]);
 
   const handleReplayAnimation = () => {
     const currentStepRef = stepRefs.current[currentStep];

@@ -1,5 +1,6 @@
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, forwardRef, useImperativeHandle } from "react";
 import { useGLTF } from "@react-three/drei";
+import * as THREE from "three";
 
 export function GlassRod(props: any) {
   const glassRod = useGLTF("./glass rod_20221229.glb");

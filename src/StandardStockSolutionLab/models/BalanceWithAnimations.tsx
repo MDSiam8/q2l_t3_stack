@@ -18,7 +18,7 @@ export interface BalanceWithAnimationsHandles {
 const BalanceWithAnimations = forwardRef<BalanceWithAnimationsHandles, BalanceWithAnimationsProps>(
   (props, ref) => {
     const { isOpen } = props;
-    const balance = useGLTF("./balanceUpdated.gltf");
+    const balance = useGLTF("/balanceUpdated.gltf");
     const animations = useAnimations(balance.animations, balance.scene);
     const animationAction = useRef<THREE.AnimationAction | null>(null);
     const balanceReadingRef = useRef<any>(null);
@@ -74,4 +74,4 @@ const BalanceWithAnimations = forwardRef<BalanceWithAnimationsHandles, BalanceWi
 
 export default BalanceWithAnimations;
 
-useGLTF.preload("./balanceUpdated.gltf")
+useGLTF.preload("/balanceUpdated.gltf")

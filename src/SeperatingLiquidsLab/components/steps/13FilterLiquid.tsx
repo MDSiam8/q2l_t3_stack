@@ -1,95 +1,92 @@
-import React, { useEffect, forwardRef, useState, useRef } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import { setNextEnabled } from "../Experience";
-import { Html } from "next/document";
 import { SeparatingFunnelHolder } from "../seperating_funnel/SeparatingFunnelHolder";
-import { RBFlaskWithPourAnimation } from "../RBFlaskWithFillAnim";
 import { SFunnelWithFillAnimation } from "../seperating_funnel/SeperatingFunnelWithFillAnimation";
 import gsap from "gsap";
 import { BeakerFillWithOrganicLayer } from "../BeakerFillingWithOrganicProduct";
 import { FunnelWithPourAnim } from "../Funnel";
 import { Sphere } from "@react-three/drei";
 import { BeakerPouringOrganicSolution } from "../BeakerPourOrganicSol";
-import { Group, Object3D } from "three";
+import { Group } from "three";
 
 interface Step2LabTasksProps {
   nextButtonRef: React.RefObject<HTMLButtonElement>;
 }
 
-const Step13Filter = forwardRef<HTMLDivElement, Step2LabTasksProps>(
-  ({ nextButtonRef }, ref) => {
-    const beakerRef = useRef<Group>(null);
-    const [animDelay, setAnimDelay] = useState(9999);
-    const [showPowder, setShowPowder] = useState(true);
-    const handleBeakerClick = () => {
-      const tl = gsap.timeline();
-      if (beakerRef.current) {
-        // Rise the beaker by 1 unit, then move to the front by 2 units on the x-axis
-        tl.to(beakerRef.current.position, { y: "+=2", duration: 1 }).to(
-          beakerRef.current.position,
-          {
-            x: "+=2",
-            z: "+=.3",
-            duration: 1,
-            onComplete: () => {
-              setShowPowder(false);
-              setAnimDelay(0.1);
-            },
-          },
-        ).to(beakerRef.current.position, {
-         duration: 3
-        }).to(beakerRef.current.position,{
-          x: "-=2", y: "-=2", z: "+=.3", duration: 1,
-          onComplete: () => {
-            setNextEnabled(nextButtonRef);
-          }
-        });
-        // .to(beakerRef.current.position, {
-        //   onComplete: () => {
-        //     setNextEnabled(nextButtonRef);
-        //   }
-        // })
-      }
+const Step13Filter: React.FC<Step2LabTasksProps> = ({ nextButtonRef }) => {  
+  const beakerRef = useRef<Group>(null);
+  const [animDelay, setAnimDelay] = useState(9999);
+  const [showPowder, setShowPowder] = useState(true);
 
-    };
-    // TODO: Create animation of beaker pouring into the funnel
-    // TODO: Play animation of the funnel
-    // TODO: Put beaker back.
-    // NOTES:
-    // Inside function to pour beaker into funnel,
-    // make the spheres disappear halfway thru the thing as well
-    return (
-      <group>
-        <group rotation-y={3.14}>
-          <SeparatingFunnelHolder position={[0, 5, 0]} />
-          <SFunnelWithFillAnimation
-            position={[0, 5.9, 0.17]}
-            scale={[2.7, 2, 2.7]}
-            rotation-y={-3.14 / 2}
-            startAnimationDelay={-1}
-          />
-        </group>
-        {/* <Stopper ref={flaskRef} position={[0,9.05,-0.1]} rotation-x={3.14} startAnimationDelay={0} /> */}
-        <FunnelWithPourAnim
-          position={[2, 5.5, -2]}
-          startAnimationDelay={animDelay + 1}
+  const handleBeakerClick = () => {
+    if (!beakerRef.current) {
+      console.error("beakerRef is null");
+      return;
+    }
+
+    const tl = gsap.timeline();
+    tl.to(beakerRef.current.position, { y: "+=2", duration: 1 })
+      .to(beakerRef.current.position, {
+        x: "+=2",
+        z: "+=.3",
+        duration: 1,
+        onComplete: () => {
+          setShowPowder(false);
+          setAnimDelay(0.1);
+        },
+      })
+      .to(beakerRef.current.position, {
+        duration: 3,
+      })
+      .to(beakerRef.current.position, {
+        x: "-=2",
+        y: "-=2",
+        z: "+=.3",
+        duration: 1,
+        onComplete: () => {
+          setNextEnabled(nextButtonRef);
+        },
+      });
+  };
+
+  useEffect(() => {
+    if (beakerRef.current) {
+      console.log("beakerRef is assigned:", beakerRef.current);
+    }
+  }, []);
+
+  return (
+    <group>
+      <group rotation-y={Math.PI}>
+        <SeparatingFunnelHolder position={[0, 5, 0]} />
+        <SFunnelWithFillAnimation
+          position={[0, 5.9, 0.17]}
+          scale={[2.7, 2, 2.7]}
+          rotation-y={-Math.PI / 2}
+          startAnimationDelay={-1}
         />
-        <BeakerFillWithOrganicLayer
-          startAnimationDelay={animDelay + 1.5}
-          position={[2, 5, -2]}
+      </group>
+      <FunnelWithPourAnim
+        position={[2, 5.5, -2]}
+        startAnimationDelay={animDelay + 1}
+      />
+      <BeakerFillWithOrganicLayer
+        startAnimationDelay={animDelay + 1.5}
+        position={[2, 5, -2]}
+      />
+      <group
+        ref={beakerRef}
+        onClick={handleBeakerClick}
+        // Optionally, add cursor style if needed
+        // e.g., onPointerOver, onPointerOut to change cursor
+      >
+        <BeakerPouringOrganicSolution
+          position={[0, 5.0, -3.1]}
+          rotation-y={Math.PI / 2}
+          startAnimationDelay={animDelay}
         />
-        <group
-          ref={beakerRef}
-          onClick={() => {
-            handleBeakerClick();
-          }}
-        >
-          <BeakerPouringOrganicSolution
-            // ref={beakerRef} // Attach the ref to the beaker
-            position={[0, 5.0, -3.1]}
-            rotation-y={3.14 / 2}
-            startAnimationDelay={animDelay}
-          />
-          <group visible={showPowder}>
+        {showPowder && (
+          <group>
             <Sphere position={[0.1, 5.2, -3]} scale={0.03} />
             <Sphere position={[-0.12, 5.3, -3.2]} scale={0.03} />
             <Sphere position={[0.17, 5.1, -3.1]} scale={0.03} />
@@ -97,10 +94,10 @@ const Step13Filter = forwardRef<HTMLDivElement, Step2LabTasksProps>(
             <Sphere position={[-0.15, 5.2, -3.2]} scale={0.03} />
             <Sphere position={[0, 5.1, -3.1]} scale={0.03} />
           </group>
-        </group>
+        )}
       </group>
-    );
-  },
-);
+    </group>
+  );
+};
 
 export default Step13Filter;

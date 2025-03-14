@@ -7,6 +7,7 @@ import {
   PerspectiveCamera,
 } from "@react-three/drei";
 import Step1Introduction from "./steps/01IntroduceLabObjectives";
+import Step7FillThePipette from "./steps/07FillThePipette";
 import Table from "./models/Table";
 import state from "./state.json";
 import InventorySystem from "./ui_overlay/InventorySystem";
@@ -14,6 +15,15 @@ import Step2SelectApparatus from "./steps/02ApparatusAndChemicalSelection";
 import { Canvas, useFrame, useThree } from "@react-three/fiber";
 import { CameraAdjuster } from "./utils/CameraAdjuster";
 import { Camera, Vector3 } from "three";
+import Step11AddStopperAndMixSolution from "./steps/11AddStopperAndMixSolution";
+import Step8TransferToFlask from "./steps/08TransferSolutionToVolumetricFlask";
+
+import Step04ChoosePipette from "./steps/04ChoosePipette";
+import Step03TransferStandardSolution from "./steps/03TransferStandardSolution";
+import Step5SelectTheCorrectGlassPipette from "./steps/05SelectTheCorrectGlassPipette";
+import Step6AttachPipetteFiller from "./steps/06AttachPipetteFiller";
+import Step12PrepareAdditionalDilutions from "./steps/12PrepareAdditionalDilutions";
+import PrepareBlankSolution from "./steps/13PrepareBlankSolution";
 
 // Interface for the structure of each step in state.json
 interface Step {
@@ -28,7 +38,7 @@ interface Step {
     correctAnswer: string[];
     category: string;
     count: number;
-    userAnswers: string[]; // Adjust as needed for dynamic content
+    userAnswers: string[];
   }[];
 }
 
@@ -49,10 +59,8 @@ interface State {
 
 type StateKey = keyof State;
 
-// Correctly type your step component refs if they have specific methods or properties
 interface StepComponentRef {
   replayAnimation?: () => void;
-  // other methods or properties
 }
 
 interface SelectedItems {
@@ -84,23 +92,29 @@ export const setNextEnabled = (
   }
 };
 
-export default function Experience() {
-  const [currentStep, setCurrentStep] = useState<number>(1);
+interface ExperienceProps {
+  currentStep: number;
+  onStepChange: (newStep: number) => void;
+}
+
+export default function Experience({
+  currentStep,
+  onStepChange,
+}: ExperienceProps) {
   const key = currentStep.toString() as StateKey;
-  const stepData = state[key]; // Safe indexing
+  const stepData = state[key];
   const stepRefs = useRef<Record<number, StepComponentRef>>({});
   const [isAnimating, setIsAnimating] = useState<boolean>(false);
   const nextButtonRef = useRef<HTMLButtonElement>(null);
-  // const replayButtonRef = useRef<HTMLButtonElement>(null);
 
   const cameraControlsRef = useRef<Camera>(null);
   const [nextButtonTempDisabled, setNextButtonTempDisabled] = useState(false);
   const requiredItems = new Set([
-    "Analytical Balance",
-    "Weighing Paper",
     "Beaker",
-    "Spatula",
-    "Powder Sample",
+    "Glass Pipette",
+    "Glass Dropper",
+    "Stopper",
+    "Distilled Water",
   ]);
 
   const [selectedItems, setSelectedItems] = useState<SelectedItems>({});
@@ -113,12 +127,8 @@ export default function Experience() {
 
   const handleNextStep = () => {
     if (currentStep < Object.keys(state).length) {
-      setCurrentStep(currentStep + 1);
+      onStepChange(currentStep + 1);
       setNextDisabled(nextButtonRef);
-      // setNextButtonTempDisabled(true);
-      // setTimeout(() => {
-      //   setNextButtonTempDisabled(false);
-      // }, 2000);
     }
   };
 
@@ -155,9 +165,7 @@ export default function Experience() {
       fallback={
         <div className="flex h-screen items-center justify-center bg-gradient-to-r from-blue-400 via-cyan-500 to-green-400">
           <div className="rounded-lg border border-transparent bg-black bg-opacity-30 p-6 shadow-lg backdrop-blur-lg backdrop-filter">
-            <p className="text-lg font-thin text-white">
-              {"Loading Resources"}
-            </p>
+            <p className="text-lg font-thin text-white">{"Loading Resources"}</p>
             <img
               src="loadingQ2L.svg"
               alt="Loading"
@@ -182,17 +190,11 @@ export default function Experience() {
           shadows
           camera={{
             fov: 45,
-            // near: 0.1,
-            // far: 200,
             position: [11.57, 10.1, -0.314],
           }}
-          style={{ background: "#37474f" }} // Subtle light gray background
-
+          style={{ background: "#37474f" }}
         >
           <CameraAdjuster />
-          {/* <CameraControls makeDefault ref={cameraControlsRef} onStart={() => {
-          cameraControlsRef.current?.setFocalOffset(0,-2.5,0, true);
-        }}/> */}
           <OrbitControls minDistance={9} maxDistance={70} />
 
           <ambientLight intensity={1.6} />
@@ -205,7 +207,6 @@ export default function Experience() {
 
           {/* Common elements like Table */}
           <Table scale={13} position-y={-1} />
-          {/* Green-yellow plane */}
           <mesh
             receiveShadow
             position-y={-1}
@@ -213,10 +214,10 @@ export default function Experience() {
             scale={605}
           >
             <planeGeometry />
-            <meshStandardMaterial color="#37474f" /> {/* Soft minty green */}
-            </mesh>
+            <meshStandardMaterial color="#37474f" />
+          </mesh>
 
-          {/* Conditional Rendering of Step Components */}
+          {/* Step Components */}
           {currentStep === 1 && <Step1Introduction />}
           {currentStep === 2 && (
             <Step2SelectApparatus
@@ -224,9 +225,36 @@ export default function Experience() {
               nextButtonRef={nextButtonRef}
             />
           )}
+          {currentStep === 11 && (
+            <Step11AddStopperAndMixSolution nextButtonRef={nextButtonRef} />
+          )}
+          {currentStep === 12 && (
+            <Step12PrepareAdditionalDilutions nextButtonRef={nextButtonRef} />
+          )}
+          {currentStep === 8 && (
+            <Step8TransferToFlask
+              selectedItems={selectedItems}
+              nextButtonRef={nextButtonRef}
+            />
+          )}
+          {currentStep === 4 && (
+            <Step04ChoosePipette nextButtonRef={nextButtonRef} />
+          )}
+          {currentStep === 3 && (
+            <Step03TransferStandardSolution nextButtonRef={nextButtonRef} />
+          )}
+          {currentStep === 5 && (
+            <Step5SelectTheCorrectGlassPipette nextButtonRef={nextButtonRef} />
+          )}
+          {currentStep === 6 && (
+            <Step6AttachPipetteFiller nextButtonRef={nextButtonRef} />
+          )}
+          {currentStep === 7 && (
+            <Step7FillThePipette nextButtonRef={nextButtonRef} />
+          )}
           {/* ...add more steps as needed... */}
         </Canvas>
-         
+
         {currentStep === 2 && (
           <InventorySystem
             onItemSelect={handleItemSelection}
@@ -241,7 +269,7 @@ export default function Experience() {
             bottom: 0,
             left: 0,
             right: 0,
-            background: "rgba(0, 0, 0, 0.2)", // Semi-transparent background
+            background: "rgba(0, 0, 0, 0.2)",
             padding: "20px",
             display: "flex",
             justifyContent: "center",
