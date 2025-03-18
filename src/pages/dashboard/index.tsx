@@ -13,6 +13,7 @@ import {
 } from "../../components/ui/card";
 import { BellIcon, InfoIcon } from "lucide-react";
 import Sidebar from "./Sidebar";
+import Chatbot from "~/components/ChatBot";
 
 //import Navbar from "@/components/Navbar";
 //import Sidebar from "@/components/Sidebar";
@@ -226,6 +227,12 @@ export default function Dashboard() {
           </div>
         </main>
       </div>
+      <Chatbot/>
     </div>
   );
 }
+
+
+//Gen UI:
+//render a minicanvas of the new step?
+//export the experience to the canvas
