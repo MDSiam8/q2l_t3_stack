@@ -67,9 +67,10 @@ interface AnimationSequence {
 
 export interface ModelProps {
   startingPosition:[number, number, number];
-  scale: number;
-  opacity: number;
-  rotation: [number, number, number];
+  scale?: number;
+  opacity?: number;
+  rotation?: [number, number, number];
+  onClick?: () => void;
 }
 
 

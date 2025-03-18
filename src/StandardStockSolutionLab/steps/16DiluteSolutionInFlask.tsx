@@ -15,6 +15,8 @@ const Step16DiluteSolutionInFlask = forwardRef<THREE.Group, Step16Props>(
   ({ nextButtonRef }, ref) => {
     const [waterLevel, setWaterLevel] = useState(0);
     const [hasPoured, setHasPoured] = useState(false);
+    const [pouredAtLeastOnce, setPouredAtLeastOnce] = useState(false); // Keep track if user has clicked the pour button at least once.
+    const [isPouring, setIsPouring] = useState(false); // Track if the user is currently pouring.
 
     const distilledWaterRef = useRef<THREE.Group>(null);
     const waterRef = useRef<THREE.Mesh>(null);
@@ -75,6 +77,9 @@ const Step16DiluteSolutionInFlask = forwardRef<THREE.Group, Step16Props>(
 
     // Start filling the water
     const startFillingWater = () => {
+      if (pourInterval.current) {
+        clearInterval(pourInterval.current);
+      }
       if (waterRef.current) {
         pourInterval.current = setInterval(() => {
           setWaterLevel((prevWaterLevel) => {
@@ -94,6 +99,7 @@ const Step16DiluteSolutionInFlask = forwardRef<THREE.Group, Step16Props>(
 
     // Stop filling the water and validate the level
     const stopFillingWater = () => {
+      setIsPouring(false);
       if (pourInterval.current) {
         clearInterval(pourInterval.current);
       }
@@ -124,7 +130,11 @@ const Step16DiluteSolutionInFlask = forwardRef<THREE.Group, Step16Props>(
 
     // Handle the main pour action
     const handlePour = () => {
-      handleDistilledWaterClick(); // Animate the distilled water
+      setIsPouring(true);
+      if (!pouredAtLeastOnce) {
+        setPouredAtLeastOnce(true);
+        handleDistilledWaterClick(); // Animate the distilled water
+      }
       startFillingWater(); // Start the water filling animation
     };
 
@@ -144,15 +154,9 @@ const Step16DiluteSolutionInFlask = forwardRef<THREE.Group, Step16Props>(
         </mesh>
 
         <group>
-            <Sphere
-              position={[0, 5, 0]}
-              scale={[0.32, 0.5, 0.32]}
-            >
-              <meshStandardMaterial
-              color="orange"
-              roughness={1}
-            />
-            </Sphere>
+          <Sphere position={[0, 5, 0]} scale={[0.32, 0.5, 0.32]}>
+            <meshStandardMaterial color="orange" roughness={1} />
+          </Sphere>
         </group>
         {/* Distilled Water */}
         <group
@@ -179,14 +183,14 @@ const Step16DiluteSolutionInFlask = forwardRef<THREE.Group, Step16Props>(
           position={[0, 8, 0]}
           transform
           scale={0.5}
-          rotation={[0, Math.PI / 2, 0]} // Corrected rotation
+          rotation={[0, Math.PI / 2, 0]}
         >
           <button
-            onMouseDown={handlePour} // Start pouring on mouse down
-            onMouseUp={stopFillingWater} // Stop pouring on mouse up
+            onPointerDown={handlePour} // Start pouring on pointer down
+            onPointerUp={stopFillingWater} // Stop pouring on pointer up
             className="rounded-md p-3 text-sm font-bold text-white bg-blue-500 hover:bg-blue-600 shadow-lg transition-transform duration-300"
           >
-            Pour Water
+            {isPouring ? "Release to stop pouring" : "Press to pour"}
           </button>
         </Html>
       </group>
