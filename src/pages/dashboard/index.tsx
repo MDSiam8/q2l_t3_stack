@@ -175,7 +175,6 @@ export default function Dashboard() {
           </div>
         </main>
       </div>
-      <Chatbot/>
     </div>
   );
 }

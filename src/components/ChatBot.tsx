@@ -1,16 +1,18 @@
-"use client";
-
 import { useState, useRef, useEffect } from "react";
 import axios from "axios";
 import { MessageCircle, X } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 
 interface Message {
-  role: "user" | "assistant";
+  role: "system" | "user" | "assistant";
   content: string;
 }
 
-const Chatbot: React.FC = () => {
+interface ChatbotProps {
+  context: string[];
+}
+
+const Chatbot: React.FC<ChatbotProps> = ({ context }) => {
   const [messages, setMessages] = useState<Message[]>([]);
   const [input, setInput] = useState<string>("");
   const [isOpen, setIsOpen] = useState(false);
@@ -18,26 +20,48 @@ const Chatbot: React.FC = () => {
   const inputRef = useRef<HTMLInputElement>(null);
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
+  // Initialize the conversation with a system message on first mount.
+  useEffect(() => {
+    if (context && context.length > 0) {
+      const systemMessage: Message = {
+        role: "system",
+        content: context.join("\n"),
+      };
+      setMessages([systemMessage]);
+    }
+    // Run only once on mount (assuming context is static)
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
   const sendMessage = async () => {
     if (!input.trim()) return;
 
-    const userMessage: Message = { role: "user", content: input };
-    setMessages((prev) => [...prev, userMessage]);
-
-    try {
-      const response = await axios.post<{ reply: string }>("/api/chatbot", {
-        message: input,
-      });
-      const botReply: Message = { role: "assistant", content: response.data.reply };
-      setMessages((prev) => [...prev, botReply]);
-    } catch (error) {
-      console.error("Chatbot error:", error);
-    }
+    // Use a functional update to ensure we have the latest messages state.
+    setMessages((prevMessages) => {
+      const updatedMessages = [...prevMessages, { role: "user", content: input }];
+      
+      // Send the updated conversation to the API.
+      axios
+        .post<{ reply: string }>("/api/chatbot", {
+          messages: updatedMessages,
+        })
+        .then((response) => {
+          // Append the assistant's reply to the conversation.
+          setMessages((currentMessages) => [
+            ...currentMessages,
+            { role: "assistant", content: response.data.reply },
+          ]);
+        })
+        .catch((error) => {
+          console.error("Chatbot error:", error);
+        });
+      
+      return updatedMessages;
+    });
 
     setInput("");
   };
 
-  // Send on Enter key
   const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === "Enter") {
       sendMessage();
@@ -91,23 +115,27 @@ const Chatbot: React.FC = () => {
             {/* Chat Messages */}
             <div className="flex flex-col p-4 h-64 overflow-y-auto">
               <AnimatePresence initial={false}>
-                {messages.map((msg, index) => (
+                {/*
+                  We slice the messages array to avoid rendering the system message.
+                  This message is used only to provide context to the AI.
+                */}
+                {messages.slice(1).map((msg, index) => (
                   <motion.div
                     key={index}
                     initial={{ opacity: 0, y: 10 }}
                     animate={{ opacity: 1, y: 0 }}
                     exit={{ opacity: 0, y: 10 }}
                     transition={{ duration: 0.2 }}
-                    className={`mb-2 rounded-lg py-2 px-3 text-sm max-w-xs ${msg.role === "user"
+                    className={`mb-2 rounded-lg py-2 px-3 text-sm max-w-xs ${
+                      msg.role === "user"
                         ? "bg-blue-600 text-white self-end"
                         : "bg-gray-200 text-black self-start"
-                      }`}
+                    }`}
                   >
                     {msg.content}
                   </motion.div>
                 ))}
               </AnimatePresence>
-              {/* Dummy div to ensure auto-scroll works */}
               <div ref={messagesEndRef} />
             </div>
 

@@ -34,6 +34,8 @@ import Step18RemoveItems from "./steps/18RemoveRotavapItems";
 import Step19RemoveBumpTrap from "./steps/19RemovingBumpTrap";
 import Step20Conclusion from "./steps/20Conclusion";
 
+import Chatbot from "~/components/ChatBot";
+
 // Interface for the structure of each step in state.json
 interface Step {
   stepTitle: string;
@@ -101,6 +103,7 @@ export default function Experience() {
   const [currentStep, setCurrentStep] = useState<number>(1);
   const key = currentStep.toString() as StateKey;
   const stepData = state[key]; // Safe indexing
+  const chatbotContext = [`Description: ${stepData.description}`,`Directions: ${stepData.directions}`, `Objects in Focus: ${stepData.objectsInFocus.join(", ")}`,];
   const stepRefs = useRef<Record<number, StepComponentRef>>({});
   const [isAnimating, setIsAnimating] = useState<boolean>(false);
   const nextButtonRef = useRef<HTMLButtonElement>(null);
@@ -227,6 +230,7 @@ export default function Experience() {
             <Step20Conclusion nextButtonRef={nextButtonRef} />
           )}
         </Canvas>
+        
         <div
           style={{
             position: "absolute",
@@ -267,6 +271,7 @@ export default function Experience() {
             </div>
           </div>
         </div>
+        <Chatbot context={chatbotContext}/>
       </div>
     </Suspense>
   );
