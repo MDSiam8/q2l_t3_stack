@@ -48,21 +48,19 @@ const NotebookCard: React.FC<{ notebook: Notebook; disabled?: boolean }> = ({ no
   return (
     <>
       {disabled ? (
-        <div className="relative">
-          <div className="absolute z-10 flex items-center justify-center w-full h-full">
-            <div className="rounded-lg py-2 px-6 text-sm shadow-lg border select-none border-red-500 bg-red-100 text-red-900">
-              Under Maintenance
-            </div>
-          </div>
-          <div className="pointer-events-none opacity-50">
-            <Card>
-              {notebook.image !== "none" && <CardImage imageSrc={notebook.image} />}
-              <CardHeader>
-                <div className="notebook-title">
-                  <CardTitle>{notebook.name}</CardTitle>
-                </div>
-              </CardHeader>
-              {
+        <div className="relative h-full">
+          <Card className="md:h-[300px] md:flex md:flex-col relative">
+            {notebook.image !== "none" && (
+              <div className="relative md:h-[200px] overflow-hidden">
+                <CardImage imageSrc={notebook.image} className="w-full md:object-cover md:h-full" />
+              </div>
+            )}
+            <CardHeader className="md:flex-1">
+              <div className="notebook-title">
+                <CardTitle className="md:line-clamp-2">{notebook.name}</CardTitle>
+              </div>
+            </CardHeader>
+            {
               // <CardContent>
               //   <div className="completed-status" style={{ color: getStatusColor(notebook.completed) }}>
               //     <CardDescription>
@@ -77,16 +75,24 @@ const NotebookCard: React.FC<{ notebook: Notebook; disabled?: boolean }> = ({ no
               //   {/* Add additional notebook details here */}
               // </CardContent>
               }
-            </Card>
-          </div>
+            <div className="absolute inset-0 z-10 flex items-center justify-center bg-white/50">
+              <div className="rounded-lg py-2 px-3 text-xs md:text-sm whitespace-nowrap shadow-lg border select-none border-red-500 bg-red-100 text-red-900 max-w-[80%] text-center overflow-hidden text-ellipsis">
+                Under Maintenance
+              </div>
+            </div>
+          </Card>
         </div>
       ) : (
-        <Link href={notebook.link} passHref>
-          <Card>
-            {notebook.image !== "none" && <CardImage imageSrc={notebook.image} />}
-            <CardHeader>
+        <Link href={notebook.link} passHref className="block md:h-full">
+          <Card className="md:h-[300px] md:flex md:flex-col">
+            {notebook.image !== "none" && (
+              <div className="relative md:h-[200px] overflow-hidden">
+                <CardImage imageSrc={notebook.image} className="w-full md:object-cover md:h-full" />
+              </div>
+            )}
+            <CardHeader className="md:flex-1">
               <div className="notebook-title">
-                <CardTitle>{notebook.name}</CardTitle>
+                <CardTitle className="md:line-clamp-2">{notebook.name}</CardTitle>
               </div>
             </CardHeader>
           </Card>
