@@ -6,6 +6,8 @@ import state from "./state.json";
 import InventorySystem from "./InventorySystem";
 import { Canvas } from "@react-three/fiber";
 import { CameraAdjuster } from "./CameraAdjuster";
+import { useThree } from "@react-three/fiber";
+import { useEffect } from "react";
 
 import FirstStepComponent from "./steps/FirstStepComponent";
 import SecondStepComponent from "./steps/SecondStepComponent";
@@ -89,12 +91,23 @@ export const setNextEnabled = (
   }
 };
 
+
+interface CameraConfig {
+  position?: [number, number, number];
+  zoom?: number;
+  viewLocation?: [number, number, number] | null;
+  // originalViewPoint?: {
+  //   position: [number, number, number];
+  //   zoom: number;
+  // };
+}
 interface ExperienceProps {
   currentStep: number;
   onStepChange: (newStep: number) => void;
+  cameraConfig?: CameraConfig;
 }
 
-export default function Experience({ currentStep, onStepChange }: ExperienceProps) {
+export default function Experience({ currentStep, onStepChange, cameraConfig }: ExperienceProps) {
   // `currentStep` comes from parent; no local state needed
   const key = currentStep.toString() as StateKey;
   const stepData = state[key];
@@ -184,10 +197,11 @@ export default function Experience({ currentStep, onStepChange }: ExperienceProp
           shadows
           camera={{
             fov: 45,
-            position: [11.57, 10.1, -0.314],
+            position: cameraConfig?.position || [11.57, 10.1, -0.314],
+            zoom: cameraConfig?.zoom || 1,
           }}
         >
-          <CameraAdjuster />
+          <CameraAdjuster viewLocation={cameraConfig?.viewLocation ?? null} />
           <OrbitControls minDistance={9} maxDistance={70} />
 
           <ambientLight intensity={1.6} />

@@ -78,7 +78,7 @@ const Chatbot: React.FC = () => {
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: 30 }}
             transition={{ duration: 0.3, ease: "easeInOut" }}
-            className="w-80 fixed bottom-20 right-6 bg-white shadow-xl rounded-xl border border-gray-200 flex flex-col"
+            className="w-[500px] h-[600px] fixed bottom-20 right-6 bg-white shadow-xl rounded-xl border border-gray-200 flex flex-col"
           >
             {/* Header */}
             <div className="flex justify-between items-center p-4 border-b bg-gray-100 rounded-t-xl">
@@ -92,10 +92,10 @@ const Chatbot: React.FC = () => {
             </div>
 
             {/* Chat Messages */}
-            <div className="flex flex-col p-4 h-64 overflow-y-auto">
+            <div className="flex flex-col p-4 h-[420px] overflow-y-auto gap-2">
               <ChatCanvas 
                     width="100%" 
-                    height="150px"
+                    height="200px"
               />
 
               <AnimatePresence initial={false}>
@@ -106,10 +106,11 @@ const Chatbot: React.FC = () => {
                     animate={{ opacity: 1, y: 0 }}
                     exit={{ opacity: 0, y: 10 }}
                     transition={{ duration: 0.2 }}
-                    className={`mb-2 rounded-lg py-2 px-3 text-sm max-w-xs ${msg.role === "user"
+                    className={`mb-2 rounded-lg py-2 px-3 text-base max-w-[75%] ${
+                      msg.role === "user"
                         ? "bg-blue-600 text-white self-end"
                         : "bg-gray-200 text-black self-start"
-                      }`}
+                    }`}
                   >
                     {msg.content}
                   </motion.div>
