@@ -4,15 +4,37 @@ import { MessageCircle, X } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 
 interface Message {
-  role: "system" | "user" | "assistant";
+  role: "system" | "user" | "assistant" | "function";
   content: string;
+  name?: string;
+}
+
+// Developer messages are just system messages with additional step info.
+interface DeveloperMessage extends Omit<Message, "role"> {
+  role: "system";
+  step: number;
 }
 
 interface ChatbotProps {
-  context: string[];
+  // Optionally, you might pass the initial step as a prop.
+  initialStep?: number;
 }
 
-const Chatbot: React.FC<ChatbotProps> = ({ context }) => {
+// Mapping of steps to hidden developer messages.
+const developerMessages: { [step: number]: DeveloperMessage } = {
+  1: { role: "system", step: 1, content: "Description: There is a single flask in the middle of the table. Objective: Your aim is to remove the solvent in the flask." },
+  2: { role: "system", step: 2, content: "your name is quest2learn bot."},
+  // Add more steps as needed...
+};
+
+const Chatbot: React.FC<ChatbotProps> = ({ initialStep = 1 }) => {
+  // Track the current step.
+  const [currentStep, setCurrentStep] = useState<number>(initialStep);
+  // The hidden developer message is determined by the current step.
+  const [developerMessage, setDeveloperMessage] = useState<Message | null>(
+    developerMessages[currentStep] ?? null
+  );
+  // Visible conversation: only user and assistant messages.
   const [messages, setMessages] = useState<Message[]>([]);
   const [input, setInput] = useState<string>("");
   const [isOpen, setIsOpen] = useState(false);
@@ -20,34 +42,30 @@ const Chatbot: React.FC<ChatbotProps> = ({ context }) => {
   const inputRef = useRef<HTMLInputElement>(null);
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
-  // Initialize the conversation with a system message on first mount.
+  // Update the hidden developer message when the current step changes.
   useEffect(() => {
-    if (context && context.length > 0) {
-      const systemMessage: Message = {
-        role: "system",
-        content: context.join("\n"),
-      };
-      setMessages([systemMessage]);
-    }
-    // Run only once on mount (assuming context is static)
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+    setDeveloperMessage(developerMessages[currentStep] ?? null);
+  }, [currentStep]);
 
   const sendMessage = async () => {
     if (!input.trim()) return;
 
-    // Use a functional update to ensure we have the latest messages state.
-    setMessages((prevMessages) => {
-      const updatedMessages = [...prevMessages, { role: "user", content: input }];
-      
-      // Send the updated conversation to the API.
+    setMessages((prevMessages: Message[]) => {
+      // Create a new user message.
+      const updatedMessages: Message[] = [
+        ...prevMessages,
+        { role: "user", content: input },
+      ];
+
+      // Prepend the hidden developer message (if available) to the conversation payload.
+      const conversation = developerMessage ? [developerMessage, ...updatedMessages] : updatedMessages;
+
       axios
         .post<{ reply: string }>("/api/chatbot", {
-          messages: updatedMessages,
+          messages: conversation as any,
         })
         .then((response) => {
-          // Append the assistant's reply to the conversation.
-          setMessages((currentMessages) => [
+          setMessages((currentMessages: Message[]) => [
             ...currentMessages,
             { role: "assistant", content: response.data.reply },
           ]);
@@ -55,7 +73,7 @@ const Chatbot: React.FC<ChatbotProps> = ({ context }) => {
         .catch((error) => {
           console.error("Chatbot error:", error);
         });
-      
+
       return updatedMessages;
     });
 
@@ -65,6 +83,14 @@ const Chatbot: React.FC<ChatbotProps> = ({ context }) => {
   const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === "Enter") {
       sendMessage();
+    }
+  };
+
+  // Example: function to move to the next step.
+  const goToNextStep = () => {
+    const nextStep = currentStep + 1;
+    if (developerMessages[nextStep]) {
+      setCurrentStep(nextStep);
     }
   };
 
@@ -104,10 +130,7 @@ const Chatbot: React.FC<ChatbotProps> = ({ context }) => {
             {/* Header */}
             <div className="flex justify-between items-center p-4 border-b bg-gray-100 rounded-t-xl">
               <h2 className="text-lg font-semibold">Chatbot</h2>
-              <button
-                onClick={() => setIsOpen(false)}
-                className="text-gray-600 hover:text-gray-900"
-              >
+              <button onClick={() => setIsOpen(false)} className="text-gray-600 hover:text-gray-900">
                 <X size={20} />
               </button>
             </div>
@@ -116,10 +139,9 @@ const Chatbot: React.FC<ChatbotProps> = ({ context }) => {
             <div className="flex flex-col p-4 h-64 overflow-y-auto">
               <AnimatePresence initial={false}>
                 {/*
-                  We slice the messages array to avoid rendering the system message.
-                  This message is used only to provide context to the AI.
+                  Render only the visible conversation (excluding the hidden developer context).
                 */}
-                {messages.slice(1).map((msg, index) => (
+                {messages.map((msg, index) => (
                   <motion.div
                     key={index}
                     initial={{ opacity: 0, y: 10 }}
@@ -154,6 +176,16 @@ const Chatbot: React.FC<ChatbotProps> = ({ context }) => {
                 className="bg-blue-600 text-white px-1 py-2 rounded-md hover:bg-blue-700 transition text-sm"
               >
                 Send
+              </button>
+            </div>
+
+            {/* For demonstration: a button to advance to the next step */}
+            <div className="p-3">
+              <button
+                onClick={goToNextStep}
+                className="bg-green-600 text-white px-2 py-1 rounded hover:bg-green-700 transition text-sm"
+              >
+                Next Step
               </button>
             </div>
           </motion.div>
