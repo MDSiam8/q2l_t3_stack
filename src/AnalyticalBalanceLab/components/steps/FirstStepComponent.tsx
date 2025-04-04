@@ -1,12 +1,21 @@
-import React, { forwardRef } from "react";
+import React, { forwardRef, useEffect } from "react";
+import { Group } from "three";
 import BalanceWithAnimations from "../BalanceWithAnimations";
+import { StepComponentProps } from "../Experience";
 
-const FirstStepComponent = forwardRef((props, ref) => {
+const FirstStepComponent = forwardRef<Group, StepComponentProps>(({ setNextDisabled }, ref) => {
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setNextDisabled(false);
+    }, 2000);
+
+    // Cleanup the timer when the component unmounts
+    return () => clearTimeout(timer);
+  }, [setNextDisabled]);
+  
   return (
-    <group>
-      {/* The balance is positioned at the same coordinates as specified in the FourthStepComponent */}
+    <group ref={ref}>
       <BalanceWithAnimations position={[0, 4.55, 0]} isOpen={true} />
-      {/* Additional elements specific to the first step can be added here */}
     </group>
   );
 });
