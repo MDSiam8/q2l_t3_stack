@@ -1,8 +1,10 @@
 /** @type {import("eslint").Linter.Config} */
 const config = {
+  // @ts-ignore
   parser: "@typescript-eslint/parser",
   parserOptions: {
     project: true,
+    tsconfigRootDir: ''
   },
   // plugins: ["@typescript-eslint"],
   // extends: [
