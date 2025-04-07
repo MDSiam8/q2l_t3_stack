@@ -6,14 +6,15 @@ import { Bottle } from "../Bottle";
 import { BottleCap } from "../BottleCap";
 import { Spatula } from "../Spatula";
 import WeighingPaper from "../WeighingPaper";
-import { StepRef } from "../Experience"; // Import the StepRef interface
+import { StepRef } from "../Experience";
 
 interface BalanceWithAnimationsRef {
   replayAnimation: () => Promise<void>;
   updateBalanceReading: (weight: number) => void;
 }
 
-const FourthStepComponent = forwardRef<StepRef, { setNextDisabled: (value: boolean) => void }>(({ setNextDisabled }, ref) => {
+const FourthStepComponent = forwardRef<StepRef, { setNextDisabled: (value: boolean) => void }>(
+  ({ setNextDisabled }, ref) => {
     const balanceWithAnimationsRef = useRef<BalanceWithAnimationsRef>(null);
     const groupRef = useRef<Group>(null);
     const [hasPlayed, setHasPlayed] = React.useState(false);

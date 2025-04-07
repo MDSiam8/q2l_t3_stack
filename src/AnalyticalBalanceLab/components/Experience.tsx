@@ -130,10 +130,13 @@ export default function Experience({ currentStep, onStepChange }: ExperienceProp
           {currentStep === 4 && (
             <FourthStepComponent ref={(el) => el && (stepRefs.current[4] = el)} setNextDisabled={setIsNextDisabled}/>
           )}
-          {/* Uncomment these when ready to implement
-          {currentStep === 5 && <FifthStepComponent ref={(el) => el && (stepRefs.current[5] = el)} setNextDisabled={setIsNextDisabled} />}
-          {currentStep === 6 && <SixthStepComponent ref={(el) => el && (stepRefs.current[6] = el)} setNextDisabled={setIsNextDisabled} />}
-          {currentStep === 7 && (
+          {currentStep === 5 && (
+            <FifthStepComponent ref={(el) => el && (stepRefs.current[5] = el)} setNextDisabled={setIsNextDisabled} />
+          )}
+          {currentStep === 6 && (
+            <SixthStepComponent ref={(el) => el && (stepRefs.current[6] = el)} setNextDisabled={setIsNextDisabled} />
+          )}
+          {/* {currentStep === 7 && (
             <SeventhStepComponent
               ref={(el) => el && (stepRefs.current[7] = el)}
               setIsAnimating={setIsAnimating}

@@ -7,7 +7,8 @@ import { BottleCap } from "../BottleCap";
 import { Bottle } from "../Bottle";
 import { StepComponentProps } from "../Experience";
 
-const ThirdStepComponent = forwardRef<HTMLDivElement, StepComponentProps>(({ selectedItems = {} }) => {
+const ThirdStepComponent = forwardRef<HTMLDivElement, StepComponentProps>(
+  ({ selectedItems = {} }) => {
     return (
       <group>
         {selectedItems["Analytical Balance"] && (

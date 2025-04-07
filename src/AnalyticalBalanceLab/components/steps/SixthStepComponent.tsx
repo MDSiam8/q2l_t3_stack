@@ -12,7 +12,7 @@ import { Beaker } from "../Beaker";
 import { Bottle } from "../Bottle";
 import { BottleCap } from "../BottleCap";
 import { Spatula } from "../Spatula";
-import { setNextEnabled } from "../Experience";
+import { StepRef } from "../Experience";
 
 interface BalanceWithAnimationsRef {
   replayAnimation: () => Promise<void>;
@@ -23,17 +23,11 @@ interface WeighingPaperRef {
   replayAnimation: () => void;
 }
 
-interface SixthStepComponentProps {
-  nextButtonRef: React.RefObject<HTMLButtonElement>;
-}
-
-const SixthStepComponent = forwardRef<{}, SixthStepComponentProps>(
-  ({ nextButtonRef }, ref) => {
-
-  const balanceWithAnimationsRef = useRef<BalanceWithAnimationsRef>(null);
-  const weighingPaperRef = useRef<WeighingPaperRef>(null);
-  const paperGroup = useRef(new THREE.Group());
-  const startPos = new THREE.Vector3(0, 1, 0); // Starting position from the end of FifthStepComponent
+const SixthStepComponent = forwardRef<StepRef, { setNextDisabled: (value: boolean) => void }>(({ setNextDisabled }, ref) => {
+    const balanceWithAnimationsRef = useRef<BalanceWithAnimationsRef>(null);
+    const weighingPaperRef = useRef<WeighingPaperRef>(null);
+    const paperGroup = useRef(new THREE.Group());
+    const startPos = new THREE.Vector3(0, 1, 0); // Starting position from the end of FifthStepComponent
 
   const updateBalanceReadingAfterPaperDown = (num: number) => {
     // Update the balance reading when a certain event occurs
@@ -88,11 +82,17 @@ const SixthStepComponent = forwardRef<{}, SixthStepComponentProps>(
     await movePaperLeft(); // Move left
     await movePaperDown(); // Then move down
     updateBalanceReadingAfterPaperDown(0.0012);
-    setNextEnabled(nextButtonRef);
+    setNextDisabled(false);
   };
 
   useImperativeHandle(ref, () => ({
-    replayAnimation: handleReplayAnimation,
+    resetAndReplay: async () => {
+      if (balanceWithAnimationsRef.current) {
+        setNextDisabled(true); // Disable "Next" button initially
+        await balanceWithAnimationsRef.current.replayAnimation(); // Replay animation
+        setNextDisabled(false); // Enable "Next" button after animation
+      }
+    }
   }));
 
   return (
