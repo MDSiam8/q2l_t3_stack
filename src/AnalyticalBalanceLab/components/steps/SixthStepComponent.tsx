@@ -12,7 +12,7 @@ import { Beaker } from "../Beaker";
 import { Bottle } from "../Bottle";
 import { BottleCap } from "../BottleCap";
 import { Spatula } from "../Spatula";
-import { StepRef } from "../Experience";
+import { StepComponentProps, StepRef } from "../Experience";
 
 interface BalanceWithAnimationsRef {
   replayAnimation: () => Promise<void>;
@@ -23,7 +23,8 @@ interface WeighingPaperRef {
   replayAnimation: () => void;
 }
 
-const SixthStepComponent = forwardRef<StepRef, { setNextDisabled: (value: boolean) => void }>(({ setNextDisabled }, ref) => {
+const SixthStepComponent = forwardRef<StepRef, StepComponentProps>(
+  ({ setNextDisabled }, ref) => {
     const balanceWithAnimationsRef = useRef<BalanceWithAnimationsRef>(null);
     const weighingPaperRef = useRef<WeighingPaperRef>(null);
     const paperGroup = useRef(new THREE.Group());

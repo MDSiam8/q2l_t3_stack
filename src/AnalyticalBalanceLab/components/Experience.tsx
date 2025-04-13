@@ -25,7 +25,6 @@ import FinishedStepComponent from "./steps/FinishedStepComponent";
 
 type StateKey = "1" | "2" | "3" | "4" | "5" | "6" | "7" | "8" | "9" | "10" | "11" | "12";
 
-// Define a StepRef interface for type consistency
 export interface StepRef {
   resetAndReplay: () => void;
 }
@@ -38,6 +37,7 @@ export interface StepComponentProps {
   setNextDisabled: Dispatch<SetStateAction<boolean>>;
   selectedItems?: SelectedItems;
   setIsAnimating?: (value: boolean) => void;
+  resetAndReplay?: () => void;
 }
 
 interface ExperienceProps {
@@ -128,15 +128,24 @@ export default function Experience({ currentStep, onStepChange }: ExperienceProp
             <ThirdStepComponent selectedItems={selectedItems} setNextDisabled={setIsNextDisabled} />
           )}
           {currentStep === 4 && (
-            <FourthStepComponent ref={(el) => el && (stepRefs.current[4] = el)} setNextDisabled={setIsNextDisabled}/>
+            <FourthStepComponent
+              ref={(el) => el && (stepRefs.current[4] = el)}
+              setNextDisabled={setIsNextDisabled}
+            />
           )}
           {currentStep === 5 && (
-            <FifthStepComponent ref={(el) => el && (stepRefs.current[5] = el)} setNextDisabled={setIsNextDisabled} />
+            <FifthStepComponent
+              ref={(el) => el && (stepRefs.current[5] = el)}
+              setNextDisabled={setIsNextDisabled}
+            />
           )}
           {currentStep === 6 && (
-            <SixthStepComponent ref={(el) => el && (stepRefs.current[6] = el)} setNextDisabled={setIsNextDisabled} />
+            <SixthStepComponent
+              ref={(el) => el && (stepRefs.current[6] = el)}
+              setNextDisabled={setIsNextDisabled}
+            />
           )}
-          {/* {currentStep === 7 && (
+          {currentStep === 7 && (
             <SeventhStepComponent
               ref={(el) => el && (stepRefs.current[7] = el)}
               setIsAnimating={setIsAnimating}
@@ -154,7 +163,7 @@ export default function Experience({ currentStep, onStepChange }: ExperienceProp
           {currentStep === 10 && <TenthStepComponent ref={(el) => el && (stepRefs.current[10] = el)} setNextDisabled={setIsNextDisabled} />}
           {currentStep === 11 && <EleventhStepComponent setNextDisabled={setIsNextDisabled} />}
           {currentStep === 12 && <TwelvthStepComponent setNextDisabled={setIsNextDisabled} />}
-          {currentStep === 13 && <FinishedStepComponent setNextDisabled={setIsNextDisabled} />} */}
+          {currentStep === 13 && <FinishedStepComponent setNextDisabled={setIsNextDisabled} />}
         </Canvas>
 
         {currentStep === 3 && !isInventoryVisible && (

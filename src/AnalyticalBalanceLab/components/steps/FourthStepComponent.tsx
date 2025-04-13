@@ -6,14 +6,14 @@ import { Bottle } from "../Bottle";
 import { BottleCap } from "../BottleCap";
 import { Spatula } from "../Spatula";
 import WeighingPaper from "../WeighingPaper";
-import { StepRef } from "../Experience";
+import { StepRef, StepComponentProps } from "../Experience";
 
 interface BalanceWithAnimationsRef {
   replayAnimation: () => Promise<void>;
   updateBalanceReading: (weight: number) => void;
 }
 
-const FourthStepComponent = forwardRef<StepRef, { setNextDisabled: (value: boolean) => void }>(
+const FourthStepComponent = forwardRef<StepRef, StepComponentProps>(
   ({ setNextDisabled }, ref) => {
     const balanceWithAnimationsRef = useRef<BalanceWithAnimationsRef>(null);
     const groupRef = useRef<Group>(null);
@@ -31,13 +31,12 @@ const FourthStepComponent = forwardRef<StepRef, { setNextDisabled: (value: boole
       }
     };
 
-    // Expose only the resetAndReplay method to the parent
     useImperativeHandle(ref, () => ({
       resetAndReplay: async () => {
         if (balanceWithAnimationsRef.current) {
-          setNextDisabled(true); // Disable "Next" button initially
-          await balanceWithAnimationsRef.current.replayAnimation(); // Replay animation
-          setNextDisabled(false); // Enable "Next" button after animation
+          setNextDisabled(true);
+          await balanceWithAnimationsRef.current.replayAnimation();
+          setNextDisabled(false);
         }
       }
     }));
@@ -50,7 +49,6 @@ const FourthStepComponent = forwardRef<StepRef, { setNextDisabled: (value: boole
           position={[0, 4.55, 0]}
           onClick={handleBalanceClick}
         />
-        {/* Additional elements specific to the fourth step */}
         <Beaker rotation-y={(-3.14 / 180) * 90} position={[2.6, 4.9, -3]} />
         <WeighingPaper
           folded={false}
