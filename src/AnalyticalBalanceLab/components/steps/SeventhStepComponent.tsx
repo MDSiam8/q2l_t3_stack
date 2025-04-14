@@ -211,29 +211,33 @@ const SeventhStepComponent = forwardRef<unknown, SeventhStepComponentProps>(
       spatulaGroup.current.position.copy(endSpatulaPosition);
       spatulaGroup.current.rotation.copy(endSpatulaRotation);
       setPowderVisible(true);
-
-      // Move spatula up
+    
+      // lift spatula
       new TWEEN.Tween(spatulaGroup.current.position)
-        .to({ y: spatulaGroup.current.position.y + 1.5 }, 1000)
+        .to({ y: spatulaGroup.current.position.y + 0.5 }, 500)
         .easing(TWEEN.Easing.Quadratic.Out)
         .start();
-
-      // Rotate spatula on x axis (executes after moving up)
+    
+      // otate spatula
       setTimeout(() => {
         new TWEEN.Tween(spatulaGroup.current.rotation)
-          .to({ y: Math.PI / 2 }, 1000) // 90 degrees
+          .to({ x: Math.PI / 2, y: Math.PI / 2, z: 0 }, 1000)
           .easing(TWEEN.Easing.Quadratic.Out)
           .start();
-      }, 1000);
-
+      }, 500);
+    
+      // move spatula
       setTimeout(() => {
         new TWEEN.Tween(spatulaGroup.current.position)
-          .to({ x: 0.2, y: 5.8, z: 0 }, 1000) // Adjust distance as needed
+          .to({ x: 0.2, y: 5.8, z: 0 }, 1000)
           .easing(TWEEN.Easing.Quadratic.Out)
           .start();
-
+      }, 1500);
+    
+      // rotate horizontally to dispose powder
+      setTimeout(() => {
         new TWEEN.Tween(spatulaGroup.current.rotation)
-          .to({ z: Math.PI / 2 }, 1000) // 90 degrees
+          .to({ x: Math.PI / 2, y: Math.PI / 2, z: Math.PI / 2 }, 1000)
           .easing(TWEEN.Easing.Quadratic.Out)
           .onComplete(() => {
             setPowderVisible(false);
@@ -241,14 +245,61 @@ const SeventhStepComponent = forwardRef<unknown, SeventhStepComponentProps>(
             const newReading = balanceReading + 0.1001;
             updateBalanceReading(newReading);
             updateBalanceReadingAfterAddingPowder(newReading);
-            setIsAnimating(false);
-          }) // Hide powder at the end
+          })
           .start();
-      }, 2000);
+      }, 2500);
+    
+      // rotate back to vertical position?
+      setTimeout(() => {
+        new TWEEN.Tween(spatulaGroup.current.rotation)
+          .to({ x: Math.PI / 2, y: Math.PI / 2, z: 0 }, 1000)
+          .easing(TWEEN.Easing.Quadratic.Out)
+          .start();
+      }, 3500);
+    
+      // move back above the cup
+      setTimeout(() => {
+        new TWEEN.Tween(spatulaGroup.current.position)
+          .to({ 
+            x: endSpatulaPosition.x, 
+            y: endSpatulaPosition.y + 1.5,
+            z: endSpatulaPosition.z 
+          }, 1000)
+          .easing(TWEEN.Easing.Quadratic.Out)
+          .start();
+      }, 4500);
+
+      // rotate back to original rotation
+      setTimeout(() => {
+        new TWEEN.Tween(spatulaGroup.current.rotation)
+          .to({ 
+            x: endSpatulaRotation.x, 
+            y: endSpatulaRotation.y, 
+            z: endSpatulaRotation.z 
+          }, 1000)
+          .easing(TWEEN.Easing.Quadratic.Out)
+          .start();
+      }, 4500);
+
+      // lower spatula down into the cup
+      setTimeout(() => {
+        new TWEEN.Tween(spatulaGroup.current.position)
+          .to({ 
+            x: endSpatulaPosition.x, 
+            y: endSpatulaPosition.y, 
+            z: endSpatulaPosition.z 
+          }, 1000)
+          .easing(TWEEN.Easing.Quadratic.Out)
+          .onComplete(() => {
+            setIsAnimating(false);
+          })
+          .start();
+      }, 5500);
+    
       setTimeout(() => {
         setButtonDisabled({ add: false, remove: false });
         setActiveButton(null);
-      }, 4000);
+      }, 5500);
     };
 
     const handleAddWeight = () => {
