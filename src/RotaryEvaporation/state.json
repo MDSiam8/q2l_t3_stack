@@ -5,7 +5,8 @@
         "directions": "In this lab, you will learn how to use a rotary evaporator (rotavap).",
         "objectsInFocus": [
             "rotovap"
-        ]
+        ],
+        "contextFileName": "step1.txt"
     },
     "2": {
         "stepTitle": "Understanding the Task",
@@ -14,7 +15,8 @@
         "objectsInFocus": [
             "product_solution",
             "rotovap"
-        ]
+        ],
+        "contextFileName": "step2.txt"
     },
     "3": {
         "stepTitle": "Preparing for Evaporation",

@@ -10,7 +10,7 @@ import Table from "./Table";
 // ...other necessary imports...
 
 import state from "../state.json";
-import { Canvas, useFrame, useThree } from "@react-three/fiber";
+import { Canvas } from "@react-three/fiber";
 import { CameraAdjuster } from "./CameraAdjuster";
 import { Camera, Vector3 } from "three";
 import Step1LabObjectives from "./steps/01LabObjective";
@@ -35,13 +35,15 @@ import Step19RemoveBumpTrap from "./steps/19RemovingBumpTrap";
 import Step20Conclusion from "./steps/20Conclusion";
 
 import Chatbot from "~/components/ChatBot";
+import useContextFromFile from "~/components/useContextFromFile"; // adjust the import path if necessary
 
-// Interface for the structure of each step in state.json
+// Define the Step interface with an optional contextFileName property.
 interface Step {
   stepTitle: string;
   description: string;
   directions: string;
   objectsInFocus: string[];
+  contextFileName?: string;
   user_instructions?: string;
   mistakes?: {
     mistakeDescription: string;
@@ -49,7 +51,7 @@ interface Step {
     correctAnswer: string[];
     category: string;
     count: number;
-    userAnswers: string[]; // Adjust as needed for dynamic content
+    userAnswers: string[];
   }[];
 }
 
@@ -70,11 +72,12 @@ interface State {
 
 type StateKey = keyof State;
 
-// Correctly type your step component refs if they have specific methods or properties
+// Correctly type your step component refs if they have specific methods or properties.
 interface StepComponentRef {
   replayAnimation?: () => void;
   // other methods or properties
 }
+
 export const getClassNameForNext = (isDisabled: boolean): string => {
   let str =
     "flex-grow transform rounded-lg bg-gradient-to-r from-blue-400 to-purple-500 px-4 py-2 font-bold text-white transition duration-300 hover:scale-105 ";
@@ -83,7 +86,7 @@ export const getClassNameForNext = (isDisabled: boolean): string => {
 };
 
 export const setNextDisabled = (
-  nextButtonRef: React.RefObject<HTMLButtonElement>,
+  nextButtonRef: React.RefObject<HTMLButtonElement>
 ) => {
   if (nextButtonRef && nextButtonRef.current) {
     nextButtonRef.current.disabled = true;
@@ -92,35 +95,43 @@ export const setNextDisabled = (
 };
 
 export const setNextEnabled = (
-  nextButtonRef: React.RefObject<HTMLButtonElement>,
+  nextButtonRef: React.RefObject<HTMLButtonElement>
 ) => {
   if (nextButtonRef && nextButtonRef.current) {
     nextButtonRef.current.disabled = false;
     nextButtonRef.current.className = getClassNameForNext(false);
   }
 };
+
 export default function Experience() {
   const [currentStep, setCurrentStep] = useState<number>(1);
   const key = currentStep.toString() as StateKey;
-  const stepData = state[key]; // Safe indexing
-  const chatbotContext = [`Description: ${stepData.description}`,`Directions: ${stepData.directions}`, `Objects in Focus: ${stepData.objectsInFocus.join(", ")}`,];
+  // Cast stepData to our defined Step interface.
+  const stepData = state[key] as Step;
+
+  // Use contextFileName if provided.
+  const fileName = stepData.contextFileName || "";
+  // Use the custom hook to fetch the content from the specified text file.
+  const fileContext = useContextFromFile(fileName);
+
+  // Create the chatbot context. If file content exists, use it;
+  // otherwise, fall back to the manually built context.
+  const chatbotContext = fileContext
+    ? [fileContext]
+    : [
+        `Description: ${stepData.description}`,
+        `Directions: ${stepData.directions}`,
+        `Objects in Focus: ${stepData.objectsInFocus.join(", ")}`,
+      ];
+
   const stepRefs = useRef<Record<number, StepComponentRef>>({});
   const [isAnimating, setIsAnimating] = useState<boolean>(false);
   const nextButtonRef = useRef<HTMLButtonElement>(null);
-  // const replayButtonRef = useRef<HTMLButtonElement>(null);
-
-  const cameraControlsRef = useRef<Camera>(null);
   const [nextButtonTempDisabled, setNextButtonTempDisabled] = useState(false);
 
   const handleNextStep = () => {
     if (currentStep < Object.keys(state).length) {
       setCurrentStep(currentStep + 1);
-      // setNextDisabled(nextButtonRef);
-
-      // setNextButtonTempDisabled(true);
-      // setTimeout(() => {
-      //   setNextButtonTempDisabled(false);
-      // }, 2000);
     }
   };
 
@@ -135,7 +146,8 @@ export default function Experience() {
             <img
               src="loadingQ2L.svg"
               alt="Loading"
-              className="w-20 h-20 m-auto" />
+              className="w-20 h-20 m-auto"
+            />
           </div>
         </div>
       }
@@ -203,7 +215,6 @@ export default function Experience() {
           {currentStep === 12 && (
             <Step12TurnOnRotation nextButtonRef={nextButtonRef} />
           )}
-
           {currentStep === 13 && (
             <Step13SubmergeFlask nextButtonRef={nextButtonRef} />
           )}
@@ -222,7 +233,6 @@ export default function Experience() {
           {currentStep === 18 && (
             <Step18RemoveItems nextButtonRef={nextButtonRef} />
           )}
-
           {currentStep === 19 && (
             <Step19RemoveBumpTrap nextButtonRef={nextButtonRef} />
           )}
@@ -237,7 +247,7 @@ export default function Experience() {
             bottom: 0,
             left: 0,
             right: 0,
-            background: "rgba(0, 0, 0, 0.2)", // Semi-transparent background
+            background: "rgba(0, 0, 0, 0.2)",
             padding: "20px",
             display: "flex",
             justifyContent: "center",
@@ -249,7 +259,7 @@ export default function Experience() {
             <div className="w-lg rounded-lg bg-gray-700 bg-opacity-80 p-6 text-center backdrop-blur-sm">
               <h1 className="mb-2 text-lg text-white">{stepData.stepTitle}</h1>
               <p className="text-white">{stepData.directions}</p>
-              <p className=" pt-2 font-mono text-xs font-extralight text-fuchsia-300">
+              <p className="pt-2 font-mono text-xs font-extralight text-fuchsia-300">
                 {"user_instructions" in stepData
                   ? stepData.user_instructions
                   : null}
@@ -271,7 +281,7 @@ export default function Experience() {
             </div>
           </div>
         </div>
-        <Chatbot context={chatbotContext}/>
+        <Chatbot context={chatbotContext} />
       </div>
     </Suspense>
   );
