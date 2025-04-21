@@ -236,7 +236,7 @@
   "19": {
     "stepTitle": "Invert the flask to mix the solution",
     "description": "User mixes the solution by inverting the flask several times",
-    "directions": "Click on the flask to invert it. The flask should be mixed 5-10 times to ensure even mixture, but here you can mix it 3 times.",
+    "directions": "Click on the flask to invert it. The flask should be mixed 5-10 times to ensure even mixture, but here you can mix it 4 times.",
     "objectsInFocus": [
       "flask",
       "stopper" 

@@ -1,20 +1,18 @@
-import React, { Suspense, useEffect, useRef, useState } from "react";
-import {
-  CameraControls,
-  CameraControlsProps,
-  Html,
-  OrbitControls,
-  PerspectiveCamera,
-} from "@react-three/drei";
-import FirstStepComponent from "./steps/FirstStepComponent";
-import SecondStepComponent from "./steps/SecondStepComponent";
-import FourthStepComponent from "./steps/FourthStepComponent";
+import React, { Suspense, useRef, useState } from "react";
+import { OrbitControls } from "@react-three/drei";
 import Table from "./Table";
-// ...other necessary imports...
-
+// ... other necessary imports ...
 import state from "./state.json";
 import InventorySystem from "./InventorySystem";
+import { Canvas } from "@react-three/fiber";
+import { CameraAdjuster } from "./CameraAdjuster";
+import { useThree } from "@react-three/fiber";
+import { useEffect } from "react";
+
+import FirstStepComponent from "./steps/FirstStepComponent";
+import SecondStepComponent from "./steps/SecondStepComponent";
 import ThirdStepComponent from "./steps/ThirdStepComponent";
+import FourthStepComponent from "./steps/FourthStepComponent";
 import FifthStepComponent from "./steps/FifthStepComponent";
 import SixthStepComponent from "./steps/SixthStepComponent";
 import SeventhStepComponent from "./steps/SeventhStepComponent";
@@ -24,11 +22,8 @@ import TenthStepComponent from "./steps/TenthStepComponent";
 import EleventhStepComponent from "./steps/EleventhStepComponent";
 import TwelvthStepComponent from "./steps/TwelvthStepComponent";
 import FinishedStepComponent from "./steps/FinishedStepComponent";
-import { Canvas, useFrame, useThree } from "@react-three/fiber";
-import { CameraAdjuster } from "./CameraAdjuster";
-import { Camera, Vector3 } from "three";
 
-// Interface for the structure of each step in state.json
+// Type definitions
 interface Step {
   stepTitle: string;
   description: string;
@@ -41,7 +36,7 @@ interface Step {
     correctAnswer: string[];
     category: string;
     count: number;
-    userAnswers: string[]; // Adjust as needed for dynamic content
+    userAnswers: string[];
   }[];
 }
 
@@ -58,14 +53,13 @@ interface State {
   "10": Step;
   "11": Step;
   "12": Step;
+  // If you actually go to 13 in `state.json`, add "13": Step; as well
 }
 
 type StateKey = keyof State;
 
-// Correctly type your step component refs if they have specific methods or properties
 interface StepComponentRef {
   replayAnimation?: () => void;
-  // other methods or properties
 }
 
 interface SelectedItems {
@@ -82,7 +76,7 @@ export const getClassNameForNext = (isDisabled: boolean): string => {
 export const setNextDisabled = (
   nextButtonRef: React.RefObject<HTMLButtonElement>,
 ) => {
-  if (nextButtonRef && nextButtonRef.current) {
+  if (nextButtonRef.current) {
     nextButtonRef.current.disabled = true;
     nextButtonRef.current.className = getClassNameForNext(true);
   }
@@ -91,29 +85,39 @@ export const setNextDisabled = (
 export const setNextEnabled = (
   nextButtonRef: React.RefObject<HTMLButtonElement>,
 ) => {
-  if (nextButtonRef && nextButtonRef.current) {
+  if (nextButtonRef.current) {
     nextButtonRef.current.disabled = false;
     nextButtonRef.current.className = getClassNameForNext(false);
   }
 };
+
+
+interface CameraConfig {
+  position?: [number, number, number];
+  zoom?: number;
+  viewLocation?: [number, number, number] | null;
+}
+
 interface ExperienceProps {
   currentStep: number;
   onStepChange: (newStep: number) => void;
+  cameraConfig?: CameraConfig;
+  canInteract?: boolean; // New prop to control interaction
 }
 
-export default function Experience({
-  currentStep,
-  onStepChange,
-}: ExperienceProps) { 
+export default function Experience({ currentStep, onStepChange, cameraConfig, canInteract = true }: ExperienceProps) {
+  // `currentStep` comes from parent; no local state needed
   const key = currentStep.toString() as StateKey;
-  const stepData = state[key]; // Safe indexing
-  const stepRefs = useRef<Record<number, StepComponentRef>>({});
-  const [isAnimating, setIsAnimating] = useState<boolean>(false);
-  const nextButtonRef = useRef<HTMLButtonElement>(null);
-  // const replayButtonRef = useRef<HTMLButtonElement>(null);
+  const stepData = state[key];
 
-  const cameraControlsRef = useRef<Camera>(null);
-  const [nextButtonTempDisabled, setNextButtonTempDisabled] = useState(false);
+  const stepRefs = useRef<Record<number, StepComponentRef>>({});
+  const nextButtonRef = useRef<HTMLButtonElement>(null);
+
+  const [isInventoryVisible, setIsInventoryVisible] = useState(false);
+  const [selectedItems, setSelectedItems] = useState<SelectedItems>({});
+
+  // If certain items are required for a step, define them here:
+  const [isAnimating, setIsAnimating] = useState<boolean>(false);
   const requiredItems = new Set([
     "Analytical Balance",
     "Weighing Paper",
@@ -122,25 +126,24 @@ export default function Experience({
     "Powder Sample",
   ]);
 
-  const [selectedItems, setSelectedItems] = useState<SelectedItems>({});
+  const [nextButtonTempDisabled, setNextButtonTempDisabled] = useState(false);
 
-  const [isInventoryVisible, setIsInventoryVisible] = useState(false);
+  // For steps that have a "replayAnimation" method
+  const stepsWithRefs = new Set([4, 5, 6, 7, 8, 10]);
+  const hasReplayAnimation: boolean = stepsWithRefs.has(currentStep);
 
-  const handleToggleInventory = () => {
+  function handleToggleInventory() {
     setIsInventoryVisible(!isInventoryVisible);
-  };
+  }
 
-  const handleNextStep = () => {
-    if (currentStep < Object.keys(state).length) {
+  function handleNextStep() {
+    if (currentStep < 13) {
+      onStepChange(currentStep + 1); // let parent handle the logic
       setNextDisabled(nextButtonRef);
-      // setNextButtonTempDisabled(true);
-      // setTimeout(() => {
-      //   setNextButtonTempDisabled(false);
-      // }, 2000);
     }
-  };
+  }
 
-  const handleItemSelection = (itemName: string, isCorrect: boolean) => {
+  function handleItemSelection(itemName: string, isCorrect: boolean) {
     setSelectedItems((prev) => {
       const newSelectedItems = { ...prev, [itemName]: isCorrect };
 
@@ -151,33 +154,25 @@ export default function Experience({
       if (allSelected && nextButtonRef.current) {
         setNextEnabled(nextButtonRef);
       }
-
       return newSelectedItems;
     });
-  };
+  }
 
-  const handleReplayAnimation = () => {
+  function handleReplayAnimation() {
     const currentStepRef = stepRefs.current[currentStep];
     if (currentStepRef && currentStepRef.replayAnimation) {
       currentStepRef.replayAnimation();
     }
-  };
-
-  const stepsWithRefs = new Set([4, 5, 6, 7, 8, 10]); // Add other steps as needed
-
-  // Check if the current step has a replay animation
-  const hasReplayAnimation: boolean = stepsWithRefs.has(currentStep);
+  }
 
   return (
     <Suspense
       fallback={
         <div className="flex h-screen items-center justify-center bg-gradient-to-r from-blue-400 via-cyan-500 to-green-400">
           <div className="rounded-lg border border-transparent bg-black bg-opacity-30 p-6 shadow-lg backdrop-blur-lg backdrop-filter">
-            <p className="text-lg font-thin text-white">
-              {"Loading Resources"}
-            </p>
+            <p className="text-lg font-thin text-white">Loading Resources</p>
             <img
-              src="loadingQ2L.svg"
+              src="/loadingQ2L.svg"
               alt="Loading"
               className="m-auto h-20 w-20"
             />
@@ -186,8 +181,8 @@ export default function Experience({
       }
     >
       <div style={{ position: "relative", height: "100vh" }}>
-        {/* Inventory toggle button */}
-        {currentStep === 3 && !isInventoryVisible && (
+        {/* Inventory toggle button (example for step 3) */}
+        {currentStep === 3 && !isInventoryVisible && canInteract && (
           <button
             onClick={handleToggleInventory}
             className="absolute left-4 top-4 z-50 m-4 rounded-md bg-blue-500 px-4 py-2 text-white shadow-lg hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-300 focus:ring-opacity-50"
@@ -200,15 +195,11 @@ export default function Experience({
           shadows
           camera={{
             fov: 45,
-            // near: 0.1,
-            // far: 200,
-            position: [11.57, 10.1, -0.314],
+            position: cameraConfig?.position || [11.57, 10.1, -0.314],
+            zoom: cameraConfig?.zoom || 1,
           }}
         >
-          <CameraAdjuster />
-          {/* <CameraControls makeDefault ref={cameraControlsRef} onStart={() => {
-          cameraControlsRef.current?.setFocalOffset(0,-2.5,0, true);
-        }}/> */}
+          <CameraAdjuster viewLocation={cameraConfig?.viewLocation ?? null} />
           <OrbitControls minDistance={9} maxDistance={70} />
 
           <ambientLight intensity={1.6} />
@@ -221,7 +212,8 @@ export default function Experience({
 
           {/* Common elements like Table */}
           <Table scale={13} position-y={-1} />
-          {/* Green-yellow plane */}
+
+          {/* Example ground plane */}
           <mesh
             receiveShadow
             position-y={-1}
@@ -232,11 +224,9 @@ export default function Experience({
             <meshStandardMaterial color="greenyellow" />
           </mesh>
 
-          {/* Conditional Rendering of Step Components */}
+          {/* Step components conditionally rendered */}
           {currentStep === 1 && <FirstStepComponent />}
-          {currentStep === 2 && (
-            <SecondStepComponent nextButtonRef={nextButtonRef} />
-          )}
+          {currentStep === 2 && <SecondStepComponent nextButtonRef={nextButtonRef} />}
           {currentStep === 3 && (
             <ThirdStepComponent
               selectedItems={selectedItems}
@@ -246,7 +236,7 @@ export default function Experience({
           {currentStep === 4 && (
             <FourthStepComponent
               ref={(el) => {
-                stepRefs.current[4] = el as StepComponentRef; // Ensure that nothing is returned
+                stepRefs.current[4] = el as StepComponentRef;
               }}
               nextButtonRef={nextButtonRef}
             />
@@ -269,25 +259,19 @@ export default function Experience({
           )}
           {currentStep === 7 && (
             <SeventhStepComponent
-              ref={(el) => {
-                stepRefs.current[7] = el as StepComponentRef;
-              }}
+              ref={(el) => {(stepRefs.current[7] = el as StepComponentRef)}}
               setIsAnimating={setIsAnimating}
               nextButtonRef={nextButtonRef}
             />
           )}
           {currentStep === 8 && (
             <EightStepComponent
-              ref={(el) => {
-                stepRefs.current[8] = el as StepComponentRef;
-              }}
+              ref={(el) => {(stepRefs.current[8] = el as StepComponentRef)}}
               setIsAnimating={setIsAnimating}
               nextButtonRef={nextButtonRef}
             />
           )}
-          {currentStep === 9 && (
-            <NinthStepComponent nextButtonRef={nextButtonRef} />
-          )}
+          {currentStep === 9 && <NinthStepComponent nextButtonRef={nextButtonRef} />}
           {currentStep === 10 && (
             <TenthStepComponent
               ref={(el) => {
@@ -296,19 +280,13 @@ export default function Experience({
               nextButtonRef={nextButtonRef}
             />
           )}
-          {currentStep === 11 && (
-            <EleventhStepComponent nextButtonRef={nextButtonRef} />
-          )}
-          {currentStep === 12 && (
-            <TwelvthStepComponent nextButtonRef={nextButtonRef} />
-          )}
-          {currentStep === 13 && (
-            <FinishedStepComponent nextButtonRef={nextButtonRef} />
-          )}
-          {/* ...add more steps as needed... */}
+          {currentStep === 11 && <EleventhStepComponent nextButtonRef={nextButtonRef} />}
+          {currentStep === 12 && <TwelvthStepComponent nextButtonRef={nextButtonRef} />}
+          {currentStep === 13 && <FinishedStepComponent nextButtonRef={nextButtonRef} />}
         </Canvas>
 
-        {currentStep === 3 && (
+        {/* Inventory, if step = 3 */}
+        {currentStep === 3 && canInteract && (
           <InventorySystem
             onItemSelect={handleItemSelection}
             selectedItems={selectedItems}
@@ -316,13 +294,15 @@ export default function Experience({
             isInventoryVisible={isInventoryVisible}
           />
         )}
+
+        {/* Step Instructions + Next Button Overlay */}
         <div
           style={{
             position: "absolute",
             bottom: 0,
             left: 0,
             right: 0,
-            background: "rgba(0, 0, 0, 0.2)", // Semi-transparent background
+            background: "rgba(0, 0, 0, 0.2)",
             padding: "20px",
             display: "flex",
             justifyContent: "center",

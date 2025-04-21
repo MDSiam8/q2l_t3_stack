@@ -51,7 +51,7 @@ export const MicropipetteP2Model = forwardRef<MicropipetteRef, MicropipetteProps
     
     return (
       <group {...props} position={props.startingPosition}>
-        <primitive object={micropipettep2.scene} scale={props.scale * 1/3} />
+        <primitive object={micropipettep2.scene} scale={(props.scale ?? 1) * (1/3)} />
 
       </group>
     );

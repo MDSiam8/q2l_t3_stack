@@ -1,0 +1,107 @@
+{
+    "1": {
+      "stepTitle": "Welcome",
+      "description": "You see a virtual lab bench with four micropipettes (P2, P20, P200, P1000) on a rack, alongside a pipette station and a chart displaying their volume ranges.",
+      "directions": "Welcome to the pipetting lab! Today you will learn how to use a micropipette correctly and measure small volumes accurately.",
+      "user_instructions": "Look around the bench and rotate your view to familiarize yourself with the equipment.",
+      "objectsInFocus": [
+        "pipetteP2",
+        "pipetteP20",
+        "pipetteP200",
+        "pipetteP1000",
+        "micropipetteStation",
+        "micropipetteChart"
+      ]
+    },
+    "2": {
+      "stepTitle": "Micropipette Ranges",
+      "description": "A close-up shows the pipettes along with a chart that lists each pipette’s volume range: P2 (0.2–2 µL), P20 (2–20 µL), P200 (20–200 µL), P1000 (200–1000 µL).",
+      "directions": "Each pipette is calibrated for a specific range of volumes. Take a moment to review these ranges.",
+      "user_instructions": "Zoom in on the chart or read the labels on the pipettes to understand which pipette fits which range.",
+      "objectsInFocus": []
+    },
+    "3": {
+      "stepTitle": "Micropipette Selection",
+      "description": "Your task is to measure 1 µL. The pipettes are clearly visible, and you need to decide which one is best suited for that volume.",
+      "directions": "Based on the ranges you just reviewed, choose the pipette that can accurately measure 1 µL.",
+      "user_instructions": "Click on the pipette you believe is best for measuring 1 µL.",
+      "objectsInFocus": []
+    },
+    "4": {
+      "stepTitle": "Setting the Volume",
+      "description": "A detailed view of the chosen pipette now highlights its volume adjustment dial and control buttons.",
+      "directions": "Adjust the pipette to precisely set the volume to 1 µL. Remember how the dial controls work.",
+      "user_instructions": "Use the on-screen arrows to rotate the dial until the display reads 1 µL.",
+      "objectsInFocus": [
+        "setPipetteVolumeUI",
+        "rotateClockwiseButton",
+        "rotateCounterClockwiseButton"
+      ]
+    },
+    "5": {
+      "stepTitle": "Tip Selection",
+      "description": "Multiple color-coded tip boxes are arranged on the bench (for example, Red, Orange, Yellow, and Blue). Each corresponds to a different pipette type.",
+      "directions": "Different pipettes require different tip sizes (hint: they are usually color coded). Use your observation skills to identify the correct tip box for your selected pipette.",
+      "user_instructions": "Examine the tip boxes and select the one that seems to match your pipette’s range.",
+      "objectsInFocus": [
+        "tipBoxRed",
+        "tipBoxOrange",
+        "tipBoxYellow",
+        "tipBoxBlue"
+      ]
+    },
+    "6": {
+      "stepTitle": "Tip Attachment",
+      "description": "The camera focuses on your pipette and the tip box you selected. The pipette is positioned to attach a tip.",
+      "directions": "Attach the tip by gently pressing the pipette onto the tip from the box until it clicks into place.",
+      "user_instructions": "Click the pipette to lower the it onto the tip.",
+      "objectsInFocus": [
+        "micropipetteP2",
+        "selectedTipBox"
+      ]
+    },
+    "7": {
+      "stepTitle": "Plunger Press – Setting the Position",
+      "description": "A beaker containing reagent appears. Your pipette with its attached tip hovers above the beaker, and the plunger is at rest.",
+      "directions": "Before drawing the liquid, press the plunger down to the first stop. Be precise—if you push too far, an error will be indicated.",
+      "user_instructions": "Use the control to drag the plunger down until it reaches the correct position. Watch for feedback indicating if it’s over-pressed.",
+      "objectsInFocus": [
+        "micropipetteP2withTip",
+        "beakerWithReagent"
+      ]
+    },
+    "8": {
+      "stepTitle": "Drawing Liquid – Controlled Release",
+      "description": "With the plunger correctly positioned, the pipette is ready to draw the reagent from the beaker.",
+      "directions": "While holding the plunger, you can insert the tip into the reagent. When you're ready to extract, hold the plunger steady and slowly release it. This controlled release will draw 1 µL of liquid into the tip.",
+      "user_instructions": "Gently release the plunger at a slow, even pace. Observe the liquid rising in the pipette tip.",
+      "objectsInFocus": [
+        "micropipetteP2withTip",
+        "beakerWithReagent"
+      ]
+    },
+    "9": {
+      "stepTitle": "Dispensing Reagent",
+      "description": "An empty beaker is now placed on the bench for dispensing the liquid.",
+      "directions": "Move the pipette tip over the empty beaker and press the plunger to the second stop to dispense the drawn liquid.",
+      "user_instructions": "Press the plunger fully.",
+      "objectsInFocus": []
+    },
+    "10": {
+      "stepTitle": "Tip Disposal",
+      "description": "A waste container is clearly visible on the bench for discarding used tips.",
+      "directions": "After dispensing the reagent, eject the used tip into the waste container to maintain proper lab hygiene.",
+      "user_instructions": "Use the tip ejector mechanism to remove the tip and dispose of it safely.",
+      "objectsInFocus": []
+    },
+    "11": {
+      "stepTitle": "Conclusion",
+      "description": "The lab bench is now tidy with a completion screen displayed, marking the end of the exercise.",
+      "directions": "Great work! You’ve successfully practiced the essential steps of micropipetting.",
+      "user_instructions": "Click the finish button or follow the exit prompt to complete the simulation.",
+      "objectsInFocus": [
+        "labCompletionUI"
+      ]
+    }
+  }
+  
