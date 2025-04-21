@@ -5,7 +5,6 @@ import { OrbitControls } from "@react-three/drei";
 import { Canvas } from "@react-three/fiber";
 import Cookies from "js-cookie"; // For cookie usage
 import { Camera } from "three";
-import { useNavigate, useParams } from "react-router-dom";
 
 import Table from "./Table";
 import state from "../state.json";
@@ -97,12 +96,19 @@ export const setNextEnabled = (
 };
 
 
+interface CameraConfig {
+  position?: [number, number, number];
+  zoom?: number;
+  viewLocation?: [number, number, number] | null;
+}
 interface ExperienceProps {
   currentStep: number;
   onStepChange: (newStep: number) => void;
+  cameraConfig?: CameraConfig;
+  canInteract?: boolean;
 }
 
-export default function Experience({ currentStep, onStepChange }: ExperienceProps) {
+export default function Experience({ currentStep, onStepChange, cameraConfig, canInteract=true }: ExperienceProps) {
   const key = currentStep.toString() as StateKey;
   const stepData = state[key];
   const stepRefs = useRef<Record<number, StepComponentRef>>({});
@@ -146,11 +152,12 @@ export default function Experience({ currentStep, onStepChange }: ExperienceProp
           shadows
           camera={{
             fov: 45,
-            position: [11.57, 10.1, -0.314],
+            position: cameraConfig?.position || [11.57, 10.1, -0.314],
+            zoom: cameraConfig?.zoom || 1,
           }}
         >
           <color attach="background" args={["#404040"]} />
-          <CameraAdjuster />
+          <CameraAdjuster viewLocation={cameraConfig?.viewLocation ?? null} />
           <OrbitControls minDistance={9} maxDistance={70} />
           <ambientLight intensity={1.6} />
           <directionalLight

@@ -60,12 +60,19 @@ interface MicropipetteState {
 }
 type StateKey = keyof MicropipetteState;
 
+interface CameraConfig {
+  position?: [number, number, number];
+  zoom?: number;
+  viewLocation?: [number, number, number] | null;
+}
 interface ExperienceProps {
   currentStep: number;
-  onStepChange: (next: number) => void;
+  onStepChange: (newStep: number) => void;
+  cameraConfig?: CameraConfig;
+  canInteract?: boolean;
 }
 
-export default function Experience({ currentStep, onStepChange }: ExperienceProps) {
+export default function Experience({ currentStep, onStepChange, cameraConfig, canInteract = true }: ExperienceProps) {
   const stepKey = currentStep.toString() as StateKey;
   const stepData = micropipetteState[stepKey];
 
@@ -94,8 +101,14 @@ export default function Experience({ currentStep, onStepChange }: ExperienceProp
   return (
     <Suspense fallback={<div>Loading 3D Scene...</div>}>
       <div style={{ position: "relative", height: "100vh" }}>
-        <Canvas camera={{ fov: 45, position: [11.57, 9.1, -0.314] }}>
-          <CameraAdjuster />
+        <Canvas 
+        camera={{
+            fov: 45,
+            position: cameraConfig?.position || [11.57, 10.1, -0.314],
+            zoom: cameraConfig?.zoom || 1,
+          }}
+          >
+          <CameraAdjuster viewLocation={cameraConfig?.viewLocation ?? null} />
           <OrbitControls minDistance={5} maxDistance={40} />
 
           {/* Lights */}

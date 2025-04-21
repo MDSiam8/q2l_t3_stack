@@ -25,7 +25,6 @@ import Step17TurnOffCondensorAndVacuum from "./steps/17TurnOffVacAndCond";
 import Step18RemoveItems from "./steps/18RemoveRotavapItems";
 import Step19RemoveBumpTrap from "./steps/19RemovingBumpTrap";
 import Step20Conclusion from "./steps/20Conclusion";
-import { useNavigate, useParams } from "react-router-dom";
 
 // Define interfaces for the steps in your state
 interface Step {
@@ -94,12 +93,21 @@ export const setNextEnabled = (nextButtonRef: React.RefObject<HTMLButtonElement>
   }
 };
 
+interface CameraConfig {
+  position?: [number, number, number];
+  zoom?: number;
+  viewLocation?: [number, number, number] | null;
+}
+
+
 interface ExperienceProps {
   currentStep: number;
   onStepChange: (newStep: number) => void;
-}
+  cameraConfig?: CameraConfig;
+  canInteract?: boolean;
+  }
 
-export default function Experience({ currentStep, onStepChange }: ExperienceProps) {
+export default function Experience({ currentStep, onStepChange, cameraConfig, canInteract = true  }: ExperienceProps) {
   const key = currentStep.toString() as StateKey;
   const stepData = state[key];
   const stepRefs = useRef<Record<number, StepComponentRef>>({});
@@ -131,10 +139,14 @@ export default function Experience({ currentStep, onStepChange }: ExperienceProp
         {/* Your canvas and step component rendering */}
         <Canvas
           shadows
-          camera={{ fov: 45, position: [11.57, 10.1, -0.314] }}
-          style={{ background: "#37474f" }}
+          camera={{
+            fov: 45,
+            position: cameraConfig?.position || [11.57, 10.1, -0.314],
+            zoom: cameraConfig?.zoom || 1,
+          }}
+          style={{ background: "#37474f"}}
         >
-          <CameraAdjuster />
+          <CameraAdjuster viewLocation={cameraConfig?.viewLocation ?? null} />
           <OrbitControls minDistance={9} maxDistance={70} />
           <ambientLight intensity={1.6} />
           <directionalLight castShadow position={[1, 2, 3]} intensity={1.5} shadow-normalBias={0.04} />
