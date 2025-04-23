@@ -1,7 +1,6 @@
 import React, {
   useRef,
   useEffect,
-  useImperativeHandle,
   forwardRef,
 } from "react";
 import BalanceWithAnimations, { BalanceWithAnimationsHandles } from "../BalanceWithAnimations";
@@ -12,28 +11,16 @@ import { Spatula } from "../Spatula";
 import { Html, Sphere } from "@react-three/drei";
 import AnswerBox from "../AnswerBox";
 import { Beaker } from "../Beaker";
-import { Group } from "three";
+import { StepComponentProps, StepRef } from "../Experience";
 
-interface NinthStepComponentProps {
-  nextButtonRef: React.RefObject<HTMLButtonElement>;
-}
-
-// Define a type that includes both Group and any extra methods
-interface NinthStepComponentRef extends Group {
-  replayAnimation: () => Promise<void>;
-}
-
-const NinthStepComponent = forwardRef<NinthStepComponentRef, NinthStepComponentProps>(
-  ({ nextButtonRef }, ref) => {
+const NinthStepComponent = forwardRef<StepRef, StepComponentProps>(
+  ({ setNextDisabled }) => {
     const balanceWithAnimationsRef = useRef<BalanceWithAnimationsHandles>(null);
     const weighingPaperRef = useRef<WeighingPaperRef>(null);
   
     useEffect(() => {
       updateBalanceReadingAfterAddingPowder(0.5017);
-      if (nextButtonRef && nextButtonRef.current) {
-        nextButtonRef.current.disabled = true; // Disable the button initially
-        nextButtonRef.current.style.opacity = "0.5";
-      }
+      setNextDisabled(true);
     }, []);
 
     const updateBalanceReadingAfterAddingPowder = (num: number) => {
@@ -74,12 +61,7 @@ const NinthStepComponent = forwardRef<NinthStepComponentRef, NinthStepComponentP
           <AnswerBox
             question="What is the reading on the balance?"
             correctAnswers={["0.5017 g", ".5017 g", ".5017", "0.5017", ".5017g", "0.5017g"]}
-            onCorrectAnswer={() => {
-              if (nextButtonRef && nextButtonRef.current) {
-                nextButtonRef.current.style.opacity = "1";
-                nextButtonRef.current.disabled = false; // Enable the button when the correct answer is given
-              }
-            }}
+            onCorrectAnswer={() => {setNextDisabled(false)}}
           />
         </group>
         <Beaker rotation-y={(-3.14 / 180) * 90} position={[2.6, 4.90, -3]} />

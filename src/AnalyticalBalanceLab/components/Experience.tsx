@@ -156,7 +156,11 @@ export default function Experience({ currentStep, onStepChange }: ExperienceProp
             />
           )}
           {currentStep === 9 && <NinthStepComponent setNextDisabled={setIsNextDisabled} />}
-          {currentStep === 10 && <TenthStepComponent ref={(el) => el && (stepRefs.current[10] = el)} setNextDisabled={setIsNextDisabled} />}
+          {currentStep === 10 && (
+            <TenthStepComponent
+              ref={(el) => el && (stepRefs.current[10] = el)}
+              setNextDisabled={setIsNextDisabled} />
+          ) }
           {currentStep === 11 && <EleventhStepComponent setNextDisabled={setIsNextDisabled} />}
           {currentStep === 12 && <TwelvthStepComponent setNextDisabled={setIsNextDisabled} />}
           {currentStep === 13 && <FinishedStepComponent setNextDisabled={setIsNextDisabled} />}
