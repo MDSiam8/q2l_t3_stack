@@ -36,7 +36,6 @@ interface SelectedItems {
 export interface StepComponentProps {
   setNextDisabled: Dispatch<SetStateAction<boolean>>;
   selectedItems?: SelectedItems;
-  setIsAnimating?: (value: boolean) => void;
   resetAndReplay?: () => void;
 }
 
@@ -52,7 +51,6 @@ export default function Experience({ currentStep, onStepChange }: ExperienceProp
 
   const [isInventoryVisible, setIsInventoryVisible] = useState(false);
   const [selectedItems, setSelectedItems] = useState<SelectedItems>({});
-  const [isAnimating, setIsAnimating] = useState(false);
   const [isNextDisabled, setIsNextDisabled] = useState(false);
 
   const requiredItems = new Set(["Analytical Balance", "Weighing Paper", "Beaker", "Spatula", "Powder Sample"]);
@@ -148,14 +146,12 @@ export default function Experience({ currentStep, onStepChange }: ExperienceProp
           {currentStep === 7 && (
             <SeventhStepComponent
               ref={(el) => el && (stepRefs.current[7] = el)}
-              setIsAnimating={setIsAnimating}
               setNextDisabled={setIsNextDisabled}
             />
           )}
           {currentStep === 8 && (
             <EightStepComponent
               ref={(el) => el && (stepRefs.current[8] = el)}
-              setIsAnimating={setIsAnimating}
               setNextDisabled={setIsNextDisabled}
             />
           )}
