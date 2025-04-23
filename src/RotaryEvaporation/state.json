@@ -6,7 +6,7 @@
         "objectsInFocus": [
             "rotovap"
         ],
-        "contextFileName": "step1.txt"
+        "contextFileName": "rotovap.txt"
     },
     "2": {
         "stepTitle": "Understanding the Task",
@@ -16,7 +16,7 @@
             "product_solution",
             "rotovap"
         ],
-        "contextFileName": "step2.txt"
+        "contextFileName": "rotovap.txt"
     },
     "3": {
         "stepTitle": "Preparing for Evaporation",
@@ -27,7 +27,8 @@
             "round_bottomed_flask",
             "bump_trap",
             "keck_clips"
-        ]
+        ],
+        "contextFileName": "rotovap.txt"
     },
     "4": {
         "stepTitle": "Flask Selection",
@@ -36,7 +37,8 @@
         "user_instructions": "Click on the flask that will best do the job.",
         "objectsInFocus": [
             "round_bottomed_flask"
-        ]
+        ],
+        "contextFileName": "rotovap.txt"
     },
     "5": {
         "stepTitle": "Transferring the Product",
@@ -46,7 +48,8 @@
         "objectsInFocus": [
             "product_solution",
             "round_bottomed_flask"
-        ]
+        ],
+        "contextFileName": "rotovap.txt"
     },
     "6": {
         "stepTitle": "Setting Up the Rotovap",
@@ -56,7 +59,8 @@
         "objectsInFocus": [
             "rotovap",
             "solvent_collection_flask"
-        ]
+        ],
+        "contextFileName": "rotovap.txt"
     },
     "7": {
         "stepTitle": "Activating the Water Bath",
@@ -66,7 +70,8 @@
         "objectsInFocus": [
             "rotovap",
             "hot_water_bath"
-        ]
+        ],
+        "contextFileName": "rotovap.txt"
     },
     "8": {
         "stepTitle": "Starting the Condenser and Vacuum Pump",
@@ -77,7 +82,8 @@
             "rotovap",
             "condenser",
             "vacuum_pump"
-        ]
+        ],
+        "contextFileName": "rotovap.txt"
     },
     "9": {
         "stepTitle": "Raising the Rotovap Arm",
@@ -86,7 +92,8 @@
         "user_instructions": "Click the arm to raise it.",
         "objectsInFocus": [
             "rotovap"
-        ]
+        ],
+        "contextFileName": "rotovap.txt"
     },
     "10": {
         "stepTitle": "Securing the Flask",
@@ -97,7 +104,8 @@
             "bump_trap",
             "keck_clips",
             "product_flask"
-        ]
+        ],
+        "contextFileName": "rotovap.txt"
     },
     "11": {
         "stepTitle": "Reducing Pressure",
@@ -107,7 +115,8 @@
         "objectsInFocus": [
             "rotovap",
             "stopcock"
-        ]
+        ],
+        "contextFileName": "rotovap.txt"
     },
     "12": {
         "stepTitle": "Adjusting Rotovap Settings",
@@ -116,7 +125,8 @@
         "user_instructions": "Press the power button to start the rotation.",
         "objectsInFocus": [
             "rotovap"
-        ]
+        ],
+        "contextFileName": "rotovap.txt"
     },
     "13": {
         "stepTitle": "Submerging the Flask",
@@ -126,7 +136,8 @@
         "objectsInFocus": [
             "rotovap",
             "round_bottomed_flask"
-        ]
+        ],
+        "contextFileName": "rotovap.txt"
     },
     "14": {
         "stepTitle": "Removing the Flask",
@@ -136,7 +147,8 @@
         "objectsInFocus": [
             "rotovap",
             "round_bottomed_flask"
-        ]
+        ],
+        "contextFileName": "rotovap.txt"
     },
     "15": {
         "stepTitle": "Turning Off the Rotovap",
@@ -155,7 +167,8 @@
             }
         
         
-        ]
+        ],
+        "contextFileName": "rotovap.txt"
     },
     "16": {
         "stepTitle": "Releasing Vacuum",
@@ -165,7 +178,8 @@
         "objectsInFocus": [
             "rotovap",
             "stopcock"
-        ]
+        ],
+        "contextFileName": "rotovap.txt"
     },
     "17": {
         "stepTitle": "Turning Off Condenser and Vacuum Pump",
@@ -176,7 +190,8 @@
             "rotovap",
             "condenser",
             "vacuum_pump"
-        ]
+        ],
+        "contextFileName": "rotovap.txt"
     },
     "18": {
         "stepTitle": "Detaching the Flask",
@@ -187,7 +202,8 @@
             "rotovap",
             "keck_clips",
             "round_bottomed_flask"
-        ]
+        ],
+        "contextFileName": "rotovap.txt"
     },
     "19": {
         "stepTitle": "Removing the Bump Trap",
@@ -198,7 +214,8 @@
             "rotovap",
             "bump_trap",
             "keck_clips"
-        ]
+        ],
+        "contextFileName": "rotovap.txt"
     },
     "20": {
         "stepTitle": "Lab Conclusion",
@@ -207,6 +224,7 @@
         "objectsInFocus": [
             "product_solution",
             "round_bottomed_flask"
-        ]
+        ],
+        "contextFileName": "rotovap.txt"
     }
 }

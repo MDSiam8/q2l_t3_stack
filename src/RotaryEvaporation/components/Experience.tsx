@@ -110,11 +110,36 @@ interface ExperienceProps {
   onStepChange: (newStep: number) => void;
   cameraConfig?: CameraConfig;
   canInteract?: boolean;
-  }
+}
 
-export default function Experience({ currentStep, onStepChange, cameraConfig, canInteract = true  }: ExperienceProps) {
+export default function Experience({ currentStep, onStepChange, cameraConfig, canInteract = true }: ExperienceProps) {
   const key = currentStep.toString() as StateKey;
   const stepData = state[key];
+
+  const fileName = stepData.contextFileName || "";
+
+  const fileContext = useContextFromFile(fileName);
+
+  const chatbotContext = fileContext
+
+
+    ? [fileContext]
+
+
+    : [
+
+
+      `Description: ${stepData.description}`,
+
+
+      `Directions: ${stepData.directions}`,
+
+
+      `Objects in Focus: ${stepData.objectsInFocus.join(", ")}`,
+
+
+    ];
+
   const stepRefs = useRef<Record<number, StepComponentRef>>({});
   const [isAnimating, setIsAnimating] = useState<boolean>(false);
   const nextButtonRef = useRef<HTMLButtonElement>(null);
@@ -149,7 +174,7 @@ export default function Experience({ currentStep, onStepChange, cameraConfig, ca
             position: cameraConfig?.position || [11.57, 10.1, -0.314],
             zoom: cameraConfig?.zoom || 1,
           }}
-          style={{ background: "#37474f"}}
+          style={{ background: "#37474f" }}
         >
           <CameraAdjuster viewLocation={cameraConfig?.viewLocation ?? null} />
           <OrbitControls minDistance={9} maxDistance={70} />
@@ -181,7 +206,7 @@ export default function Experience({ currentStep, onStepChange, cameraConfig, ca
           {currentStep === 19 && <Step19RemoveBumpTrap nextButtonRef={nextButtonRef} />}
           {currentStep === 20 && <Step20Conclusion nextButtonRef={nextButtonRef} />}
         </Canvas>
-        
+
         <div
           style={{
             position: "absolute",
@@ -208,11 +233,10 @@ export default function Experience({ currentStep, onStepChange, cameraConfig, ca
               <button
                 onClick={handleNextStep}
                 disabled={currentStep === 20 || nextButtonTempDisabled}
-                className={`mb-0 flex-grow transform rounded-lg bg-gradient-to-r from-blue-400 to-purple-500 px-4 py-2 font-bold text-white transition duration-300 hover:scale-105 ${
-                  currentStep === 20 || nextButtonTempDisabled
+                className={`mb-0 flex-grow transform rounded-lg bg-gradient-to-r from-blue-400 to-purple-500 px-4 py-2 font-bold text-white transition duration-300 hover:scale-105 ${currentStep === 20 || nextButtonTempDisabled
                     ? "cursor-not-allowed bg-gray-400 opacity-50"
                     : ""
-                }`}
+                  }`}
                 ref={nextButtonRef}
               >
                 Next Step

@@ -8,8 +8,12 @@ import ReactMarkdown from "react-markdown";
 import Link from "next/link";
 
 interface Message {
-  role: "system" | "user" | "assistant";
+  role: "user" | "assistant";
   content: string;
+}
+
+interface ChatbotProps {
+  context: string[];
 }
 
 // Define the map of lab types to their corresponding page URLs
@@ -22,10 +26,6 @@ const labUrls: Record<LabType, string> = {
   separating_liquids: "/extraction_lab"
 };
 
-interface ChatbotProps {
-  context: string[];
-}
-
 const Chatbot: React.FC<ChatbotProps> = ({ context }) => {
   const [messages, setMessages] = useState<Message[]>([]);
   const [input, setInput] = useState<string>("");
@@ -33,9 +33,9 @@ const Chatbot: React.FC<ChatbotProps> = ({ context }) => {
   const inputRef = useRef<HTMLInputElement>(null);
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
-  // Initialize the conversation with a system message when the context changes.
   useEffect(() => {
     if (context && context.length > 0) {
+      // Store the context message but don't display it to the user
       const systemMessage: Message = {
         role: "system",
         content: context.join("\n"),
@@ -47,35 +47,28 @@ const Chatbot: React.FC<ChatbotProps> = ({ context }) => {
   const sendMessage = async () => {
     if (!input.trim()) return;
 
-    // Append the user message with an explicit literal type for "user"
-    setMessages((prevMessages: Message[]) => {
-      const updatedMessages: Message[] = [
-        ...prevMessages,
-        { role: "user" as const, content: input },
-      ];
-
-      // Send the full conversation to the API.
-      axios
-        .post<{ reply: string }>("/api/chatbot", {
-          messages: updatedMessages,
-        })
-        .then((response) => {
-          // Append the assistant's reply with an explicit literal type for "assistant"
-          setMessages((currentMessages: Message[]) => [
-            ...currentMessages,
-            { role: "assistant" as const, content: response.data.reply },
-          ]);
-        })
-        .catch((error) => {
-          console.error("Chatbot error:", error);
-        });
-
-      return updatedMessages;
-    });
-
+    const userMessage: Message = { role: "user", content: input };
+    setMessages((prev) => [...prev, userMessage]);
+    const ipt = input;
     setInput("");
+
+    try {
+      const response = await axios.post<{ reply: string }>("/api/chatbot", {
+        message: ipt,
+        conversation: messages, // Send conversation history for context
+      });
+
+      const botReply: Message = {
+        role: "assistant",
+        content: response.data.reply,
+      };
+      setMessages((prev) => [...prev, botReply]);
+    } catch (error) {
+      console.error("Chatbot error:", error);
+    }
   };
 
+  // Send on Enter key
   const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === "Enter") {
       sendMessage();
@@ -127,6 +120,9 @@ const Chatbot: React.FC<ChatbotProps> = ({ context }) => {
             <div className="flex h-[420px] flex-col gap-2 overflow-y-auto p-4">
               <AnimatePresence initial={false}>
                 {messages.map((msg, index) => {
+                  // Skip rendering the context system message
+                  if (msg.role === "system") return null;
+
                   // Check if this message is a lab view command
                   if (msg.content.startsWith("LAB_STEP:")) {
                     const parts = msg.content.split(":");
@@ -184,6 +180,7 @@ const Chatbot: React.FC<ChatbotProps> = ({ context }) => {
                   }
                 })}
               </AnimatePresence>
+              {/* Dummy div to ensure auto-scroll works */}
               <div ref={messagesEndRef} />
             </div>
             <div className="flex items-center gap-2 rounded-b-xl border-t bg-gray-50 p-3">
