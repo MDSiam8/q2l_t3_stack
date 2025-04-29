@@ -10,7 +10,7 @@ import * as THREE from "three";
 import BalanceWithAnimations, {
   BalanceWithAnimationsHandles,
 } from "../BalanceWithAnimations";
-import WeighingPaper, { WeighingPaperRef } from "../WeighingPaper";
+import WeighingPaper from "../WeighingPaper";
 import { Bottle } from "../Bottle";
 import { BottleCap } from "../BottleCap";
 import { Spatula } from "../Spatula";
@@ -23,9 +23,9 @@ const TenthStepComponent = forwardRef<StepRef, StepComponentProps>(
   const balanceWithAnimationsRef = useRef<BalanceWithAnimationsHandles>(null);
   const weighingPaperRef = useRef<THREE.Group>(null);
   const sphereRef = useRef<THREE.Mesh>(null);
-  const [initialWeighingPaperPosition, setInitialWeighingPaperPosition] = useState();
-  const [initialWeighingPaperRotation, setInitialWeighingPaperRotation] = useState();
-  const [initialSpherePos, setInitialSpherePos] = useState();
+  const [initialWeighingPaperPosition] = useState();
+  const [initialWeighingPaperRotation] = useState();
+  const [initialSpherePos] = useState();
   const [sphereScale, setSphereScale] = useState(0);
 
   useEffect(() => {

@@ -1,41 +1,28 @@
 import React, {
   useRef,
   useEffect,
-  useImperativeHandle,
   forwardRef,
-  useState,
 } from "react";
 import * as THREE from "three";
 import BalanceWithAnimations, { BalanceWithAnimationsHandles } from "../BalanceWithAnimations";
-import WeighingPaper, { WeighingPaperRef } from "../WeighingPaper";
+import WeighingPaper from "../WeighingPaper";
 import { Bottle } from "../Bottle";
 import { BottleCap } from "../BottleCap";
 import { Spatula } from "../Spatula";
 import { Sphere } from "@react-three/drei";
 import AnswerBox from "../AnswerBox";
 import { Beaker } from "../Beaker";
+import { StepComponentProps } from "../Experience";
 
-interface EleventhStepComponentProps {
-  nextButtonRef: React.RefObject<HTMLButtonElement>;
-}
-
-const EleventhStepComponent = forwardRef<
-  THREE.Group,
-  EleventhStepComponentProps
->(({ nextButtonRef }, ref) => {
+const EleventhStepComponent = forwardRef<THREE.Group,StepComponentProps>(
+  ({ setNextDisabled }) => {
   const balanceWithAnimationsRef = useRef<BalanceWithAnimationsHandles>(null);
   const weighingPaperRef = useRef<THREE.Group>(null);
   const sphereRef = useRef<THREE.Mesh>(null); // Assuming sphereRef is a ref to a THREE.Mesh
-  const [initialWeighingPaperPosition] = useState(new THREE.Vector3(0.6, 5.6, -0.02));
-  const [initialWeighingPaperRotation] = useState(new THREE.Euler(0, 3.14 / 180 * 180, 0));
-  const [initialSpherePos] = useState(new THREE.Vector3(0.01, 0.1, 0));
-  const [sphereScale, setSphereScale] = useState(0.0);
+  
   useEffect(() => {
     updateBalanceReadingAfterAddingPowder(0.0012);
-    if (nextButtonRef && nextButtonRef.current) {
-      nextButtonRef.current.disabled = true; // Disable the button initially
-      nextButtonRef.current.style.opacity = "0.5";
-    }
+    setNextDisabled(true);
   }, []);
 
   const updateBalanceReadingAfterAddingPowder = (num: number) => {
@@ -82,12 +69,7 @@ const EleventhStepComponent = forwardRef<
         <AnswerBox
           question="What is the reading on the balance?"
           correctAnswers={["0.0012 g", ".0012 g", "0.0012", ".0012", "0.0012g", ".0012g"]}
-          onCorrectAnswer={() => {
-            if (nextButtonRef && nextButtonRef.current) {
-              nextButtonRef.current.style.opacity = "1";
-              nextButtonRef.current.disabled = false; // Enable the button when the correct answer is given
-            }
-          }}
+          onCorrectAnswer={() => {setNextDisabled(false)}}
         />
       </group>
     </group>
