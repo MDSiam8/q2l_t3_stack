@@ -174,7 +174,30 @@ const notebook6: Notebook = {
   disabled: true
 }
 
-const access_labs = [notebook, notebook2, notebook3, notebook4, notebook6]
+
+const notebook7: Notebook = {
+  id: "7",
+  name: "Voice Demo: Analytical Balance",
+  updatedAt: new Date(),
+  link: "/spline_balance_lab",
+  image: "splineBalance.png",
+  completed: "Not Started",
+  disabled: false
+}
+
+
+const notebook8: Notebook = {
+  id: "8",
+  name: "Voice Demo: Gel Electrophoresis",
+  updatedAt: new Date(),
+  link: "/spline_gel_lab",
+  image: "splineGel.png",
+  completed: "Not Started",
+  disabled: false
+}
+
+
+const access_labs = [notebook, notebook2, notebook3, notebook4, notebook6, notebook7, notebook8];
 
 
 export default function Dashboard() {
@@ -189,7 +212,7 @@ export default function Dashboard() {
       // setIsLoading(false);
       // notebooks will be fetched from the backend in the future
       // setNotebooks([notebook, notebook2, notebook3, notebook6]);
-      setNotebooks([notebook, notebook2, notebook3, notebook4, notebook5, notebook6]);
+      setNotebooks([notebook, notebook2, notebook3, notebook4, notebook5, notebook6, notebook7, notebook8]);
       setIsLoading(false);
     };
     if (typeof window !== "undefined") {

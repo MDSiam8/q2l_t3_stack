@@ -1,0 +1,64 @@
+{
+    "1": {
+      "stepTitle": "Welcome to the Gel-Electrophoresis Demo",
+      "directions": "This interactive demo uses a voice-based AI assistant to introduce you to the tools and equipment for your Gel Electrophoresis lab.",
+      "user_instructions": "Ask any question to the AI agent!",
+      "objectsInFocus": []
+    },
+    "2": {
+      "stepTitle": "Benchtop Centrifuge",
+      "description": "Here is the benchtop centrifuge (the white unit with a flip-up lid and four buckets).",
+      "directions": "Open the lid to see the rotor, then say “What does this do?” or click on the centrifuge.",
+      "objectsInFocus": [
+        "centrifuge"
+      ]
+    },
+    "3": {
+      "stepTitle": "Mini Heat Block",
+      "description": "Next is the mini heat block (gray base with a dark square platform).",
+      "directions": "Touch the platform to feel how it holds tubes warm and say “How do I use this?” or click the heat block.",
+      "objectsInFocus": [
+        "heat_block"
+      ]
+    },
+    "4": {
+      "stepTitle": "Vortex Mixer",
+      "description": "This is the vortex mixer (cream-colored body, black rubber pad labeled “Quest 2 Learn”).",
+      "directions": "Place a tube on the pad and say “Mix sample” or click the pad to see it spin.",
+      "objectsInFocus": [
+        "vortex_mixer"
+      ]
+    },
+    "5": {
+      "stepTitle": "Electrophoresis Tank",
+      "description": "Here’s the gel tank (blue body, green lid) with red and gray leads attached.",
+      "directions": "Lift the lid to view the gel tray, then say “Show me the inside” or click the tank.",
+      "objectsInFocus": [
+        "electrophoresis_tank"
+      ]
+    },
+    "6": {
+      "stepTitle": "Power Supply",
+      "description": "This is the power supply (“Power Box Basic”—black top, white front with red & gray ports).",
+      "directions": "Note the red port (+) and gray port (–). Say “How do I connect cables?” or click the power supply.",
+      "objectsInFocus": [
+        "power_supply"
+      ]
+    },
+    "7": {
+      "stepTitle": "Connecting the Leads",
+      "description": "We’ll plug the red lead into + on the power box and the gray lead into –.",
+      "directions": "Click each port to attach the cables, or say “Connect leads” to watch a demo.",
+      "objectsInFocus": [
+        "red_lead",
+        "gray_lead"
+      ]
+    },
+    "8": {
+      "stepTitle": "Safety Check",
+      "description": "Before you run any current, always close lids, wear goggles, and keep hands clear of liquids.",
+      "directions": "Say “Safety confirmed” or click ‘Next’ when you’re ready to learn how to run a gel.",
+      "objectsInFocus": []
+    }
+  }
+  
