@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import ReactDOM from "react-dom/client";
-import { HashRouter, Routes, Route } from "react-router-dom";
 import Experience from "../../UpdatedMicropipetteLab/Experience";
 import * as THREE from "three";
 import { useRouter } from "next/router";
@@ -54,7 +53,6 @@ function MyApp(): JSX.Element | null {
 
   useEffect(() => {
     if (root) {
-      // Using HashRouter instead of BrowserRouter to avoid server routing issues
       root.render(
         <>
           <Experience
