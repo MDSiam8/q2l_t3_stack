@@ -13,11 +13,13 @@ import {
 } from "../../components/ui/card";
 import { BellIcon, InfoIcon } from "lucide-react";
 import Sidebar from "./Sidebar";
+import Chatbot from "~/components/ChatBot";
 
 //import Navbar from "@/components/Navbar";
 //import Sidebar from "@/components/Sidebar";
 import { useEffect, useState } from "react";
 import Empty from "../../components/Empty";
+import ChatCanvas from "~/components/ChatCanvas";
 //import { Notebook } from "@prisma/client";
 
 interface Notebook {
@@ -49,7 +51,7 @@ const NotebookCard: React.FC<{ notebook: Notebook; disabled?: boolean }> = ({ no
     <>
       {disabled ? (
         <div className="relative">
-          <div className="absolute z-10 flex items-center justify-center w-full h-full">
+          <div className="absolute z-5 flex items-center justify-center w-full h-full">
             <div className="rounded-lg py-2 px-6 text-sm shadow-lg border select-none border-red-500 bg-red-100 text-red-900">
               Currently under maintenance. Will return soon!
             </div>
@@ -224,6 +226,7 @@ export default function Dashboard() {
     <div className="relative h-full bg-dashboard-bg"> {/*Relative H-full not filling the entire page for some reason */}
       <header className="flex h-14 items-center gap-4 border-b bg-zinc-100/40 px-6 dark:bg-zinc-800/40 lg:h-[60px]">
         <div className="ml-auto flex items-center gap-4">
+          
           <div>
             <UserButton afterSignOutUrl="/" />
           </div>
@@ -252,3 +255,8 @@ export default function Dashboard() {
     </div>
   );
 }
+
+
+//Gen UI:
+//render a minicanvas of the new step?
+//export the experience to the canvas

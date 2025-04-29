@@ -92,14 +92,23 @@ export const setNextEnabled = (
   }
 };
 
+interface CameraConfig {
+  position?: [number, number, number];
+  zoom?: number;
+  viewLocation?: [number, number, number] | null;
+}
+
 interface ExperienceProps {
   currentStep: number;
   onStepChange: (newStep: number) => void;
+  cameraConfig?: CameraConfig;
+  canInteract?: boolean;
 }
-
 export default function Experience({
   currentStep,
   onStepChange,
+  cameraConfig,
+  canInteract = true,
 }: ExperienceProps) {
   const key = currentStep.toString() as StateKey;
   const stepData = state[key];
@@ -177,7 +186,7 @@ export default function Experience({
     >
       <div style={{ position: "relative", height: "100vh" }}>
         {/* Inventory toggle button */}
-        {currentStep === 2 && !isInventoryVisible && (
+        {currentStep === 2 && !isInventoryVisible && canInteract && (
           <button
             onClick={handleToggleInventory}
             className="absolute left-4 top-4 z-50 m-4 rounded-md bg-blue-500 px-4 py-2 text-white shadow-lg hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-300 focus:ring-opacity-50"
@@ -190,11 +199,12 @@ export default function Experience({
           shadows
           camera={{
             fov: 45,
-            position: [11.57, 10.1, -0.314],
+            position: cameraConfig?.position || [11.57, 10.1, -0.314],
+            zoom: cameraConfig?.zoom || 1,
           }}
-          style={{ background: "#37474f" }}
+          style={{ background: "#37474f"}}
         >
-          <CameraAdjuster />
+          <CameraAdjuster viewLocation={cameraConfig?.viewLocation ?? null} />
           <OrbitControls minDistance={9} maxDistance={70} />
 
           <ambientLight intensity={1.6} />
@@ -255,7 +265,7 @@ export default function Experience({
           {/* ...add more steps as needed... */}
         </Canvas>
 
-        {currentStep === 2 && (
+        {currentStep === 2 && canInteract && (
           <InventorySystem
             onItemSelect={handleItemSelection}
             selectedItems={selectedItems}
