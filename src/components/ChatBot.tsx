@@ -8,7 +8,7 @@ import ReactMarkdown from "react-markdown";
 import Link from "next/link";
 
 interface Message {
-  role: "user" | "assistant";
+  role: "user" | "assistant" | "system";
   content: string;
 }
 
