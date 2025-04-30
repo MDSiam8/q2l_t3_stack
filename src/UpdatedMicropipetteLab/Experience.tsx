@@ -5,6 +5,8 @@ import { Canvas } from "@react-three/fiber";
 import { CameraAdjuster } from "./utils/CameraAdjuster"; // optional utility
 import Table from "./models/Table"; // your table or lab bench model
 import micropipetteState from "./state.json";
+import Chatbot from "~/components/ChatBot";
+import useContextFromFile from "~/components/useContextFromFile";
 
 // Import each step's component:
 import WelcomeStep from "./steps/01IntroductionToLab";
@@ -18,16 +20,6 @@ import DrawingLiquidStep from "./steps/08DrawingLiquidStep";
 import DispensingReagentStep from "./steps/09DispensingReagentStep";
 import TipDisposalStep from "./steps/10TipDisposalStep";
 import ConclusionStep from "./steps/11ConclusionStep";
-// import MicropipetteRangesStep from "./steps/02MicropipetteRangesStep";
-// import MicropipetteSelectionStep from "./steps/03MicropipetteSelectionStep";
-// import SettingVolumeStep from "./steps/04SettingVolumeStep";
-// import TipSelectionStep from "./steps/05TipSelectionStep";
-// import TipAttachmentStep from "./steps/06TipAttachmentStep";
-// import PlungerPressStep from "./steps/07PlungerPressStep";
-// import DrawingLiquidStep from "./steps/08DrawingLiquidStep";
-// import DispensingReagentStep from "./steps/09DispensingReagentStep";
-// import TipDisposalStep from "./steps/10TipDisposalStep";
-// import ConclusionStep from "./steps/11ConclusionStep";
 
 // Utility to manage "Next" button styles:
 export const getClassNameForNext = (isDisabled: boolean): string => {
@@ -72,9 +64,30 @@ interface ExperienceProps {
   canInteract?: boolean;
 }
 
-export default function Experience({ currentStep, onStepChange, cameraConfig, canInteract = true }: ExperienceProps) {
+export default function Experience({
+  currentStep,
+  onStepChange,
+  cameraConfig,
+  canInteract = true,
+}: ExperienceProps) {
   const stepKey = currentStep.toString() as StateKey;
   const stepData = micropipetteState[stepKey];
+  const fileName = stepData.contextFileName || "";
+  const fileContext = useContextFromFile(fileName);
+
+  // Prepare context for chatbot - use file context if available, otherwise use step data
+  const chatbotContext = fileContext
+    ? [
+        `Current Step: ${currentStep} of 11 - ${stepData.stepTitle}`,
+        fileContext,
+      ]
+    : [
+        `Current Step: ${currentStep} of 11 - ${stepData.stepTitle}`,
+        `Description: ${stepData.description}`,
+        `Directions: ${stepData.directions}`,
+        `Objects in Focus: ${stepData.objectsInFocus.join(", ")}`,
+        `User Instructions: ${stepData.user_instructions || "None provided"}`,
+      ];
 
   // Reference to disable/enable next button programmatically:
   const nextButtonRef = useRef<HTMLButtonElement>(null);
@@ -99,85 +112,163 @@ export default function Experience({ currentStep, onStepChange, cameraConfig, ca
   };
 
   return (
-    <Suspense fallback={<div>Loading 3D Scene...</div>}>
-      <div style={{ position: "relative", height: "100vh" }}>
-        <Canvas 
-        camera={{
-            fov: 45,
-            position: cameraConfig?.position || [11.57, 10.1, -0.314],
-            zoom: cameraConfig?.zoom || 1,
-          }}
+    <div style={{ position: "relative", height: "100vh" }}>
+      {/* Add a container with a lower z-index for the canvas */}
+      <div
+        style={{
+          position: "absolute",
+          top: 0,
+          left: 0,
+          right: 0,
+          bottom: 0,
+          zIndex: 10,
+        }}
+      >
+        <Suspense fallback={<div>Loading 3D Scene...</div>}>
+          <Canvas
+            camera={{
+              fov: 45,
+              position: cameraConfig?.position || [11.57, 10.1, -0.314],
+              zoom: cameraConfig?.zoom || 1,
+            }}
           >
-          <CameraAdjuster viewLocation={cameraConfig?.viewLocation ?? null} />
-          <OrbitControls minDistance={5} maxDistance={40} />
+            <CameraAdjuster viewLocation={cameraConfig?.viewLocation ?? null} />
+            <OrbitControls minDistance={5} maxDistance={40} />
 
-          {/* Lights */}
-          <ambientLight intensity={1} />
-          <directionalLight position={[2, 5, 2]} intensity={1.5} castShadow />
+            {/* Lights */}
+            <ambientLight intensity={1} />
+            <directionalLight position={[2, 5, 2]} intensity={1.5} castShadow />
 
+            {/* Example ground plane */}
+            <mesh
+              receiveShadow
+              position-y={-1}
+              rotation-x={-Math.PI * 0.5}
+              scale={65}
+            >
+              <planeGeometry />
+              <meshStandardMaterial color="greenyellow" />
+            </mesh>
+            {/* Common Lab Elements */}
+            <Table scale={10} position-y={-1.2} />
 
-          {/* Example ground plane */}
-          <mesh
-            receiveShadow
-            position-y={-1}
-            rotation-x={-Math.PI * 0.5}
-            scale={65}
+            {/* Step-based rendering */}
+            {currentStep === 1 && (
+              <WelcomeStep
+                nextButtonRef={nextButtonRef}
+                enableNext={enableNextButton}
+              />
+            )}
+            {currentStep === 2 && (
+              <MicropipetteRangeStep
+                nextButtonRef={nextButtonRef}
+                enableNext={enableNextButton}
+              />
+            )}
+            {currentStep === 3 && (
+              <MicropipetteSelectionStep
+                nextButtonRef={nextButtonRef}
+                enableNext={enableNextButton}
+              />
+            )}
+            {currentStep === 4 && (
+              <SettingVolumeStep
+                nextButtonRef={nextButtonRef}
+                enableNext={enableNextButton}
+              />
+            )}
+            {currentStep === 5 && (
+              <TipSelectionStep
+                nextButtonRef={nextButtonRef}
+                enableNext={enableNextButton}
+              />
+            )}
+            {currentStep === 6 && (
+              <TipAttachmentStep
+                nextButtonRef={nextButtonRef}
+                enableNext={enableNextButton}
+              />
+            )}
+            {currentStep === 7 && (
+              <PlungerPressStep
+                nextButtonRef={nextButtonRef}
+                enableNext={enableNextButton}
+              />
+            )}
+            {currentStep === 8 && (
+              <DrawingLiquidStep
+                nextButtonRef={nextButtonRef}
+                enableNext={enableNextButton}
+              />
+            )}
+            {currentStep === 9 && (
+              <DispensingReagentStep
+                nextButtonRef={nextButtonRef}
+                enableNext={enableNextButton}
+              />
+            )}
+            {currentStep === 10 && (
+              <TipDisposalStep
+                nextButtonRef={nextButtonRef}
+                enableNext={enableNextButton}
+              />
+            )}
+            {currentStep === 11 && (
+              <ConclusionStep
+                nextButtonRef={nextButtonRef}
+                enableNext={enableNextButton}
+              />
+            )}
+          </Canvas>
+        </Suspense>
+      </div>
+
+      {/* UI Overlay with instructions and Next button - higher z-index than canvas but lower than chatbot */}
+      <div
+        style={{
+          position: "absolute",
+          bottom: 0,
+          left: 0,
+          right: 0,
+          background: "rgba(0,0,0,0.2)",
+          padding: "20px",
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          zIndex: 20,
+        }}
+      >
+        <div className="flex items-stretch justify-center">
+          <div className="w-lg rounded-lg bg-gray-700 bg-opacity-80 p-6 text-center backdrop-blur-sm">
+            <h1 className="mb-2 text-lg text-white">{stepData.stepTitle}</h1>
+            <p className="text-white">{stepData.directions}</p>
+            <p className="pt-2 font-mono text-xs font-extralight text-fuchsia-300">
+              {stepData.user_instructions}
+            </p>
+          </div>
+          <div
+            style={{
+              marginLeft: "1rem",
+              display: "flex",
+              flexDirection: "column",
+              justifyContent: "space-between",
+            }}
           >
-            <planeGeometry />
-            <meshStandardMaterial color="greenyellow" />
-          </mesh>
-          {/* Common Lab Elements */}
-          <Table scale={10} position-y={-1.2} />
-
-          {/* Step-based rendering */}
-          {currentStep === 1 && <WelcomeStep nextButtonRef={nextButtonRef} enableNext={enableNextButton} />}
-          {currentStep === 2 && <MicropipetteRangeStep nextButtonRef={nextButtonRef} enableNext={enableNextButton} />}
-          {currentStep === 3 && <MicropipetteSelectionStep nextButtonRef={nextButtonRef} enableNext={enableNextButton} />}
-          {currentStep === 4 && <SettingVolumeStep nextButtonRef={nextButtonRef} enableNext={enableNextButton} />}
-          {currentStep === 5 && <TipSelectionStep nextButtonRef={nextButtonRef} enableNext={enableNextButton} />}
-          {currentStep === 6 && <TipAttachmentStep nextButtonRef={nextButtonRef} enableNext={enableNextButton} />}
-          {currentStep === 7 && <PlungerPressStep nextButtonRef={nextButtonRef} enableNext={enableNextButton} />}
-          {currentStep === 8 && <DrawingLiquidStep nextButtonRef={nextButtonRef} enableNext={enableNextButton} />}
-          {currentStep === 9 && <DispensingReagentStep nextButtonRef={nextButtonRef} enableNext={enableNextButton} />}
-          {currentStep === 10 && <TipDisposalStep nextButtonRef={nextButtonRef} enableNext={enableNextButton} />}
-          {currentStep === 11 && <ConclusionStep nextButtonRef={nextButtonRef} enableNext={enableNextButton} />}
-
-        </Canvas>
-
-        {/* UI Overlay with instructions and Next button */}
-        <div
-          style={{
-            position: "absolute",
-            bottom: 0,
-            left: 0,
-            right: 0,
-            background: "rgba(0,0,0,0.2)",
-            padding: "20px",
-            display: "flex",
-            justifyContent: "center",
-            alignItems: "center",
-          }}
-        >
-          <div className="flex items-stretch justify-center">
-            <div className="w-lg rounded-lg bg-gray-700 bg-opacity-80 p-6 text-center backdrop-blur-sm">
-              <h1 className="mb-2 text-lg text-white">{stepData.stepTitle}</h1>
-              <p className="text-white">{stepData.directions}</p>
-              <p className="pt-2 font-mono text-xs font-extralight text-fuchsia-300">
-                {stepData.user_instructions}
-              </p>
-            </div>
-            <div style={{ marginLeft: "1rem", display: "flex", flexDirection: "column", justifyContent: "space-between" }}>
-              <button
-                ref={nextButtonRef}
-                onClick={handleNextStep}
-                className={getClassNameForNext(false)}
-              >
-                Next Step
-              </button>
-            </div>
+            <button
+              ref={nextButtonRef}
+              onClick={handleNextStep}
+              className={getClassNameForNext(false)}
+            >
+              Next Step
+            </button>
           </div>
         </div>
       </div>
-    </Suspense>
+
+      {/* Chatbot with the highest z-index */}
+      <div style={{ position: "relative", zIndex: 50 }}>
+        <Chatbot context={chatbotContext} />
+      </div>
+    </div>
   );
 }
