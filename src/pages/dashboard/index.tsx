@@ -143,7 +143,7 @@ const notebook3: Notebook = {
   completed: "Not Started",
   updatedAt: new Date(),
   link: "/extraction_lab",
-  disabled: true
+  disabled: false
 };
 
 const notebook4: Notebook = {
@@ -173,7 +173,7 @@ const notebook6: Notebook = {
   link: "/diluting_lab",
   image: "Diluting.jpg",
   completed: "Not Started",
-  disabled: true
+  disabled: false
 }
 
 
