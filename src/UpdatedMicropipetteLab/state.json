@@ -11,21 +11,24 @@
         "pipetteP1000",
         "micropipetteStation",
         "micropipetteChart"
-      ]
+      ],
+      "contextFileName": "micropipette.txt"
     },
     "2": {
       "stepTitle": "Micropipette Ranges",
       "description": "A close-up shows the pipettes along with a chart that lists each pipette’s volume range: P2 (0.2–2 µL), P20 (2–20 µL), P200 (20–200 µL), P1000 (200–1000 µL).",
       "directions": "Each pipette is calibrated for a specific range of volumes. Take a moment to review these ranges.",
       "user_instructions": "Zoom in on the chart or read the labels on the pipettes to understand which pipette fits which range.",
-      "objectsInFocus": []
+      "objectsInFocus": [],
+      "contextFileName": "micropipette.txt"
     },
     "3": {
       "stepTitle": "Micropipette Selection",
       "description": "Your task is to measure 1 µL. The pipettes are clearly visible, and you need to decide which one is best suited for that volume.",
       "directions": "Based on the ranges you just reviewed, choose the pipette that can accurately measure 1 µL.",
       "user_instructions": "Click on the pipette you believe is best for measuring 1 µL.",
-      "objectsInFocus": []
+      "objectsInFocus": [],
+      "contextFileName": "micropipette.txt"
     },
     "4": {
       "stepTitle": "Setting the Volume",
@@ -36,7 +39,8 @@
         "setPipetteVolumeUI",
         "rotateClockwiseButton",
         "rotateCounterClockwiseButton"
-      ]
+      ],
+      "contextFileName": "micropipette.txt"
     },
     "5": {
       "stepTitle": "Tip Selection",
@@ -48,7 +52,8 @@
         "tipBoxOrange",
         "tipBoxYellow",
         "tipBoxBlue"
-      ]
+      ],
+      "contextFileName": "micropipette.txt"
     },
     "6": {
       "stepTitle": "Tip Attachment",
@@ -58,7 +63,8 @@
       "objectsInFocus": [
         "micropipetteP2",
         "selectedTipBox"
-      ]
+      ],
+      "contextFileName": "micropipette.txt"
     },
     "7": {
       "stepTitle": "Plunger Press – Setting the Position",
@@ -68,7 +74,8 @@
       "objectsInFocus": [
         "micropipetteP2withTip",
         "beakerWithReagent"
-      ]
+      ],
+      "contextFileName": "micropipette.txt"
     },
     "8": {
       "stepTitle": "Drawing Liquid – Controlled Release",
@@ -78,21 +85,24 @@
       "objectsInFocus": [
         "micropipetteP2withTip",
         "beakerWithReagent"
-      ]
+      ],
+      "contextFileName": "micropipette.txt"
     },
     "9": {
       "stepTitle": "Dispensing Reagent",
       "description": "An empty beaker is now placed on the bench for dispensing the liquid.",
       "directions": "Move the pipette tip over the empty beaker and press the plunger to the second stop to dispense the drawn liquid.",
       "user_instructions": "Press the plunger fully.",
-      "objectsInFocus": []
+      "objectsInFocus": [],
+      "contextFileName": "micropipette.txt"
     },
     "10": {
       "stepTitle": "Tip Disposal",
       "description": "A waste container is clearly visible on the bench for discarding used tips.",
       "directions": "After dispensing the reagent, eject the used tip into the waste container to maintain proper lab hygiene.",
       "user_instructions": "Use the tip ejector mechanism to remove the tip and dispose of it safely.",
-      "objectsInFocus": []
+      "objectsInFocus": [],
+      "contextFileName": "micropipette.txt"
     },
     "11": {
       "stepTitle": "Conclusion",
@@ -101,7 +111,8 @@
       "user_instructions": "Click the finish button or follow the exit prompt to complete the simulation.",
       "objectsInFocus": [
         "labCompletionUI"
-      ]
+      ],
+      "contextFileName": "micropipette.txt"
     }
   }
   

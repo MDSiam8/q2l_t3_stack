@@ -1,3 +1,4 @@
+//@ts-ignore
 import { NextApiRequest, NextApiResponse } from "next";
 import { OpenAI } from "openai";
 import { ChatCompletionTool } from "openai/resources/index.mjs";
@@ -96,7 +97,7 @@ export default async function handler(
     };
 
     // Build messages array including conversation history if provided
-    const messages = [systemMessage];
+    const messages: { role: "system" | "user" | "assistant"; content: string }[] = [systemMessage];
     
     if (conversation && Array.isArray(conversation)) {
       messages.push(...conversation.map(msg => ({
