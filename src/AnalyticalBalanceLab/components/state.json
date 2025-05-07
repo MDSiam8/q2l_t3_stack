@@ -5,7 +5,8 @@
     "directions": "In this lab, you will learn how to use an analytical balance.",
     "objectsInFocus": [
       "analytical_balance"
-    ]
+    ],
+    "contextFileName": "analyticalBalance.txt"
   },
   "2": {
     "stepTitle": "Task",
@@ -13,7 +14,8 @@
     "directions": "Our task is to weight around 0.5g of the powder sample.",
     "objectsInFocus": [
       "powder_sample"
-    ]
+    ],
+    "contextFileName": "analyticalBalance.txt"
   },
   "3": {
     "stepTitle": "Apparatus and Chemical Selection",
@@ -43,7 +45,8 @@
           "[DYNAMICALLY UPDATE WITH USER'S SELECTIONS AND UPDATE COUNT EACH TIME USER CHOOSES INCORRECT OPTION]"
         ]
       }
-    ]
+    ],
+    "contextFileName": "analyticalBalance.txt"
   },
   "4": {
     "stepTitle": "Open Side Window",
@@ -52,7 +55,8 @@
     "user_instructions": "Click on the balance's side door that is to your right to open it.",
     "objectsInFocus": [
       "analytical_balance"
-    ]
+    ],
+    "contextFileName": "analyticalBalance.txt"
   },
   "5": {
     "stepTitle": "Folding Weighing Paper Diagonally",
@@ -61,7 +65,8 @@
     "user_instructions": "Click the weighing paper to fold it.",
     "objectsInFocus": [
       "weighing_paper"
-    ]
+    ],
+    "contextFileName": "analyticalBalance.txt"
   },
   "6": {
     "stepTitle": "Place Weighing Paper Onto Balance",
@@ -70,7 +75,8 @@
     "objectsInFocus": [
       "analytical_balance",
       "weighing_paper"
-    ]
+    ],
+    "contextFileName": "analyticalBalance.txt"
   },
   "7": {
     "stepTitle": "Add Powder Sample Onto Weighing Paper",
@@ -92,7 +98,8 @@
         "count": 0,
         "userAnswers": []
       }
-    ]
+    ],
+    "contextFileName": "analyticalBalance.txt"
   },
   "8": {
     "stepTitle": "Close Side Window",
@@ -102,7 +109,8 @@
     "objectsInFocus": [
       "analytical_balance",
       "weighing_paper"
-    ]
+    ],
+    "contextFileName": "analyticalBalance.txt"
   },
   "9": {
     "stepTitle": "Reading Weight of Powder Sample and Weighing Paper",
@@ -122,7 +130,8 @@
         "count": 0,
         "userAnswers": []
       }
-    ]
+    ],
+    "contextFileName": "analyticalBalance.txt"
   },
   "10": {
     "stepTitle": "Transfer Sample Powder Into Clean Beaker",
@@ -132,7 +141,8 @@
       "analytical_balance",
       "beaker",
       "diagonal_weighing_paper"
-    ]
+    ],
+    "contextFileName": "analyticalBalance.txt"
   },
   "11": {
     "stepTitle": "Reading Weight of Weighing Paper",
@@ -152,7 +162,8 @@
         "count": 0,
         "userAnswers": []
       }
-    ]
+    ],
+    "contextFileName": "analyticalBalance.txt"
   },
   "12": {
     "stepTitle": "Calculating Net Weight of Sample Powder",
@@ -171,7 +182,8 @@
         "count": 0,
         "userAnswers": []
       }
-    ]
+    ],
+    "contextFileName": "analyticalBalance.txt"
   },
   "13": {
     "stepTitle": "The End",
@@ -181,6 +193,7 @@
       "analytical_balance",
       "beaker",
       "diagonal_weighing_paper"
-    ]
+    ],
+    "contextFileName": "analyticalBalance.txt"
   }
 }

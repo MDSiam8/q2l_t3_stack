@@ -5,7 +5,8 @@
         "directions": "You have a organic product mixture. Your aim is to extract the final product from the mixture.",
         "objectsInFocus": [
             "mixture"
-        ]
+        ],
+        "contextFileName": "extractionLab.txt"
     },
     "2": {
         "stepTitle": "Preparations",
@@ -18,25 +19,29 @@
             "stopper",
             "distilled water",
             "anhydrous magnesium sulfate"
-        ]
+        ],
+        "contextFileName": "extractionLab.txt"
     },
     "3": {
         "stepTitle": "Adding the Mixture",
         "description": "Pouring the organic product mixture into a separating funnel.",
         "directions": "Pour the organic product mixture into a separating funnel.",
-        "objectsInFocus": []
+        "objectsInFocus": [],
+        "contextFileName": "extractionLab.txt"
     },
     "4": {
         "stepTitle": "Adding Water",
         "description": "Pouring water into the separating funnel and observing layer formation.",
         "directions": "Next, pour the water into the separating funnel. Notice, two layers are formed due to immiscibility. In this case, the organic layer is on the top as it has a lower density than the bottom aqueous layer.",
-        "objectsInFocus": []
+        "objectsInFocus": [],
+        "contextFileName": "extractionLab.txt"
     },
     "5": {
         "stepTitle": "Closing the Funnel",
         "description": "Securing the separating funnel with a stopper.",
         "directions": "Now, stopper the separating funnel.",
-        "objectsInFocus": []
+        "objectsInFocus": [],
+        "contextFileName": "extractionLab.txt"
     },
     "6": {
         "stepTitle": "Venting the Funnel",
@@ -45,7 +50,8 @@
         "user_instructions": "Click on the stopcock to open it.",
         "objectsInFocus": [
             ""
-        ]
+        ],
+        "contextFileName": "extractionLab.txt"
     },
     "7": {
         "stepTitle": "Shaking the Funnel",
@@ -54,7 +60,8 @@
         "user_instructions": "Click on the funnel to shake it.",
         "objectsInFocus": [
             ""
-        ]
+        ],
+        "contextFileName": "extractionLab.txt"
     },
     "8": {
         "stepTitle": "Second Venting",
@@ -63,7 +70,8 @@
         "user_instructions": "Click on the stopcock to vent.",
         "objectsInFocus": [
             ""
-        ]
+        ],
+        "contextFileName": "extractionLab.txt"
     },
     "9": {
         "stepTitle": "Allowing Layer Separation",
@@ -72,7 +80,8 @@
         "user_instructions": "",
         "objectsInFocus": [
             ""
-        ]
+        ],
+        "contextFileName": "extractionLab.txt"
     },
     "10": {
         "stepTitle": "Draining the Aqueous Layer",
@@ -81,7 +90,8 @@
         "user_instructions": "Click the stopper to proceed.",
         "objectsInFocus": [
             ""
-        ]
+        ],
+        "contextFileName": "extractionLab.txt"
     },
     "11": {
         "stepTitle": "Collecting the Organic Layer",
@@ -90,7 +100,8 @@
         "user_instructions": "Click the separating funnel to pour organic layer to beaker.",
         "objectsInFocus": [
             ""
-        ]
+        ],
+        "contextFileName": "extractionLab.txt"
     },
     "12": {
         "stepTitle": "Drying the Organic Layer",
@@ -99,7 +110,8 @@
         "user_instructions": "",
         "objectsInFocus": [
             ""
-        ]
+        ],
+        "contextFileName": "extractionLab.txt"
     },
     "13": {
         "stepTitle": "Filtration",
@@ -108,7 +120,8 @@
         "user_instructions": "Click the beaker with the organic solution to filter it.",
         "objectsInFocus": [
             ""
-        ]
+        ],
+        "contextFileName": "extractionLab.txt"
     },
     "14": {
         "stepTitle": "Obtaining the Final Product",
@@ -117,6 +130,7 @@
         "user_instructions": "",
         "objectsInFocus": [
             ""
-        ]
+        ],
+        "contextFileName": "extractionLab.txt"
     }
 }

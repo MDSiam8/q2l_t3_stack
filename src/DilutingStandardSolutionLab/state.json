@@ -3,7 +3,8 @@
     "stepTitle": "Lab Objectives",
     "description": "An overview of the lab activities. Show users ",
     "directions": "In this lab, you will dilute a standard solution to prepare solutions of different concentrations, including a blank solution.",
-    "objectsInFocus": []
+    "objectsInFocus": [],
+    "contextFileName": "dilutingLab.txt"
   },
   "2": {
     "stepTitle": "Apparatus and Chemical Selection",
@@ -29,7 +30,8 @@
         "count": 0,
         "userAnswers": []
       }
-    ]
+    ],
+    "contextFileName": "dilutingLab.txt"
   },
   "3": {
     "stepTitle": "Transfer Standard Solution",
@@ -40,7 +42,8 @@
       "stopper",
       "beaker"
     ],
-    "user_instructions": "Click on the stopper to remove it."
+    "user_instructions": "Click on the stopper to remove it.",
+    "contextFileName": "dilutingLab.txt"
 
   },
   "4": {
@@ -51,7 +54,8 @@
       "glass_pipette",
       "micropipette"
     ],
-    "user_instructions": "Click on either the glass pipette or the micropipette to select it."
+    "user_instructions": "Click on either the glass pipette or the micropipette to select it.",
+    "contextFileName": "dilutingLab.txt"
   },
   "5": {
     "stepTitle": "Select the Correct Glass Pipette",
@@ -70,7 +74,8 @@
         "count": 0,
         "userAnswers": []
       }
-    ]
+    ],
+    "contextFileName": "dilutingLab.txt"
   },
   "6": {
     "stepTitle": "Attach Pipette Filler",
@@ -79,7 +84,8 @@
     "objectsInFocus": [
       "glass_pipette",
       "pipette_filler"
-    ]
+    ],
+    "contextFileName": "dilutingLab.txt"
   },
   "7": {
     "stepTitle": "Fill the Pipette",
@@ -100,7 +106,8 @@
         "count": 0,
         "userAnswers": []
       }
-    ]
+    ],
+    "contextFileName": "dilutingLab.txt"
   },
   "8": {
     "stepTitle": "Transfer Solution to Volumetric Flask",
@@ -120,7 +127,8 @@
         "count": 0,
         "userAnswers": []
       }
-    ]
+    ],
+    "contextFileName": "dilutingLab.txt"
   },
   "9": {
     "stepTitle": "Add Water to Volumetric Flask",
@@ -140,7 +148,8 @@
         "count": 0,
         "userAnswers": []
       }
-    ]
+    ],
+    "contextFileName": "dilutingLab.txt"
   },
   "10": {
     "stepTitle": "Use Dropper to Adjust Volume",
@@ -150,7 +159,8 @@
       "volumetric_flask_50ml",
       "dropper"
     ],
-    "user_instructions": "Add water dropwise while observing the meniscus in the second camera view."
+    "user_instructions": "Add water dropwise while observing the meniscus in the second camera view.",
+    "contextFileName": "dilutingLab.txt"
   },
   "11": {
     "stepTitle": "Add Stopper and Mix Solution",
@@ -160,14 +170,16 @@
       "volumetric_flask_50ml",
       "stopper"
     ],
-    "user_instructions": "Click on the stopper to place it on the flask, then click the flask to mix the solution."
+    "user_instructions": "Click on the stopper to place it on the flask, then click the flask to mix the solution.",
+    "contextFileName": "dilutingLab.txt"
   },
   "12": {
     "stepTitle": "Prepare Additional Dilutions",
     "description": "Repeat the dilution process to prepare solutions of different concentrations. Maybe give the user a quiz like question format to help them understand what pipette they should use, etc.",
     "directions": "Repeat the steps to prepare additional solutions with different volumes of stock solution according to the provided data set.",
     "objectsInFocus": [],
-    "user_instructions": "Follow the same procedure to prepare solutions of varying concentrations."
+    "user_instructions": "Follow the same procedure to prepare solutions of varying concentrations.",
+    "contextFileName": "dilutingLab.txt"
   },
   "13": {
     "stepTitle": "Completion",
@@ -175,6 +187,7 @@
     "directions": "Once you've followed the steps in this lab, you should have a blank solution and a set of standards in different concentrations prepared.",
     "objectsInFocus": [
       "volumetric_flasks"
-    ]
+    ],
+    "contextFileName": "dilutingLab.txt"
   }
 }
