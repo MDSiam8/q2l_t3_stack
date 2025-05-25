@@ -20,7 +20,7 @@ const getClassNameForNext = (isDisabled: boolean): string =>
 
 export default function DesktopControls({ stepData, currentStep, isNextDisabled, onNextStep }: DesktopControlsProps) {
   const isLastStep = currentStep === 13;
-  const nextButtonClass = getClassNameForNext(isLastStep || isNextDisabled);
+  const nextButtonClass = getClassNameForNext(isNextDisabled);
 
   return (
     <div className="absolute bottom-0 left-0 right-0 pointer-events-none flex justify-center">
@@ -34,7 +34,7 @@ export default function DesktopControls({ stepData, currentStep, isNextDisabled,
         </div>
         <button
           onClick={onNextStep}
-          disabled={isLastStep || isNextDisabled}
+          disabled={isNextDisabled}
           className={`${nextButtonClass} pointer-events-auto hidden md:block`}
         >
           Next Step

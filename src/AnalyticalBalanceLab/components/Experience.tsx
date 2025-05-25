@@ -42,9 +42,10 @@ export interface StepComponentProps {
 interface ExperienceProps {
   currentStep: number;
   onStepChange: (newStep: number) => void;
+  onLabComplete: () => void;
 }
 
-export default function Experience({ currentStep, onStepChange }: ExperienceProps) {
+export default function Experience({ currentStep, onStepChange, onLabComplete }: ExperienceProps) {
   const key = currentStep.toString() as StateKey;
   const stepData = state[key];
   const stepRefs = useRef<Record<number, StepRef>>({});
@@ -59,6 +60,8 @@ export default function Experience({ currentStep, onStepChange }: ExperienceProp
     if (currentStep < 13) {
       onStepChange(currentStep + 1);
       setIsNextDisabled(true);
+    } else if (currentStep === 13) {
+      onLabComplete();
     }
   };
 

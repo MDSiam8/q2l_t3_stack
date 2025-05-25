@@ -22,7 +22,7 @@ const getClassNameForNext = (isDisabled: boolean): string =>
 export default function MobileMenu({ stepData, currentStep, isNextDisabled, onNextStep }: MobileMenuProps) {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const isLastStep = currentStep === 13;
-  const nextButtonClass = getClassNameForNext(isLastStep || isNextDisabled);
+  const nextButtonClass = getClassNameForNext(isNextDisabled);
 
   return (
     <>
@@ -40,7 +40,7 @@ export default function MobileMenu({ stepData, currentStep, isNextDisabled, onNe
               <p className="text-xs text-blue-300 mt-1">{stepData.user_instructions}</p>
             )}
           </div>
-          <button onClick={onNextStep} disabled={isLastStep || isNextDisabled} className={`${nextButtonClass} mt-4 w-full`}>
+          <button onClick={onNextStep} disabled={isNextDisabled} className={`${nextButtonClass} mt-4 w-full`}>
             Next Step
           </button>
         </div>
