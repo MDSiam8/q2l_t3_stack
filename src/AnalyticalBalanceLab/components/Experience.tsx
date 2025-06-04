@@ -8,7 +8,6 @@ import { CameraAdjuster } from "./CameraAdjuster";
 import MobileMenu from "@components/MobileMenu";
 import DesktopControls from "@components/DesktopControls";
 
-// Step components
 import FirstStepComponent from "./steps/FirstStepComponent";
 import SecondStepComponent from "./steps/SecondStepComponent";
 import ThirdStepComponent from "./steps/ThirdStepComponent";
@@ -37,6 +36,13 @@ export interface StepComponentProps {
   setNextDisabled: Dispatch<SetStateAction<boolean>>;
   selectedItems?: SelectedItems;
   resetAndReplay?: () => void;
+}
+
+
+interface CameraConfig {
+  position?: [number, number, number];
+  zoom?: number;
+  viewLocation?: [number, number, number] | null;
 }
 
 interface ExperienceProps {

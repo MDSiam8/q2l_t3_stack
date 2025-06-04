@@ -25,14 +25,18 @@ import Step17TurnOffCondensorAndVacuum from "./steps/17TurnOffVacAndCond";
 import Step18RemoveItems from "./steps/18RemoveRotavapItems";
 import Step19RemoveBumpTrap from "./steps/19RemovingBumpTrap";
 import Step20Conclusion from "./steps/20Conclusion";
-import { useNavigate, useParams } from "react-router-dom";
 
+import Chatbot from "~/components/ChatBot";
+import useContextFromFile from "~/components/useContextFromFile"; // adjust the import path if necessary
+
+// Define the Step interface with an optional contextFileName property.
 // Define interfaces for the steps in your state
 interface Step {
   stepTitle: string;
   description: string;
   directions: string;
   objectsInFocus: string[];
+  contextFileName?: string;
   user_instructions?: string;
   mistakes?: {
     mistakeDescription: string;
@@ -94,14 +98,48 @@ export const setNextEnabled = (nextButtonRef: React.RefObject<HTMLButtonElement>
   }
 };
 
+interface CameraConfig {
+  position?: [number, number, number];
+  zoom?: number;
+  viewLocation?: [number, number, number] | null;
+}
+
+
 interface ExperienceProps {
   currentStep: number;
   onStepChange: (newStep: number) => void;
+  cameraConfig?: CameraConfig;
+  canInteract?: boolean;
 }
 
-export default function Experience({ currentStep, onStepChange }: ExperienceProps) {
+export default function Experience({ currentStep, onStepChange, cameraConfig, canInteract = true }: ExperienceProps) {
   const key = currentStep.toString() as StateKey;
   const stepData = state[key];
+
+  const fileName = stepData.contextFileName || "";
+
+  const fileContext = useContextFromFile(fileName);
+
+  const chatbotContext = fileContext
+
+
+    ? [fileContext]
+
+
+    : [
+
+
+      `Description: ${stepData.description}`,
+
+
+      `Directions: ${stepData.directions}`,
+
+
+      `Objects in Focus: ${stepData.objectsInFocus.join(", ")}`,
+
+
+    ];
+
   const stepRefs = useRef<Record<number, StepComponentRef>>({});
   const [isAnimating, setIsAnimating] = useState<boolean>(false);
   const nextButtonRef = useRef<HTMLButtonElement>(null);
@@ -131,10 +169,14 @@ export default function Experience({ currentStep, onStepChange }: ExperienceProp
         {/* Your canvas and step component rendering */}
         <Canvas
           shadows
-          camera={{ fov: 45, position: [11.57, 10.1, -0.314] }}
+          camera={{
+            fov: 45,
+            position: cameraConfig?.position || [11.57, 10.1, -0.314],
+            zoom: cameraConfig?.zoom || 1,
+          }}
           style={{ background: "#37474f" }}
         >
-          <CameraAdjuster />
+          <CameraAdjuster viewLocation={cameraConfig?.viewLocation ?? null} />
           <OrbitControls minDistance={9} maxDistance={70} />
           <ambientLight intensity={1.6} />
           <directionalLight castShadow position={[1, 2, 3]} intensity={1.5} shadow-normalBias={0.04} />
@@ -164,6 +206,7 @@ export default function Experience({ currentStep, onStepChange }: ExperienceProp
           {currentStep === 19 && <Step19RemoveBumpTrap nextButtonRef={nextButtonRef} />}
           {currentStep === 20 && <Step20Conclusion nextButtonRef={nextButtonRef} />}
         </Canvas>
+
         <div
           style={{
             position: "absolute",
@@ -190,11 +233,10 @@ export default function Experience({ currentStep, onStepChange }: ExperienceProp
               <button
                 onClick={handleNextStep}
                 disabled={currentStep === 20 || nextButtonTempDisabled}
-                className={`mb-0 flex-grow transform rounded-lg bg-gradient-to-r from-blue-400 to-purple-500 px-4 py-2 font-bold text-white transition duration-300 hover:scale-105 ${
-                  currentStep === 20 || nextButtonTempDisabled
+                className={`mb-0 flex-grow transform rounded-lg bg-gradient-to-r from-blue-400 to-purple-500 px-4 py-2 font-bold text-white transition duration-300 hover:scale-105 ${currentStep === 20 || nextButtonTempDisabled
                     ? "cursor-not-allowed bg-gray-400 opacity-50"
                     : ""
-                }`}
+                  }`}
                 ref={nextButtonRef}
               >
                 Next Step
@@ -202,6 +244,7 @@ export default function Experience({ currentStep, onStepChange }: ExperienceProp
             </div>
           </div>
         </div>
+        <Chatbot context={chatbotContext} />
       </div>
     </Suspense>
   );

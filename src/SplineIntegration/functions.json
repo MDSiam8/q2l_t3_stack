@@ -1,0 +1,27 @@
+{
+    "type": "function",
+    "function": {
+        "name": "find_object",
+        "description": "Locates the object for the user if they ask where it is.",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "model": {
+                    "type": "string",
+                    "enum": [
+                        "Beaker",
+                        "Table",
+                        "Flask",
+                        "Pipette"
+                    ],
+                    "description": "The model to locate."
+                }
+            },
+            "required": [
+                "model"
+            ],
+            "additionalProperties": false
+        },
+        "strict": true
+    }
+}
