@@ -53,13 +53,13 @@ const ChatCanvas: React.FC<ChatCanvasProps> = ({
     setLocked(false);
   };
 
-  // Component to render based on lab type with canInteract=false
   const renderExperience = () => {
     const commonProps = {
       currentStep: step,
       onStepChange: () => {}, // No-op since we don't allow step changes in preview
       cameraConfig: cameraConfig,
       canInteract: false, // Disable all interaction with the lab
+      onLabComplete: () => {},
     };
 
     switch (labType) {
