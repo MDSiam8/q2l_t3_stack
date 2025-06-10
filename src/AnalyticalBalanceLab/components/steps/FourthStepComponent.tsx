@@ -1,63 +1,54 @@
-import React, {
-  useRef,
-  useEffect,
-  useImperativeHandle,
-  forwardRef,
-} from "react";
+import React, { useRef, useImperativeHandle, forwardRef } from "react";
+import { Group } from "three";
 import BalanceWithAnimations from "../BalanceWithAnimations";
 import { Beaker } from "../Beaker";
 import { Bottle } from "../Bottle";
 import { BottleCap } from "../BottleCap";
 import { Spatula } from "../Spatula";
 import WeighingPaper from "../WeighingPaper";
-import { setNextEnabled } from "../Experience";
+import { StepRef, StepComponentProps } from "../Experience";
 
 interface BalanceWithAnimationsRef {
   replayAnimation: () => Promise<void>;
-  updateBalanceReading: (weight: number) => void; // Assuming it's a function that takes a number
+  updateBalanceReading: (weight: number) => void;
 }
 
-interface FourthStepComponentProps {
-  nextButtonRef: React.RefObject<HTMLButtonElement>;
-}
-
-const FourthStepComponent = forwardRef<{}, FourthStepComponentProps>(
-  ({ nextButtonRef }, ref) => {
+const FourthStepComponent = forwardRef<StepRef, StepComponentProps>(
+  ({ setNextDisabled }, ref) => {
     const balanceWithAnimationsRef = useRef<BalanceWithAnimationsRef>(null);
-
-    // useEffect(() => {
-    //   // Trigger the animation as soon as the component mounts
-    //   if (balanceWithAnimationsRef.current) {
-    //     balanceWithAnimationsRef.current.replayAnimation();
-    //   }
-    // }, []);
+    const groupRef = useRef<Group>(null);
+    const [hasPlayed, setHasPlayed] = React.useState(false);
 
     const handleBalanceClick = () => {
+      if (hasPlayed) return;
       if (balanceWithAnimationsRef.current) {
         balanceWithAnimationsRef.current.replayAnimation();
+        setTimeout(() => {
+          setNextDisabled(false);
+        }, 3000);
 
-        setNextEnabled(nextButtonRef);
-  
+        setHasPlayed(true);
       }
     };
 
     useImperativeHandle(ref, () => ({
-      replayAnimation: () => {
+      resetAndReplay: async () => {
         if (balanceWithAnimationsRef.current) {
-          balanceWithAnimationsRef.current.replayAnimation();
+          setNextDisabled(true);
+          await balanceWithAnimationsRef.current.replayAnimation();
+          setNextDisabled(false);
         }
-      },
+      }
     }));
 
     return (
-      <group>
+      <group ref={groupRef}>
         <BalanceWithAnimations
           ref={balanceWithAnimationsRef}
           isOpen={true}
           position={[0, 4.55, 0]}
           onClick={handleBalanceClick}
         />
-        {/* Additional elements specific to the fourth step can be added here */}
         <Beaker rotation-y={(-3.14 / 180) * 90} position={[2.6, 4.9, -3]} />
         <WeighingPaper
           folded={false}
@@ -73,7 +64,9 @@ const FourthStepComponent = forwardRef<{}, FourthStepComponentProps>(
         <Bottle position={[2, 5, -2]} />
       </group>
     );
-  },
+  }
 );
+
+FourthStepComponent.displayName = "FourthStepComponent";
 
 export default FourthStepComponent;

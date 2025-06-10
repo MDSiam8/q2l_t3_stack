@@ -50,6 +50,7 @@ const WeighingPaper = forwardRef<WeighingPaperRef, WeighingPaperProps>(
         action.timeScale = -1; // Reverse the animation
         action.play();
         setTimeout(() => {
+          action.timeScale = 0;
           action.paused = true; // Pause at halfway
           action.time = action.getClip().duration / 2; // Ensure it's halfway
         }, duration / 2); // Time remaining to halfway
@@ -71,7 +72,6 @@ const WeighingPaper = forwardRef<WeighingPaperRef, WeighingPaperProps>(
         scale={0.2}
         rotation-y={(3.14 / 180) * 90}
       >
-        {/* UI buttons if necessary */}
       </Html>
     </group>
   );

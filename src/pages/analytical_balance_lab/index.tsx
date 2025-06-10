@@ -94,6 +94,12 @@ function MyApp(): JSX.Element | null {
               { shallow: true },
             );
           }}
+          onLabComplete={() => {
+            // Clear the cookie when lab is completed
+            Cookies.remove(cookieName);
+            // Navigate back to lab menu
+            router.push('/dashboard');
+          }}
         />,
       );
     }

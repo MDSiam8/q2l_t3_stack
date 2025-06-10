@@ -10,38 +10,26 @@ import * as THREE from "three";
 import BalanceWithAnimations, {
   BalanceWithAnimationsHandles,
 } from "../BalanceWithAnimations";
-import WeighingPaper, { WeighingPaperRef } from "../WeighingPaper";
+import WeighingPaper from "../WeighingPaper";
 import { Bottle } from "../Bottle";
 import { BottleCap } from "../BottleCap";
 import { Spatula } from "../Spatula";
 import { Sphere } from "@react-three/drei";
-import AnswerBox from "../AnswerBox";
 import { Beaker } from "../Beaker";
-import { setNextEnabled } from "../Experience";
+import { StepComponentProps, StepRef } from "../Experience";
 
-interface TenthStepComponentProps {
-  nextButtonRef: React.RefObject<HTMLButtonElement>;
-}
-
-export interface TenthStepComponentRef {
-  replayAnimation: () => Promise<void>;
-}
-
-const TenthStepComponent = forwardRef<
-  TenthStepComponentRef,
-  TenthStepComponentProps
->(({ nextButtonRef }, ref) => {
+const TenthStepComponent = forwardRef<StepRef, StepComponentProps>(
+  ({ setNextDisabled }, ref) => {
   const balanceWithAnimationsRef = useRef<BalanceWithAnimationsHandles>(null);
   const weighingPaperRef = useRef<THREE.Group>(null);
   const sphereRef = useRef<THREE.Mesh>(null);
-  const [initialWeighingPaperPosition, setInitialWeighingPaperPosition] =
-    useState();
-  const [initialWeighingPaperRotation, setInitialWeighingPaperRotation] =
-    useState();
-  const [initialSpherePos, setInitialSpherePos] = useState();
+  const [initialWeighingPaperPosition] = useState();
+  const [initialWeighingPaperRotation] = useState();
+  const [initialSpherePos] = useState();
   const [sphereScale, setSphereScale] = useState(0);
 
   useEffect(() => {
+    setNextDisabled(true);
     resetAnimationObjects();
     updateBalanceReadingAfterAddingPowder(0.5017);
     handleReplayAnimation();
@@ -83,7 +71,7 @@ const TenthStepComponent = forwardRef<
   };
 
   useImperativeHandle(ref, () => ({
-    replayAnimation: handleReplayAnimation,
+    resetAndReplay: handleReplayAnimation,
   }));
 
   const animateWeighingPaperAndSphere = async () => {
@@ -115,7 +103,7 @@ const TenthStepComponent = forwardRef<
                   sphereRef.current.visible = false; // Hide the sphere after animation
                 }
                 setSphereScale(0.15);
-                setNextEnabled(nextButtonRef);
+                setNextDisabled(false);
                 // Return the weighing paper to its original position and rotation
                 if (
                   initialWeighingPaperPosition &&

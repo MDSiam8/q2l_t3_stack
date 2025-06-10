@@ -3,113 +3,146 @@ import React, {
   useEffect,
   useImperativeHandle,
   forwardRef,
+  useState
 } from "react";
 import BalanceWithAnimations from "../BalanceWithAnimations";
-import WeighingPaper from "../WeighingPaper";
+import WeighingPaper, { WeighingPaperRef } from "../WeighingPaper";
 import * as THREE from "three";
-import * as TWEEN from "@tweenjs/tween.js";
+import TWEEN from "@tweenjs/tween.js";
 import { Bottle } from "../Bottle";
 import { BottleCap } from "../BottleCap";
 import { Spatula } from "../Spatula";
 import { Beaker } from "../Beaker";
-import { setNextEnabled } from "../Experience";
+import { StepComponentProps, StepRef } from "../Experience";
 
-interface WeighingPaperRef {
-  replayAnimation: () => void;
-}
+const FifthStepComponent = forwardRef<StepRef, StepComponentProps>(
+  ({ setNextDisabled }, ref) => {
+    const weighingPaperRef = useRef<WeighingPaperRef>(null);
+    const paperGroup = useRef<THREE.Group>(new THREE.Group());
+    const originalStartPos = new THREE.Vector3(0, 5, -3);
+    /** @ts-ignore @type {Tween} */
+    const tweenRef = useRef<TWEEN.Tween | null>(null);
+    const animationFrameIdRef = useRef<number | null>(null);
+    const [animationPlayed, setAnimationPlayed] = useState(false);
+    const isAnimatingRef = useRef(false);
 
+    useEffect(() => {
+      if (paperGroup.current) {
+        paperGroup.current.position.copy(originalStartPos);
+      }
 
-interface FifthStepComponentProps {
-  nextButtonRef: React.RefObject<HTMLButtonElement>;
-}
-const FifthStepComponent = forwardRef<{}, FifthStepComponentProps>(
-  ({ nextButtonRef }, ref) => {
-  const weighingPaperRef = useRef<WeighingPaperRef>(null);
-  const paperGroup = useRef(new THREE.Group());
-  const originalStartPos = new THREE.Vector3(0, 5, -3); // Initial position
+      const animate = () => {
+        animationFrameIdRef.current = requestAnimationFrame(animate);
+        TWEEN.update();
+      };
+      
+      animate();
 
-  // If we want it to run as soon as the state loads
-  useEffect(() => {
-    paperGroup.current.position.copy(originalStartPos); // Ensure initial position is set
-    // const animate = () => {
-    //   requestAnimationFrame(animate);
-    //   TWEEN.update();
-    // };
-    // requestAnimationFrame(animate);
-    // // Start the initial animation sequence
-    // movePaperUp().then(() => {
-    //   if (weighingPaperRef.current) {
-    //     weighingPaperRef.current.replayAnimation();
-    //   }
-    // });
-  }, []);
+      // Cleanup function to stop animation loop on unmount
+      return () => {
+        if (animationFrameIdRef.current !== null) {
+          cancelAnimationFrame(animationFrameIdRef.current);
+          animationFrameIdRef.current = null;
+        }
+        
+        if (tweenRef.current) {
+          tweenRef.current.stop();
+          tweenRef.current = null;
+        }
+        
+        isAnimatingRef.current = false;
+      };
+    }, []);
 
-  const movePaperUp = () => {
-    return new Promise((resolve) => {
-      const upPosition = new THREE.Vector3(0, 1, 0);
-      const moveDuration = 1; // Duration in seconds
-      const endPosition = originalStartPos.clone().add(upPosition);
+    const movePaperUp = (): Promise<void> => {
+      return new Promise((resolve) => {
+        paperGroup.current.position.copy(originalStartPos);
+        
+        const upPosition = new THREE.Vector3(0, 1, 0);
+        const moveDuration = 1;
+        const endPosition = originalStartPos.clone().add(upPosition);
 
-      new TWEEN.Tween(paperGroup.current.position)
-        .to(endPosition, moveDuration * 1600)
-        .onUpdate(() => {
-          paperGroup.current.position.copy(paperGroup.current.position);
-        })
-        .onComplete(() => resolve(0))
-        .start();
-    });
-  };
+        tweenRef.current = new TWEEN.Tween(paperGroup.current.position)
+          .to({ x: endPosition.x, y: endPosition.y, z: endPosition.z }, moveDuration * 1600)
+          .easing(TWEEN.Easing.Quadratic.Out)
+          .onComplete(() => {
+            resolve();
+          })
+          .start();
+      });
+    };
 
-  const handleReplayAnimation = async () => {
-    paperGroup.current.position.copy(originalStartPos); // Reset position
-    await movePaperUp();
-    if (weighingPaperRef.current) {
-      weighingPaperRef.current.replayAnimation();
-    }
-  };
+    const runFullAnimation = async () => {
+      if (animationPlayed || isAnimatingRef.current) {
+        return;
+      }
+      
+      isAnimatingRef.current = true;
+      setNextDisabled(true);
+      
+      try {
+        await movePaperUp();
+        
+        // After paper moves up, trigger its animation
+        if (weighingPaperRef.current) {
+          weighingPaperRef.current.replayAnimation();
+          setTimeout(() => {
+            setNextDisabled(false);
+            setAnimationPlayed(true);
+            isAnimatingRef.current = false;
+          }, 3000);
+        }
+      } catch (error) {
+        // Next button will trigger even if animation bugs
+        console.error("Animation error:", error);
+        setNextDisabled(false);
+        isAnimatingRef.current = false;
+      }
+    };
 
-  useImperativeHandle(ref, () => ({
-    replayAnimation: handleReplayAnimation,
-  }));
+    const resetAnimation = () => {
+      setAnimationPlayed(false);
+      isAnimatingRef.current = false;
+      if (paperGroup.current) {
+        paperGroup.current.position.copy(originalStartPos);
+      }
+      if (tweenRef.current) {
+        tweenRef.current.stop();
+        tweenRef.current = null;
+      }
+    };
 
-  return (
-    <group>
-      <BalanceWithAnimations isOpen={false} position={[0, 4.55, 0]} />
-      <group ref={paperGroup}>
-        <WeighingPaper
-          folded={false}
-          ref={weighingPaperRef}
-          rotation-y={(3.14 / 180) * 180}
-          onClick={() => {
-            paperGroup.current.position.copy(originalStartPos); // Ensure initial position is set
+    useImperativeHandle(ref, () => ({
+      resetAndReplay: () => {
+        resetAnimation();
+        runFullAnimation();
+      }
+    }));
 
-            const animate = () => {
-              requestAnimationFrame(animate);
-              TWEEN.update();
-            };
-            requestAnimationFrame(animate);
-
-            // Start the initial animation sequence
-            movePaperUp().then(() => {
-              if (weighingPaperRef.current) {
-                weighingPaperRef.current.replayAnimation();
-              }
-            }).then(() => {
-              setNextEnabled(nextButtonRef);
-            });
-          }}
+    return (
+      <group>
+        <BalanceWithAnimations isOpen={false} position={[0, 4.55, 0]} />
+        <group ref={paperGroup}>
+          <WeighingPaper
+            folded={false}
+            ref={weighingPaperRef}
+            rotation-y={(3.14 / 180) * 180}
+            onClick={runFullAnimation}
+          />
+        </group>
+        <Spatula
+          rotation-y={(3.14 / 180) * 90}
+          scale={0.5}
+          position={[2.5, 5, 0]}
         />
+        <BottleCap position={[2, 5.1, -2]} />
+        <Bottle position={[2, 5, -2]} />
+        <Beaker rotation-y={(-3.14 / 180) * 90} position={[2.6, 4.9, -3]} />
       </group>
-      <Spatula
-        rotation-y={(3.14 / 180) * 90}
-        scale={0.5}
-        position={[2.5, 5, 0]}
-      />
-      <BottleCap position={[2, 5.1, -2]} />
-      <Bottle position={[2, 5, -2]} />
-      <Beaker rotation-y={(-3.14 / 180) * 90} position={[2.6, 4.9, -3]} />
-    </group>
-  );
-});
+    );
+  }
+);
+
+FifthStepComponent.displayName = "FifthStepComponent";
 
 export default FifthStepComponent;
