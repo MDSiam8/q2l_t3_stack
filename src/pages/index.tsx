@@ -1,7 +1,4 @@
 import Head from "next/head";
-import Link from "next/link";
-import { useUser } from "@clerk/nextjs";
-import { useRouter } from "next/navigation";
 import React, { useEffect, useState, useRef } from "react";
 import ReactDOM from "react-dom/client";
 import { Canvas, useFrame, useThree } from "@react-three/fiber";
