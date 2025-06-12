@@ -1,6 +1,4 @@
 "use client";
-import { UserButton } from "@clerk/nextjs";
-import { Button } from "../../components/ui/button";
 import Link from "next/link";
 import {
   Card,
@@ -225,12 +223,6 @@ export default function Dashboard() {
   return (
     <div className="relative h-full bg-dashboard-bg"> {/*Relative H-full not filling the entire page for some reason */}
       <header className="flex h-14 items-center gap-4 border-b bg-zinc-100/40 px-6 dark:bg-zinc-800/40 lg:h-[60px]">
-        <div className="ml-auto flex items-center gap-4">
-          
-          <div>
-            <UserButton afterSignOutUrl="/" />
-          </div>
-        </div>
       </header>
       <div className="dashboard flex flex-row">
         {

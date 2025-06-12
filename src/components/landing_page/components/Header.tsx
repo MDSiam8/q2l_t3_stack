@@ -5,8 +5,6 @@ import clsx from "clsx";
 import Button from './Button';
 import Container from './Container';
 import NavLink from './NavLink';
-import { useClerk } from "@clerk/nextjs";
-import { useUser } from "@clerk/nextjs";
 import { useRouter } from "next/navigation";
 
 
@@ -98,17 +96,11 @@ function MobileNavigation() {
 }
 
 export const Header: React.FC = () => {
-  const { openSignIn } = useClerk();
-  const { user } = useUser();
   const router = useRouter();
 
   const handleGetStartedClick = async (e: React.MouseEvent) => {
     e.preventDefault();
-    if (!user) {
-      openSignIn();
-    } else {
-      router.push("/dashboard");
-    }
+    router.push("/dashboard");
   };
 
   return (

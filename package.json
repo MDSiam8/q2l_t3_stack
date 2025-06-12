@@ -12,7 +12,6 @@
     "start": "next start"
   },
   "dependencies": {
-    "@clerk/nextjs": "^6.12.10",
     "@headlessui/react": "^1.7.19",
     "@heroicons/react": "^2.2.0",
     "@prisma/client": "^6.5.0",
