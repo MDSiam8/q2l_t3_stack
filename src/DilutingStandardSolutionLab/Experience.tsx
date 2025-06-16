@@ -1,27 +1,23 @@
 import React, { Suspense, useEffect, useRef, useState } from "react";
-import {
-  CameraControls,
-  CameraControlsProps,
-  Html,
-  OrbitControls,
-  PerspectiveCamera,
-} from "@react-three/drei";
-import Step1Introduction from "./steps/01IntroduceLabObjectives";
-import Step7FillThePipette from "./steps/07FillThePipette";
+import { OrbitControls } from "@react-three/drei";
 import Table from "./models/Table";
 import state from "./state.json";
 import InventorySystem from "./ui_overlay/InventorySystem";
-import Step2SelectApparatus from "./steps/02ApparatusAndChemicalSelection";
-import { Canvas, useFrame, useThree } from "@react-three/fiber";
+import { Canvas } from "@react-three/fiber";
 import { CameraAdjuster } from "./utils/CameraAdjuster";
 import { Camera, Vector3 } from "three";
-import Step11AddStopperAndMixSolution from "./steps/11AddStopperAndMixSolution";
-import Step8TransferToFlask from "./steps/08TransferSolutionToVolumetricFlask";
+import MobileMenu from "@components/MobileMenu";
+import DesktopControls from "@components/DesktopControls";
 
-import Step04ChoosePipette from "./steps/04ChoosePipette";
+import Step1Introduction from "./steps/01IntroduceLabObjectives";
+import Step2SelectApparatus from "./steps/02ApparatusAndChemicalSelection";
 import Step03TransferStandardSolution from "./steps/03TransferStandardSolution";
+import Step04ChoosePipette from "./steps/04ChoosePipette";
 import Step5SelectTheCorrectGlassPipette from "./steps/05SelectTheCorrectGlassPipette";
 import Step6AttachPipetteFiller from "./steps/06AttachPipetteFiller";
+import Step7FillThePipette from "./steps/07FillThePipette";
+import Step8TransferToFlask from "./steps/08TransferSolutionToVolumetricFlask";
+import Step11AddStopperAndMixSolution from "./steps/11AddStopperAndMixSolution";
 import Step12PrepareAdditionalDilutions from "./steps/12PrepareAdditionalDilutions";
 import PrepareBlankSolution from "./steps/13PrepareBlankSolution";
 
@@ -42,6 +38,10 @@ interface Step {
   }[];
 }
 
+export interface StepRef {
+  resetAndReplay: () => void;
+}
+
 interface State {
   "1": Step;
   "2": Step;
@@ -57,7 +57,7 @@ interface State {
   "12": Step;
 }
 
-type StateKey = keyof State;
+type StateKey = keyof typeof state;
 
 interface StepComponentRef {
   replayAnimation?: () => void;
@@ -101,15 +101,10 @@ interface CameraConfig {
 interface ExperienceProps {
   currentStep: number;
   onStepChange: (newStep: number) => void;
-  cameraConfig?: CameraConfig;
-  canInteract?: boolean;
+  onoLabComplete: () => void;
 }
-export default function Experience({
-  currentStep,
-  onStepChange,
-  cameraConfig,
-  canInteract = true,
-}: ExperienceProps) {
+
+export default function Experience({ currentStep, onStepChange, onLabComplete }: ExperienceProps) {
   const key = currentStep.toString() as StateKey;
   const stepData = state[key];
   const stepRefs = useRef<Record<number, StepComponentRef>>({});
