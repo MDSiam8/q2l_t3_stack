@@ -1,8 +1,8 @@
 import { useThree, useFrame } from "@react-three/fiber";
 import { useEffect } from "react";
 
-interface CameraAdjusterProps {
-  viewLocation: [number, number, number] | null;
+type CameraAdjusterProps = {
+  viewLocation?: [number, number, number] | null;
 }
 
 export function CameraAdjuster({ viewLocation }: CameraAdjusterProps) {

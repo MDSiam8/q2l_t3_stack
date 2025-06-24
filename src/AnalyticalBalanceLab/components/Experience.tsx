@@ -38,6 +38,13 @@ export interface StepComponentProps {
   resetAndReplay?: () => void;
 }
 
+
+interface CameraConfig {
+  position?: [number, number, number];
+  zoom?: number;
+  viewLocation?: [number, number, number] | null;
+}
+
 interface ExperienceProps {
   currentStep: number;
   onStepChange: (newStep: number) => void;

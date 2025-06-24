@@ -1,4 +1,4 @@
-import React, { Suspense, useRef, useState, useEffect } from "react";
+import React, { Suspense, useRef, useState, useEffect, Dispatch, SetStateAction } from "react";
 import { OrbitControls } from "@react-three/drei";
 import { Canvas } from "@react-three/fiber";
 import Table from "./models/Table";
@@ -17,6 +17,12 @@ export interface StepRef {
 
 interface SelectedItems {
   [itemName: string]: boolean;
+}
+
+export interface StepComponentProps {
+  setNextDisabled: Dispatch<SetStateAction<boolean>>;
+  selectedItems?: SelectedItems;
+  resetAndReplay?: () => void;
 }
 
 interface ExperienceProps {
@@ -103,10 +109,9 @@ export default function Experience({ currentStep, onStepChange, onLabComplete }:
           {Object.entries(StepComponents).map(([step, Component]) =>
             currentStep === parseInt(step) ? (
               <Component
-                key={step}
                 ref={(el) => el && (stepRefs.current[parseInt(step)] = el)}
                 setNextDisabled={setIsNextDisabled}
-                selectedItems={currentStep === 3 ? selectedItems : undefined}
+                selectedItems={currentStep === 3 ? selectedItems : {}}
               />
             ) : null,
           )}
