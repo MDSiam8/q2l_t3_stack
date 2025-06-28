@@ -40,7 +40,7 @@ export default function Experience({ currentStep, onStepChange, onLabComplete }:
   const [selectedItems, setSelectedItems] = useState<SelectedItems>({});
   const [isNextDisabled, setIsNextDisabled] = useState(true);
 
-  const requiredItems = new Set(["Analytical Balance", "Weighing Paper", "Beaker", "Spatula", "Powder Sample"]);
+  const requiredItems = new Set(["Beaker", "Glass Pipette", "Glass Dropper", "Stopper", "Distilled Water"]);
 
   const handleNextStep = () => {
     if (currentStep < 13) {
@@ -78,7 +78,7 @@ export default function Experience({ currentStep, onStepChange, onLabComplete }:
 
     if (!lastLoadTime || lastLoadTime !== currentTime) {
       setSelectedItems({});
-      if (currentStep === 3) {
+      if (currentStep === 2) {
         setIsNextDisabled(true);
       }
       sessionStorage.setItem(sessionKey, currentTime);
@@ -111,13 +111,13 @@ export default function Experience({ currentStep, onStepChange, onLabComplete }:
               <Component
                 ref={(el) => el && (stepRefs.current[parseInt(step)] = el)}
                 setNextDisabled={setIsNextDisabled}
-                selectedItems={currentStep === 3 ? selectedItems : {}}
+                selectedItems={selectedItems}
               />
             ) : null,
           )}
         </Canvas>
 
-        {currentStep === 3 && !isInventoryVisible && (
+        {currentStep === 2 && !isInventoryVisible && (
           <button
             onClick={() => setIsInventoryVisible(true)}
             className="absolute right-4 top-4 z-40 m-4 rounded-md bg-blue-500 px-4 py-2 text-white shadow-lg hover:bg-blue-600"
@@ -126,7 +126,7 @@ export default function Experience({ currentStep, onStepChange, onLabComplete }:
           </button>
         )}
 
-        {currentStep === 3 && (
+        {currentStep === 2 && (
           <InventorySystem
             onItemSelect={handleItemSelection}
             selectedItems={selectedItems}

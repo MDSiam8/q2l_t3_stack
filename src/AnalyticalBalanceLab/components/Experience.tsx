@@ -22,7 +22,7 @@ import EleventhStepComponent from "./steps/EleventhStepComponent";
 import TwelvthStepComponent from "./steps/TwelvthStepComponent";
 import FinishedStepComponent from "./steps/FinishedStepComponent";
 
-type StateKey = "1" | "2" | "3" | "4" | "5" | "6" | "7" | "8" | "9" | "10" | "11" | "12";
+type StateKey = keyof typeof state;
 
 export interface StepRef {
   resetAndReplay: () => void;
@@ -36,13 +36,6 @@ export interface StepComponentProps {
   setNextDisabled: Dispatch<SetStateAction<boolean>>;
   selectedItems?: SelectedItems;
   resetAndReplay?: () => void;
-}
-
-
-interface CameraConfig {
-  position?: [number, number, number];
-  zoom?: number;
-  viewLocation?: [number, number, number] | null;
 }
 
 interface ExperienceProps {

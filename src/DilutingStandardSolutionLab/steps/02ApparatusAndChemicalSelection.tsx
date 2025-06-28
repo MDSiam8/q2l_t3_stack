@@ -1,22 +1,17 @@
-import React, { forwardRef, useState } from "react";
-import BalanceWithAnimations from "../models/BalanceWithAnimations";
-import InventorySystem from "../ui_overlay/InventorySystem";
+import React, { useEffect, useRef, forwardRef } from "react";
 import { Beaker } from "../models/Beaker";
 import { GlassPipette } from "../models/GlassPipette";
 import { GlassDropper } from "../models/GlassDropper";
 import { Stopper } from "../models/Stopper";
 import { DistilledWater } from "../models/DistilledWater";
-import { useGLTF } from "@react-three/drei";
-import { setNextEnabled } from "../Experience";
+import { StepComponentProps } from "../Experience";
+
 interface SelectedItems {
   [itemName: string]: boolean;
 }
-interface SecondStepProps {
-  nextButtonRef: React.RefObject<HTMLButtonElement>;
-  selectedItems: SelectedItems;
-}
-const Step2SelectApparatus = forwardRef<HTMLDivElement, SecondStepProps>(
-  ({ nextButtonRef, selectedItems }, ref) => {
+
+const SecondStepComponent = forwardRef<HTMLDivElement, StepComponentProps>(
+  ({ selectedItems = {} }) => {
   return (
     <group>
       {selectedItems["Beaker"] && (
@@ -60,4 +55,4 @@ const Step2SelectApparatus = forwardRef<HTMLDivElement, SecondStepProps>(
     </group>
   );
 });
-export default Step2SelectApparatus;
+export default SecondStepComponent;

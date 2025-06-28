@@ -1,5 +1,5 @@
 import Step1Introduction from "./01IntroduceLabObjectives";
-import Step2SelectApparatus from "./02ApparatusAndChemicalSelection";
+import SecondStepComponent from "./02ApparatusAndChemicalSelection";
 import Step3TransferStandardSolution from "./03TransferStandardSolution";
 import Step4ChoosePipette from "./04ChoosePipette";
 import Step5SelectTheCorrectGlassPipette from "./05SelectTheCorrectGlassPipette";
@@ -14,7 +14,7 @@ import Step13PrepareBlankSolution from "./13PrepareBlankSolution";
 
 const StepComponents = {
   1: Step1Introduction,
-  2: Step2SelectApparatus,
+  2: SecondStepComponent,
   3: Step3TransferStandardSolution,
   4: Step4ChoosePipette,
   5: Step5SelectTheCorrectGlassPipette,
