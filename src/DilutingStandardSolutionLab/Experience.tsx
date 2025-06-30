@@ -7,7 +7,21 @@ import InventorySystem from "./ui_overlay/InventorySystem";
 import { CameraAdjuster } from "./utils/CameraAdjuster";
 import MobileMenu from "@components/MobileMenu";
 import DesktopControls from "@components/DesktopControls";
-import StepComponents from "./steps";
+
+import FirstStepComponent from "./steps/01IntroduceLabObjectives";
+import SecondStepComponent from "./steps/02ApparatusAndChemicalSelection";
+import ThirdStepComponent from "./steps/03TransferStandardSolution";
+// import FourthStepComponent from "./steps/04ChoosePipette";
+// import FifthStepComponent from "./steps/05SelectTheCorrectGlassPipette";
+// import SixthStepComponent from "./steps/06AttachPipetteFiller";
+// import SeventhStepComponent from "./steps/07FillThePipette";
+// import EightStepComponent from "./steps/08TransferSolutionToVolumetricFlask";
+// import Step9AddWaterToVolumetricFlask from "./09AddWaterToVolumetricFlask";
+// import Step10UseDropperToAdjustVolume from "./steps/10UseDropperToAdjustVolume";
+// import Step11AddStopperAndMixSolution from "./steps/11AddStopperAndMixSolution";
+// import Step12PrepareAdditionalDilutions from "./steps/12PrepareAdditionalDilutions";
+// import Step13PrepareBlankSolution from "./steps/13PrepareBlankSolution";
+
 
 type StateKey = keyof typeof state;
 
@@ -105,16 +119,56 @@ export default function Experience({ currentStep, onStepChange, onLabComplete }:
             <planeGeometry />
             <meshStandardMaterial color="greenyellow" />
           </mesh>
-
-          {Object.entries(StepComponents).map(([step, Component]) =>
-            currentStep === parseInt(step) ? (
-              <Component
-                ref={(el) => el && (stepRefs.current[parseInt(step)] = el)}
-                setNextDisabled={setIsNextDisabled}
-                selectedItems={selectedItems}
-              />
-            ) : null,
+          
+          {currentStep === 1 && <FirstStepComponent setNextDisabled={setIsNextDisabled} />}
+          {currentStep === 2 && (
+            <SecondStepComponent selectedItems={selectedItems} setNextDisabled={setIsNextDisabled} />
           )}
+          {currentStep === 3 && (
+            <ThirdStepComponent setNextDisabled={setIsNextDisabled} />
+          )}
+          {/* {currentStep === 4 && (
+            <FourthStepComponent
+              ref={(el) => el && (stepRefs.current[4] = el)}
+              setNextDisabled={setIsNextDisabled}
+            />
+          )}
+          {currentStep === 5 && (
+            <FifthStepComponent
+              ref={(el) => el && (stepRefs.current[5] = el)}
+              setNextDisabled={setIsNextDisabled}
+            />
+          )}
+          {currentStep === 6 && (
+            <SixthStepComponent
+              ref={(el) => el && (stepRefs.current[6] = el)}
+              setNextDisabled={setIsNextDisabled}
+            />
+          )}
+          {currentStep === 7 && (
+            <SeventhStepComponent
+              ref={(el) => el && (stepRefs.current[7] = el)}
+              setNextDisabled={setIsNextDisabled}
+            />
+          )}
+          {currentStep === 8 && (
+            <EightStepComponent
+              ref={(el) => el && (stepRefs.current[8] = el)}
+              setNextDisabled={setIsNextDisabled}
+            />
+          )}
+          {currentStep === 9 && <NinthStepComponent setNextDisabled={setIsNextDisabled} />}
+          {currentStep === 10 && (
+            <TenthStepComponent
+              ref={(el) => el && (stepRefs.current[10] = el)}
+              setNextDisabled={setIsNextDisabled} />
+          ) }
+          {currentStep === 11 && <EleventhStepComponent setNextDisabled={setIsNextDisabled} />}
+          {currentStep === 12 && <TwelvthStepComponent setNextDisabled={setIsNextDisabled} />}
+          {currentStep === 13 && <FinishedStepComponent setNextDisabled={setIsNextDisabled} />} */}
+
+
+
         </Canvas>
 
         {currentStep === 2 && !isInventoryVisible && (

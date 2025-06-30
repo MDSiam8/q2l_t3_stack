@@ -1,17 +1,13 @@
 import React, { useRef, useEffect, forwardRef } from "react";
 import { gsap } from "gsap";
-import * as THREE from "three";
+import { Group, Vector3 } from "three";
 import { Flask } from "../models/Flask";
 import { Stopper } from "../models/Stopper";
-import { setNextDisabled, setNextEnabled } from "../Experience";
 import { BeakerStockSolutionFill } from "../models/BeakerWithOrangeFillAnim";
+import { StepComponentProps } from "../Experience";
 
-interface Step03Props {
-  nextButtonRef: React.RefObject<HTMLButtonElement>;
-}
-
-const Step03TransferStandardSolution = forwardRef<THREE.Group, Step03Props>(
-  ({ nextButtonRef }, ref) => {
+const Step03TransferStandardSolution = forwardRef<Group, StepComponentProps>(
+  ({ setNextDisabled }, ref) => {
     const flaskRef = useRef<THREE.Group>(null);
     const stopperRef = useRef<THREE.Group>(null);
     const waterRef = useRef<THREE.Mesh>(null);
@@ -19,18 +15,9 @@ const Step03TransferStandardSolution = forwardRef<THREE.Group, Step03Props>(
     const flaskTilted = useRef(false);
     const beakerFillRef = useRef<any>(null);
 
-    // Removed the initial beaker animation call
-    // useEffect(() => {
-    //   if (beakerFillRef.current) {
-    //     beakerFillRef.current.playAnimation("Animation");
-    //   }
-    // }, []);
-
     useEffect(() => {
-      if (nextButtonRef && nextButtonRef.current) {
-        setNextDisabled(nextButtonRef);
-      }
-    }, [nextButtonRef]);
+      setNextDisabled(true);
+    }, []);
 
     // Handle stopper click to remove it
     const handleStopperClick = () => {
@@ -52,8 +39,8 @@ const Step03TransferStandardSolution = forwardRef<THREE.Group, Step03Props>(
 
       flaskTilted.current = true;
 
-      const upPosition = new THREE.Vector3(0, 6, 1.5); // Position for upward movement
-      const tiltPosition = new THREE.Vector3(0, 6, -0.1); // Final tilted position towards beaker
+      const upPosition = new Vector3(0, 6, 1.5); // Position for upward movement
+      const tiltPosition = new Vector3(0, 6, -0.1); // Final tilted position towards beaker
 
       const tl = gsap.timeline({
         onComplete: () => {
@@ -71,8 +58,8 @@ const Step03TransferStandardSolution = forwardRef<THREE.Group, Step03Props>(
             beakerFillRef.current.playAnimation("Animation");
           }
 
-          if (nextButtonRef && nextButtonRef.current) {
-            setNextEnabled(nextButtonRef); // Enable the next button after animation
+          if (stopperRemoved.current && flaskTilted.current) {
+            setNextDisabled(false); // Enable the next button after animation
           }
         },
       });
@@ -97,10 +84,10 @@ const Step03TransferStandardSolution = forwardRef<THREE.Group, Step03Props>(
           x: tiltPosition.x,
           y: tiltPosition.y,
           z: tiltPosition.z,
-          duration: 2,
+          duration: 1,
           ease: "power1.inOut",
         },
-        "+=0.2" // Short delay after moving up
+        1
       );
 
       tl.to(

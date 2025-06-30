@@ -4,7 +4,7 @@ import { GlassPipette } from "../models/GlassPipette";
 import { PipetteBulb } from "../models/PipetteBulb";
 import { StepComponentProps } from "../Experience";
 
-const Step1Introduction = forwardRef<Group, StepComponentProps>(
+const FirstStepComponent = forwardRef<Group, StepComponentProps>(
   ({ setNextDisabled }, ref) => {
     useEffect(() => {
       const timer = setTimeout(() => {
@@ -23,4 +23,4 @@ const Step1Introduction = forwardRef<Group, StepComponentProps>(
   );
 });
 
-export default Step1Introduction;
+export default FirstStepComponent;
