@@ -2,19 +2,15 @@ import React, { useRef, forwardRef, useEffect } from "react";
 import gsap from "gsap";
 import { GlassPipette } from "../models/GlassPipette";
 import { PipetteBulb } from "../models/PipetteBulb";
-import { setNextDisabled, setNextEnabled } from "../Experience";
+import { StepComponentProps } from "../Experience";
 import { Group } from "three";
 
-interface Step2LabTasksProps {
-  nextButtonRef: React.RefObject<HTMLButtonElement>;
-}
-
-const Step6AttachPipetteFiller = forwardRef<HTMLDivElement, Step2LabTasksProps>(
-  ({ nextButtonRef }, ref) => {
+const Step6AttachPipetteFiller = forwardRef<Group, StepComponentProps>(
+  ({ setNextDisabled }, ref) => {
     const bulbRef = useRef<Group>(null);
 
     useEffect(() => {
-      setNextDisabled(nextButtonRef);
+      setNextDisabled(true);
       if (bulbRef.current) {
         const timeline = gsap.timeline({ delay: 1 });
         timeline
@@ -23,7 +19,7 @@ const Step6AttachPipetteFiller = forwardRef<HTMLDivElement, Step2LabTasksProps>(
           y: "-=2.0",
           duration: 1,
           onComplete: () => {
-            setNextEnabled(nextButtonRef);
+            setNextDisabled(false);
           },
         });
       }

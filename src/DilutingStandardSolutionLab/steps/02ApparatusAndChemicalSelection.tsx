@@ -6,12 +6,8 @@ import { Stopper } from "../models/Stopper";
 import { DistilledWater } from "../models/DistilledWater";
 import { StepComponentProps } from "../Experience";
 
-interface SelectedItems {
-  [itemName: string]: boolean;
-}
-
 const SecondStepComponent = forwardRef<HTMLDivElement, StepComponentProps>(
-  ({ selectedItems = {} }) => {
+  ({ selectedItems = {} }, ref) => {
   return (
     <group>
       {selectedItems["Beaker"] && (

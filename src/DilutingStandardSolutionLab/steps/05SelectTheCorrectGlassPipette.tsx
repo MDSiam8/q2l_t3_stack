@@ -1,25 +1,20 @@
-import React, { useState, forwardRef, useEffect } from "react";
+import React, { useState, forwardRef, useEffect, useImperativeHandle } from "react";
 import { Html } from "@react-three/drei";
 import { GlassPipette } from "../models/GlassPipette";
-import { setNextDisabled, setNextEnabled } from "../../RotaryEvaporation/components/Experience";
-import * as THREE from "three";
+import { Group, Vector3 } from "three";
+import { StepComponentProps } from "../Experience";
 
-interface Step5Props {
-    nextButtonRef: React.RefObject<HTMLButtonElement>;
-}
-
-const Step5SelectTheCorrectGlassPipette = forwardRef<THREE.Group, Step5Props>(
-    (props) => {
-        const { nextButtonRef } = props;
+const Step5SelectTheCorrectGlassPipette = forwardRef<Group, StepComponentProps>(
+    ({ setNextDisabled }, ref) => {
 
         useEffect(() => {
-            setNextDisabled(nextButtonRef);
+            setNextDisabled(true);
         }, []);
 
         const [dialogue, setDialogue] = useState({
             show: false,
             message: "",
-            position: new THREE.Vector3(0,0,0),
+            position: new Vector3(0, 0, 0),
         });
 
         const handlePipetteClick = (
@@ -28,7 +23,7 @@ const Step5SelectTheCorrectGlassPipette = forwardRef<THREE.Group, Step5Props>(
         ) => {
             let message = "";
             if (size === 10) {
-                setNextEnabled(nextButtonRef);
+                setNextDisabled(false);
                 message = "Correct! The 10 mL pipette is the right choice for this measurement.";
             } else if (size === 5) {
                 message = "Incorrect. The 5 mL pipette would take too many transfers and increase measurement error.";
@@ -39,7 +34,7 @@ const Step5SelectTheCorrectGlassPipette = forwardRef<THREE.Group, Step5Props>(
             setDialogue({
                 show: true,
                 message,
-                position: new THREE.Vector3(...position),
+                position: new Vector3(...position),
             });
         };
 
@@ -91,8 +86,8 @@ const Step5SelectTheCorrectGlassPipette = forwardRef<THREE.Group, Step5Props>(
                     <Html position={dialogue.position} position-x={dialogue.position.x + .1} transform scale={0.3} rotation-y={Math.PI / 2}>
                         <div
                             className={`rounded-lg p-6 text-sm shadow-lg ${dialogue.message.startsWith("Correct")
-                                    ? "border-green-500 bg-green-100 text-green-900"
-                                    : "border-red-500 bg-red-100 text-red-900"
+                                ? "border-green-500 bg-green-100 text-green-900"
+                                : "border-red-500 bg-red-100 text-red-900"
                                 } max-w-[350px] min-w-[120px] border select-none`}
                         >
                             {dialogue.message}

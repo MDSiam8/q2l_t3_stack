@@ -11,10 +11,10 @@ import DesktopControls from "@components/DesktopControls";
 import FirstStepComponent from "./steps/01IntroduceLabObjectives";
 import SecondStepComponent from "./steps/02ApparatusAndChemicalSelection";
 import ThirdStepComponent from "./steps/03TransferStandardSolution";
-// import FourthStepComponent from "./steps/04ChoosePipette";
-// import FifthStepComponent from "./steps/05SelectTheCorrectGlassPipette";
-// import SixthStepComponent from "./steps/06AttachPipetteFiller";
-// import SeventhStepComponent from "./steps/07FillThePipette";
+import FourthStepComponent from "./steps/04ChoosePipette";
+import FifthStepComponent from "./steps/05SelectTheCorrectGlassPipette";
+import SixthStepComponent from "./steps/06AttachPipetteFiller";
+import SeventhStepComponent from "./steps/07FillThePipette";
 // import EightStepComponent from "./steps/08TransferSolutionToVolumetricFlask";
 // import Step9AddWaterToVolumetricFlask from "./09AddWaterToVolumetricFlask";
 // import Step10UseDropperToAdjustVolume from "./steps/10UseDropperToAdjustVolume";
@@ -127,45 +127,39 @@ export default function Experience({ currentStep, onStepChange, onLabComplete }:
           {currentStep === 3 && (
             <ThirdStepComponent setNextDisabled={setIsNextDisabled} />
           )}
-          {/* {currentStep === 4 && (
-            <FourthStepComponent
-              ref={(el) => el && (stepRefs.current[4] = el)}
-              setNextDisabled={setIsNextDisabled}
-            />
+          {currentStep === 4 && (
+            <FourthStepComponent setNextDisabled={setIsNextDisabled} />
           )}
           {currentStep === 5 && (
-            <FifthStepComponent
-              ref={(el) => el && (stepRefs.current[5] = el)}
-              setNextDisabled={setIsNextDisabled}
-            />
+            <FifthStepComponent setNextDisabled={setIsNextDisabled} />
           )}
           {currentStep === 6 && (
             <SixthStepComponent
-              ref={(el) => el && (stepRefs.current[6] = el)}
+              // ref={(el) => el && (stepRefs.current[6] = el)}
               setNextDisabled={setIsNextDisabled}
             />
           )}
           {currentStep === 7 && (
             <SeventhStepComponent
-              ref={(el) => el && (stepRefs.current[7] = el)}
+              // ref={(el) => el && (stepRefs.current[7] = el)}
               setNextDisabled={setIsNextDisabled}
             />
           )}
           {currentStep === 8 && (
             <EightStepComponent
-              ref={(el) => el && (stepRefs.current[8] = el)}
+              // ref={(el) => el && (stepRefs.current[8] = el)}
               setNextDisabled={setIsNextDisabled}
             />
           )}
           {currentStep === 9 && <NinthStepComponent setNextDisabled={setIsNextDisabled} />}
           {currentStep === 10 && (
             <TenthStepComponent
-              ref={(el) => el && (stepRefs.current[10] = el)}
+              // ref={(el) => el && (stepRefs.current[10] = el)}
               setNextDisabled={setIsNextDisabled} />
           ) }
           {currentStep === 11 && <EleventhStepComponent setNextDisabled={setIsNextDisabled} />}
           {currentStep === 12 && <TwelvthStepComponent setNextDisabled={setIsNextDisabled} />}
-          {currentStep === 13 && <FinishedStepComponent setNextDisabled={setIsNextDisabled} />} */}
+          {currentStep === 13 && <FinishedStepComponent setNextDisabled={setIsNextDisabled} />}
 
 
 
