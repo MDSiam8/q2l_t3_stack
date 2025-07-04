@@ -1,28 +1,47 @@
-# Create T3 App
+# Quest2Learn Stack
 
-This is a [T3 Stack](https://create.t3.gg/) project bootstrapped with `create-t3-app`.
+Quest2Learn is an augmented reality (AR) application designed to revolutionize lab sciences education for both online and on-campus learning environments. By combining cutting-edge AR technology and game design principles, Quest2Learn provides students with interactive and realistic simulations to develop practical hands-on lab skills. Our platform is developed in collaboration with Johns Hopkins University (JHU) faculty members to ensure content accuracy and credibility.
 
-## What's next? How do I make an app with this?
+## Why Quest2Learn?
 
-We try to keep this project as simple as possible, so you can start with just the scaffolding we set up for you, and add additional things later when they become necessary.
+The COVID-19 pandemic highlighted the lack of adequate online lab learning platforms. While lectures transitioned online via video conferencing apps, laboratory subjects that rely on tactile skills and specialized equipment faced significant challenges. Quest2Learn addresses this gap by offering:
 
-If you are not familiar with the different technologies used in this project, please refer to the respective docs. If you still are in the wind, please join our [Discord](https://t3.gg/discord) and ask for help.
+- **Interactive Learning:** Students can learn laboratory techniques in a virtual setting through simulated lab experiences in AR.
+- **Gamification:** Engaging simulations that excite students about pursuing careers in biomedical sciences.
+- **Accessibility:** Exposing underprivileged communities to state-of-the-art lab science education.
+- **Faculty Collaboration:** Developed hand-in-hand with JHU faculty to ensure accuracy and relevance in lab courses.
 
-- [Next.js](https://nextjs.org)
-- [NextAuth.js](https://next-auth.js.org)
-- [Prisma](https://prisma.io)
-- [Tailwind CSS](https://tailwindcss.com)
-- [tRPC](https://trpc.io)
+## What We’re Working On
 
-## Learn More
+- **Collaborations:** Meetings with professors from Chemistry, Biology, and Public Health departments at JHU to integrate Quest2Learn into their courses.
+- **Prototype:** A complete proof-of-concept prototype with sample AR units and app mockups, currently in the user testing phase.
+- **Future Plans:** Launching the first product in Fall 2021, followed by expanding features to target college and high school students beyond JHU.
 
-To learn more about the [T3 Stack](https://create.t3.gg/), take a look at the following resources:
+## Technical Stack
 
-- [Documentation](https://create.t3.gg/)
-- [Learn the T3 Stack](https://create.t3.gg/en/faq#what-learning-resources-are-currently-available) — Check out these awesome tutorials
+Quest2Learn is built using modern web development technologies to ensure scalability, performance, and ease of use:
 
-You can check out the [create-t3-app GitHub repository](https://github.com/t3-oss/create-t3-app) — your feedback and contributions are welcome!
+- **Frontend Framework:** [Next.js](https://nextjs.org/) for server-side rendering and optimized React-based development.
+- **Augmented Reality:** Integration with AR libraries and frameworks to deliver immersive experiences.
+- **Backend:** Node.js for API development and server-side logic.
+- **Database:** A scalable database solution for storing user data and course content.
+- **Deployment:** Hosted on a cloud platform for reliability and global accessibility.
+- **Testing:** Comprehensive user testing to ensure functionality and usability.
 
-## How do I deploy this?
+## Features
 
-Follow our deployment guides for [Vercel](https://create.t3.gg/en/deployment/vercel), [Netlify](https://create.t3.gg/en/deployment/netlify) and [Docker](https://create.t3.gg/en/deployment/docker) for more information.
+- Augmented reality simulations for lab sciences.
+- Gamified learning experiences to enhance engagement.
+- Support for both remote and in-person learning environments.
+- Content developed in collaboration with JHU faculty.
+
+## Deployment
+
+Quest2Learn is accessible at [https://www.q2l.app/](https://www.q2l.app/).
+
+## Acknowledgments
+
+Quest2Learn has been featured in the JHU newsletter and is a recipient of the Johns Hopkins grant supporting innovative uses of technology in education.
+
+---
+Quest2Learn: Transforming science education through augmented reality.
